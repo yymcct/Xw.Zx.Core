@@ -1,83 +1,77 @@
 <template>
-    <view class="content">
-        <view v-if="hasLogin" class="hello">
-            <view class="title">
-                您好 {{userName}}，您已成功登录。
-            </view>
-            <view class="ul">
-                <view>这是 uni-app 带登录模板的示例App首页。</view>
-                <view>在 “我的” 中点击 “退出” 可以 “注销当前账户”</view>
-            </view>
+  <view class="content">
+    <swiper
+      class="swiper"
+      indicator-dots
+      :autoplay="autoplay"
+      :interval="interval"
+      :duration="duration"
+    >
+      <swiper-item>
+        <view class="swiper-item uni-flex uni-column">
+          <view class>
+            <text>火爆农资招商网</text>
+          </view>
+          <view class="zlj">
+            <text>2019-08-09</text>
+          </view>
         </view>
-        <view v-if="!hasLogin" class="hello">
-            <view class="title">
-                您好 游客。
-            </view>
-            <view class="ul">
-                <view>这是 uni-app 带登录模板的示例App首页。</view>
-                <view>在 “我的” 中点击 “登录” 可以 “登录您的账户”</view>
-            </view>
-        </view>
+      </swiper-item>
+    </swiper>
+    <view class="uni-flex uni-column">
+      <view class="bank uni-row uni-flex">
+      <text>123</text>
+      <text>123</text>
+      <text>123</text>
+      <text>123</text>
+      </view>
     </view>
+
+    <view class="uni-padding-wrap uni-common-mt">
+      <view class="uni-btn-v">
+        <navigator url="../cards/addcard" hover-class="navigator-hover">
+          <button type="default">添加新卡片</button>
+        </navigator>
+      </view>
+    </view>
+  </view>
 </template>
 
 <script>
-    import {
-        mapState
-    } from 'vuex'
-
-    export default {
-        computed: mapState(['forcedLogin', 'hasLogin', 'userName']),
-        onLoad() {
-            if (!this.hasLogin) {
-                uni.showModal({
-                    title: '未登录',
-                    content: '您未登录，需要登录后才能继续',
-                    /**
-                     * 如果需要强制登录，不显示取消按钮
-                     */
-                    showCancel: !this.forcedLogin,
-                    success: (res) => {
-                        if (res.confirm) {
-							/**
-							 * 如果需要强制登录，使用reLaunch方式
-							 */
-                            if (this.forcedLogin) {
-                                uni.reLaunch({
-                                    url: '../login/login'
-                                });
-                            } else {
-                                uni.navigateTo({
-                                    url: '../login/login'
-                                });
-                            }
-                        }
-                    }
-                });
-            }
-        }
-    }
+export default {
+  data() {
+    return {
+      title: "测试"
+    };
+  }
+};
 </script>
 
 <style>
-    .hello {
-        display: flex;
-        flex: 1;
-        flex-direction: column;
-    }
+.swiper {
+  height: 200px;
+  background-color: white;
+  border-radius: 10px;
+}
+.swiper-item {
+  height: 100%;
+  display: flex;
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+}
+.zlj {
+  color: tomato;
+  font-weight: bolder;
+  font-size: 20px;
+}
+.bank {
+  height: 80px;
+  background: white;
+  margin-top: 20px;
 
-    .title {
-        color: #8f8f94;
-        margin-top: 25px;
-    }
-
-    .ul {
-        font-size: 15px;
-        color: #8f8f94;
-        margin-top: 25px;
-    }
-
-    .ul>view {
-        line-height: 25px;
-    }
+  align-items: center; /* 垂直居中 */
+}
+.bank text{
+  width: 25%;
+}
 </style>

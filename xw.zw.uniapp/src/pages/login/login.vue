@@ -104,7 +104,7 @@
                  * 实际开发中，使用 uni.request 将账号信息发送至服务端，客户端在回调函数中获取结果信息。
                  */
 
-
+                 this.toMain(this.account);
                 uni.request({
                     url: 'http://localhost:63836/connect/token', //仅为示例，并非真实接口地址。
                     data: 'grant_type=password&client_id=App.Manager.Ro&client_secret=DEsjpJFtokIOhMKuE6BVMczYUEEyPGTOLrur3PXw26VMLNwKOfAKFZZgR2vVJDKG&username='+this.account+'&password='+ this.password,

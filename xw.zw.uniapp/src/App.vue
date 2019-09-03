@@ -15,12 +15,13 @@
 <style>
 	/* 头条小程序需要把 iconfont 样式放到组件外 */
 	@import "components/m-icon/m-icon.css";
-
+   @import './common/uni.css';
 	/*每个页面公共css */
 	page {
-		min-height: 100%;
-		display: flex;
-		font-size: 16px;
+        background-color: #F4F5F6;
+        height: 100%;
+        font-size: 28upx;
+        line-height: 1.8;
 	}
 
 	/* #ifdef MP-BAIDU */
