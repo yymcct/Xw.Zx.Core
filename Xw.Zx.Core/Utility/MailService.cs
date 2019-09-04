@@ -46,20 +46,25 @@ namespace Xw.Zx.Core.Utility
                     return "";
             }
         }
-        public void MailSyanc()
+        public void MailSyanc(uint uid)
         {
+            _logger.LogDebug($"开始同步, 起始uids:{uid}");
             List<uint> bankmailId = new List<uint>();
             using (ImapClient client = new ImapClient("imap.qq.com", 993, true))
             {
                 client.Login("yymcct@qq.com", "kkwuwrmwizdubjdg", AuthMethod.Login);
                 var uids = client.Search(SearchCondition.All()).ToList();
+                uids = uids.Where(i => i > uid).ToList();
+                _logger.LogDebug($"预备同步uids:{uids}");
                 for (var i = 0; i < uids.Count(); i++)
                 {
                     try
                     {
-                        var msg = client.GetMessage(uids[i], FetchOptions.HeadersOnly);
+                        
+                        var msg = client.GetMessage(uids[i], FetchOptions.HeadersOnly);                        
                         if (msg.From.Address == "ccsvc@message.cmbchina.com" && msg.Subject.IndexOf("电子账单") > 0)
                         {
+                            _logger.LogDebug($"uids:{i} 已读取:{msg.Subject}");
                             msg = client.GetMessage(uids[i], FetchOptions.Normal);
                             MailSrc bankBill = new MailSrc()
                             {
@@ -74,6 +79,7 @@ namespace Xw.Zx.Core.Utility
 
                             _xwZxContext.MailSrcs.Add(bankBill);
                             _xwZxContext.SaveChanges();
+                            _logger.LogDebug($"uids:{i} 已保存:{msg.Subject}");
                         }
                     }
                     catch (Exception ex)

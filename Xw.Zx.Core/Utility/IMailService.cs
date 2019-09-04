@@ -7,6 +7,6 @@ namespace Xw.Zx.Core.Utility
 {
     public interface IMailService
     {
-         void MailSyanc();
+         void MailSyanc(uint id);
     }
 }
