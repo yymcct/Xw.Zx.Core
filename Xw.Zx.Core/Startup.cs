@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Xw.Zx.Core.Config;
 using Xw.Zx.Core.Models.Model;
+using Xw.Zx.Core.Utility;
 
 namespace Xw.Zx.Core
 {
@@ -27,8 +28,11 @@ namespace Xw.Zx.Core
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-                       .AddJsonOptions(options => { options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss"; });
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddJsonOptions(options => { options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss"; });
+            
+            
             #region 跨域
             services.AddCors(options =>
             {
@@ -79,6 +83,10 @@ namespace Xw.Zx.Core
 
                       options.Audience = "AppApi";
                   });
+            #endregion
+
+            #region 注册服务
+            services.AddScoped<IMailService, MailService>();
             #endregion
         }
 

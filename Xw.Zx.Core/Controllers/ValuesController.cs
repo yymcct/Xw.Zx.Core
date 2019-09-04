@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Xw.Zx.Core.Utility;
 
 namespace Xw.Zx.Core.Controllers
 {
@@ -10,10 +11,16 @@ namespace Xw.Zx.Core.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        private readonly IMailService _mailService = null;
+        public ValuesController(IMailService mailService)
+        {
+            _mailService = mailService;
+        }
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
+            _mailService.MailSyanc();
             return new string[] { "value1", "value2" };
         }
 

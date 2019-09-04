@@ -20,7 +20,8 @@ namespace Xw.Zx.Core
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                 .UseStartup<Startup>().ConfigureLogging(logging =>
+                 .UseStartup<Startup>()
+                 .ConfigureLogging(logging =>
                  {
                      logging.ClearProviders();
                      logging.SetMinimumLevel(LogLevel.Information);
