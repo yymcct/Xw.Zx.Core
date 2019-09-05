@@ -52,20 +52,32 @@ namespace Xw.Zx.Core.Utility
             List<uint> bankmailId = new List<uint>();
             using (ImapClient client = new ImapClient("imap.qq.com", 993, true))
             {
-                client.Login("yymcct@qq.com", "kkwuwrmwizdubjdg", AuthMethod.Login);
-                var uids = client.Search(SearchCondition.All()).ToList();
+                client.Login("19202490@qq.com", "bqbyuzxeasgrbigi", AuthMethod.Login);
+                //var group = client.ListMailboxes();
+                //foreach (var g in group)
+                //{
+                //    var maiinfo = client.GetMailboxInfo(g);
+                //    maiinfo = maiinfo;
+                //    var uidss = client.Search(SearchCondition.From("ccsvc@message.cmbchina.com"), maiinfo.Name);
+                //    var uidsss = client.Search(SearchCondition.Header("from", "ccsvc@message.cmbchina.com"), maiinfo.Name);
+                //    var uidssss = client.Search(SearchCondition.All(), maiinfo.Name);
+                //}
+                var mailBoxName = "其他文件夹/邮件归档";
+                var uids = client.Search(SearchCondition.All(), mailBoxName).ToList();
+         
                 uids = uids.Where(i => i > uid).ToList();
-                _logger.LogDebug($"预备同步uids:{uids}");
+                _logger.LogDebug($"预备同步uids:{uids.Count}");
+            
                 for (var i = 0; i < uids.Count(); i++)
                 {
                     try
-                    {
-                        
-                        var msg = client.GetMessage(uids[i], FetchOptions.HeadersOnly);                        
+                    {                        
+                        var msg = client.GetMessage(uids[i], FetchOptions.HeadersOnly, mailbox: mailBoxName);
+                        _logger.LogDebug($"进度:{i}/{uids.Count} {uids[i]} {msg.Subject}");
                         if (msg.From.Address == "ccsvc@message.cmbchina.com" && msg.Subject.IndexOf("电子账单") > 0)
                         {
                             _logger.LogDebug($"uids:{i} 已读取:{msg.Subject}");
-                            msg = client.GetMessage(uids[i], FetchOptions.Normal);
+                            msg = client.GetMessage(uids[i], FetchOptions.Normal, mailbox: mailBoxName);
                             MailSrc bankBill = new MailSrc()
                             {
                                 Uid = i.ToString(),

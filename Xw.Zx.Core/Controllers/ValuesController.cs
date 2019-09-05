@@ -28,7 +28,7 @@ namespace Xw.Zx.Core.Controllers
         [HttpGet]
         public ActionResult<string> Get()
         {
-            _mailService.MailSyanc(1098);
+            _mailService.MailSyanc(1195);
             return "同步完成";
         }
 
