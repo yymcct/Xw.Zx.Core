@@ -9,6 +9,18 @@ Vue.prototype.$store = store
 
 App.mpType = 'app'
 
+Vue.prototype.checkLogin = function(backpage) {
+    var USER = uni.getStorageSync('USERS_KEY'); //本地持久化存储
+
+    if (USER == '') {
+        uni.redirectTo({ url: '../login/login?backpage=' + backpage });
+        return false;
+    }
+    var user = JSON.parse(USER)
+
+    return user;
+}
+
 const app = new Vue({
     store,
     ...App

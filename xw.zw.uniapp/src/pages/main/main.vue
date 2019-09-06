@@ -20,10 +20,10 @@
     </swiper>
     <view class="uni-flex uni-column">
       <view class="bank uni-row uni-flex">
-      <text>123</text>
-      <text>123</text>
-      <text>123</text>
-      <text>123</text>
+        <text>123</text>
+        <text>123</text>
+        <text>123</text>
+        <text>123</text>
       </view>
     </view>
 
@@ -43,6 +43,13 @@ export default {
     return {
       title: "测试"
     };
+  },
+  methods: {},
+  onLoad: function(opthions) {
+    var loginRes = this.checkLogin("../main/main");
+    if (!loginRes) {
+      return false;
+    }
   }
 };
 </script>
@@ -71,7 +78,7 @@ export default {
 
   align-items: center; /* 垂直居中 */
 }
-.bank text{
+.bank text {
   width: 25%;
 }
 </style>

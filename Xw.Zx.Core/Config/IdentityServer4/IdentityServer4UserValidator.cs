@@ -26,7 +26,7 @@ namespace Xw.Zx.Core.Config
             try
             {
                 //var password = CreateMD5(context.Password).Substring(10,14);
-                var member = _context.Members.Where(m => m.UserName == context.UserName && m.Password == context.Password).FirstOrDefault();
+                var member = _context.Members.Where(m => (m.UserName == context.UserName || m.Phone==context.UserName) && m.Password == context.Password).FirstOrDefault();
                 if (member != null)
                 {
                     var t = new Dictionary<string, object>();
