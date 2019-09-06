@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Sieve.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,14 +14,16 @@ namespace Xw.Zx.Core.Controllers
     {
         public readonly XwZxContext _context;
         public readonly IMapper _mapper;
+        public readonly ISieveProcessor _sieveProcessor;
         public BaseController(XwZxContext context)
         {
             _context = context;
         }
-        public BaseController(XwZxContext context, IMapper mapper)
+        public BaseController(XwZxContext context, IMapper mapper, ISieveProcessor sieveProcessor)
         {
             _context = context;
             _mapper = mapper;
+            _sieveProcessor = sieveProcessor;
         }
 
         private Member _member = null;

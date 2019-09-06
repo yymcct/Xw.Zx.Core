@@ -9,6 +9,13 @@
             配置mapper
             </summary>
         </member>
+        <member name="M:Xw.Zx.Core.Controllers.BankCardController.Gets(Sieve.Models.SieveModel)">
+            <summary>
+            获取自己名下的银行卡信息, 可检索, 排序, 分页      
+            </summary>
+            <param name="sieveModel"></param>
+            <returns></returns>
+        </member>
         <member name="M:Xw.Zx.Core.Controllers.BankCardController.Post(Xw.Zx.Core.Models.Dto.PostBankDto)">
             <summary>
             添加修改银行卡
@@ -19,6 +26,7 @@
         <member name="M:Xw.Zx.Core.Controllers.BankCardController.Delete(System.Int32)">
             <summary>
             删除自己名下银行卡
+            注:只能删除自己名下的银行卡
             </summary>
             <param name="id"></param>
         </member>

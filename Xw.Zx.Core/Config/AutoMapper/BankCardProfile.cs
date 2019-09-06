@@ -12,7 +12,7 @@ namespace Xw.Zx.Core.Config.AutoMapper
     {
         public BankCardProfile()
         {
-            CreateMap<PostBankDto, BankCard>();
+            CreateMap<PostBankDto, BankCard>().ReverseMap();
         }
     }
 }
