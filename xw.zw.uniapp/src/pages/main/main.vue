@@ -46,7 +46,7 @@ export default {
   },
   methods: {},
   onLoad: function(opthions) {
-    var loginRes = this.checkLogin("../main/main");
+    var loginRes = this.getUser("../main/main");
     if (!loginRes) {
       return false;
     }
