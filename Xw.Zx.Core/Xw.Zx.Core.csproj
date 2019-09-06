@@ -10,9 +10,14 @@
     <PackageReference Include="IdentityServer4" Version="2.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.8.4" />
     <PackageReference Include="S22.Imap.Core" Version="3.6.1" />
     <PackageReference Include="Sieve" Version="2.3.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\Dto\" />
   </ItemGroup>
 
 </Project>

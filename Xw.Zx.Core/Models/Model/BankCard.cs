@@ -25,14 +25,11 @@ namespace Xw.Zx.Core.Models.Model
         public int CardNum { get; set; } = 0;
         //银行
         public BankCardType Bank { get; set; }
-        //开户行
-        public string BankAdder { get; set; }
+
         //用户名
         public string Email { get; set; }
         //密码
         public string Password { get; set; }
-       
-        public string Address { get; set; }
        
         //创建日期
         public DateTime CreateDate { get; set; } = DateTime.Now;

@@ -3,7 +3,7 @@
 @baseUrl = http://localhost:63836
 #@baseUrl = http://192.168.0.214:5000
 #@baseUrl = http://122.114.157.240:5000
-@token = eyJhbGciOiJSUzI1NiIsImtpZCI6ImJiYTlkZGEyNGJmY2QxNDE1ODYxMGIyMTE4YWJlMTQ5IiwidHlwIjoiSldUIn0.eyJuYmYiOjE1NjcwNDAyNDQsImV4cCI6MTU2NzA2OTA0NCwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo1Mjg3OCIsImF1ZCI6WyJodHRwOi8vbG9jYWxob3N0OjUyODc4L3Jlc291cmNlcyIsIkFwcEFwaSJdLCJjbGllbnRfaWQiOiJBcHAuTWFuYWdlci5SbyIsInN1YiI6IjIzMSIsImF1dGhfdGltZSI6MTU2NzA0MDI0NCwiaWRwIjoiIiwicm9sZSI6IjEiLCJzY29wZSI6WyJBcHBBcGkiXSwiYW1yIjpbImN1c3RvbSJdfQ.pTRt5KcFCnIsLUNXimGsoQuJIsA4nklB2GjGZxGG4GkXO81eKMV0Mv5x77D8wG-2_dpr4pC61hk7PZ6KtyJLOzwD0e6eV1j7fX-7aJCRyRJmmWlgPxXggZ5scLFxe1KADRZhINXsK9ZAcNTutQwWB34cpcUDRxj3yRy4TAd8QdO_6HhqY0mu6qyKDDLB7cnCkH384zm6X-07Y3qBWArKWAtUh_57Gjq8IT_dBo0WzLtH2MoqtmFrwZEIxdpjqm4vtwYnGF0cS9IYuuKQTrWaspkOaCpM71qdLA-QmNSQlrHb8lOGhHuA_t3M-pXtAaRDZmNjhqEssiqZEeEURjhFDA
+@token = eyJhbGciOiJSUzI1NiIsImtpZCI6ImJiYTlkZGEyNGJmY2QxNDE1ODYxMGIyMTE4YWJlMTQ5IiwidHlwIjoiSldUIn0.eyJuYmYiOjE1Njc3NTM5MjgsImV4cCI6MTU2Nzc4MjcyOCwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo2MzgzNiIsImF1ZCI6WyJodHRwOi8vbG9jYWxob3N0OjYzODM2L3Jlc291cmNlcyIsIkFwcEFwaSJdLCJjbGllbnRfaWQiOiJBcHAuTWFuYWdlci5SbyIsInN1YiI6IjUiLCJhdXRoX3RpbWUiOjE1Njc3NTM5MjcsImlkcCI6IiIsInJvbGUiOiIxIiwic2NvcGUiOlsiQXBwQXBpIl0sImFtciI6WyJjdXN0b20iXX0.bfnHpihveYBJ9T60oDzKplKVLSvn2i52uQfZH5xmjBqqocGVgGVCBwNyZao6a2bFERmwC5pbnesao7SrFSJ-u1QaWPgMEedTDMUuY9XDxsqs1ztcLRNokYi1N4FGcOF779kQ8cKe6mitVhYJ9z4odRLfagPAgPzZbVPLV4lCsgDfkRbU9nc4A6zYgcziGCUjzbDueeIw_X2I-UpV7ogxqLVAf0Rla7as4BKQpgfu7Xb4pzcI07yHqpoymqZZLRsUMfWFHXvxInB6KgR7xl5AVOBzTn4H5R93Ct2eqV1t40HYAapOey8N2g8PXCZdauyuaMZJ994wQLruCOeeT6eAjw
 @contentType = application/json
 
 # 获取公用token 
@@ -12,7 +12,30 @@ Content-Type: application/x-www-form-urlencoded
 
 grant_type=password&client_id=App.Manager.Ro&client_secret=DEsjpJFtokIOhMKuE6BVMczYUEEyPGTOLrur3PXw26VMLNwKOfAKFZZgR2vVJDKG&username=admin&password=123456
 
-###############################################AutoSendMessages###############################################
+###############################################登录注册###############################################
+### 注册
+POST {{baseUrl}}/api/Member/PostRegisterUser HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+    "phone": "18624938009",
+    "password": "123456",
+    "mail": "yymcct@qq.com",
+}
+
+### 修改密码
+###############################################获取卡片信息###############################################
+GET {{baseUrl}}/api/BankCard/BankCard
+        ?Filters=,
+        &sorts=,
+        &Page=1
+        &PageSize=10
+Authorization: Bearer {{token}}
+
+
+
+
+
 ### 获取已审核信息
 GET {{baseUrl}}/manager/AutoSendMessage/GetAutoSendMessages
         ?Filters=,
