@@ -1,0 +1,524 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Xw.Zx.Core</name>
+    </assembly>
+    <members>
+        <member name="T:Xw.Zx.Core.Config.ApplicationSieveProcessor">
+            <summary>
+            配置mapper
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.BankCardController.Post(Xw.Zx.Core.Models.Dto.PostBankDto)">
+            <summary>
+            添加修改银行卡
+            </summary>
+            <param name="card">ID=0添加, ID=1修改</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.BankCardController.Delete(System.Int32)">
+            <summary>
+            删除自己名下银行卡
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="F:Xw.Zx.Core.Controllers.HbzsResultCode.Remote_Service_Error">
+            <summary>
+            远程服务错误
+            </summary>
+        </member>
+        <member name="F:Xw.Zx.Core.Controllers.HbzsResultCode.Invalid_Error">
+            <summary>
+            参数校验错误
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Controllers.HbzsResult.StatusCode">
+            <summary>
+            状态码
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Controllers.HbzsResult.Msg">
+            <summary>
+            消息
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Controllers.HbzsResult`1.StatusCode">
+            <summary>
+            状态码
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Controllers.HbzsResult`1.Msg">
+            <summary>
+            消息
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.MemberController.PostRegisterUser(Xw.Zx.Core.Controllers.RegisterUserDto)">
+            <summary>
+            注册用户
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.CommonHelper.GetWebAdress">
+            <summary>
+            所上传的图片加域名
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.CommonHelper.GetShareImg">
+            <summary>
+            新闻 公司 产品分享默认图片
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.CommonHelper.GetShareDescLength">
+            <summary>
+            新闻 公司 产品分享字数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.CommonHelper.GetAppId">
+            <summary>
+            腾讯云账号的appid
+            测试 8月29过期
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.CommonHelper.GetApiSecretId">
+            <summary>
+            腾讯云apiId 用来生成上传短视频的密钥
+            测试 8月29过期
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.CommonHelper.GetApiSecretKey">
+            <summary>
+            腾讯云apiKey 用来生成上传短视频的密钥
+            测试 8月29过期
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.HtmlContentHelper.GetHtmlImageUrlList(System.Int32,System.String)">
+            <summary>   
+            取得HTML中所有图片的 URL。   
+            </summary>   
+            <param name="CategoryIteamID">项目Id</param>   
+            <param name="htmlText">HTML代码</param>   
+            <returns>图片的URL列表</returns>   
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.HtmlContentHelper.GetHtmlImageUrlList(System.Int32,System.String,System.Int32)">
+            <summary>   
+            取得HTML中部分图片的 URL 可选最大值。   
+            </summary>   
+            <param name="CategoryIteamID">项目Id</param>   
+            <param name="htmlText">HTML代码</param> 
+            <param name="max">最大图片数量</param> 
+            <returns>图片的URL列表</returns>   
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.HtmlContentHelper.RemoveScriptsAndStyles(System.String)">
+            <summary>
+            清除HTML中的JS脚本和style脚本
+            </summary>
+            <param name="htmlText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.HtmlContentHelper.RemoveHtml(System.String)">
+            <summary>
+            去除新闻中的html标签，一般用来从内容中取简介
+            </summary>
+            <param name="htmlText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.HtmlContentHelper.RemoveHtml(System.String,System.Int32)">
+            <summary>
+            去除新闻中的html标签 并截取字符
+            </summary>
+            <param name="htmlText"></param>
+            <param name="length"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.HtmlContentHelper.ReplaceWebSiteImg(System.Int32,System.String)">
+            <summary>
+            替换新闻中不带域名的img标签、a标签 以及a标签样式
+            </summary>
+            <param name="CategoryIteamID">项目Id</param>   
+            <param name="htmlText">HTML代码</param>   
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.HtmlContentHelper.ReplacACss(System.String)">
+            <summary>
+            替换新闻中a标签的样式
+            </summary>
+            <param name="htmlText">HTML代码</param>   
+            <returns></returns>
+        </member>
+        <member name="T:Xw.Zx.Core.Helper.StringHelper">
+            <summary>
+            字符串帮助类
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.StringHelper.GetStringLength(System.String)">
+            <summary>
+            获得字符串的长度,一个汉字的长度为1
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.StringHelper.SplitString(System.String,System.String)">
+            <summary>
+            分割字符串
+            </summary>
+            <param name="sourceStr">源字符串</param>
+            <param name="splitStr">分隔字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.StringHelper.SplitString(System.String)">
+            <summary>
+            分割字符串
+            </summary>
+            <param name="sourceStr">源字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.StringHelper.SubString(System.String,System.Int32,System.Int32)">
+            <summary>
+            截取字符串
+            </summary>
+            <param name="sourceStr">源字符串</param>
+            <param name="startIndex">开始位置的索引</param>
+            <param name="length">子字符串的长度</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.StringHelper.SubString(System.String,System.Int32)">
+            <summary>
+            截取字符串
+            </summary>
+            <param name="sourceStr">源字符串</param>
+            <param name="length">子字符串的长度</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.StringHelper.TrimStart(System.String,System.String)">
+            <summary>
+            移除前导字符串
+            </summary>
+            <param name="sourceStr">源字符串</param>
+            <param name="trimStr">移除字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.StringHelper.TrimStart(System.String,System.String,System.Boolean)">
+            <summary>
+            移除前导字符串
+            </summary>
+            <param name="sourceStr">源字符串</param>
+            <param name="trimStr">移除字符串</param>
+            <param name="ignoreCase">是否忽略大小写</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.StringHelper.TrimEnd(System.String,System.String)">
+            <summary>
+            移除后导字符串
+            </summary>
+            <param name="sourceStr">源字符串</param>
+            <param name="trimStr">移除字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.StringHelper.TrimEnd(System.String,System.String,System.Boolean)">
+            <summary>
+            移除后导字符串
+            </summary>
+            <param name="sourceStr">源字符串</param>
+            <param name="trimStr">移除字符串</param>
+            <param name="ignoreCase">是否忽略大小写</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.StringHelper.Trim(System.String,System.String)">
+            <summary>
+            移除前导和后导字符串
+            </summary>
+            <param name="sourceStr">源字符串</param>
+            <param name="trimStr">移除字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.StringHelper.Trim(System.String,System.String,System.Boolean)">
+            <summary>
+            移除前导和后导字符串
+            </summary>
+            <param name="sourceStr">源字符串</param>
+            <param name="trimStr">移除字符串</param>
+            <param name="ignoreCase">是否忽略大小写</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.StringHelper.IndexOf(System.String,System.Int32)">
+            <summary>
+            获得指定顺序的字符在字符串中的位置索引
+            </summary>
+            <param name="s">字符串</param>
+            <param name="order">顺序</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.StringHelper.IndexOf(System.String,System.Char,System.Int32)">
+            <summary>
+            获得指定顺序的字符在字符串中的位置索引
+            </summary>
+            <param name="s">字符串</param>
+            <param name="c">字符</param>
+            <param name="order">顺序</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.TypeHelper.StringToInt(System.String,System.Int32)">
+            <summary>
+            将string类型转换成int类型
+            </summary>
+            <param name="s">目标字符串</param>
+            <param name="defaultValue">默认值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.TypeHelper.StringToInt(System.String)">
+            <summary>
+            将string类型转换成int类型
+            </summary>
+            <param name="s">目标字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.TypeHelper.ObjectToInt(System.Object,System.Int32)">
+            <summary>
+            将object类型转换成int类型
+            </summary>
+            <param name="s">目标对象</param>
+            <param name="defaultValue">默认值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.TypeHelper.ObjectToInt(System.Object)">
+            <summary>
+            将object类型转换成int类型
+            </summary>
+            <param name="s">目标对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.TypeHelper.StringToBool(System.String,System.Boolean)">
+            <summary>
+            将string类型转换成bool类型
+            </summary>
+            <param name="s">目标字符串</param>
+            <param name="defaultValue">默认值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.TypeHelper.ToBool(System.String)">
+            <summary>
+            将string类型转换成bool类型
+            </summary>
+            <param name="s">目标字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.TypeHelper.ObjectToBool(System.Object,System.Boolean)">
+            <summary>
+            将object类型转换成bool类型
+            </summary>
+            <param name="s">目标对象</param>
+            <param name="defaultValue">默认值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.TypeHelper.ObjectToBool(System.Object)">
+            <summary>
+            将object类型转换成bool类型
+            </summary>
+            <param name="s">目标对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.TypeHelper.StringToDateTime(System.String,System.DateTime)">
+            <summary>
+            将string类型转换成datetime类型
+            </summary>
+            <param name="s">目标字符串</param>
+            <param name="defaultValue">默认值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.TypeHelper.StringToDateTime(System.String)">
+            <summary>
+            将string类型转换成datetime类型
+            </summary>
+            <param name="s">目标字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.TypeHelper.ObjectToDateTime(System.Object,System.DateTime)">
+            <summary>
+            将object类型转换成datetime类型
+            </summary>
+            <param name="s">目标对象</param>
+            <param name="defaultValue">默认值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.TypeHelper.ObjectToDateTime(System.Object)">
+            <summary>
+            将object类型转换成datetime类型
+            </summary>
+            <param name="s">目标对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.TypeHelper.StringToDecimal(System.String,System.Decimal)">
+            <summary>
+            将string类型转换成decimal类型
+            </summary>
+            <param name="s">目标字符串</param>
+            <param name="defaultValue">默认值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.TypeHelper.StringToDecimal(System.String)">
+            <summary>
+            将string类型转换成decimal类型
+            </summary>
+            <param name="s">目标字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.TypeHelper.ObjectToDecimal(System.Object,System.Decimal)">
+            <summary>
+            将object类型转换成decimal类型
+            </summary>
+            <param name="s">目标对象</param>
+            <param name="defaultValue">默认值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.TypeHelper.ObjectToDecimal(System.Object)">
+            <summary>
+            将object类型转换成decimal类型
+            </summary>
+            <param name="s">目标对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.ValidateHelper.IsEmail(System.String)">
+            <summary>
+            是否为邮箱名
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.ValidateHelper.IsMobile(System.String)">
+            <summary>
+            是否为手机号
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.ValidateHelper.IsPhone(System.String)">
+            <summary>
+            是否为固话号
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.ValidateHelper.IsIP(System.String)">
+            <summary>
+            是否为IP
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.ValidateHelper.IsIdCard(System.String)">
+            <summary>
+            是否是身份证号
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.ValidateHelper.CheckIDCard18(System.String)">
+            <summary>
+            是否为18位身份证号
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.ValidateHelper.CheckIDCard15(System.String)">
+            <summary>
+            是否为15位身份证号
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.ValidateHelper.IsDate(System.String)">
+            <summary>
+            是否为日期
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.ValidateHelper.IsNumeric(System.String)">
+            <summary>
+            是否是数值(包括整数和小数)
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.ValidateHelper.IsZipCode(System.String)">
+            <summary>
+            是否为邮政编码
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.ValidateHelper.IsImgFileName(System.String)">
+            <summary>
+            是否是图片文件名
+            </summary>
+            <returns> </returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.ValidateHelper.InIP(System.String,System.String)">
+            <summary>
+            判断一个ip是否在另一个ip内
+            </summary>
+            <param name="sourceIP">检测ip</param>
+            <param name="targetIP">匹配ip</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.ValidateHelper.InIPList(System.String,System.String[])">
+            <summary>
+            判断一个ip是否在另一个ip内
+            </summary>
+            <param name="sourceIP">检测ip</param>
+            <param name="targetIPList">匹配ip列表</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.ValidateHelper.InIPList(System.String,System.String)">
+            <summary>
+            判断一个ip是否在另一个ip内
+            </summary>
+            <param name="sourceIP">检测ip</param>
+            <param name="targetIPStr">匹配ip</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.ValidateHelper.BetweenPeriod(System.String[],System.String@)">
+            <summary>
+            判断当前时间是否在指定的时间段内
+            </summary>
+            <param name="periodList">指定时间段</param>
+            <param name="liePeriod">所处时间段</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.ValidateHelper.BetweenPeriod(System.String,System.String@)">
+            <summary>
+            判断当前时间是否在指定的时间段内
+            </summary>
+            <param name="periodStr">指定时间段</param>
+            <param name="liePeriod">所处时间段</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.ValidateHelper.BetweenPeriod(System.String)">
+            <summary>
+            判断当前时间是否在指定的时间段内
+            </summary>
+            <param name="periodList">指定时间段</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.ValidateHelper.IsNumericArray(System.String[])">
+            <summary>
+            是否是数值(包括整数和小数)
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.ValidateHelper.IsNumericRule(System.String,System.String)">
+            <summary>
+            是否是数值(包括整数和小数)
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.ValidateHelper.IsNumericRule(System.String)">
+            <summary>
+            是否是数值(包括整数和小数)
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.BankBill.Limit">
+            <summary>
+            额度
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.BankBill.NewBalance">
+            <summary>
+            本期还款总额
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.BankBill.PaymentDueData">
+            <summary>
+            到期还款日
+            </summary>
+        </member>
+        <member name="F:Xw.Zx.Core.Startup.Provider">
+            <summary>
+            Api版本信息
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,15 @@ namespace Xw.Zx.Core.Controllers
     public class BaseController : ControllerBase
     {
         public readonly XwZxContext _context;
+        public readonly IMapper _mapper;
         public BaseController(XwZxContext context)
         {
             _context = context;
+        }
+        public BaseController(XwZxContext context, IMapper mapper)
+        {
+            _context = context;
+            _mapper = mapper;
         }
 
         private Member _member = null;

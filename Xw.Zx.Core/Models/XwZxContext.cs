@@ -17,6 +17,8 @@ namespace Xw.Zx.Core.Models.Model
 
         public DbSet<MailSrc> MailSrcs { get; set; }
 
+        public DbSet<BankCard> BankCards { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //optionsBuilder.UseSqlite("Data Source=blogging.db");

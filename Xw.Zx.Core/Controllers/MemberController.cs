@@ -19,6 +19,11 @@ namespace Xw.Zx.Core.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// 注册用户
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         [HttpPost]
         public HbzsResult PostRegisterUser([FromBody]RegisterUserDto user)
         {

@@ -32,8 +32,32 @@ GET {{baseUrl}}/api/BankCard/BankCard
         &PageSize=10
 Authorization: Bearer {{token}}
 
+### 提交卡片信息
+POST {{baseUrl}}/api/BankCard/Post
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
 
+{
+    "Id": "0",
+    "CardNum": "201909060001",
+    "Bank": "0",
+    "Email": "yymcct@qq.com",
+    "Password": "123456",
+    "Remark": "没有什么好备注的",
+}
+### 修改卡片信息
+POST {{baseUrl}}/api/BankCard/Post
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
 
+{
+    "Id": "1",
+    "CardNum": "201909060002",
+    "Bank": "0",
+    "Email": "yymcct@qq.com",
+    "Password": "123456",
+    "Remark": "没有什么好备注的",
+}
 
 
 ### 获取已审核信息

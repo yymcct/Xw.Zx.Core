@@ -22,7 +22,7 @@ namespace Xw.Zx.Core.Models.Model
 
         public int MemberId { get; set; }
         //卡号
-        public int CardNum { get; set; } = 0;
+        public string CardNum { get; set; } = "";
         //银行
         public BankCardType Bank { get; set; }
 
@@ -36,8 +36,8 @@ namespace Xw.Zx.Core.Models.Model
 
         //是否已删除
         public bool Disabled { get; set; } = false;
-       
+
         //备注
-        public string Remark { get; set; }
+        public string Remark { get; set; } = "";
     }
 }
