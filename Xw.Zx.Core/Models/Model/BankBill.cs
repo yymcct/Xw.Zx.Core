@@ -8,6 +8,7 @@ namespace Xw.Zx.Core.Models.Model
     public class BankBill
     {
         public int Id { get; set; }
+        public int BankCardId { get; set; }
         public DateTime CycleStart { get; set; }
         public DateTime CycleStop { get; set; }
         /// <summary>
@@ -23,5 +24,10 @@ namespace Xw.Zx.Core.Models.Model
         /// 到期还款日
         /// </summary>
         public DateTime PaymentDueData { get; set; }
+
+        /// <summary>
+        /// 滞纳金
+        /// </summary>
+        public decimal OverdueFine { get; set; } = 0;
     }
 }
