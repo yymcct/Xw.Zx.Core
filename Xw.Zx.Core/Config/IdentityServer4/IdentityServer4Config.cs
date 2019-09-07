@@ -46,7 +46,7 @@ namespace Xw.Zx.Core.Config
                          "http://localhost:8082",
                         "http://192.168.0.214:10000",
                     },
-                    AccessTokenLifetime = 3600*8,//3600 seconds / 1 hour
+                    AccessTokenLifetime = 3600*24*100,//3600 seconds / 1 hour
                 }
             };
         }

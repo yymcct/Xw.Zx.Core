@@ -35,7 +35,7 @@ namespace Xw.Zx.Core.Controllers
         /// <param name="sieveModel"></param>
         /// <returns></returns>
         [HttpGet]
-        public HbzsResult<List<PostBankDto>> Gets([FromQuery]SieveModel sieveModel)
+        public HbzsResult<List<BankInfoDto>> Gets([FromQuery]SieveModel sieveModel)
         {
             try
             {
@@ -47,14 +47,14 @@ namespace Xw.Zx.Core.Controllers
                     .Apply(sieveModel, db)
                     .ToList();
 
-                var res = _mapper.Map<List<PostBankDto>>(cards);
+                var res = _mapper.Map<List<BankInfoDto>>(cards);
 
-                return new HbzsResult<List<PostBankDto>>(res);
+                return new HbzsResult<List<BankInfoDto>>(res);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-                return new HbzsResult<List<PostBankDto>>(HbzsResultCode.Invalid_Error, ex.Message);
+                return new HbzsResult<List<BankInfoDto>>(HbzsResultCode.Invalid_Error, ex.Message);
             }
         }
 
@@ -128,6 +128,45 @@ namespace Xw.Zx.Core.Controllers
                 _logger.LogError(ex.Message);
                 return new HbzsResult(HbzsResultCode.Invalid_Error, ex.Message);
             }
+        }
+
+        /// <summary>
+        /// 一键同步
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public HbzsResult Sync()
+        {
+            try
+            {
+                var bankCard = _context.BankCards.Where(b => b.MemberId == Member.Id).ToList();
+                for (var i = 0; i < bankCard.Count; i++)
+                {
+
+                }
+
+                _context.SaveChanges();
+
+                return new HbzsResult(HbzsResultCode.Sucess);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new HbzsResult(HbzsResultCode.Invalid_Error, ex.Message);
+            }
+        }
+
+        private void SyncBankCard(BankCard bankCard)
+        {
+            Random random = new Random();
+            var isOK = random.Next(10) > 5 ? true : false;
+
+            if (isOK)
+            {
+                bankCard.OverdueFine = decimal.Parse(random.Next(3000).ToString());
+            }
+            bankCard.LastSyncIsOk = isOK;
+            bankCard.LastSyncTime = DateTime.Now;
         }
     }
 }

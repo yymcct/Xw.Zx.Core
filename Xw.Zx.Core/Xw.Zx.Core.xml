@@ -30,6 +30,12 @@
             </summary>
             <param name="id"></param>
         </member>
+        <member name="M:Xw.Zx.Core.Controllers.BankCardController.Sync">
+            <summary>
+            一键同步
+            </summary>
+            <returns></returns>
+        </member>
         <member name="F:Xw.Zx.Core.Controllers.HbzsResultCode.Remote_Service_Error">
             <summary>
             远程服务错误
@@ -521,6 +527,21 @@
         <member name="P:Xw.Zx.Core.Models.Model.BankBill.PaymentDueData">
             <summary>
             到期还款日
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.BankBill.OverdueFine">
+            <summary>
+            滞纳金
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.BankCard.LastSyncTime">
+            <summary>
+            最后同步时间
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.BankCard.OverdueFine">
+            <summary>
+            滞纳金, 同步时进行更新
             </summary>
         </member>
         <member name="F:Xw.Zx.Core.Startup.Provider">

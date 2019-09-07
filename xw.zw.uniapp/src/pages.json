@@ -1,9 +1,8 @@
 {
-    "pages": [
-        {
+    "pages": [{
             "path": "pages/main/main",
             "style": {
-                "navigationBarTitleText": "测试"
+                "navigationBarTitleText": "送钱宝"
             }
         },
         {
@@ -53,8 +52,7 @@
         "color": "#7a7e83",
         "selectedColor": "#0faeff",
         "backgroundColor": "#ffffff",
-        "list": [
-            {
+        "list": [{
                 "pagePath": "pages/main/main",
                 "text": "首页",
                 "iconPath": "static/img/home.png",

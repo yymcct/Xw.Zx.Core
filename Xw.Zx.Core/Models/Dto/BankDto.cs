@@ -19,4 +19,17 @@ namespace Xw.Zx.Core.Models.Dto
         public string Password { get; set; }
         public string Remark { get; set; }
     }
+
+    public class BankInfoDto
+    {
+        public int Id { get; set; }
+        public string CardNum { get; set; }
+        public BankCardType Bank { get; set; }
+
+        public DateTime? LastSyncTime { get; set; }
+
+        public bool LastSyncIsOk { get; set; }
+
+        public decimal OverdueFine { get; set; } = 0;
+    }
 }
