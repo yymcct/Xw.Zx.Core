@@ -2,7 +2,7 @@
 <template>
   <view>
     <navigator url="../cards/addcard" hover-class="navigator-hover">
-      <button type="primary">添加新卡片</button>
+      <button type="primary">添加信用卡</button>
     </navigator>
   </view>
 </template>

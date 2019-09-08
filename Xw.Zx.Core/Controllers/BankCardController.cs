@@ -57,12 +57,56 @@ namespace Xw.Zx.Core.Controllers
                 return new HbzsResult<List<BankInfoDto>>(HbzsResultCode.Invalid_Error, ex.Message);
             }
         }
-
-        // GET: api/BankCard/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        [HttpGet]
+        public HbzsResult<CardTotalInfo> GetCardTotal([FromQuery]SieveModel sieveModel)
         {
-            return "value";
+            try
+            {
+                var OverdueFine = _context.BankCards
+                    .AsNoTracking()
+                    .Where(b => b.MemberId == Member.Id && b.Disabled == false).Sum(b => b.OverdueFine);
+
+                var res = new CardTotalInfo()
+                {
+                    OverdueFine = OverdueFine
+                };
+
+                return new HbzsResult<CardTotalInfo>(res);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new HbzsResult<CardTotalInfo>(HbzsResultCode.Invalid_Error, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// 获取银行卡详情
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public HbzsResult<CardContentDto> GetCardContent([FromQuery]int id)
+        {
+            try
+            {
+                var dto = new CardContentDto();
+                var card = _context.BankCards
+                        .AsNoTracking()
+                        .Where(b => b.MemberId == Member.Id && b.Disabled == false && b.Id == id).First();
+
+                dto.bankInfo = _mapper.Map<BankInfoDto>(card);
+
+                dto.cardBills = _context.BankBills
+                        .AsNoTracking()
+                        .Where(b => b.BankCardId == card.Id).ToList();
+
+                return new HbzsResult<CardContentDto>(dto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new HbzsResult<CardContentDto>(HbzsResultCode.Invalid_Error, ex.Message);
+            }
         }
 
         /// <summary>
@@ -76,8 +120,13 @@ namespace Xw.Zx.Core.Controllers
             BankCard bankCard = null;
             try
             {
-                if (card.Id == 0)
+                if (card.Id == 0)//添加卡片
                 {
+                    if (_context.BankCards.Any(c => c.CardNum == card.CardNum))
+                    {
+                        throw new Exception("卡号已存在, 请勿重复添加!");
+                    }
+
                     bankCard = new BankCard()
                     {
                         MemberId = Member.Id

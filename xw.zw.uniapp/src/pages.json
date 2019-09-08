@@ -36,15 +36,9 @@
             }
         },
         {
-            "path": "pages/cards/add",
+            "path": "pages/cards/content",
             "style": {
-                "navigationBarTitleText": "添加"
-            }
-        },
-        {
-            "path": "pages/test/add",
-            "style": {
-                "navigationBarTitleText": "添加"
+                "navigationBarTitleText": "账单详情"
             }
         }
     ],

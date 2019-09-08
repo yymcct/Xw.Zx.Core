@@ -1,7 +1,10 @@
 
 <template>
   <view>
-    <view class="heard"></view>
+    <view class="heard">
+      <view class="title">账户利息合计:</view>
+      <view class="total">{{heardInfo.overdueFine}}元</view>
+    </view>
     <view v-for="iteam in cardList" v-bind:key="iteam.id" class="card" @click="bindClick(iteam.id)">
       <uni-swipe-action :options="options1">
         <view class="uni-triplex-row crd">
@@ -48,21 +51,25 @@ export default {
           }
         }
       ],
-      cardList: []
+      cardList: [],
+      heardInfo: null
     };
   },
   methods: {
     bindClick(value) {
-      console.log(value);
-      uni.showToast({
-        title: `TODO 页面${value}`,
-        icon: "none"
+      uni.navigateTo({
+        url: `../cards/content?id=${value}`
       });
+      // console.log(value);
+      // uni.showToast({
+      //   title: `TODO 页面${value}`,
+      //   icon: "none"
+      // });
     },
     oneKeySync() {
       let user = this.getUser("../main/main");
       uni.request({
-        url: "http://localhost:63836/api/BankCard/Sync",
+        url: "http://139.199.110.116:63836/api/BankCard/Sync",
         method: "GET",
         header: {
           "Content-Type": "application/json",
@@ -115,7 +122,7 @@ export default {
 
     uni.request({
       url:
-        "http://localhost:63836/api/BankCard/Gets?&sorts=id&Page=1&PageSize=100",
+        "http://139.199.110.116:63836/api/BankCard/Gets?&sorts=id&Page=1&PageSize=100",
       method: "GET",
       header: {
         "Content-Type": "application/json",
@@ -125,6 +132,31 @@ export default {
         if (res.data.statusCode == 200) {
           this.cardList = res.data.result;
           console.log(this.cardList);
+        } else {
+          uni.showToast({
+            icon: "none",
+            title: res.data.msg
+          });
+        }
+      },
+      fail: () => {
+        uni.showToast({
+          icon: "none",
+          title: "网络异常"
+        });
+      }
+    });
+
+    uni.request({
+      url: "http://139.199.110.116:63836/api/BankCard/GetCardTotal",
+      method: "GET",
+      header: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ` + user.token
+      },
+      success: res => {
+        if (res.data.statusCode == 200) {
+          this.heardInfo = res.data.result;
         } else {
           uni.showToast({
             icon: "none",
@@ -149,15 +181,31 @@ export default {
   background-color: white;
   border-radius: 10px;
   margin: 10px;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px;
 }
 .card {
   margin-bottom: 20px;
 }
 .btn {
   height: 150px;
-  width: 100%;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 .tbn button {
   width: 80%;
+}
+.title {
+  font-weight: bold;
+  font-size: 20px;
+}
+.total {
+  font-weight: bold;
+  font-size: 50px;
+  margin-left: 50px;
+  color: rgb(250, 81, 2);
 }
 </style>

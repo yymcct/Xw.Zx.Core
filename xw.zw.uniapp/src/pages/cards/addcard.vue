@@ -17,23 +17,15 @@
       </view>
       <view class="input-row border">
         <text class="title">卡号：</text>
-        <m-input type="text" focus clearable v-model="cardnumber" placeholder="请输入账号"></m-input>
-      </view>
-      <view class="input-row border">
-        <text class="title">开户行：</text>
-        <m-input type="text" displayable v-model="password" placeholder="请输入密码"></m-input>
+        <m-input type="text" focus displayable v-model="card.cardNum" placeholder="请输入信用卡号"></m-input>
       </view>
       <view class="input-row border">
         <text class="title">邮箱：</text>
-        <m-input type="text" clearable v-model="email" placeholder="请输入邮箱"></m-input>
+        <m-input type="text" displayable v-model="card.email" placeholder="请输入账单邮箱"></m-input>
       </view>
       <view class="input-row border">
-        <text class="title">密码：</text>
-        <m-input type="password" displayable v-model="password" placeholder="请输入密码"></m-input>
-      </view>
-      <view class="input-row border">
-        <text class="title">手机号:</text>
-        <m-input type="text" displayable v-model="password" placeholder="请输入密码"></m-input>
+        <text class="title">授权码：</text>
+        <m-input type="password" displayable v-model="card.password" placeholder="请输入邮箱授权码"></m-input>
       </view>
     </view>
     <view class="btn-row">
@@ -84,59 +76,90 @@ export default {
         }
       ],
       current: 0,
-      account: "",
-      password: "",
-      email: ""
+      card: {
+        id:0,
+        cardNum: "",
+        bank: 0,
+        email: "",
+        password: ""
+      },
+      user: null
     };
   },
   methods: {
     radioChange(evt) {
       for (let i = 0; i < this.items.length; i++) {
         if (this.items[i].value === evt.target.value) {
-          this.current = i;
+          this.card.bank = i;
           break;
         }
       }
     },
     register() {
-      /**
-       * 客户端对账号信息进行一些必要的校验。
-       * 实际开发中，根据业务需要进行处理，这里仅做示例。
-       */
-      if (this.account.length < 5) {
+      if (this.card.cardNum.length < 5) {
         uni.showToast({
           icon: "none",
           title: "账号最短为 5 个字符"
         });
         return;
       }
-      if (this.password.length < 6) {
+      if (this.card.password.length < 12) {
         uni.showToast({
           icon: "none",
-          title: "密码最短为 6 个字符"
+          title: "授权码最短为 12 个字符"
         });
         return;
       }
-      if (this.email.length < 3 || !~this.email.indexOf("@")) {
+      if (this.card.email.length < 3 || !~this.card.email.indexOf("@")) {
         uni.showToast({
           icon: "none",
           title: "邮箱地址不合法"
         });
         return;
       }
-
-      const data = {
-        account: this.account,
-        password: this.password,
-        email: this.email
-      };
-      service.addUser(data);
-      uni.showToast({
-        title: "注册成功"
+      uni.request({
+        url: "http://139.199.110.116:63836/api/BankCard/Post",
+        data: this.card,
+        method: "POST",
+        header: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ` + this.user.token
+        },
+        success: res => {
+          if (res.data.statusCode == 200) {
+            uni.showModal({
+              title: "提示",
+              content: "成功添加, 继续添加?",
+              success: function(res) {
+                if (res.confirm) {
+                  uni.navigateTo({ url: "../cards/addcard" });
+                  //this.card.cardNum = "";
+                  //this.card.bank = 0;
+                } else if (res.cancel) {
+                  uni.navigateTo({ url: "../main/main" });
+                }
+              }
+            });
+          } else {
+            uni.showToast({
+              icon: "none",
+              title: res.data.msg
+            });
+          }
+        },
+        fail: () => {
+          uni.showToast({
+            icon: "none",
+            title: "网络异常"
+          });
+        }
       });
-      uni.navigateBack({
-        delta: 1
-      });
+    }
+  },
+  onLoad: function() {
+    this.user = this.getUser("../main/main");
+    if (!user) {
+      return false;
     }
   }
 };

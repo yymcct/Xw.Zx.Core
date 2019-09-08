@@ -32,4 +32,16 @@ namespace Xw.Zx.Core.Models.Dto
 
         public decimal OverdueFine { get; set; } = 0;
     }
+
+    public class CardTotalInfo
+    {
+        public decimal OverdueFine { get; set; }
+    }
+
+    public class CardContentDto
+    {
+        public BankInfoDto bankInfo { get; set; }
+
+        public List<BankBill> cardBills { get; set; }
+    }
 }

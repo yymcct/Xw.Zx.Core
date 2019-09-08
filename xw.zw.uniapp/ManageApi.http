@@ -1,9 +1,9 @@
 # REST Client
 
-#@baseUrl = http://localhost:63836
-@baseUrl = http://139.199.110.116:63836
+@baseUrl = http://localhost:63836
+#@baseUrl = http://139.199.110.116:63836
 
-@token = eyJhbGciOiJSUzI1NiIsImtpZCI6ImJiYTlkZGEyNGJmY2QxNDE1ODYxMGIyMTE4YWJlMTQ5IiwidHlwIjoiSldUIn0.eyJuYmYiOjE1Njc4NjU1OTUsImV4cCI6MTU2Nzg5NDM5NSwiaXNzIjoiaHR0cDovLzEzOS4xOTkuMTEwLjExNjo2MzgzNiIsImF1ZCI6WyJodHRwOi8vMTM5LjE5OS4xMTAuMTE2OjYzODM2L3Jlc291cmNlcyIsIkFwcEFwaSJdLCJjbGllbnRfaWQiOiJBcHAuTWFuYWdlci5SbyIsInN1YiI6IjUiLCJhdXRoX3RpbWUiOjE1Njc4NjU1OTUsImlkcCI6IiIsInJvbGUiOiIxIiwic2NvcGUiOlsiQXBwQXBpIl0sImFtciI6WyJjdXN0b20iXX0.TtqJUiXG210Hs7cnd6HhhT2gwcDqOU8WY74NuWiJvYshB4l4G3U8ky4n4eCCbkzJajJi7awnVZIWe3jbDe2L3fbUQ7mXW-8ovEfyu6ButDLDYZSXFPltnyXRvRrkcidHhxaYtHnFlM9xT2qg_wot8K0Sbrp4n5e2cRFSmaAQISKwoDr1dL4ZEzfU_ilJln_LZFOT4brulC3gFSeYtkdIHTbGxbPutTxF8Te-E8eHQY860JFHbTPI-vn4BISpW8_HpgTO4ISlOGd-TboRhpQ9ZkiLguoJJixDU96wsmFLpe3u09ky5f337yGewg0S1Uxj4P7igORhlHZpgh6iW-lepQ
+@token = eyJhbGciOiJSUzI1NiIsImtpZCI6ImJiYTlkZGEyNGJmY2QxNDE1ODYxMGIyMTE4YWJlMTQ5IiwidHlwIjoiSldUIn0.eyJuYmYiOjE1Njc5MDgxODcsImV4cCI6MTU3NjU0ODE4NywiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo2MzgzNiIsImF1ZCI6WyJodHRwOi8vbG9jYWxob3N0OjYzODM2L3Jlc291cmNlcyIsIkFwcEFwaSJdLCJjbGllbnRfaWQiOiJBcHAuTWFuYWdlci5SbyIsInN1YiI6IjUiLCJhdXRoX3RpbWUiOjE1Njc5MDgxODcsImlkcCI6IiIsInJvbGUiOiIxIiwic2NvcGUiOlsiQXBwQXBpIl0sImFtciI6WyJjdXN0b20iXX0.XbXvibBu8yNgrvr4zmC1hHWaO9oZrF0Bo-wsHQSWqPOP4q3d2o8J_hbheXLYKvjTp2WTpnh4J0nNQUPBkw8h6Te1_-xnAi1K-VIyehRfyhjAXFI50XB5DIgW4bv_8bzG30pztCOZQaPNGMSwhXyl28CazycIdWKaNY_SiJp9ki_aVTsf5lwwXfXLIUCwOsWJJmXkBcVyXuzh4jSxb9E5W63m6X2Vez0WbhDSCfIPhd80i64dljakqN-gjqjHBZWsAJYxHcVrk8pMpNyIvez05Sl3vmH5fHA7OiwTMfPhyI8Mu8VZvpmiONMG-CRT08719IOdauA22YOo3v7Lz4PAcA
 @contentType = application/json
 
 # 获取公用token 
@@ -31,6 +31,10 @@ GET {{baseUrl}}/api/BankCard/Gets
         &PageSize=10
 Authorization: Bearer {{token}}
 
+### 获取银行卡详情信息
+GET {{baseUrl}}/api/BankCard/GetCardContent?id=3
+Authorization: Bearer {{token}}
+
 ### 提交卡片信息
 POST {{baseUrl}}/api/BankCard/Post
 Authorization: Bearer {{token}}
@@ -38,10 +42,10 @@ Content-Type: {{contentType}}
 
 {
     "Id": "0",
-    "CardNum": "201909060004",
+    "CardNum": "6888888881",
     "Bank": "0",
     "Email": "yymcct@qq.com",
-    "Password": "123456",
+    "Password": "123456123456123456",
     "Remark": "没有什么好备注的",
 }
 ### 修改卡片信息
@@ -60,6 +64,11 @@ Content-Type: {{contentType}}
 
 ### 删除卡片信息
 GET {{baseUrl}}/api/BankCard/Delete?id=1
+Authorization: Bearer {{token}}
+
+
+### 获取个人银行卡汇总信息
+GET {{baseUrl}}/api/BankCard/GetCardTotal
 Authorization: Bearer {{token}}
 
 

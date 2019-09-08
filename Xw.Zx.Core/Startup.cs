@@ -95,9 +95,10 @@ namespace Xw.Zx.Core
 
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-                .AddJsonOptions(options => { options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss"; });
+                .AddJsonOptions(options => { options.SerializerSettings.DateFormatString = "yyyy-MM-dd"; });
             
-            
+          
+
             #region 跨域
             services.AddCors(options =>
             {
@@ -179,9 +180,14 @@ namespace Xw.Zx.Core
 
             app.UseHttpsRedirection();
 
+            app.UseDefaultFiles();
+
+            app.UseStaticFiles();
+
             app.UseMvc();
 
             app.UseSwagger();
+
             app.UseSwaggerUI(c =>
             {
                 foreach (var item in Provider.ApiVersionDescriptions)

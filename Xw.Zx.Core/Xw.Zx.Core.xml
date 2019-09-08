@@ -16,6 +16,13 @@
             <param name="sieveModel"></param>
             <returns></returns>
         </member>
+        <member name="M:Xw.Zx.Core.Controllers.BankCardController.GetCardContent(System.Int32)">
+            <summary>
+            获取银行卡详情
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:Xw.Zx.Core.Controllers.BankCardController.Post(Xw.Zx.Core.Models.Dto.PostBankDto)">
             <summary>
             添加修改银行卡
