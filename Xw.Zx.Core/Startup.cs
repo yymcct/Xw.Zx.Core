@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -183,6 +184,9 @@ namespace Xw.Zx.Core
             app.UseDefaultFiles();
 
             app.UseStaticFiles();
+            var provider = new FileExtensionContentTypeProvider();
+            //新增一些新的映射
+            provider.Mappings[".apk"] = "application/vnd.android.package-archive";
 
             app.UseMvc();
 
