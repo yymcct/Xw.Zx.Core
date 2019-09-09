@@ -81,7 +81,7 @@ export default {
     },
     oneKeySync() {
       uni.request({
-        url: "http://139.199.110.116:63836/api/BankCard/Sync",
+        url: "http://139.155.8.217/api/BankCard/Sync",
         method: "GET",
         header: {
           "Content-Type": "application/json",
@@ -109,7 +109,7 @@ export default {
     delBankCard() {
 
       uni.request({
-        url: `http://139.199.110.116:63836/api/BankCard/Delete?id=${this.cardId}`,
+        url: `http://139.155.8.217/api/BankCard/Delete?id=${this.cardId}`,
         method: "GET",
         header: {
           "Content-Type": "application/json",
@@ -162,7 +162,7 @@ export default {
     this.cardId = opthion.id;
 
     uni.request({
-      url: `http://139.199.110.116:63836/api/BankCard/GetCardContent?id=${opthion.id}`,
+      url: `http://139.155.8.217/api/BankCard/GetCardContent?id=${opthion.id}`,
       method: "GET",
       header: {
         "Content-Type": "application/json",

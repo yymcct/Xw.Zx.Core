@@ -64,7 +64,7 @@ export default {
       };
 
       uni.request({
-        url: "http://139.199.110.116:63836/api/Member/PostRegisterUser",
+        url: "http://139.155.8.217/api/Member/PostRegisterUser",
         data: {
           phone: this.account,
           password: this.password,

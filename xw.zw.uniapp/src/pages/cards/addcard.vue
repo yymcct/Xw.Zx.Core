@@ -118,7 +118,7 @@ export default {
         return;
       }
       uni.request({
-        url: "http://139.199.110.116:63836/api/BankCard/Post",
+        url: "http://139.155.8.217/api/BankCard/Post",
         data: this.card,
         method: "POST",
         header: {
