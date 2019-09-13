@@ -60,11 +60,6 @@ export default {
       uni.navigateTo({
         url: `../cards/content?id=${value}`
       });
-      // console.log(value);
-      // uni.showToast({
-      //   title: `TODO 页面${value}`,
-      //   icon: "none"
-      // });
     },
     oneKeySync() {
       let user = this.getUser("../main/main");
@@ -121,8 +116,7 @@ export default {
     }
 
     uni.request({
-      url:
-        `${this.baseUrl}/api/BankCard/Gets?&sorts=id&Page=1&PageSize=100`,
+      url: `${this.baseUrl}/api/BankCard/Gets?&sorts=id&Page=1&PageSize=100`,
       method: "GET",
       header: {
         "Content-Type": "application/json",
@@ -131,7 +125,18 @@ export default {
       success: res => {
         if (res.data.statusCode == 200) {
           this.cardList = res.data.result;
-          console.log(this.cardList);
+          // console.log(this.cardList);
+          if (this.cardList.length == 0) {
+            uni.showModal({
+              title: "提示",
+              content: "请添加银行卡!",
+              success: function(res) {
+                if (res.confirm) {
+                  uni.navigateTo({ url: "../cards/addcard" }); //TODO 导航下载APP
+                } 
+              }
+            });
+          }
         } else {
           uni.showToast({
             icon: "none",
