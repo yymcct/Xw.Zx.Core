@@ -14,7 +14,7 @@
       </view>
       <view class="input-row border">
         <text class="title">邮&nbsp;&nbsp;&nbsp;箱：</text>
-        <m-input type="text" v-model="email" clearable   placeholder="请输入邮箱"></m-input>
+        <m-input type="text" v-model="email" clearable placeholder="请输入邮箱"></m-input>
       </view>
       <view class="input-row">
         <text class="title">邀请人：</text>
@@ -23,6 +23,16 @@
     </view>
     <view class="btn-row">
       <button type="primary" class="primary" @tap="register">注册</button>
+    </view>
+    <view class="download">
+      <a
+        href="http://139.155.8.217:8081/sqb.apk"
+        download="sqb.apk"
+        @click="ckdownload"
+      >已有账号点此直接下载APP</a>
+      <view v-if="isWeiXin()">
+        请在默认浏览器中打开并安装应用
+      </view>
     </view>
   </view>
 </template>
@@ -39,7 +49,7 @@ export default {
       password: "",
       email: "",
       inviteid: 0,
-      invitePhone: ""
+      invitePhone: "",
     };
   },
   methods: {
@@ -98,7 +108,7 @@ export default {
               content: "您已注册成功, 请下载APP后登录!",
               success: function(res) {
                 if (res.confirm) {
-                  uni.navigateTo({ url: "../login/login" });//TODO 导航下载APP
+                  uni.navigateTo({ url: "../login/login" }); //TODO 导航下载APP
                 } else if (res.cancel) {
                   console.log("用户点击取消");
                 }
@@ -118,10 +128,37 @@ export default {
           });
         }
       });
+    },
+    isWeiXin: function() {
+      var ua = window.navigator.userAgent.toLowerCase();
+      if (ua.match(/MicroMessenger/i) == "micromessenger") {
+        return true; // 是微信端
+      } else {
+        return false;
+      }
+    },
+    ckdownload: function() {
+      if (this.isWeiXin()) {
+        uni.showModal({
+          title: "提示",
+          content: "请点击右上角菜单,在默认浏览器中打开并安装应用!",
+          success: function(res) {
+            if (res.confirm) {             
+            } else if (res.cancel) {              
+            }
+          }
+        });
+      }
+      else
+      {
+        uni.showToast({
+        icon: "none",
+        title: "后台下载中,请稍后...!"
+      });
+      }
     }
   },
   onLoad: function(option) {
-    console.log(option.inviteid);
     if (option.inviteid == undefined || option.inviteid == "") {
       uni.showToast({
         icon: "none",
@@ -157,4 +194,14 @@ export default {
 </script>
 
 <style>
+.download {
+  display: flex;
+  flex-direction:column;
+  justify-content: center;
+  align-items:center;
+  width: 100%;
+}
+.download view{
+  color:#c8c7cc;
+}
 </style>
