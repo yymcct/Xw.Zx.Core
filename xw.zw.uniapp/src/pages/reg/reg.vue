@@ -15,7 +15,7 @@
       </view>
       <view class="input-row">
         <text class="title">邀请人：</text>
-        <m-input type="text" disabled="disabled" :placeholder="invitePhone"></m-input>
+        <m-input type="text" clearable v-model="invitePhone" placeholder="请输入邀请人电话"></m-input>
       </view>
     </view>
     <view class="btn-row">
@@ -76,7 +76,7 @@ export default {
       };
 
       uni.request({
-        url: "http://139.155.8.217/api/Member/PostRegisterUser",
+        url: `${this.baseUrl}/api/Member/PostRegisterUser`,
         data: {
           phone: this.account,
           password: this.password,

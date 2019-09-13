@@ -69,7 +69,7 @@ export default {
     oneKeySync() {
       let user = this.getUser("../main/main");
       uni.request({
-        url: "http://139.155.8.217/api/BankCard/Sync",
+        url: `${this.baseUrl}/api/BankCard/Sync`,
         method: "GET",
         header: {
           "Content-Type": "application/json",
@@ -122,7 +122,7 @@ export default {
 
     uni.request({
       url:
-        "http://139.155.8.217/api/BankCard/Gets?&sorts=id&Page=1&PageSize=100",
+        `${this.baseUrl}/api/BankCard/Gets?&sorts=id&Page=1&PageSize=100`,
       method: "GET",
       header: {
         "Content-Type": "application/json",
@@ -148,7 +148,7 @@ export default {
     });
 
     uni.request({
-      url: "http://139.155.8.217/api/BankCard/GetCardTotal",
+      url: `${this.baseUrl}/api/BankCard/GetCardTotal`,
       method: "GET",
       header: {
         "Content-Type": "application/json",

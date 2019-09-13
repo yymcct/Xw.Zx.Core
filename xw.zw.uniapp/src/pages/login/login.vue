@@ -56,7 +56,7 @@ export default {
         return;
       }
       uni.request({
-        url: "http://139.155.8.217/connect/token", //仅为示例，并非真实接口地址。
+        url: `${this.baseUrl}/connect/token`, //仅为示例，并非真实接口地址。
         data:
           "grant_type=password&client_id=App.Manager.Ro&client_secret=DEsjpJFtokIOhMKuE6BVMczYUEEyPGTOLrur3PXw26VMLNwKOfAKFZZgR2vVJDKG&username=" +
           this.account +
