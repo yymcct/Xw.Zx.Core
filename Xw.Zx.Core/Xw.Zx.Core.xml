@@ -551,6 +551,11 @@
             滞纳金, 同步时进行更新
             </summary>
         </member>
+        <member name="P:Xw.Zx.Core.Models.Model.Member.InviteId">
+            <summary>
+            邀请人ID, 上线
+            </summary>
+        </member>
         <member name="F:Xw.Zx.Core.Startup.Provider">
             <summary>
             Api版本信息

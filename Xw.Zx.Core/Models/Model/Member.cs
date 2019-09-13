@@ -10,13 +10,26 @@ namespace Xw.Zx.Core.Models.Model
         男 = 1,
         女 = 2,
     }
+    public enum MemberVipType
+    {
+        普通 = 0,
+        vip1 = 1,
+    }
     public class Member
     {
         public int Id { get; set; }
+        /// <summary>
+        /// 邀请人ID, 上线
+        /// </summary>
+        public int InviteId { get; set; } = 0;
 
-        public int RoleId { get; set; } = 0;
+        public MemberVipType MemberVipType { get; set; } = MemberVipType.普通;
+
+        public int RoleId
+        { get; set; } = 0;
 
         public string RoleName { get; set; } = "AppUser";
+
         //用户名
         public string UserName { get; set; }
         //密码

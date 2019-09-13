@@ -18,6 +18,13 @@
             }
         },
         {
+            "path": "pages/reg/invitereg",
+            "style": {
+                "navigationBarTitleText": "送钱宝邀请注册",
+                "navigationStyle": "custom"
+            }
+        },
+        {
             "path": "pages/pwd/pwd",
             "style": {
                 "navigationBarTitleText": "找回密码"

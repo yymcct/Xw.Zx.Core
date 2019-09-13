@@ -1,6 +1,6 @@
 <template>
 	<view class="m-input-view">
-		<input :focus="focus_" :type="inputType" :value="value" @input="onInput" class="m-input-input" :placeholder="placeholder"
+		<input :focus="focus_" :type="inputType" :value="value" @input="onInput" :disabled="disabled" class="m-input-input" :placeholder="placeholder"
 		 :password="type==='password'&&!showPassword" @focus="onFocus" @blur="onBlur" />
 		<!-- 优先显示密码可见按钮 -->
 		<view v-if="clearable_&&!displayable_&&value.length" class="m-input-icon">
@@ -50,6 +50,10 @@
 			 * 自动获取焦点
 			 */
 			focus: {
+				type: [Boolean, String],
+				default: false
+			},
+			disabled:{
 				type: [Boolean, String],
 				default: false
 			}
