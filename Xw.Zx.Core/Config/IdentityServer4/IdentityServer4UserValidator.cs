@@ -32,7 +32,7 @@ namespace Xw.Zx.Core.Config
                     var t = new Dictionary<string, object>();
                     t.Add("statusCode", 200);
                     t.Add("msg", "登录成功");
-
+                    t.Add("id", member.Id);
                     context.Result = new GrantValidationResult(subject: member.Id.ToString()
                         , authenticationMethod: "custom",
                         claims: new List<Claim>() { new Claim(JwtClaimTypes.Role, "1") }, "", t);

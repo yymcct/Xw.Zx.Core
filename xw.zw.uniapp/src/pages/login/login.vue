@@ -71,6 +71,7 @@ export default {
             uni.setStorageSync(
               "USERS_KEY",
               JSON.stringify({
+                id: res.data.id,
                 account: this.account,
                 password: this.password,
                 token: res.data.access_token
@@ -78,7 +79,7 @@ export default {
             );
 
             uni.reLaunch({
-                url:this.backpage
+              url: this.backpage
             });
           } else {
             uni.showToast({

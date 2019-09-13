@@ -37,6 +37,12 @@
             }
         },
         {
+            "path": "pages/user/share",
+            "style": {
+                "navigationBarTitleText": "我要分享"
+            }
+        },
+        {
             "path": "pages/cards/addcard",
             "style": {
                 "navigationBarTitleText": "添加"
