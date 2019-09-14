@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Sieve.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +18,10 @@ namespace Xw.Zx.Core.Controllers
     public class MemberController : BaseController
     {
         private readonly ILogger<MemberController> _logger;
-        public MemberController(ILogger<MemberController> logger, XwZxContext xwZxContext) : base(xwZxContext)
+        public MemberController(ILogger<MemberController> logger
+            , XwZxContext xwZxContext
+            , IMapper mapper
+            , ISieveProcessor sieveProcessor) : base(xwZxContext, mapper, sieveProcessor)
         {
             _logger = logger;
         }
@@ -62,6 +68,11 @@ namespace Xw.Zx.Core.Controllers
             }
         }
 
+        /// <summary>
+        /// 获取邀请人电话
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         public HbzsResult<string> GetInviteUserPhone([FromQuery]int id)
         {
@@ -81,9 +92,90 @@ namespace Xw.Zx.Core.Controllers
                 return new HbzsResult<string>(HbzsResultCode.Invalid_Error, ex.Message);
             }
         }
+
+        /// <summary>
+        /// 获取我的团队
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Authorize]
+        public HbzsResult<MyTeamDto> GetMyTeam()
+        {
+            DateTime dtToday = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));//今天
+            DateTime dtNexDay = Convert.ToDateTime(DateTime.Now.AddDays(1).ToString("yyyy-MM-dd"));//明天
+            DateTime dtWeekDay = Convert.ToDateTime(DateTime.Now.AddDays(7).ToString("yyyy-MM-dd"));//一周
+            DateTime dtMonthFirstday = Convert.ToDateTime(new DateTime(DateTime.Now.Year, DateTime.Now.AddMonths(1).Month, 1).ToString("yyyy-MM-dd"));//本月
+            DateTime dtThreeMonth = Convert.ToDateTime(new DateTime(DateTime.Now.Year, DateTime.Now.AddMonths(-3).Month, 1).ToString("yyyy-MM-dd"));//3个月
+            DateTime dtYearFirstday = Convert.ToDateTime(new DateTime(DateTime.Now.Year, 1, 1).ToString("yyyy-MM-dd"));//今年
+
+            try
+            {
+                MyTeamDto myTeamDto = new MyTeamDto();
+                myTeamDto.UserTotal = _context.Members
+                    .Where(m => m.Disabled == false && m.InviteId == Member.Id)
+                    .Count();
+
+                myTeamDto.DayTotal = _context.Members
+                              .Where(m => m.Disabled == false && m.InviteId == Member.Id && m.CreateDate >= dtToday && m.CreateDate < dtNexDay)
+                              .Count();
+
+                myTeamDto.MonthTotal = _context.Members
+                          .Where(m => m.Disabled == false && m.InviteId == Member.Id && m.CreateDate >= dtToday && m.CreateDate < dtMonthFirstday)
+                          .Count();
+
+                return new HbzsResult<MyTeamDto>(myTeamDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new HbzsResult<MyTeamDto>(HbzsResultCode.Invalid_Error, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// 获取未绑定银行卡的用户
+        /// filter:0 全部 1:待注册
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Authorize]
+        public HbzsResult<List<MyTeamUserDto>> GetMyTeamNoCardUser(int filter)
+        {
+            try
+            {
+                var db = _context.Members
+                          .Where(m => m.Disabled == false && m.InviteId == Member.Id);
+
+                if (filter == 1)
+                {
+                    db = db.Where(m => _context.BankCards.Any(b => b.Disabled == false && b.MemberId == m.Id) == false);
+                }
+
+                var users = _mapper.Map<List<MyTeamUserDto>>(db.ToList());
+
+                return new HbzsResult<List<MyTeamUserDto>>(users);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new HbzsResult<List<MyTeamUserDto>>(HbzsResultCode.Invalid_Error, ex.Message);
+            }
+        }
     }
 
-
+    public class MyTeamDto
+    {
+        public int UserTotal { get; set; }
+        public int DayTotal { get; set; }
+        public int MonthTotal { get; set; }
+    }
+    public class MyTeamUserDto
+    {
+        public int Id { get; set; }
+        public MemberVipType MemberVipType { get; set; }
+        public string Phone { get; set; }
+        public DateTime CreateDate { get; set; } = DateTime.Now;
+    }
 
     public class RegisterUserDto
     {

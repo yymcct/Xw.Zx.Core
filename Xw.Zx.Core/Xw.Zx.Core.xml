@@ -80,6 +80,26 @@
             <param name="user"></param>
             <returns></returns>
         </member>
+        <member name="M:Xw.Zx.Core.Controllers.MemberController.GetInviteUserPhone(System.Int32)">
+            <summary>
+            获取邀请人电话
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.MemberController.GetMyTeam">
+            <summary>
+            获取我的团队
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.MemberController.GetMyTeamNoCardUser(System.Int32)">
+            <summary>
+            获取未绑定银行卡的用户
+            filter:0 全部 1:待注册
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Xw.Zx.Core.Helper.CommonHelper.GetWebAdress">
             <summary>
             所上传的图片加域名
