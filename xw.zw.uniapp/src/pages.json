@@ -43,6 +43,12 @@
             }
         },
         {
+            "path": "pages/user/myteam",
+            "style": {
+                "navigationBarTitleText": "我的团队"
+            }
+        },
+        {
             "path": "pages/cards/addcard",
             "style": {
                 "navigationBarTitleText": "添加"

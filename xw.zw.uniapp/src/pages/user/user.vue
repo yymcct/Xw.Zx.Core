@@ -3,7 +3,7 @@
   <view>
     <view>
       <uni-list>
-        <navigator url="../../pages/reg/reg">
+        <navigator url="../../pages/user/myteam">
           <uni-list-item :show-extra-icon="true" :extra-icon="icon.person" title="我的团队" />
         </navigator>
         <navigator url="../../pages/user/share">

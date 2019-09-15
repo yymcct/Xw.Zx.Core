@@ -3,7 +3,7 @@
 @baseUrl = http://localhost:63836
 #@baseUrl = http://139.155.8.217
 
-@token = eyJhbGciOiJSUzI1NiIsImtpZCI6ImJiYTlkZGEyNGJmY2QxNDE1ODYxMGIyMTE4YWJlMTQ5IiwidHlwIjoiSldUIn0.eyJuYmYiOjE1Njc5MDgxODcsImV4cCI6MTU3NjU0ODE4NywiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo2MzgzNiIsImF1ZCI6WyJodHRwOi8vbG9jYWxob3N0OjYzODM2L3Jlc291cmNlcyIsIkFwcEFwaSJdLCJjbGllbnRfaWQiOiJBcHAuTWFuYWdlci5SbyIsInN1YiI6IjUiLCJhdXRoX3RpbWUiOjE1Njc5MDgxODcsImlkcCI6IiIsInJvbGUiOiIxIiwic2NvcGUiOlsiQXBwQXBpIl0sImFtciI6WyJjdXN0b20iXX0.XbXvibBu8yNgrvr4zmC1hHWaO9oZrF0Bo-wsHQSWqPOP4q3d2o8J_hbheXLYKvjTp2WTpnh4J0nNQUPBkw8h6Te1_-xnAi1K-VIyehRfyhjAXFI50XB5DIgW4bv_8bzG30pztCOZQaPNGMSwhXyl28CazycIdWKaNY_SiJp9ki_aVTsf5lwwXfXLIUCwOsWJJmXkBcVyXuzh4jSxb9E5W63m6X2Vez0WbhDSCfIPhd80i64dljakqN-gjqjHBZWsAJYxHcVrk8pMpNyIvez05Sl3vmH5fHA7OiwTMfPhyI8Mu8VZvpmiONMG-CRT08719IOdauA22YOo3v7Lz4PAcA
+@token = eyJhbGciOiJSUzI1NiIsImtpZCI6ImJiYTlkZGEyNGJmY2QxNDE1ODYxMGIyMTE4YWJlMTQ5IiwidHlwIjoiSldUIn0.eyJuYmYiOjE1NjgzNzg2NTEsImV4cCI6MTU3NzAxODY1MSwiaXNzIjoiaHR0cDovLzEzOS4xNTUuOC4yMTciLCJhdWQiOlsiaHR0cDovLzEzOS4xNTUuOC4yMTcvcmVzb3VyY2VzIiwiQXBwQXBpIl0sImNsaWVudF9pZCI6IkFwcC5NYW5hZ2VyLlJvIiwic3ViIjoiNSIsImF1dGhfdGltZSI6MTU2ODM3ODY1MSwiaWRwIjoiIiwicm9sZSI6IjEiLCJzY29wZSI6WyJBcHBBcGkiXSwiYW1yIjpbImN1c3RvbSJdfQ.DrGWlWSIbl9M4nQMs0m-XMmwUm2MC7FQF8NiItfYMIrusLrTrx15s5RmI8938l_Pfa_CrUocUE1KL7qGfZJkniCZdsX_ENbvj83NctwITXYFijIlg0zO1wfdVGgPIRZ8aeIAAhn6dVnc5EZ1yIeEhFhjRyEM8KWmZqAZYNTPq7ThW_sOUesZCxAsFfdv_fMc4h2jIUm_RsjxLcHv1iv1Yp-ThJZprfU2FCzqEsR0Gkn5I-F7lNS8tJGjODwHBJVlosyXmvFpfQBa6ltqNhK5D7lNuq_fuQfckTAK24oLkjhIPXjWfcFbfaUawn3jemrPrcAFkIEZQTqv0hL0hz9urA
 @contentType = application/json
 
 # 获取公用token 
@@ -25,6 +25,14 @@ Content-Type: {{contentType}}
 }
 ### 获取推荐人电话
 GET {{baseUrl}}/api/Member/GetInviteUserPhone?id=1
+
+### 获取我的团队信息
+GET {{baseUrl}}/api/Member/GetMyTeam
+Authorization: Bearer {{token}}
+
+### 获取我的团队未绑卡的用户
+GET {{baseUrl}}/api/Member/GetMyTeamNoCardUser
+Authorization: Bearer {{token}}
 
 ### 修改密码
 ###############################################获取卡片信息###############################################
@@ -74,11 +82,8 @@ Authorization: Bearer {{token}}
 GET {{baseUrl}}/api/BankCard/GetCardTotal
 Authorization: Bearer {{token}}
 
-
-
-
-
-
+### 测试邮箱
+GET {{baseUrl}}/api/Values/GetQQmailAsync
 
 
 
