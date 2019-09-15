@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace Xw.Zx.Core.Models.Model
 {
+    /// <summary>
+    /// 银行卡账单
+    /// </summary>
     public class BankBill
     {
         public int Id { get; set; }

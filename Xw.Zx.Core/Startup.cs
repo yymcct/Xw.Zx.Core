@@ -20,7 +20,9 @@ using Sieve.Services;
 using Swashbuckle.AspNetCore.Swagger;
 using Xw.Zx.Core.Config;
 using Xw.Zx.Core.Models.Model;
+using Xw.Zx.Core.Service;
 using Xw.Zx.Core.Utility;
+
 
 namespace Xw.Zx.Core
 {
@@ -113,6 +115,7 @@ namespace Xw.Zx.Core
                 });
             });
             #endregion
+
             #region 数据库     
             services.AddDbContext<XwZxContext>(options =>
             {
@@ -153,7 +156,9 @@ namespace Xw.Zx.Core
             #endregion
 
             #region 注册服务
-            services.AddScoped<IMailService, MailService>();
+            //services.AddScoped<IMailService, MailService>();
+            services.AddScoped<IQQMailService, QQMailService>();
+            services.AddScoped<ISyncService, SyncService>();
             #endregion
 
             #region AutoMapper

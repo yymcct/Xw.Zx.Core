@@ -3,7 +3,7 @@
 @baseUrl = http://localhost:63836
 #@baseUrl = http://139.155.8.217
 
-@token = eyJhbGciOiJSUzI1NiIsImtpZCI6ImJiYTlkZGEyNGJmY2QxNDE1ODYxMGIyMTE4YWJlMTQ5IiwidHlwIjoiSldUIn0.eyJuYmYiOjE1NjgzNzg2NTEsImV4cCI6MTU3NzAxODY1MSwiaXNzIjoiaHR0cDovLzEzOS4xNTUuOC4yMTciLCJhdWQiOlsiaHR0cDovLzEzOS4xNTUuOC4yMTcvcmVzb3VyY2VzIiwiQXBwQXBpIl0sImNsaWVudF9pZCI6IkFwcC5NYW5hZ2VyLlJvIiwic3ViIjoiNSIsImF1dGhfdGltZSI6MTU2ODM3ODY1MSwiaWRwIjoiIiwicm9sZSI6IjEiLCJzY29wZSI6WyJBcHBBcGkiXSwiYW1yIjpbImN1c3RvbSJdfQ.DrGWlWSIbl9M4nQMs0m-XMmwUm2MC7FQF8NiItfYMIrusLrTrx15s5RmI8938l_Pfa_CrUocUE1KL7qGfZJkniCZdsX_ENbvj83NctwITXYFijIlg0zO1wfdVGgPIRZ8aeIAAhn6dVnc5EZ1yIeEhFhjRyEM8KWmZqAZYNTPq7ThW_sOUesZCxAsFfdv_fMc4h2jIUm_RsjxLcHv1iv1Yp-ThJZprfU2FCzqEsR0Gkn5I-F7lNS8tJGjODwHBJVlosyXmvFpfQBa6ltqNhK5D7lNuq_fuQfckTAK24oLkjhIPXjWfcFbfaUawn3jemrPrcAFkIEZQTqv0hL0hz9urA
+@token = eyJhbGciOiJSUzI1NiIsImtpZCI6ImJiYTlkZGEyNGJmY2QxNDE1ODYxMGIyMTE4YWJlMTQ5IiwidHlwIjoiSldUIn0.eyJuYmYiOjE1Njg1NDkyNDAsImV4cCI6MTU3NzE4OTI0MCwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo2MzgzNiIsImF1ZCI6WyJodHRwOi8vbG9jYWxob3N0OjYzODM2L3Jlc291cmNlcyIsIkFwcEFwaSJdLCJjbGllbnRfaWQiOiJBcHAuTWFuYWdlci5SbyIsInN1YiI6IjUiLCJhdXRoX3RpbWUiOjE1Njg1NDkyNDAsImlkcCI6IiIsInJvbGUiOiIxIiwic2NvcGUiOlsiQXBwQXBpIl0sImFtciI6WyJjdXN0b20iXX0.IbTnbL1Mt5uIZYEcGBnOQ5E_EfI-BqesZaaGVp70kJaQf3vNVqDAGnBw5OjChDzjdsSedJPzD0QLL67vPks6q8D-Pn3MxQdABaaElX6XBfukyFFywMLVhOghSXdB2wfaod2IVU89C3H-G2sUNWoJqPPcZoKubFi6CLh_E0T-dmlBnrDx18IV2fVlAgvKYJJcVYOx3brA4isNp6yjna8jiVx8RJHR3mvZMqL0b9WI_EkT02vXUm6HQs7Q7RFZyTmW2iFFcpJrozWxvshEH5edibM1Jh74LmUxfpx1NgYXZcIbZ4Of3yzYvhOvp5W1pMain2dYblVcMdXo117yx_16rw
 @contentType = application/json
 
 # 获取公用token 
@@ -82,9 +82,16 @@ Authorization: Bearer {{token}}
 GET {{baseUrl}}/api/BankCard/GetCardTotal
 Authorization: Bearer {{token}}
 
-### 测试邮箱
-GET {{baseUrl}}/api/Values/GetQQmailAsync
+### 同步邮件
+POST {{baseUrl}}/api/Sync/SyncAsync
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
 
+{
+    "Mail": "19202490@qq.com",
+    "Sid": "fcc7Rkf4RmMfU1IPbqi9A52V,4,c9du-YpJvbq0.",
+    "Cookie": "pgv_pvi=7372097536; RK=NbhlGJuJRz; ptcz=d1ab0013e91d678c776fa11601fc970a7c16ba4e10decb8bdb651c8f5e3efde5; webp=1; pgv_pvid=5233643110; pgv_info=ssid=s3697213894; pac_uid=0_5d4f78e505e7c; pgv_si=s4314483712; ptisp=cnc; wimrefreshrun=0&; qm_logintype=qq; qm_flag=0; qm_domain=https://mail.qq.com; edition=mail.qq.com; foxacc=68771803&1|19202490&1; newpt=2; ptui_loginuin=68771803; mcookie=0&y; FTN5K=c80dc502; qm_ptsk=68771803&@I3kQ0U6Wt|19202490&@stHtW9C4m; promote_iphone=1; CCSHOW=000000; device=iPad; qm_loginfrom=68771803&psaread|19202490&wpt; tinfo=1568463737.0000*; username=19202490&19202490; uin=o0019202490; skey=@zEoPX2s47; luin=o0019202490; lskey=0001000014ae03a92227d6962006626b2baa1f5642d1c1553e55aa2e455cf8c0a9bb0aafb85b93ee0dda5853; p_uin=o0019202490; pt4_token=sv3fRq2OcyJiF76rLcnWLSrBfY-26tHtWZVkZP98Q-s_; p_skey=B0NBtD3FiWalk7s6JCS1sh2DYevBqLkZkbeiWGeYSLk_; p_luin=o0019202490; p_lskey=000400006143d3ab3602365213939f24f2af808389afa117ab81711b5c9ad92851caa6a541375f86de767dad; qqmail_alias=xiawei1981@foxmail.com; msid=fcc7Rkf4RmMfU1IPT_69AZ2X,4,c9du-YpJvbq0.; sid=19202490&8285558e8257fb77f664672dbd08806f,c9du-YpJvbq0.; qm_username=19202490; ssl_edition=sail.qq.com; pcache=ddc9e0c35836438MTU3MTA1NTc3Ng@19202490@4; mpwd=1A01962AD3F0C5DA6F61B555E27DA21E93DDC420CA9FA5785E41DBB34EC9D915@19202490@4; qm_sk=68771803&fKLQO-Ct|19202490&bqi9A52V; new_mail_num=68771803&0|19202490&228; device=; qm_ssum=68771803&ee4eb361c3068f263f1deb80b8917911|19202490&345bed9450434ab745acb4969c4b8346",
+}
 
 
 

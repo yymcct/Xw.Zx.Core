@@ -225,6 +225,13 @@ namespace Xw.Zx.Core.Helper
             return ObjectToDecimal(o, 0m);
         }
 
+
+        public static DateTime UnixTimeToDateTime(long unixtime)
+        {
+            DateTime sTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            return sTime.AddSeconds(unixtime);
+        }
+
         #endregion
     }
 }

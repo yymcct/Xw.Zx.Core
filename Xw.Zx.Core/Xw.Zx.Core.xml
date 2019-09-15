@@ -541,6 +541,11 @@
             是否是数值(包括整数和小数)
             </summary>
         </member>
+        <member name="T:Xw.Zx.Core.Models.Model.BankBill">
+            <summary>
+            银行卡账单
+            </summary>
+        </member>
         <member name="P:Xw.Zx.Core.Models.Model.BankBill.Limit">
             <summary>
             额度
@@ -561,6 +566,26 @@
             滞纳金
             </summary>
         </member>
+        <member name="P:Xw.Zx.Core.Models.Model.BankBillDetail.TreadTime">
+            <summary>
+            交易时间
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.BankBillDetail.SellerName">
+            <summary>
+            商户名
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.BankBillDetail.Amount">
+            <summary>
+            交易额
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.BankBillDetail.Unit">
+            <summary>
+            币别
+            </summary>
+        </member>
         <member name="P:Xw.Zx.Core.Models.Model.BankCard.LastSyncTime">
             <summary>
             最后同步时间
@@ -571,10 +596,22 @@
             滞纳金, 同步时进行更新
             </summary>
         </member>
+        <member name="T:Xw.Zx.Core.Models.Model.MailSrcBank">
+            <summary>
+            存放的原始邮件
+            </summary>
+        </member>
         <member name="P:Xw.Zx.Core.Models.Model.Member.InviteId">
             <summary>
             邀请人ID, 上线
             </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Service.SyncService.GetDbLastMail(System.String,System.String)">
+            <summary>
+            获取最后一次同步的ID
+            </summary>
+            <param name="memberId"></param>
+            <returns></returns>
         </member>
         <member name="F:Xw.Zx.Core.Startup.Provider">
             <summary>
