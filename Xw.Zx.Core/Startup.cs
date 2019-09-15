@@ -163,6 +163,8 @@ namespace Xw.Zx.Core
                 options.ForAllMaps((a, b) => b.ForAllMembers(opt => opt.Condition((src, dest, sourceMember) => sourceMember != null)));
             }, AssemblyLoadContext.Default.LoadFromAssemblyPath($"{AppContext.BaseDirectory}Xw.Zx.Core.dll"));
             #endregion
+
+            services.AddHttpClient();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -27,6 +29,7 @@ namespace Xw.Zx.Core.Controllers
             , ISieveProcessor sieveProcessor) : base(xwZxContext, mapper, sieveProcessor)
         {
             _logger = logger;
+
         }
 
         /// <summary>
@@ -217,5 +220,11 @@ namespace Xw.Zx.Core.Controllers
             bankCard.LastSyncIsOk = isOK;
             bankCard.LastSyncTime = DateTime.Now;
         }
+        #region 同步信用卡
+
+
+        #endregion
+
+
     }
 }

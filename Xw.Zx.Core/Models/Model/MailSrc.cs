@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace Xw.Zx.Core.Models.Model
 {
+    /// <summary>
+    /// 存放的原始邮件
+    /// </summary>
     public enum MailSrcBank
     {
         招商银行 = 0,
@@ -23,7 +26,7 @@ namespace Xw.Zx.Core.Models.Model
 
         public string Body { get; set; }
 
-        public string BodyEncoding { get; set; }
+        public string BodyText { get; set; }
 
         public DateTime SendTime { get; set; }
 
