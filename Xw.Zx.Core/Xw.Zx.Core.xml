@@ -73,6 +73,31 @@
             消息
             </summary>
         </member>
+        <member name="T:Xw.Zx.Core.Controllers.InterestController">
+            <summary>
+            利息
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Controllers.Appeal.MemberId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Controllers.Appeal.OpMemberId">
+            <summary>
+            处理人ID
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Controllers.Appeal.PreAmount">
+            <summary>
+            预追息金额
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Controllers.Appeal.Amount">
+            <summary>
+            实际追息金额
+            </summary>
+        </member>
         <member name="M:Xw.Zx.Core.Controllers.MemberController.PostRegisterUser(Xw.Zx.Core.Controllers.RegisterUserDto)">
             <summary>
             注册用户

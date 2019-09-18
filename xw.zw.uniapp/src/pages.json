@@ -1,5 +1,12 @@
 {
-    "pages": [{
+    "pages": [
+		{
+		    "path": "pages/user/userUpdate",
+		    "style": {
+		        "navigationBarTitleText": "升级"
+		    }
+		},
+		{
             "path": "pages/main/main",
             "style": {
                 "navigationBarTitleText": "送钱宝"
@@ -48,6 +55,7 @@
                 "navigationBarTitleText": "我的团队"
             }
         },
+
         {
             "path": "pages/cards/addcard",
             "style": {
