@@ -8,6 +8,7 @@ using Alipay.AopSdk.Core.Request;
 using Alipay.AopSdk.Core.Response;
 using AutoMapper;
 using IdentityServer4.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -31,21 +32,48 @@ namespace Xw.Zx.Core.Controllers
             _logger = logger;
             _alipayService = alipayService;
         }
+        /// <summary>
+        /// 获取升级VIP1订单信息
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        public string GetPayInfo()//_amount:付款金额  
+        [Authorize]
+        public string GetUpdateVipOrder()
         {
+
+            var order = _context.Orders.Where(o => o.MemberId == Member.Id
+                                    && o.ProducName == "升级会员"
+                                    && DateTime.Now.AddMinutes(-30) < o.AddTime
+                                    && o.OrderState == OrderState.待付款).FirstOrDefault();
+
+            if (order == null)
+            {
+                var product = _context.Products.First(p => p.Name == "升级会员");
+                order = new Order()
+                {
+                    MemberId = Member.Id,
+                    Timestamp = DateTime.Now.ToString("yyyyMMddHHmmssffffff"),
+                    MemberPhone = Member.Phone,
+                    ProductId = product.Id,
+                    ProducName = product.Name,
+                    Amount = product.Price,
+                    AddTime = DateTime.Now,
+                    OrderState = OrderState.待付款
+                };
+                _context.Add(order);
+                _context.SaveChanges();
+            }
+
             AlipayTradeAppPayModel model = new AlipayTradeAppPayModel();
-            model.Body = "我是测试数据";
-            model.Subject = "App支付测试DoNet";
-            model.TotalAmount = "0.01";
+            model.Body = order.ProducName;
+            model.Subject = order.ProducName;
+            model.TotalAmount = order.Amount.ToString();
             model.ProductCode = "QUICK_MSECURITY_PAY";
-            model.OutTradeNo = "20170216555555555555555501";
+            model.OutTradeNo = order.Timestamp;
             model.TimeoutExpress = "30m";
 
-
-
             AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
-            request.SetNotifyUrl("http://");
+            request.SetNotifyUrl("http://139.155.8.217/api/Alipay/Notifyurl");
             request.SetBizModel(model);
 
             AlipayTradeAppPayResponse response = _alipayService.SdkExecute(request);
@@ -67,7 +95,7 @@ namespace Xw.Zx.Core.Controllers
             {
                 bool flag = _alipayService.RSACheckV1(sArray);
                 if (flag)
-                {
+                {//https://docs.open.alipay.com/204/105301/
                     //交易状态
                     //判断该笔订单是否在商户网站中已经做过处理
                     //如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
@@ -77,6 +105,15 @@ namespace Xw.Zx.Core.Controllers
                     //注意：
                     //退款日期超过可退款期限后（如三个月可退款），支付宝系统发送该交易状态通知
                     Console.WriteLine(Request.Form["trade_status"]);
+
+                    if (sArray["trade_status"] == "TRADE_SUCCESS")
+                    { // 交易成功
+                        var order  = _context.Orders.Where(o => o.Timestamp == sArray["out_trade_no"]).FirstOrDefault();
+                        if (order == null)
+                        {
+                            throw new Exception($"Notifyurl:异常订单 {sArray.ToString()}");
+                        }
+                    }
 
                     await Response.WriteAsync("success");
                 }
