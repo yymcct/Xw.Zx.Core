@@ -73,6 +73,12 @@
             消息
             </summary>
         </member>
+        <member name="M:Xw.Zx.Core.Controllers.InterestController.PostInterest">
+            <summary>
+            生成追息单, 根据 数据:位置信息
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Xw.Zx.Core.Controllers.MemberController.PostRegisterUser(Xw.Zx.Core.Controllers.RegisterUserDto)">
             <summary>
             注册用户

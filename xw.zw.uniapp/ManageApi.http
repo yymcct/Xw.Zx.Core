@@ -94,9 +94,11 @@ Content-Type: {{contentType}}
 }
 
 
+### 同步邮件
+GET {{baseUrl}}/api/Alipay/GetPayInfo
+###
+POST {{baseUrl}}/api/Alipay/Notifyurl
+Content-Type: application/x-www-form-urlencoded
 
-
-
-
-
+grant_type=password&client_id=App.Manager.Ro&client_secret=DEsjpJF
 

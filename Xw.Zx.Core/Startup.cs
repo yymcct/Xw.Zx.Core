@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Loader;
 using System.Threading.Tasks;
+using Alipay.AopSdk.AspnetCore;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -167,6 +168,10 @@ namespace Xw.Zx.Core
             {
                 options.ForAllMaps((a, b) => b.ForAllMembers(opt => opt.Condition((src, dest, sourceMember) => sourceMember != null)));
             }, AssemblyLoadContext.Default.LoadFromAssemblyPath($"{AppContext.BaseDirectory}Xw.Zx.Core.dll"));
+            #endregion
+
+            #region Alipay
+            services.AddAlipay(Configuration.GetSection("Alipay"));
             #endregion
 
             services.AddHttpClient();

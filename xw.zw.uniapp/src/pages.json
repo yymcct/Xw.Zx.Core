@@ -1,5 +1,10 @@
 {
     "pages": [{
+        "path": "pages/user/pay",
+        "style": {
+            "navigationBarTitleText": "送钱宝"
+        }
+    },{
             "path": "pages/main/main",
             "style": {
                 "navigationBarTitleText": "送钱宝"
