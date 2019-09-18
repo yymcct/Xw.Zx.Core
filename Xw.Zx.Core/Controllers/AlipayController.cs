@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Alipay.AopSdk.AspnetCore;
 using Alipay.AopSdk.Core.Domain;
@@ -71,6 +72,7 @@ namespace Xw.Zx.Core.Controllers
             model.ProductCode = "QUICK_MSECURITY_PAY";
             model.OutTradeNo = order.Timestamp;
             model.TimeoutExpress = "30m";
+            model.SellerId = Member.Id.ToString();
 
             AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
             request.SetNotifyUrl("http://139.155.8.217/api/Alipay/Notifyurl");
@@ -91,11 +93,13 @@ namespace Xw.Zx.Core.Controllers
                */
 
             Dictionary<string, string> sArray = GetRequestPost();
+
+            LogsArray(sArray);
             if (sArray.Count != 0)
             {
                 bool flag = _alipayService.RSACheckV1(sArray);
                 if (flag)
-                {//https://docs.open.alipay.com/204/105301/
+                {   //https://docs.open.alipay.com/204/105301/
                     //交易状态
                     //判断该笔订单是否在商户网站中已经做过处理
                     //如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
@@ -108,21 +112,77 @@ namespace Xw.Zx.Core.Controllers
 
                     if (sArray["trade_status"] == "TRADE_SUCCESS")
                     { // 交易成功
-                        var order  = _context.Orders.Where(o => o.Timestamp == sArray["out_trade_no"]).FirstOrDefault();
+
+                        var order = _context.Orders.Where(o => o.Timestamp == sArray["out_trade_no"]).FirstOrDefault();
+
                         if (order == null)
                         {
                             throw new Exception($"Notifyurl:异常订单 {sArray.ToString()}");
                         }
-                    }
 
-                    await Response.WriteAsync("success");
+                        if (order.Amount != decimal.Parse(sArray["total_amount"]))
+                        {
+                            throw new Exception($"Notifyurl:异常订单, 金额不符 {sArray.ToString()}");
+                        }
+                        if (order.MemberId != int.Parse(sArray["seller_id"]))
+                        {
+                            throw new Exception($"Notifyurl:异常订单, 买方不正确 {sArray.ToString()}");
+                        }
+
+                        using (var transaction = _context.Database.BeginTransaction())
+                        {
+                            try
+                            {
+                                order.OrderState = OrderState.已付款;
+                                _context.SaveChanges();
+
+                                var receivables = new Receivable()
+                                {
+                                    OrderId = order.Id,
+                                    Amount = order.Amount,
+                                };
+
+                                _context.Receivables.Add(receivables);
+                                _context.SaveChanges();
+
+                                var member = _context.Members.First(m => m.Id == order.MemberId);
+                                if (member.MemberVipType == MemberVipType.普通)
+                                {
+                                    member.MemberVipType = MemberVipType.vip1;
+                                }
+                                _context.SaveChanges();
+
+                                transaction.Commit();
+                            }
+                            catch (Exception ex)
+                            {
+                                _logger.LogDebug($"事务处理失败:{ex.Message}");
+                            }
+                        }
+                    }
                 }
-                else
-                {
-                    await Response.WriteAsync("fail");
-                }
+
+                await Response.WriteAsync("success");
+            }
+            else
+            {
+                await Response.WriteAsync("fail");
             }
         }
+
+        private void LogsArray(Dictionary<string, string> dict)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            foreach (var kv in dict)//如果是.NET2.0 var换成KeyValuePair<string,string>
+            {
+                sb.AppendFormat("{0}:{1};", kv.Key, kv.Value);
+            }
+            string str = sb.ToString();
+
+            _logger.LogDebug(str);
+        }
+
 
         #region 解析请求参数
 

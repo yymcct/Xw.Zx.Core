@@ -9,6 +9,12 @@
             配置mapper
             </summary>
         </member>
+        <member name="M:Xw.Zx.Core.Controllers.AlipayController.GetUpdateVipOrder">
+            <summary>
+            获取升级VIP1订单信息
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Xw.Zx.Core.Controllers.BankCardController.Gets(Sieve.Models.SieveModel)">
             <summary>
             获取自己名下的银行卡信息, 可检索, 排序, 分页      
@@ -629,6 +635,21 @@
         <member name="P:Xw.Zx.Core.Models.Model.Member.InviteId">
             <summary>
             邀请人ID, 上线
+            </summary>
+        </member>
+        <member name="T:Xw.Zx.Core.Models.Model.Order">
+            <summary>
+            订单表
+            </summary>
+        </member>
+        <member name="T:Xw.Zx.Core.Models.Model.Payment">
+            <summary>
+            付款表
+            </summary>
+        </member>
+        <member name="T:Xw.Zx.Core.Models.Model.Receivable">
+            <summary>
+            收款表
             </summary>
         </member>
         <member name="M:Xw.Zx.Core.Service.SyncService.GetDbLastMail(System.String,System.String)">
