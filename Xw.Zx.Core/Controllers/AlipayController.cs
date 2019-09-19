@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Sieve.Services;
+using Xw.Zx.Core.Models.Dto;
 using Xw.Zx.Core.Models.Model;
 
 namespace Xw.Zx.Core.Controllers
@@ -39,9 +40,49 @@ namespace Xw.Zx.Core.Controllers
         /// <returns></returns>
         [HttpGet]
         [Authorize]
-        public string GetUpdateVipOrder()
+        public HbzsResult<AliPayOrderDto> GetUpdateVip1Order()
         {
+            try
+            {
+                if (Member.MemberVipType != MemberVipType.普通)
+                {
+                    new Exception($"异常:用户{Member.Phone}已是VIP, 无法升级");
+                }
 
+                Order order = CreateOrder();                
+
+                AlipayTradeAppPayModel model = new AlipayTradeAppPayModel();
+                model.Body = order.ProducName;
+                model.Subject = order.ProducName;
+                model.TotalAmount = order.Amount.ToString();
+                model.ProductCode = "QUICK_MSECURITY_PAY";
+                model.OutTradeNo = order.Timestamp;
+                model.TimeoutExpress = "30m";
+                model.SellerId = Member.Id.ToString();
+
+                AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
+                request.SetNotifyUrl("http://139.155.8.217/api/Alipay/Notifyurl");
+                request.SetBizModel(model);
+
+                AlipayTradeAppPayResponse response = _alipayService.SdkExecute(request);
+
+                return new HbzsResult<AliPayOrderDto>(new AliPayOrderDto()
+                {
+                    ProductName = order.ProducName,
+                    ProductPrice = order.Amount.ToString("n"),
+                    AlipayTradeAppPayResponse = response.Body
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogDebug(ex.Message);
+                return new HbzsResult<AliPayOrderDto>(HbzsResultCode.Invalid_Error, ex.Message);
+            }
+
+        }
+
+        private Order CreateOrder()
+        {
             var order = _context.Orders.Where(o => o.MemberId == Member.Id
                                     && o.ProducName == "升级会员"
                                     && DateTime.Now.AddMinutes(-30) < o.AddTime
@@ -65,21 +106,7 @@ namespace Xw.Zx.Core.Controllers
                 _context.SaveChanges();
             }
 
-            AlipayTradeAppPayModel model = new AlipayTradeAppPayModel();
-            model.Body = order.ProducName;
-            model.Subject = order.ProducName;
-            model.TotalAmount = order.Amount.ToString();
-            model.ProductCode = "QUICK_MSECURITY_PAY";
-            model.OutTradeNo = order.Timestamp;
-            model.TimeoutExpress = "30m";
-            model.SellerId = Member.Id.ToString();
-
-            AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
-            request.SetNotifyUrl("http://139.155.8.217/api/Alipay/Notifyurl");
-            request.SetBizModel(model);
-
-            AlipayTradeAppPayResponse response = _alipayService.SdkExecute(request);
-            return response.Body;
+            return order;
         }
 
         [HttpPost]

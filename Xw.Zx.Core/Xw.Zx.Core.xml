@@ -9,7 +9,7 @@
             配置mapper
             </summary>
         </member>
-        <member name="M:Xw.Zx.Core.Controllers.AlipayController.GetUpdateVipOrder">
+        <member name="M:Xw.Zx.Core.Controllers.AlipayController.GetUpdateVip1Order">
             <summary>
             获取升级VIP1订单信息
             </summary>
