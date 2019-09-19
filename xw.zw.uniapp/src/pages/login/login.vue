@@ -77,7 +77,7 @@ export default {
                 token: res.data.access_token
               })
             );
-
+            
             uni.reLaunch({
               url: this.backpage
             });

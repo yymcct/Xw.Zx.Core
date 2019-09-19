@@ -183,7 +183,7 @@ namespace Xw.Zx.Core.Controllers
                                 var member = _context.Members.First(m => m.Id == order.MemberId);
                                 if (member.MemberVipType == MemberVipType.普通)
                                 {
-                                    member.MemberVipType = MemberVipType.vip1;
+                                    member.MemberVipType = MemberVipType.Vip会员;
                                 }
                                 _context.SaveChanges();
 

@@ -104,7 +104,7 @@
             实际追息金额
             </summary>
         </member>
-        <member name="M:Xw.Zx.Core.Controllers.MemberController.PostRegisterUser(Xw.Zx.Core.Controllers.RegisterUserDto)">
+        <member name="M:Xw.Zx.Core.Controllers.MemberController.PostRegisterUser(Xw.Zx.Core.Models.Dto.RegisterUserDto)">
             <summary>
             注册用户
             </summary>
@@ -129,6 +129,13 @@
             获取未绑定银行卡的用户
             filter:0 全部 1:待注册
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.MemberController.GetSelf">
+            <summary>
+            获取个人信息, 需要认证
+            </summary>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:Xw.Zx.Core.Helper.CommonHelper.GetWebAdress">

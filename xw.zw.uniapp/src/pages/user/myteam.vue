@@ -1,5 +1,13 @@
 <template v-cloak>
   <view class="container">
+    <view class="userinfo">
+      <view class="selfinfo">
+        <view class="phone">{{mySelf.phone}}</view>
+        <view class="viptype">{{GetVipType(mySelf.memberVipType)}}</view>
+        <view><button type="warn" size="mini">升级VIP</button></view>
+      </view>
+      <view>我的推荐人:{{mySelf.invitePhone}}</view>
+    </view>
     <view class="head">
       <view class="headblock">
         <view class="headblock1">{{myTeamDto.userTotal}}</view>
@@ -53,6 +61,7 @@ export default {
   data() {
     return {
       user: null,
+      mySelf: null,
       myTeamDto: null,
       myTeamUsersDto: null,
       items: ["已注册", "待绑定"],
@@ -98,6 +107,14 @@ export default {
           }
         });
       }
+    },
+    GetVipType: function(vipid) {
+      if (vipid == 0) return "普通会员";
+      if (vipid == 1) return "VIP会员";
+      if (vipid == 2) return "合伙人";
+      if (vipid == 3) return "服务站";
+      if (vipid == 4) return "运营商";
+      return vipid;
     }
   },
   components: {
@@ -109,6 +126,32 @@ export default {
     if (!this.user) {
       return false;
     }
+    //获取个人信息
+    uni.request({
+      url: `${this.baseUrl}/api/Member/GetSelf`,
+      method: "GET",
+      header: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ` + this.user.token
+      },
+      success: res => {
+        if (res.data.statusCode == 200) {
+          this.mySelf = res.data.result;
+        } else {
+          uni.showToast({
+            icon: "none",
+            title: res.data.msg
+          });
+        }
+      },
+      fail: () => {
+        uni.showToast({
+          icon: "none",
+          title: "网络异常"
+        });
+      }
+    });
+
     uni.request({
       url: `${this.baseUrl}/api/Member/GetMyTeam`,
       method: "GET",
@@ -169,7 +212,27 @@ export default {
   flex-direction: column;
   width: 100%;
 }
+.userinfo {
+  background-color: white;
+  padding: 10px;
+}
+.selfinfo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.viptype {
+  color:deeppink;
+  font-weight: bolder;
+  font-size: 15px;
+  margin-right: 20px;
+}
 
+.phone {
+  font-weight: bolder;
+  font-size: 25px;
+  margin-right: 20px;
+}
 .head {
   display: flex;
   flex-direction: row;

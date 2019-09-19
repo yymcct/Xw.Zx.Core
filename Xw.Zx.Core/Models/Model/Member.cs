@@ -13,7 +13,11 @@ namespace Xw.Zx.Core.Models.Model
     public enum MemberVipType
     {
         普通 = 0,
-        vip1 = 1,
+        Vip会员 = 1,
+        合伙人 = 2,
+        服务站 = 3,
+        运营商 = 4,
+
     }
     public class Member
     {

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Xw.Zx.Core.Helper;
+using Xw.Zx.Core.Models.Dto;
 using Xw.Zx.Core.Models.Model;
 
 namespace Xw.Zx.Core.Controllers
@@ -162,30 +163,46 @@ namespace Xw.Zx.Core.Controllers
             }
         }
 
+        /// <summary>
+        /// 获取个人信息, 需要认证
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Authorize]
+        public HbzsResult<MemberDto> GetSelf()
+        {
+            try
+            {
+                var user = _context.Members
+                    .First(m => m.Id == Member.Id && m.Disabled == false);
+                var memberDto = new MemberDto()
+                {
+                    Id = user.Id,
+                    MemberVipType = user.MemberVipType,
+                    Phone = user.Phone,
+                    InviteId = user.InviteId
+                };
 
-        //升级操作
+                if (user.InviteId != 0)
+                {
+                    var inviteUser = _context.Members
+                       .FirstOrDefault(m => m.Id == user.InviteId && m.Disabled == false);
+                    if (inviteUser != null)
+                    {
+                        memberDto.InvitePhone = user.Phone;
+                    }
+                }
+                return new HbzsResult<MemberDto>(memberDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new HbzsResult<MemberDto>(HbzsResultCode.Invalid_Error, ex.Message);
+            }
+        }
+
     }
 
-    public class MyTeamDto
-    {
-        public int UserTotal { get; set; }
-        public int DayTotal { get; set; }
-        public int MonthTotal { get; set; }
-    }
-    public class MyTeamUserDto
-    {
-        public int Id { get; set; }
-        public MemberVipType MemberVipType { get; set; }
-        public string Phone { get; set; }
-        public DateTime CreateDate { get; set; } = DateTime.Now;
-    }
 
-    public class RegisterUserDto
-    {
-        public string Phone { get; set; }
-        public string Password { get; set; }
-        public string Mail { get; set; }
-        public int InviteId { get; set; } = 0;
-        public string InvitePhone { get; set; }
-    }
 }
