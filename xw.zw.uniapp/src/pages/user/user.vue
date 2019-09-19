@@ -1,6 +1,7 @@
 
 <template>
   <view>
+    <view>    </view>
     <view>
       <uni-list>
         <navigator url="../../pages/user/myteam">

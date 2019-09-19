@@ -1,16 +1,23 @@
 {
     "pages": [
+        {
+            "path": "pages/user/pay",
+            "style": {
+                "navigationBarTitleText": "支付"
+            }
+        },
+        {
+            "path": "pages/user/myteam",
+            "style": {
+                "navigationBarTitleText": "我的团队"
+            }
+        },
 		{
 		    "path": "pages/main/main",
 		    "style": {
 		        "navigationBarTitleText": "送钱宝"
 		    }
-		},{
-        "path": "pages/user/pay",
-        "style": {
-            "navigationBarTitleText": "送钱宝"
-        }
-    },
+		},
 		{
 		    "path": "pages/user/userUpdate",
 		    "style": {
@@ -55,12 +62,7 @@
                 "navigationBarTitleText": "我要分享"
             }
         },
-        {
-            "path": "pages/user/myteam",
-            "style": {
-                "navigationBarTitleText": "我的团队"
-            }
-        },
+   
 
         {
             "path": "pages/cards/addcard",

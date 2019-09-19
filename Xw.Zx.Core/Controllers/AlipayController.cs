@@ -34,6 +34,14 @@ namespace Xw.Zx.Core.Controllers
             _logger = logger;
             _alipayService = alipayService;
         }
+        [HttpGet]
+        public string HeHe()
+        {
+            var dat = DateTime.Now.ToString() + "我再测试";
+            _logger.LogWarning(dat);
+            _logger.LogWarning(dat);
+            return dat;
+        }
         /// <summary>
         /// 获取升级VIP1订单信息
         /// </summary>
@@ -43,7 +51,7 @@ namespace Xw.Zx.Core.Controllers
         public HbzsResult<AliPayOrderDto> GetUpdateVip1Order()
         {
             try
-            {
+            {                
                 if (Member.MemberVipType != MemberVipType.普通)
                 {
                     new Exception($"异常:用户{Member.Phone}已是VIP, 无法升级");
@@ -54,11 +62,11 @@ namespace Xw.Zx.Core.Controllers
                 AlipayTradeAppPayModel model = new AlipayTradeAppPayModel();
                 model.Body = order.ProducName;
                 model.Subject = order.ProducName;
-                model.TotalAmount = order.Amount.ToString();
+                model.TotalAmount = order.Amount.ToString("n");
                 model.ProductCode = "QUICK_MSECURITY_PAY";
                 model.OutTradeNo = order.Timestamp;
-                model.TimeoutExpress = "30m";
-                model.SellerId = Member.Id.ToString();
+                model.TimeoutExpress = "50m";
+                //model.SellerId = Member.Id.ToString();
 
                 AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
                 request.SetNotifyUrl("http://139.155.8.217/api/Alipay/Notifyurl");
@@ -75,7 +83,7 @@ namespace Xw.Zx.Core.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogDebug(ex.Message);
+                _logger.LogWarning(ex.Message);
                 return new HbzsResult<AliPayOrderDto>(HbzsResultCode.Invalid_Error, ex.Message);
             }
 
@@ -118,7 +126,7 @@ namespace Xw.Zx.Core.Controllers
                3、校验通知中的seller_id（或者seller_email) 是否为out_trade_no这笔单据的对应的操作方（有的时候，一个商户可能有多个seller_id/seller_email）
                4、验证app_id是否为该商户本身。
                */
-
+            _logger.LogWarning("1111111111111111111GetUpdateVip1Order");
             Dictionary<string, string> sArray = GetRequestPost();
 
             LogsArray(sArray);
@@ -151,10 +159,10 @@ namespace Xw.Zx.Core.Controllers
                         {
                             throw new Exception($"Notifyurl:异常订单, 金额不符 {sArray.ToString()}");
                         }
-                        if (order.MemberId != int.Parse(sArray["seller_id"]))
-                        {
-                            throw new Exception($"Notifyurl:异常订单, 买方不正确 {sArray.ToString()}");
-                        }
+                        //if (order.MemberId != int.Parse(sArray["seller_id"]))
+                        //{
+                        //    throw new Exception($"Notifyurl:异常订单, 买方不正确 {sArray.ToString()}");
+                        //}
 
                         using (var transaction = _context.Database.BeginTransaction())
                         {
@@ -183,7 +191,7 @@ namespace Xw.Zx.Core.Controllers
                             }
                             catch (Exception ex)
                             {
-                                _logger.LogDebug($"事务处理失败:{ex.Message}");
+                                _logger.LogWarning($"事务处理失败:{ex.Message}");
                             }
                         }
                     }
@@ -207,7 +215,7 @@ namespace Xw.Zx.Core.Controllers
             }
             string str = sb.ToString();
 
-            _logger.LogDebug(str);
+            _logger.LogWarning(str);
         }
 
 

@@ -20,7 +20,7 @@ Vue.prototype.getUser = function(backpage) {
     return user;
 }
 Vue.prototype.baseUrl = 'http://139.155.8.217'
-    //Vue.prototype.baseUrl = 'http://localhost:63836'
+//Vue.prototype.baseUrl = 'http://localhost:63836'
 
 const app = new Vue({
     store,
