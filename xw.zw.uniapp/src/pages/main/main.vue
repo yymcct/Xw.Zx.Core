@@ -4,6 +4,9 @@
     <view class="heard">
       <view class="title">账户利息合计:</view>
       <view class="total">{{heardInfo.overdueFine}}元</view>
+      <view class="zhuixi">
+        <button type="primary" size="mini" @click="zhuxi">申请追息</button>
+      </view>
     </view>
     <view v-for="iteam in cardList" v-bind:key="iteam.id" class="card" @click="bindClick(iteam.id)">
       <uni-swipe-action :options="options1">
@@ -106,6 +109,19 @@ export default {
         case 6:
           return "民生银行";
       }
+    },
+    zhuxi: function name() {
+      uni.showModal({
+        title: "提示",
+        content: "您的申请已收到, 客服稍后回访,请保持电话畅通!",
+        success: function(res) {
+          if (res.confirm) {
+            
+          } else if (res.cancel) {
+            
+          }
+        }
+      });
     }
   },
   onLoad: function() {
@@ -133,7 +149,7 @@ export default {
               success: function(res) {
                 if (res.confirm) {
                   uni.navigateTo({ url: "../cards/addcard" }); //TODO 导航下载APP
-                } 
+                }
               }
             });
           }
@@ -212,5 +228,15 @@ export default {
   font-size: 50px;
   margin-left: 50px;
   color: rgb(250, 81, 2);
+}
+.zhuixi {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+}
+.zhuixi button {
+  margin-top: 10px;
+  display: block;
+  margin: 0px;
 }
 </style>

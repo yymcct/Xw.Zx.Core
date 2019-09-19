@@ -4,9 +4,11 @@
       <view class="selfinfo">
         <view class="phone">{{mySelf.phone}}</view>
         <view class="viptype">{{GetVipType(mySelf.memberVipType)}}</view>
-        <view><button type="warn" size="mini">升级VIP</button></view>
+        <view v-if="mySelf.memberVipType==0">
+          <button type="warn" size="mini" @click="update">升级VIP</button>
+        </view>
       </view>
-      <view>我的推荐人:{{mySelf.invitePhone}}</view>
+      <view class="invite">我的推荐人:{{mySelf.invitePhone}}</view>
     </view>
     <view class="head">
       <view class="headblock">
@@ -41,8 +43,8 @@
             <view class="uni-triplex-row crd">
               <view class="uni-triplex-left">
                 <text class="uni-title uni-ellipsis">{{iteam.phone}}</text>
-                <text class="uni-text">级别: VIP{{iteam.memberVipType}}</text>
-                <text class="uni-text-small uni-ellipsis">注册时间 {{iteam.createDate}}</text>
+                <text class="uni-text">级别: {{GetVipType(iteam.memberVipType)}}</text>
+                <text class="uni-text-small uni-ellipsis">注册时间: {{iteam.createDate}}</text>
               </view>
               <view class="uni-triplex-right">
                 <text class="uni-h5"></text>
@@ -115,6 +117,11 @@ export default {
       if (vipid == 3) return "服务站";
       if (vipid == 4) return "运营商";
       return vipid;
+    },
+    update: function() {
+      uni.navigateTo({
+        url: "../user/pay"
+      });
     }
   },
   components: {
@@ -222,7 +229,7 @@ export default {
   align-items: center;
 }
 .viptype {
-  color:deeppink;
+  color: deeppink;
   font-weight: bolder;
   font-size: 15px;
   margin-right: 20px;
@@ -232,6 +239,9 @@ export default {
   font-weight: bolder;
   font-size: 25px;
   margin-right: 20px;
+}
+.invite {
+   color: #999;
 }
 .head {
   display: flex;

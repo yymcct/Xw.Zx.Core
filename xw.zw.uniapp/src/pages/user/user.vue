@@ -1,11 +1,14 @@
 
 <template>
   <view>
-    <view>    </view>
+    <view></view>
     <view>
       <uni-list>
         <navigator url="../../pages/user/myteam">
           <uni-list-item :show-extra-icon="true" :extra-icon="icon.person" title="我的团队" />
+        </navigator>
+        <navigator url="../../pages/user/income">
+          <uni-list-item :show-extra-icon="true" :extra-icon="icon.paperplane" title="我的收益" />
         </navigator>
         <navigator url="../../pages/user/share">
           <uni-list-item :show-extra-icon="true" :extra-icon="icon.paperplane" title="我要分享" />

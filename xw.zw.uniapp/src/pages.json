@@ -1,8 +1,25 @@
 {
     "pages": [{
+            "path": "pages/main/main",
+            "style": {
+                "navigationBarTitleText": "送钱宝"
+            }
+        }, {
             "path": "pages/user/myteam",
             "style": {
                 "navigationBarTitleText": "我的团队"
+            }
+        },
+        {
+            "path": "pages/user/income",
+            "style": {
+                "navigationBarTitleText": "我的收益"
+            }
+        },
+        {
+            "path": "pages/user/incomelist",
+            "style": {
+                "navigationBarTitleText": "收益记录"
             }
         },
         {
@@ -12,12 +29,6 @@
             }
         },
 
-        {
-            "path": "pages/main/main",
-            "style": {
-                "navigationBarTitleText": "送钱宝"
-            }
-        },
         {
             "path": "pages/user/userUpdate",
             "style": {

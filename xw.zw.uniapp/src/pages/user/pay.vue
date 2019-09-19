@@ -115,14 +115,20 @@ export default {
         });
         return;
       }
-      uni.requestPayment({ 
+      uni.requestPayment({
         provider: e.id,
-        orderInfo: orderInfo.alipayTradeAppPayResponse, 
-      //  'app_id=2017121200619628&biz_content=%7b%22body%22%3a%22%e5%8d%87%e7%ba%a7%e4%bc%9a%e5%91%98%22%2c%22out_trade_no%22%3a%2220190919150908026814%22%2c%22product_code%22%3a%22QUICK_MSECURITY_PAY%22%2c%22subject%22%3a%22%e5%8d%87%e7%ba%a7%e4%bc%9a%e5%91%98%22%2c%22timeout_express%22%3a%2250m%22%2c%22total_amount%22%3a%220.01%22%7d&charset=UTF-8&format=json&method=alipay.trade.app.pay&notify_url=http%3a%2f%2f139.155.8.217%2fapi%2fAlipay%2fNotifyurl&sign_type=RSA2&timestamp=2019-09-19+15%3a09%3a12&version=1.0&sign=JwV4QwpHc8%2f%2bO3Udl%2bGw2uCa%2btPY%2bbbNnVwzz7c2VI%2bX5PXAxT2qeaNHys5PGd4a617G%2fNkHMPQWYceCvH1bXC5cln%2bf%2fJLg9%2fhlmstgqeBANS02dnqArHxQYs4MJMtYpLVT40beYYbfJT0eNt1stBc6Y0JvvRLteZm0H03YppgBeNgjlQj5eETPNl7qlF%2fOEKIOEIkKU47vG1dBDR1%2bF64%2bdvFgwXqBTKyBAOW1geuRSctoWytUTE%2fLx%2bgnmMgLOTnDwM4aEyy0ny3xWPhB5tBKBK3MlZRCrlJRg1lfQ8ys1N5BYGdphwzQf8nzZ5USEl%2bWRyzhRlWTpvbc9JUq6Q%3d%3d',
+        orderInfo: orderInfo.alipayTradeAppPayResponse,
+        //  'app_id=2017121200619628&biz_content=%7b%22body%22%3a%22%e5%8d%87%e7%ba%a7%e4%bc%9a%e5%91%98%22%2c%22out_trade_no%22%3a%2220190919150908026814%22%2c%22product_code%22%3a%22QUICK_MSECURITY_PAY%22%2c%22subject%22%3a%22%e5%8d%87%e7%ba%a7%e4%bc%9a%e5%91%98%22%2c%22timeout_express%22%3a%2250m%22%2c%22total_amount%22%3a%220.01%22%7d&charset=UTF-8&format=json&method=alipay.trade.app.pay&notify_url=http%3a%2f%2f139.155.8.217%2fapi%2fAlipay%2fNotifyurl&sign_type=RSA2&timestamp=2019-09-19+15%3a09%3a12&version=1.0&sign=JwV4QwpHc8%2f%2bO3Udl%2bGw2uCa%2btPY%2bbbNnVwzz7c2VI%2bX5PXAxT2qeaNHys5PGd4a617G%2fNkHMPQWYceCvH1bXC5cln%2bf%2fJLg9%2fhlmstgqeBANS02dnqArHxQYs4MJMtYpLVT40beYYbfJT0eNt1stBc6Y0JvvRLteZm0H03YppgBeNgjlQj5eETPNl7qlF%2fOEKIOEIkKU47vG1dBDR1%2bF64%2bdvFgwXqBTKyBAOW1geuRSctoWytUTE%2fLx%2bgnmMgLOTnDwM4aEyy0ny3xWPhB5tBKBK3MlZRCrlJRg1lfQ8ys1N5BYGdphwzQf8nzZ5USEl%2bWRyzhRlWTpvbc9JUq6Q%3d%3d',
         success: e => {
           console.log("success", e);
-          uni.showToast({
-            title: "支付成功!"
+          uni.showModal({
+            title: "提示",
+            content: "您已升级成功!",
+            success: function(res) {
+              uni.navigateBack({
+                delta: 1
+              });
+            }
           });
         },
         fail: e => {
