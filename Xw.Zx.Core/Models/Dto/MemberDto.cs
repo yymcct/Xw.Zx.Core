@@ -28,6 +28,10 @@ namespace Xw.Zx.Core.Models.Dto
         public int Id { get; set; }
         public MemberVipType MemberVipType { get; set; }
         public string Phone { get; set; }
+        //一代
+        public int FirstChildCnt { get; set; }
+        public int SecondChildCnt { get; set; }
+        //二代
         public DateTime CreateDate { get; set; } = DateTime.Now;
     }
 

@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@dcloudio/uni-app-plus": "*",
-    "@dcloudio/uni-h5": "*",
+    "@dcloudio/uni-h5": "^0.9.0",
     "@dcloudio/uni-helper-json": "*",
     "@dcloudio/uni-mp-alipay": "*",
     "@dcloudio/uni-mp-baidu": "*",
@@ -41,9 +41,9 @@
   "devDependencies": {
     "@dcloudio/uni-cli-shared": "*",
     "@dcloudio/uni-template-compiler": "*",
-    "@dcloudio/vue-cli-plugin-hbuilderx": "latest",
-    "@dcloudio/vue-cli-plugin-uni": "latest",
-    "@dcloudio/vue-cli-plugin-uni-optimize": "latest",
+    "@dcloudio/vue-cli-plugin-hbuilderx": "^2.0.0-23120190920002",
+    "@dcloudio/vue-cli-plugin-uni": "^2.0.0-23120190920002",
+    "@dcloudio/vue-cli-plugin-uni-optimize": "^2.0.0-23120190920002",
     "@dcloudio/webpack-uni-mp-loader": "*",
     "@dcloudio/webpack-uni-pages-loader": "*",
     "@types/html5plus": "*",
@@ -53,7 +53,7 @@
     "babel-plugin-import": "^1.11.0",
     "cross-env": "^5.2.1",
     "mini-types": "*",
-    "miniprogram-api-typings": "^2.8.0-2",
+    "miniprogram-api-typings": "^2.8.3",
     "postcss-comment": "^2.0.0",
     "vue-template-compiler": "^2.6.10"
   },

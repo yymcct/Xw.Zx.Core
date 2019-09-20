@@ -102,27 +102,16 @@ namespace Xw.Zx.Core.Controllers
         [Authorize]
         public HbzsResult<MyTeamDto> GetMyTeam()
         {
-            DateTime dtToday = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));//今天
-            DateTime dtNexDay = Convert.ToDateTime(DateTime.Now.AddDays(1).ToString("yyyy-MM-dd"));//明天
-            DateTime dtWeekDay = Convert.ToDateTime(DateTime.Now.AddDays(7).ToString("yyyy-MM-dd"));//一周
-            DateTime dtMonthFirstday = Convert.ToDateTime(new DateTime(DateTime.Now.Year, DateTime.Now.AddMonths(1).Month, 1).ToString("yyyy-MM-dd"));//本月
-            DateTime dtThreeMonth = Convert.ToDateTime(new DateTime(DateTime.Now.Year, DateTime.Now.AddMonths(-3).Month, 1).ToString("yyyy-MM-dd"));//3个月
-            DateTime dtYearFirstday = Convert.ToDateTime(new DateTime(DateTime.Now.Year, 1, 1).ToString("yyyy-MM-dd"));//今年
+
 
             try
             {
                 MyTeamDto myTeamDto = new MyTeamDto();
-                myTeamDto.UserTotal = _context.Members
-                    .Where(m => m.Disabled == false && m.InviteId == Member.Id)
-                    .Count();
+                myTeamDto.UserTotal = GetFirstChildCnt(Member.Id) + GetSecondChildCnt(Member.Id);
 
-                myTeamDto.DayTotal = _context.Members
-                              .Where(m => m.Disabled == false && m.InviteId == Member.Id && m.CreateDate >= dtToday && m.CreateDate < dtNexDay)
-                              .Count();
+                myTeamDto.DayTotal = GetFirstChildCnt(Member.Id, ChildCntDay.今天) + GetSecondChildCnt(Member.Id, ChildCntDay.今天);
 
-                myTeamDto.MonthTotal = _context.Members
-                          .Where(m => m.Disabled == false && m.InviteId == Member.Id && m.CreateDate >= dtToday && m.CreateDate < dtMonthFirstday)
-                          .Count();
+                myTeamDto.MonthTotal = GetFirstChildCnt(Member.Id, ChildCntDay.本月) + GetSecondChildCnt(Member.Id, ChildCntDay.本月);
 
                 return new HbzsResult<MyTeamDto>(myTeamDto);
             }
@@ -135,17 +124,17 @@ namespace Xw.Zx.Core.Controllers
 
         /// <summary>
         /// 获取未绑定银行卡的用户
-        /// filter:0 全部 1:待注册
+        /// filter:0 全部 1:待绑卡
         /// </summary>
         /// <returns></returns>
         [HttpGet]
         [Authorize]
-        public HbzsResult<List<MyTeamUserDto>> GetMyTeamNoCardUser(int filter)
+        public HbzsResult<List<MyTeamUserDto>> GetMyFirstTeamUser(int memberId, int filter)
         {
             try
             {
                 var db = _context.Members
-                          .Where(m => m.Disabled == false && m.InviteId == Member.Id);
+                          .Where(m => m.Disabled == false && m.InviteId == memberId);
 
                 if (filter == 1)
                 {
@@ -154,6 +143,13 @@ namespace Xw.Zx.Core.Controllers
 
                 var users = _mapper.Map<List<MyTeamUserDto>>(db.ToList());
 
+                users = users.Select(u =>
+                {
+                    u.FirstChildCnt = GetFirstChildCnt(u.Id);
+                    u.SecondChildCnt = GetSecondChildCnt(u.Id);
+                    return u;
+                }).ToList();
+
                 return new HbzsResult<List<MyTeamUserDto>>(users);
             }
             catch (Exception ex)
@@ -161,6 +157,57 @@ namespace Xw.Zx.Core.Controllers
                 _logger.LogError(ex.Message);
                 return new HbzsResult<List<MyTeamUserDto>>(HbzsResultCode.Invalid_Error, ex.Message);
             }
+        }
+
+
+
+
+        private enum ChildCntDay
+        {
+            所有 = 0,
+            今天 = 1,
+            本月 = 2
+        }
+        private int GetFirstChildCnt(int memberID, ChildCntDay childCntDay = ChildCntDay.所有)
+        {
+            DateTime dtToday = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));//今天
+            DateTime dtNexDay = Convert.ToDateTime(DateTime.Now.AddDays(1).ToString("yyyy-MM-dd"));//明天
+            DateTime dtWeekDay = Convert.ToDateTime(DateTime.Now.AddDays(7).ToString("yyyy-MM-dd"));//一周
+            DateTime dtMonthFirstday = Convert.ToDateTime(new DateTime(DateTime.Now.Year, DateTime.Now.AddMonths(1).Month, 1).ToString("yyyy-MM-dd"));//本月
+            DateTime dtThreeMonth = Convert.ToDateTime(new DateTime(DateTime.Now.Year, DateTime.Now.AddMonths(-3).Month, 1).ToString("yyyy-MM-dd"));//3个月
+            DateTime dtYearFirstday = Convert.ToDateTime(new DateTime(DateTime.Now.Year, 1, 1).ToString("yyyy-MM-dd"));//今年
+
+            var db = _context.Members.Where(m => m.Disabled == false && m.InviteId == memberID);
+            if (childCntDay == ChildCntDay.今天)
+            {
+                db = db.Where(m => m.CreateDate >= dtToday && m.CreateDate < dtNexDay);
+            }
+
+            if (childCntDay == ChildCntDay.本月)
+            {
+                db = db.Where(m => m.CreateDate >= dtToday && m.CreateDate < dtMonthFirstday);
+            }
+
+
+            return db.Count();
+        }
+
+        private int GetSecondChildCnt(int memberId, ChildCntDay childCntDay = ChildCntDay.所有)
+        {
+            DateTime dtToday = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));//今天
+            DateTime dtNexDay = Convert.ToDateTime(DateTime.Now.AddDays(1).ToString("yyyy-MM-dd"));//明天
+            DateTime dtWeekDay = Convert.ToDateTime(DateTime.Now.AddDays(7).ToString("yyyy-MM-dd"));//一周
+            DateTime dtMonthFirstday = Convert.ToDateTime(new DateTime(DateTime.Now.Year, DateTime.Now.AddMonths(1).Month, 1).ToString("yyyy-MM-dd"));//本月
+            DateTime dtThreeMonth = Convert.ToDateTime(new DateTime(DateTime.Now.Year, DateTime.Now.AddMonths(-3).Month, 1).ToString("yyyy-MM-dd"));//3个月
+            DateTime dtYearFirstday = Convert.ToDateTime(new DateTime(DateTime.Now.Year, 1, 1).ToString("yyyy-MM-dd"));//今年
+
+            var cnt = 0;
+            var first = _context.Members.Where(m => m.Disabled == false && m.InviteId == memberId).ToList();
+            foreach (var f in first)
+            {
+                cnt += GetFirstChildCnt(f.Id, childCntDay);
+            }
+            return cnt;
         }
 
         /// <summary>

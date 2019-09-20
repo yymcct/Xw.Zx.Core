@@ -20,7 +20,7 @@
         <m-input type="text" focus displayable v-model="card.cardNum" placeholder="请输入信用卡号"></m-input>
       </view>
       <view class="input-row border">
-        <text class="title">邮箱：</text>
+        <text class="title">账单邮箱：</text>
         <m-input type="text" displayable v-model="card.email" placeholder="请输入账单邮箱"></m-input>
       </view>
       <view class="input-row border">

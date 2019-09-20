@@ -13,8 +13,8 @@
         <m-input type="password" displayable v-model="password" placeholder="请输入密码"></m-input>
       </view>
       <view class="input-row border">
-        <text class="title">邮&nbsp;&nbsp;&nbsp;箱：</text>
-        <m-input type="text" v-model="email" clearable placeholder="请输入邮箱"></m-input>
+        <text class="title">账单邮箱：</text>
+        <m-input type="text" v-model="email" clearable placeholder="请输入账单邮箱"></m-input>
       </view>
       <view class="input-row">
         <text class="title">邀请人：</text>

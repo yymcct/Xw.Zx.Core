@@ -39,7 +39,7 @@
           class="card"
           @click="bindClick(iteam.id)"
         >
-          <uni-swipe-action :options="options1">
+          <uni-swipe-action :options="options1" :show-arrow="true">
             <view class="uni-triplex-row crd">
               <view class="uni-triplex-left">
                 <text class="uni-title uni-ellipsis">{{iteam.phone}}</text>
@@ -47,7 +47,12 @@
                 <text class="uni-text-small uni-ellipsis">注册时间: {{iteam.createDate}}</text>
               </view>
               <view class="uni-triplex-right">
-                <text class="uni-h5"></text>
+                <text class="uni-h5">直接:{{iteam.firstChildCnt}}</text>
+                <br />
+                <text class="uni-h5">间接:{{iteam.secondChildCnt}}</text>
+              </view>
+              <view class="uni-triplex-right uni-list-item__extra">
+                <uni-icon :size="20" class="uni-icon-wrapper" color="#bbb" type="arrowright" />
               </view>
             </view>
           </uni-swipe-action>
@@ -57,6 +62,7 @@
   </view>
 </template>
 <script>
+import uniIcon from "@/components/uni-icon/uni-icon.vue";
 import segmentedControl from "../../components/segmented-control/segmented-control";
 import uniSwipeAction from "@/components/uni-swipe-action/uni-swipe-action.vue";
 export default {
@@ -85,7 +91,9 @@ export default {
         uni.request({
           url: `${
             this.baseUrl
-          }/api/Member/GetMyTeamNoCardUser?filter=${this.current.toString()}`,
+          }/api/Member/GetMyFirstTeamUser?filter=${this.current.toString()}&memberId=${
+            this.user.id
+          }`,
           method: "GET",
           header: {
             "Content-Type": "application/json",
@@ -122,9 +130,16 @@ export default {
       uni.navigateTo({
         url: "../user/pay"
       });
+    },
+
+    bindClick: function(id) {
+      uni.navigateTo({
+        url:`../user/myteamsecond?memberid=${id}`
+      });
     }
   },
   components: {
+    uniIcon,
     segmentedControl,
     uniSwipeAction
   },
@@ -185,7 +200,7 @@ export default {
     });
 
     uni.request({
-      url: `${this.baseUrl}/api/Member/GetMyTeamNoCardUser?filter=0`,
+      url: `${this.baseUrl}/api/Member/GetMyFirstTeamUser?filter=0&memberId=${this.user.id}`,
       method: "GET",
       header: {
         "Content-Type": "application/json",
@@ -241,7 +256,7 @@ export default {
   margin-right: 20px;
 }
 .invite {
-   color: #999;
+  color: #999;
 }
 .head {
   display: flex;
@@ -278,6 +293,13 @@ export default {
   font-weight: bolder;
   font-size: 18px;
 }
+.uni-list-item__extra {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
 [v-cloak] {
   display: none;
 }

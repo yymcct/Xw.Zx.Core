@@ -1,5 +1,8 @@
 <template>
   <view class="container">
+    <view class="dsq">
+      您想知道您被银行多收过钱吗?<br/>扫码注册送钱宝,立刻知道被银行多收了多少钱!
+    </view>
     <view class="qrimg">
       <view class="qrimg-i">
         <tki-qrcode
@@ -14,7 +17,7 @@
       </view>
     </view>
     <view class="title">
-      <view class="uni-title">请截图后分享</view>
+      <view class="uni-title">请截图分享</view>
     </view>
   </view>
 </template>
@@ -54,13 +57,17 @@ export default {
 .container {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  padding: 20px;
+}
+.dsq{
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .qrimg {
   display: flex;
   justify-content: center;
-  margin-top: 50px;
+  margin-top: 30px;
 }
 .title {
   display: flex;
@@ -69,5 +76,6 @@ export default {
 }
 .uni-title {
   display: block;
+  color: #999;
 }
 </style>

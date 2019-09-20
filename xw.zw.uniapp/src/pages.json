@@ -11,6 +11,12 @@
             }
         },
         {
+            "path": "pages/user/myteamsecond",
+            "style": {
+                "navigationBarTitleText": "我的间接团队"
+            }
+        },
+        {
             "path": "pages/user/income",
             "style": {
                 "navigationBarTitleText": "我的收益"
@@ -86,6 +92,11 @@
             "style": {
                 "navigationBarTitleText": "账单详情"
             }
+        }, {
+            "path": "pages/life/life",
+            "style": {
+                "navigationBarTitleText": "信用生活"
+            }
         }
     ],
     "tabBar": {
@@ -97,6 +108,12 @@
                 "text": "首页",
                 "iconPath": "static/img/home.png",
                 "selectedIconPath": "static/img/homeHL.png"
+            },
+            {
+                "pagePath": "pages/life/life",
+                "text": "信用生活",
+                "iconPath": "static/img/template.png",
+                "selectedIconPath": "static/img/templateHL.png"
             },
             {
                 "pagePath": "pages/user/user",
