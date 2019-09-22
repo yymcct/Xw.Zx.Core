@@ -18,6 +18,9 @@
     <navigator url="../cards/addcard" hover-class="navigator-hover">
       <button type="primary">添加信用卡</button>
     </navigator>
+	<navigator url="../user/web" hover-class="navigator-hover">
+	  <button type="primary">QQ邮箱导入</button>
+	</navigator>
   </view>
 </template>
 
