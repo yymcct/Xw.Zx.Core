@@ -13,7 +13,7 @@ namespace Xw.Zx.Core.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [Authorize]
+  
     public class SyncController : BaseController
     {
         private readonly ILogger<SyncController> _logger;
@@ -31,6 +31,7 @@ namespace Xw.Zx.Core.Controllers
         {
             try
             {
+                _logger.LogWarning($"恭喜 收到:{syncDto.Mail}{syncDto.Sid}{syncDto.Cookie}");
                 (var isOK, var msg) = await _syncService.SyncAsync(syncDto);
 
                 return isOK ? new HbzsResult(HbzsResultCode.Sucess)
