@@ -182,6 +182,37 @@ namespace Xw.Zx.Core.Controllers
             }
         }
 
+
+        /// <summary>
+        /// 获取自己名下的银行卡信息, 可检索, 排序, 分页      
+        /// </summary>
+        /// <param name="sieveModel"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public HbzsResult<List<BankBillDetailDto>> GetBankBillDetail([FromQuery]SieveModel sieveModel)
+        {
+            try
+            {
+                var db = _context.BankBillDetails
+                    .AsNoTracking()
+                    .Where(b => b.MemberID == Member.Id);
+
+                var cards = _sieveProcessor
+                    .Apply(sieveModel, db)
+                    .ToList();
+
+                var res = _mapper.Map<List<BankBillDetailDto>>(cards);
+
+                return new HbzsResult<List<BankBillDetailDto>>(res);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new HbzsResult<List<BankBillDetailDto>>(HbzsResultCode.Invalid_Error, ex.Message);
+            }
+        }
+
+
         /// <summary>
         /// 一键同步
         /// </summary>

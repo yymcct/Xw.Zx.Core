@@ -10,8 +10,9 @@ namespace Xw.Zx.Core.Service.Parse
 {
     public class ZhaoShangParse : IMailParse
     {
-        public List<BankBillDetail> Parse(string content)
+        public List<BankBillDetail> Parse(MailSrc mail)
         {
+            var content = mail.BodyText;
             var details = new List<BankBillDetail>();
             try
             {
@@ -23,17 +24,21 @@ namespace Xw.Zx.Core.Service.Parse
                     || arrays[8] != "商户名称"
                     || arrays[9] != "交易金额")
                 {
-                    new Exception($"ZhaoShangParse:{content}");
+                    throw new Exception($"ZhaoShangParse:{content}");
                 }
 
                 if ((arrays.Length - 1 - 10) % 6 != 0)
-                    new Exception($"ZhaoShangParse:{content}");
+                    throw new Exception($"ZhaoShangParse:{content}");
 
                 for (int i = 10; i < arrays.Length - 1;)
                 {
-                    var detail = new BankBillDetail();
+                    var detail = new BankBillDetail()
+                    {
+                        MemberID = mail.MemberId,
+                        MailId = mail.Id
+                    };
 
-                    detail.BankCardId = arrays[i++];
+                    detail.CardNum = arrays[i++];
 
                     detail.TreadTime = DateTime.ParseExact(arrays[i++] + " " + arrays[i++], "yyyyMMdd HH:mm:ss", new CultureInfo("zh-CN", true));
                     detail.Unit = arrays[i++];
@@ -41,13 +46,16 @@ namespace Xw.Zx.Core.Service.Parse
                     detail.Amount = decimal.Parse(arrays[i++]);
                     details.Add(detail);
                 }
+
+                return details;
             }
             catch (Exception ex)
             {
-                throw new Exception("账单解析异常:"+ex.Message);
+
+                //throw new Exception("账单解析异常:" + ex.Message);
             }
-                      
-            return details;
+
+            return null ;
         }
     }
 }

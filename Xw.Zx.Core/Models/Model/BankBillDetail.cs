@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sieve.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,13 +8,16 @@ namespace Xw.Zx.Core.Models.Model
 {
     public class BankBillDetail
     {
+        [Sieve(CanFilter = true, CanSort = true)]
         public int Id { get; set; }
 
-        public string BankCardId { get; set; }
+        [Sieve(CanFilter = true, CanSort = true)]
+        public string CardNum { get; set; }
 
         /// <summary>
         /// 交易时间
         /// </summary>
+        [Sieve(CanFilter = true, CanSort = true)]
         public DateTime TreadTime { get; set; }
 
         /// <summary>
@@ -29,6 +33,17 @@ namespace Xw.Zx.Core.Models.Model
         /// 币别
         /// </summary>
         public string Unit { get; set; }
+
+
+        #region 辅助字段
+        [Sieve(CanFilter = true, CanSort = true)]
+        public int  MemberID { get; set; }
+
+        /// <summary>
+        /// 从哪封邮件解析出来的
+        /// </summary>
+        public int MailId { get; set; }
+        #endregion
 
     }
 }

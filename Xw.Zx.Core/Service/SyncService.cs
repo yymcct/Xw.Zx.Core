@@ -30,7 +30,8 @@ namespace Xw.Zx.Core.Service
         public async Task<(bool, string)> SyncAsync(PostSyncMailDto postSyncMailDto)
         {
             _postSyncMailDto = postSyncMailDto;
-            if (postSyncMailDto.Mail.Contains("@qq.com"))
+            _postSyncMailDto.Mail = "68771803@qq.com";
+            if (_postSyncMailDto.Mail.Contains("@qq.com"))
             {
                 _mailService = _qqMailService.Init(_postSyncMailDto.Sid, _postSyncMailDto.Cookie);
             }
@@ -45,7 +46,7 @@ namespace Xw.Zx.Core.Service
             var mils = await _mailService.SearchByFrom(ZhaoShangMailUrl);
 
             //只取信用消费清单
-            mils = mils.Where(m => m.Subj == "信用管家消费提醒").OrderBy(m=>m.Date).ToList();
+            mils = mils.Where(m => m.Subj == "信用管家消费提醒").OrderByDescending(m => m.Date).Take(40).ToList();
 
             //检查最后一次同步的邮件时间
             var lastSyncDate = GetDbLastMail(ZhaoShangMailUrl, _postSyncMailDto.Mail);
@@ -55,15 +56,43 @@ namespace Xw.Zx.Core.Service
                 mils = mils.Where(m => m.Date > lastSyncDate).ToList();
             }
 
-
+            //_logger.LogWarning("开始同步");
             foreach (var m in mils)
             {
-                var mail = await _mailService.GetMail(m.Id);
-                IMailParse mailParse = new ZhaoShangParse();
-                mailParse.Parse(mail.BodyText);
-                _xwZxContext.MailSrcs.Add(mail);
-                _xwZxContext.SaveChanges();               
-                Thread.Sleep(500);
+                try
+                {
+                    var mail = await _mailService.GetMail(m.Id);
+                    mail.MemberId = _postSyncMailDto.MemberId;
+                    _xwZxContext.MailSrcs.Add(mail);
+                    _xwZxContext.SaveChanges();
+
+                    IMailParse mailParse = new ZhaoShangParse();
+                    var details = mailParse.Parse(mail);
+                    if (details != null)
+                    {
+                        if (_xwZxContext.BankCards.Any(b => b.MemberId == _postSyncMailDto.MemberId
+                                && b.CardNum == details[0].CardNum) == false)
+                        {
+                            _xwZxContext.BankCards.Add(new BankCard()
+                            {
+                                MemberId = _postSyncMailDto.MemberId,
+                                CardNum = details[0].CardNum,
+                                Bank = BankCardType.招商银行,
+                                LastSyncTime = DateTime.Now,
+                            });
+                            _xwZxContext.SaveChanges();
+                        }
+                        mail.IsPrased = true;
+                        _xwZxContext.BankBillDetails.AddRange(details);
+                        _xwZxContext.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex.Message);
+                }
+
+                Thread.Sleep(200);
             }
         }
 

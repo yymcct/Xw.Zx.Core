@@ -8,7 +8,12 @@
         <button type="primary" size="mini" @click="zhuxi">申请追息</button>
       </view>
     </view>
-    <view v-for="iteam in cardList" v-bind:key="iteam.id" class="card" @click="bindClick(iteam.id)">
+    <view
+      v-for="iteam in cardList"
+      v-bind:key="iteam.id"
+      class="card"
+      @click="bindClick(iteam.cardNum)"
+    >
       <uni-swipe-action :options="options1">
         <view class="uni-triplex-row crd">
           <view class="uni-triplex-left">
@@ -32,6 +37,9 @@
     <view class="btn">
       <button :disabled="!btnEnable" type="primary" @click="oneKeySync">{{btnText}}</button>
     </view>
+    <view class="btn">
+      <button  type="primary" @click="getBankCard">刷新QQ邮箱导入</button>
+    </view>
   </view>
 </template>
 
@@ -44,6 +52,7 @@ export default {
   },
   data() {
     return {
+      user:null,
       btnText: "一键同步",
       btnEnable: true,
       options1: [
@@ -61,7 +70,7 @@ export default {
   methods: {
     bindClick(value) {
       uni.navigateTo({
-        url: `../cards/content?id=${value}`
+        url: `../cards/carddetail?cardnum=${value}`
       });
     },
     oneKeySync() {
@@ -116,64 +125,63 @@ export default {
         content: "您的申请已收到, 客服稍后回访,请保持电话畅通!",
         success: function(res) {
           if (res.confirm) {
-            
           } else if (res.cancel) {
-            
           }
+        }
+      });
+    },
+    getBankCard: function() {
+      uni.request({
+        url: `${this.baseUrl}/api/BankCard/Gets?&sorts=id&Page=1&PageSize=100`,
+        method: "GET",
+        header: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ` + this.user.token
+        },
+        success: res => {
+          if (res.data.statusCode == 200) {
+            this.cardList = res.data.result;
+            // console.log(this.cardList);
+            if (this.cardList.length == 0) {
+              uni.showModal({
+                title: "提示",
+                content: "请添加银行卡!",
+                success: function(res) {
+                  if (res.confirm) {
+                    uni.navigateTo({ url: "../cards/addcard" }); //TODO 导航下载APP
+                  }
+                }
+              });
+            }
+          } else {
+            uni.showToast({
+              icon: "none",
+              title: res.data.msg
+            });
+          }
+        },
+        fail: () => {
+          uni.showToast({
+            icon: "none",
+            title: "网络异常"
+          });
         }
       });
     }
   },
   onLoad: function() {
-    let user = this.getUser("../main/main");
-    console.log(user);
-    if (!user) {
+    this.user = this.getUser("../main/main");
+    console.log(this.user);
+    if (!this.user) {
       return false;
     }
-
-    uni.request({
-      url: `${this.baseUrl}/api/BankCard/Gets?&sorts=id&Page=1&PageSize=100`,
-      method: "GET",
-      header: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ` + user.token
-      },
-      success: res => {
-        if (res.data.statusCode == 200) {
-          this.cardList = res.data.result;
-          // console.log(this.cardList);
-          if (this.cardList.length == 0) {
-            uni.showModal({
-              title: "提示",
-              content: "请添加银行卡!",
-              success: function(res) {
-                if (res.confirm) {
-                  uni.navigateTo({ url: "../cards/addcard" }); //TODO 导航下载APP
-                }
-              }
-            });
-          }
-        } else {
-          uni.showToast({
-            icon: "none",
-            title: res.data.msg
-          });
-        }
-      },
-      fail: () => {
-        uni.showToast({
-          icon: "none",
-          title: "网络异常"
-        });
-      }
-    });
-
+    this.getBankCard();
     uni.request({
       url: `${this.baseUrl}/api/BankCard/GetCardTotal`,
       method: "GET",
       header: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ` + user.token
+        Authorization: `Bearer ` + this.user.token
       },
       success: res => {
         if (res.data.statusCode == 200) {

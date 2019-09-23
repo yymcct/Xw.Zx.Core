@@ -38,7 +38,7 @@ namespace Xw.Zx.Core.Models.Model
         /// </summary>
         public DateTime? LastSyncTime { get; set; }
 
-        public bool LastSyncIsOk { get; set; }
+        public bool LastSyncIsOk { get; set; } = false;
 
         /// <summary>
         /// 滞纳金, 同步时进行更新

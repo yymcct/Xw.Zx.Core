@@ -61,7 +61,7 @@ namespace Xw.Zx.Core.Service
             string resStr = "";
             try
             {
-                string uri = $"/cgi-bin/mail_list?ef=js&sid={_sid}&t=mobile_data.json&s=list&cursor=max&cursorcount=200&cursorsearch=1&folderid=all&sender={fromMail}&combinetype=or&device=unknow&app=phone&ver=app";
+                string uri = $"/cgi-bin/mail_list?ef=js&sid={_sid}&t=mobile_data.json&s=list&cursor=max&cursorcount=100&cursorsearch=1&folderid=all&sender={fromMail}&combinetype=or&device=unknow&app=phone&ver=app";
 
                 resStr = await _client.GetStringAsync(uri);
                 JObject res = JObject.Parse(resStr);

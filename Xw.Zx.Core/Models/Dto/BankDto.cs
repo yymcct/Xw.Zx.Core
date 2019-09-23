@@ -44,4 +44,27 @@ namespace Xw.Zx.Core.Models.Dto
 
         public List<BankBill> cardBills { get; set; }
     }
+
+    public class BankBillDetailDto
+    {
+        public int Id { get; set; }
+
+        public string BankCardId { get; set; }
+
+        /// <summary>
+        /// 交易时间
+        /// </summary>
+        public DateTime TreadTime { get; set; }
+
+        /// <summary>
+        /// 商户名
+        /// </summary>
+        public string SellerName { get; set; }
+
+        /// <summary>
+        /// 交易额
+        /// </summary>
+        public decimal Amount { get; set; }
+       
+    }
 }

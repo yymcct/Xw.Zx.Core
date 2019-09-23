@@ -16,6 +16,7 @@ namespace Xw.Zx.Core.Config.AutoMapper
             CreateMap<PostBankDto, BankCard>().ReverseMap();
             CreateMap<BankCard, BankInfoDto>();
             CreateMap<Member, MyTeamUserDto>();
+            CreateMap<BankBillDetail, BankBillDetailDto>();
         }
     }
 }

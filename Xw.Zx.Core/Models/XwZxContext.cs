@@ -17,9 +17,24 @@ namespace Xw.Zx.Core.Models.Model
 
         public DbSet<MailSrc> MailSrcs { get; set; }
 
+        #region 信用卡
+
+        /// <summary>
+        /// 信用卡
+        /// </summary>
         public DbSet<BankCard> BankCards { get; set; }
 
+        /// <summary>
+        /// 信用卡月账单
+        /// </summary>
         public DbSet<BankBill> BankBills { get; set; }
+
+        /// <summary>
+        /// 消费明细账单
+        /// </summary>
+        public DbSet<BankBillDetail> BankBillDetails { get; set; }
+        
+        #endregion
 
         public DbSet<Product> Products { get; set; }
 

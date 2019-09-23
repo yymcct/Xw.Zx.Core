@@ -20,7 +20,7 @@
 			if (!this.user) {
 				return false;
 			}
-			this.loginurl = `${this.baseUrl}/#/pages/reg/invitereg?id=${this.user.id.toString()}`;
+			this.loginurl = `${this.baseUrl}/api/Member/GetInviteUserPhone?id=${this.user.id.toString()}`;
 			console.log(this.loginurl);
 		},
 		onReady() {

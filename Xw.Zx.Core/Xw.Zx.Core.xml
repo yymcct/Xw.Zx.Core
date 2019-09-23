@@ -43,6 +43,13 @@
             </summary>
             <param name="id"></param>
         </member>
+        <member name="M:Xw.Zx.Core.Controllers.BankCardController.GetBankBillDetail(Sieve.Models.SieveModel)">
+            <summary>
+            获取自己名下的银行卡信息, 可检索, 排序, 分页      
+            </summary>
+            <param name="sieveModel"></param>
+            <returns></returns>
+        </member>
         <member name="M:Xw.Zx.Core.Controllers.BankCardController.Sync">
             <summary>
             一键同步
@@ -579,6 +586,21 @@
             是否是数值(包括整数和小数)
             </summary>
         </member>
+        <member name="P:Xw.Zx.Core.Models.Dto.BankBillDetailDto.TreadTime">
+            <summary>
+            交易时间
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Dto.BankBillDetailDto.SellerName">
+            <summary>
+            商户名
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Dto.BankBillDetailDto.Amount">
+            <summary>
+            交易额
+            </summary>
+        </member>
         <member name="T:Xw.Zx.Core.Models.Model.BankBill">
             <summary>
             银行卡账单
@@ -624,6 +646,11 @@
             币别
             </summary>
         </member>
+        <member name="P:Xw.Zx.Core.Models.Model.BankBillDetail.MailId">
+            <summary>
+            从哪封邮件解析出来的
+            </summary>
+        </member>
         <member name="P:Xw.Zx.Core.Models.Model.BankCard.LastSyncTime">
             <summary>
             最后同步时间
@@ -657,6 +684,21 @@
         <member name="T:Xw.Zx.Core.Models.Model.Receivable">
             <summary>
             收款表
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.XwZxContext.BankCards">
+            <summary>
+            信用卡
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.XwZxContext.BankBills">
+            <summary>
+            信用卡月账单
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.XwZxContext.BankBillDetails">
+            <summary>
+            消费明细账单
             </summary>
         </member>
         <member name="M:Xw.Zx.Core.Service.SyncService.GetDbLastMail(System.String,System.String)">

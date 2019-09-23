@@ -16,6 +16,8 @@ namespace Xw.Zx.Core.Models.Model
     {
         public int Id { get; set; }
 
+        public int MemberId { get; set; }
+
         public string Uid { get; set; }
 
         public string Sublic { get; set; }
@@ -30,6 +32,9 @@ namespace Xw.Zx.Core.Models.Model
 
         public DateTime SendTime { get; set; }
 
-        public DateTime AddTime { get; set; }
+        public DateTime AddTime { get; set; } = DateTime.Now;
+
+        public bool IsPrased { get; set; } = false;
+
     }
 }

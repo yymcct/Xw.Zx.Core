@@ -8,6 +8,6 @@ namespace Xw.Zx.Core.Service.Parse
 {
     interface IMailParse
     {
-        List<BankBillDetail> Parse(string content);
+        List<BankBillDetail> Parse(MailSrc mail);
     }
 }
