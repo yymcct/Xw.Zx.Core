@@ -50,12 +50,6 @@
             <param name="sieveModel"></param>
             <returns></returns>
         </member>
-        <member name="M:Xw.Zx.Core.Controllers.BankCardController.Sync">
-            <summary>
-            一键同步
-            </summary>
-            <returns></returns>
-        </member>
         <member name="F:Xw.Zx.Core.Controllers.HbzsResultCode.Remote_Service_Error">
             <summary>
             远程服务错误
@@ -701,7 +695,7 @@
             消费明细账单
             </summary>
         </member>
-        <member name="M:Xw.Zx.Core.Service.SyncService.GetDbLastMail(System.String,System.String)">
+        <member name="M:Xw.Zx.Core.Service.SyncService.GetDbLastMail(System.String,System.Int32)">
             <summary>
             获取最后一次同步的ID
             </summary>

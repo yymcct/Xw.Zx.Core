@@ -35,10 +35,7 @@
       </uni-swipe-action>
     </view>
     <view class="btn">
-      <button :disabled="!btnEnable" type="primary" @click="oneKeySync">{{btnText}}</button>
-    </view>
-    <view class="btn">
-      <button  type="primary" @click="getBankCard">刷新QQ邮箱导入</button>
+      <button type="primary" @click="getBankCard">更新账单</button>
     </view>
   </view>
 </template>
@@ -52,8 +49,7 @@ export default {
   },
   data() {
     return {
-      user:null,
-      btnText: "一键同步",
+      user: null,
       btnEnable: true,
       options1: [
         {
@@ -71,34 +67,6 @@ export default {
     bindClick(value) {
       uni.navigateTo({
         url: `../cards/carddetail?cardnum=${value}`
-      });
-    },
-    oneKeySync() {
-      let user = this.getUser("../main/main");
-      uni.request({
-        url: `${this.baseUrl}/api/BankCard/Sync`,
-        method: "GET",
-        header: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ` + user.token
-        },
-        success: res => {
-          if (res.data.statusCode == 200) {
-            this.btnEnable = false;
-            this.btnText = "努力同步中,约10分钟..";
-          } else {
-            uni.showToast({
-              icon: "none",
-              title: res.data.msg
-            });
-          }
-        },
-        fail: () => {
-          uni.showToast({
-            icon: "none",
-            title: "网络异常"
-          });
-        }
       });
     },
     getBankName(bankid) {

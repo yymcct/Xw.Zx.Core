@@ -1,6 +1,7 @@
 ﻿using Sieve.Attributes;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -43,6 +44,7 @@ namespace Xw.Zx.Core.Models.Model
         /// <summary>
         /// 滞纳金, 同步时进行更新
         /// </summary>
+        [Column(TypeName = "decimal(8, 2)")]
         public decimal OverdueFine { get; set; } = 0;
 
         //创建日期

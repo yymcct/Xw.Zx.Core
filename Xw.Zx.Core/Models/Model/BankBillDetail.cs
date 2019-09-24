@@ -1,6 +1,7 @@
 ﻿using Sieve.Attributes;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,7 +19,7 @@ namespace Xw.Zx.Core.Models.Model
         /// 交易时间
         /// </summary>
         [Sieve(CanFilter = true, CanSort = true)]
-        public DateTime TreadTime { get; set; }
+        public DateTime? TreadTime { get; set; }
 
         /// <summary>
         /// 商户名
@@ -28,6 +29,7 @@ namespace Xw.Zx.Core.Models.Model
         /// <summary>
         /// 交易额
         /// </summary>
+        [Column(TypeName = "decimal(8, 2)")]
         public decimal Amount { get; set; }
         /// <summary>
         /// 币别

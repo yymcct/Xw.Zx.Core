@@ -15,5 +15,6 @@ namespace Xw.Zx.Core.Models.Dto
         public string Mail { get; set; }
         public string Sid { get; set; }
         public string Cookie { get; set; }
+        public DateTime? LastTime { get; set; }
     }
 }

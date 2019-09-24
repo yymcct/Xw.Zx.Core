@@ -84,6 +84,34 @@ namespace Xw.Zx.Core.Service
             return null;
         }
 
+        public async Task<List<MailInfoDto>> SearchByFrom(string fromMail, string keyword)
+        {
+            string resStr = "";
+            try
+            {
+                //string uri = $"/cgi-bin/mail_list?ef=js&sid={_sid}&t=mobile_data.json&s=list&cursor=max&cursorcount=100&cursorsearch=1&folderid=all&sender={fromMail}&combinetype=or&device=unknow&app=phone&ver=app";
+                string uri = $"/cgi-bin/mail_list?ef=js&sid={_sid}&t=mobile_data.json&s=list&searchmode=advance&page=0&topmails=0&subject={keyword}&receiver=&sender=ccsvc%40message.cmbchina.com&advancesearch=2&flagnew=&attach=&position=0&folderid=all&daterange=8&resp_charset=UTF8";
+                resStr = await _client.GetStringAsync(uri);
+                JObject res = JObject.Parse(resStr);
+                var mls = (JArray)res["mls"];
+
+                var mailInfo = mls.Select(c => new MailInfoDto()
+                {
+                    Id = (string)c["inf"]["id"],
+                    Subj = (string)c["inf"]["subj"],
+                    Date = TypeHelper.UnixTimeToDateTime((int)c["inf"]["date"]),
+                })
+                .ToList();
+
+                return mailInfo;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogDebug($"[SearchByFrom]错误:sid:{_sid};cookies:{_cookies};fromMail:{fromMail};resStr:{resStr};Exception:{ex.Message}");
+            }
+            return null;
+        }
+
         public async Task<MailSrc> GetMail(string mailid)
         {
             string resStr = "";

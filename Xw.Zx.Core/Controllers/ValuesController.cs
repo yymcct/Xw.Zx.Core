@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Xw.Zx.Core.Helper;
 using Xw.Zx.Core.Models.Model;
 using Xw.Zx.Core.Service;
+using Xw.Zx.Core.Service.Parse;
 using Xw.Zx.Core.Utility;
 using IMailService = Xw.Zx.Core.Service.IMailService;
 
@@ -18,20 +19,20 @@ namespace Xw.Zx.Core.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        private readonly IMailService _mailService = null;
+
         private readonly XwZxContext _xwZxContext;
         private readonly ILogger<ValuesController> _logger;
-        private readonly IQQMailService _QQMailSync = null;
+ 
 
-        public ValuesController(IMailService mailService
-            , XwZxContext xwZxContext
+        public ValuesController(
+             XwZxContext xwZxContext
             , ILogger<ValuesController> logger
-            , IQQMailService qQMailSync)
+)
         {
-            _mailService = mailService;
+
             _xwZxContext = xwZxContext;
             _logger = logger;
-            _QQMailSync = qQMailSync;
+
         }
 
         [HttpGet]
@@ -66,10 +67,23 @@ namespace Xw.Zx.Core.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<string>> GetQQmailAsync()
+        public object GetQQmailAsync()
         {
+            var l = _xwZxContext.MailSrcs.Where(m => m.MemberId == 6 && m.BodyText.Contains("循环利息")).ToList();
+            List<BankBillDetail> list= new List<BankBillDetail>();
+            foreach (var t in l)
+            {
+                try
+                {
+                    list = new ZhaoShangParse().Parse2(t);
+                }
+                catch { 
+                
+                }
+               
+            }
 
-            return "执行完毕";
+            return list;
 
         }
 

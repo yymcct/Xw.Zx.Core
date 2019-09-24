@@ -213,44 +213,8 @@ namespace Xw.Zx.Core.Controllers
         }
 
 
-        /// <summary>
-        /// 一键同步
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public HbzsResult Sync()
-        {
-            try
-            {
-                var bankCard = _context.BankCards.Where(b => b.MemberId == Member.Id).ToList();
-                for (var i = 0; i < bankCard.Count; i++)
-                {
 
-                }
 
-                _context.SaveChanges();
-
-                return new HbzsResult(HbzsResultCode.Sucess);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return new HbzsResult(HbzsResultCode.Invalid_Error, ex.Message);
-            }
-        }
-
-        private void SyncBankCard(BankCard bankCard)
-        {
-            Random random = new Random();
-            var isOK = random.Next(10) > 5 ? true : false;
-
-            if (isOK)
-            {
-                bankCard.OverdueFine = decimal.Parse(random.Next(3000).ToString());
-            }
-            bankCard.LastSyncIsOk = isOK;
-            bankCard.LastSyncTime = DateTime.Now;
-        }
         #region 同步信用卡
 
 

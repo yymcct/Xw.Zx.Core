@@ -41,15 +41,14 @@ namespace Xw.Zx.Core.Service
 
         private async Task ZhaoShangSyncAsync()
         {
-
             //同步招商银行
             var mils = await _mailService.SearchByFrom(ZhaoShangMailUrl);
 
             //只取信用消费清单
-            mils = mils.Where(m => m.Subj == "信用管家消费提醒").OrderByDescending(m => m.Date).Take(40).ToList();
+            mils = mils.Where(m => m.Subj == "招商银行信用卡电子账单").OrderByDescending(m => m.Date).ToList();
 
             //检查最后一次同步的邮件时间
-            var lastSyncDate = GetDbLastMail(ZhaoShangMailUrl, _postSyncMailDto.Mail);
+            var lastSyncDate = GetDbLastMail(ZhaoShangMailUrl, _postSyncMailDto.MemberId);
 
             if (lastSyncDate != null)
             {
@@ -63,27 +62,20 @@ namespace Xw.Zx.Core.Service
                 {
                     var mail = await _mailService.GetMail(m.Id);
                     mail.MemberId = _postSyncMailDto.MemberId;
+                    mail.SendTime = m.Date;
                     _xwZxContext.MailSrcs.Add(mail);
                     _xwZxContext.SaveChanges();
 
                     IMailParse mailParse = new ZhaoShangParse();
                     var details = mailParse.Parse(mail);
-                    if (details != null)
+                    if (details != null && details.Count>0)
                     {
-                        if (_xwZxContext.BankCards.Any(b => b.MemberId == _postSyncMailDto.MemberId
-                                && b.CardNum == details[0].CardNum) == false)
-                        {
-                            _xwZxContext.BankCards.Add(new BankCard()
-                            {
-                                MemberId = _postSyncMailDto.MemberId,
-                                CardNum = details[0].CardNum,
-                                Bank = BankCardType.招商银行,
-                                LastSyncTime = DateTime.Now,
-                            });
-                            _xwZxContext.SaveChanges();
-                        }
+                        SaveBank(details[0].CardNum);
                         mail.IsPrased = true;
-                        _xwZxContext.BankBillDetails.AddRange(details);
+                        foreach (var detail in details)
+                        {
+                            _xwZxContext.BankBillDetails.Add(detail);
+                        }
                         _xwZxContext.SaveChanges();
                     }
                 }
@@ -96,16 +88,32 @@ namespace Xw.Zx.Core.Service
             }
         }
 
+        private void SaveBank(string CardNum)
+        {
+            if (_xwZxContext.BankCards.Any(b => b.MemberId == _postSyncMailDto.MemberId
+                    && b.CardNum == CardNum) == false)
+            {
+                _xwZxContext.BankCards.Add(new BankCard()
+                {
+                    MemberId = _postSyncMailDto.MemberId,
+                    CardNum = CardNum,
+                    Bank = BankCardType.招商银行,
+                    LastSyncTime = DateTime.Now,
+                });
+                _xwZxContext.SaveChanges();
+            }
+        }
+
         /// <summary>
         /// 获取最后一次同步的ID
         /// </summary>
         /// <param name="memberId"></param>
         /// <returns></returns>
-        private DateTime? GetDbLastMail(string fromMail, string toMail)
+        private DateTime? GetDbLastMail(string fromMail, int memberid)
         {
             var mail = _xwZxContext
                             .MailSrcs
-                            .Where(m => m.To == toMail && m.From == fromMail)
+                            .Where(m => m.MemberId == memberid && m.From == fromMail)
                             .OrderByDescending(m => m.SendTime)
                             .FirstOrDefault();
 
