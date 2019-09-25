@@ -13,7 +13,7 @@ namespace Xw.Zx.Core.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-  
+
     public class SyncController : BaseController
     {
         private readonly ILogger<SyncController> _logger;
@@ -27,20 +27,19 @@ namespace Xw.Zx.Core.Controllers
         }
 
         [HttpPost]
-        public async Task<HbzsResult> SyncAsync([FromBody]PostSyncMailDto syncDto)
+        public async Task<HbzsResult<PostSyncMailResuleDto>> SyncAsync([FromBody]PostSyncMailDto syncDto)
         {
             try
             {
                 _logger.LogWarning($"恭喜 收到:{syncDto.Mail}{syncDto.Sid}{syncDto.Cookie}");
-                (var isOK, var msg) = await _syncService.SyncAsync(syncDto);
+                var res = await _syncService.SyncAsync(syncDto);
 
-                return isOK ? new HbzsResult(HbzsResultCode.Sucess)
-                    : new HbzsResult(HbzsResultCode.Invalid_Error, msg);
+                return new HbzsResult<PostSyncMailResuleDto>(res);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-                return new HbzsResult(HbzsResultCode.Invalid_Error, ex.Message);
+                return new HbzsResult<PostSyncMailResuleDto>(HbzsResultCode.Invalid_Error, ex.Message);
             }
         }
     }

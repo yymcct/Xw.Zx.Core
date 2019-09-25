@@ -99,6 +99,37 @@ namespace Xw.Zx.Core.Service
                 {
                     Id = (string)c["inf"]["id"],
                     Subj = (string)c["inf"]["subj"],
+                    From = (string)c["inf"]["from"]["addr"],
+                    To = (string)c["inf"]["toLst"][0]["addr"],
+                    Date = TypeHelper.UnixTimeToDateTime((int)c["inf"]["date"]),
+                })
+                .ToList();
+
+                return mailInfo;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogDebug($"[SearchByFrom]错误:sid:{_sid};cookies:{_cookies};fromMail:{fromMail};resStr:{resStr};Exception:{ex.Message}");
+            }
+            return null;
+        }
+
+        public async Task<List<MailInfoDto>> SearchByFrom(string fromMail, string page, string pagesize)
+        {
+            string resStr = "";
+            try
+            {               
+                string uri = $"/cgi-bin/mail_list?sid={_sid}&t=mobile_data.json&s=list&page={page}&pagesize={pagesize}&folderid=all&topmails=0&subject={fromMail}";
+                resStr = await _client.GetStringAsync(uri);
+                JObject res = JObject.Parse(resStr);
+                var mls = (JArray)res["mls"];
+
+                var mailInfo = mls.Select(c => new MailInfoDto()
+                {
+                    Id = (string)c["inf"]["id"],
+                    Subj = (string)c["inf"]["subj"],
+                    From = (string)c["inf"]["from"]["addr"],
+                    To = (string)c["inf"]["toLst"][0]["addr"],
                     Date = TypeHelper.UnixTimeToDateTime((int)c["inf"]["date"]),
                 })
                 .ToList();

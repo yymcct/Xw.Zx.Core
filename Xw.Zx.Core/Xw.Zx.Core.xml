@@ -695,11 +695,25 @@
             消费明细账单
             </summary>
         </member>
+        <member name="M:Xw.Zx.Core.Service.SyncService.SyncMailsInfo">
+            <summary>
+            获取本次需要同步的邮件批次
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Xw.Zx.Core.Service.SyncService.GetDbLastMail(System.String,System.Int32)">
             <summary>
-            获取最后一次同步的ID
+            获取最近一次的同步时间
             </summary>
             <param name="memberId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Service.SyncService.GetDbFarthestMail(System.String,System.Int32)">
+            <summary>
+            获取最远的一次同步时间
+            </summary>
+            <param name="fromMail"></param>
+            <param name="memberid"></param>
             <returns></returns>
         </member>
         <member name="F:Xw.Zx.Core.Startup.Provider">

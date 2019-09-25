@@ -8,6 +8,8 @@ namespace Xw.Zx.Core.Service
 {
     public interface IMailService
     {
+        Task<List<MailInfoDto>> SearchByFrom(string fromMail, string page, string pagesize);
+
         Task<List<MailInfoDto>> SearchByFrom(string fromMail);
 
         Task<MailSrc> GetMail(string mailid);
