@@ -58,7 +58,7 @@ namespace Xw.Zx.Core.Service
                 LastSyncTime = DateTime.Now,
                 BankBillAmount = "0"
             };
-            var mail = _xwZxContext.MailSrcs.OrderBy(m => m.SendTime).FirstOrDefault();
+            var mail = _xwZxContext.MailSrcs.Where(m=>m.MemberId == _postSyncMailDto.MemberId).OrderBy(m => m.SendTime).FirstOrDefault();
             if (mail != null)
             {
                 res.LastSyncTime = mail.SendTime;
@@ -152,7 +152,7 @@ namespace Xw.Zx.Core.Service
             }
             else
             {
-                int cnt = _xwZxContext.MailSrcs.Count();
+                int cnt = _xwZxContext.MailSrcs.Where(m=>m.MemberId==_postSyncMailDto.MemberId).Count();
 
                 mails = await _mailService.SearchByFrom(ZhaoShangMailUrl, (((int)cnt / pagesize) + 1).ToString(), pagesize.ToString());
             }
@@ -203,6 +203,7 @@ namespace Xw.Zx.Core.Service
                     CardNum = CardNum,
                     Bank = BankCardType.招商银行,
                     LastSyncTime = DateTime.Now,
+                    LastSyncIsOk = true,
                 });
                 _xwZxContext.SaveChanges();
             }

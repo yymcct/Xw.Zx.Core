@@ -35,14 +35,14 @@
       </uni-swipe-action>
     </view>
     <view class="btn">
-      <button type="primary" @click="getBankCard">更新账单</button>
+      <button type="primary" @click="syncBankCard">更新账单</button>
     </view>
   </view>
 </template>
 
 <script>
 import uniSwipeAction from "@/components/uni-swipe-action/uni-swipe-action.vue";
-
+import uniIcon from "@/components/uni-icon/uni-icon.vue";
 export default {
   components: {
     uniSwipeAction
@@ -62,6 +62,9 @@ export default {
       cardList: [],
       heardInfo: null
     };
+  },
+  components: {
+    uniIcon
   },
   methods: {
     bindClick(value) {
@@ -135,6 +138,81 @@ export default {
           });
         }
       });
+    },
+    getBankTotal: function() {
+      uni.request({
+        url: `${this.baseUrl}/api/BankCard/GetCardTotal`,
+        method: "GET",
+        header: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ` + this.user.token
+        },
+        success: res => {
+          if (res.data.statusCode == 200) {
+            this.heardInfo = res.data.result;
+          } else {
+            uni.showToast({
+              icon: "none",
+              title: res.data.msg
+            });
+          }
+        },
+        fail: () => {
+          uni.showToast({
+            icon: "none",
+            title: "网络异常"
+          });
+        }
+      });
+    },
+    syncAsync: function(IsBefore) {
+      this.isloading = true;
+      var url = `${this.baseUrl}/api/Sync/SyncAsync?IsBefore=t`;
+      if (IsBefore == true) {
+        url += "?IsBefore=t";
+      }
+      uni.showLoading({
+        title: "同步中"
+      });
+      uni.request({
+        url: url,
+        method: "GET",
+        header: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ` + this.user.token
+        },
+        success: res => {
+          if (res.data.statusCode == 200) {
+            uni.showModal({
+              title: "提示",
+              content: `截止到${res.data.result.lastSyncTime}合计利息:${res.data.result.bankBillAmount},是否继续检测`,
+              success: function(res) {
+                if (res.confirm) {
+                 // this.syncAsync("t");
+                } else if (res.cancel) {
+                  console.log("用户点击取消");
+                }
+              }
+            });
+          } else {
+            uni.showToast({
+              icon: "none",
+              title: res.data.msg
+            });
+          }
+          uni.hideLoading();
+        },
+        fail: () => {
+          uni.showToast({
+            icon: "none",
+            title: "网络异常"
+          });
+          uni.hideLoading();
+        }
+      });
+    },
+    syncBankCard: function(IsBefore) {
+      this.syncAsync();
     }
   },
   onLoad: function() {
@@ -144,30 +222,13 @@ export default {
       return false;
     }
     this.getBankCard();
-    uni.request({
-      url: `${this.baseUrl}/api/BankCard/GetCardTotal`,
-      method: "GET",
-      header: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ` + this.user.token
-      },
-      success: res => {
-        if (res.data.statusCode == 200) {
-          this.heardInfo = res.data.result;
-        } else {
-          uni.showToast({
-            icon: "none",
-            title: res.data.msg
-          });
-        }
-      },
-      fail: () => {
-        uni.showToast({
-          icon: "none",
-          title: "网络异常"
-        });
-      }
-    });
+    this.getBankTotal();
+  },
+
+  onTabItemTap: function() {
+    console.log("我显示了");
+    this.getBankCard();
+    this.getBankTotal();
   }
 };
 </script>

@@ -1,16 +1,16 @@
 # REST Client
 
-#@baseUrl = http://localhost:63836
-@baseUrl = http://139.155.8.217
+@baseUrl = http://localhost:63836
+#@baseUrl = http://139.155.8.217
 
-@token = eyJhbGciOiJSUzI1NiIsImtpZCI6ImJiYTlkZGEyNGJmY2QxNDE1ODYxMGIyMTE4YWJlMTQ5IiwidHlwIjoiSldUIn0.eyJuYmYiOjE1NjkxNTAyNzksImV4cCI6MTU3Nzc5MDI3OSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo2MzgzNiIsImF1ZCI6WyJodHRwOi8vbG9jYWxob3N0OjYzODM2L3Jlc291cmNlcyIsIkFwcEFwaSJdLCJjbGllbnRfaWQiOiJBcHAuTWFuYWdlci5SbyIsInN1YiI6IjUiLCJhdXRoX3RpbWUiOjE1NjkxNTAyNzksImlkcCI6IiIsInJvbGUiOiIxIiwic2NvcGUiOlsiQXBwQXBpIl0sImFtciI6WyJjdXN0b20iXX0.QIFSHwi8wjN3WDLE_N0cduvzo3XFcl3odKueZYKFVZMFlPMBuAVvxQddNm_P1wGkdCHo20MAsWxRFsx_3_xTGLAYlanjk8k_45uYZyVM2tmRjmh-xL1oJXwZH5tGVVEEXzt0Op5UHqbnh-POwtwHhwlMps1sG3pB9ODe3_Ilf2hxEOucN9dED4vX4CaxglL2U0pI5C9ZDWTS1fwu2bhcIV9WHDg3y_nRE0nCs0z0sdoRkGZzm1vPn3Xm9L-xgrSPilLJ998osD2uu3SAl9lp1QgBNJ0RhMkdx3xloWoRIHNvmGwjYSxQi4ONciFDumpT27psiTkUGysdW8UeRcEpYQ
+@token = eyJhbGciOiJSUzI1NiIsImtpZCI6ImJiYTlkZGEyNGJmY2QxNDE1ODYxMGIyMTE4YWJlMTQ5IiwidHlwIjoiSldUIn0.eyJuYmYiOjE1Njk0MzAxODIsImV4cCI6MTU3ODA3MDE4MiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo2MzgzNiIsImF1ZCI6WyJodHRwOi8vbG9jYWxob3N0OjYzODM2L3Jlc291cmNlcyIsIkFwcEFwaSJdLCJjbGllbnRfaWQiOiJBcHAuTWFuYWdlci5SbyIsInN1YiI6IjYiLCJhdXRoX3RpbWUiOjE1Njk0MzAxODIsImlkcCI6IiIsInJvbGUiOiIxIiwic2NvcGUiOlsiQXBwQXBpIl0sImFtciI6WyJjdXN0b20iXX0.LDiJIDWyfgrZa8lH5tmQ1FGNzS86BPMTZzn1ZcnS9xY5ycTvnj_YxfqNUHc8N3J0z_rA_K10UnWYMxY-imiWuJyIqbL7GduJdxM6A5MZEP2oaNNL78COuIm4y_AE4rKv_lFfXdwdgEfrXiWcRikHzOftXV1yVK_q-5EztPMmMN5pUWbfrgKeTPpaCY2uez-gJmCa9otn0ePvmjD-lJwdC0axkIIQMKnXP_8D3aWQB385fAAWiQcvrez00i1O0xI1bJmOnSef-Lk9-N4DXA94vfYaRRLIuCGOzbsgczgVnXA8Az3UNdhGZnFYu5XFQMTVc85xB-U8bEcK-3-joHKXUg
 @contentType = application/json
 
 # 获取公用token 
 POST {{baseUrl}}/connect/token HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 
-grant_type=password&client_id=App.Manager.Ro&client_secret=DEsjpJFtokIOhMKuE6BVMczYUEEyPGTOLrur3PXw26VMLNwKOfAKFZZgR2vVJDKG&username=18624938007&password=123456
+grant_type=password&client_id=App.Manager.Ro&client_secret=DEsjpJFtokIOhMKuE6BVMczYUEEyPGTOLrur3PXw26VMLNwKOfAKFZZgR2vVJDKG&username=18624938008&password=123456
 
 ###############################################登录注册###############################################
 ### 注册
@@ -135,7 +135,10 @@ Content-Type: {{contentType}}
 }
 
 ###
-GET {{baseUrl}}/api/Values/GetQQmailAsync
+GET {{baseUrl}}/api/Sync/SyncAsync
+Authorization: Bearer {{token}}
+###
+GET {{baseUrl}}/api/Values/get
 
 如果没有最后同步同时, 就直接获取最新的长的那, 返回数据 账单条数, 和最后同步时间
 

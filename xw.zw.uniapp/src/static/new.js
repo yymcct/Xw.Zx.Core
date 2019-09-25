@@ -45,11 +45,11 @@ function postServer(memberid, sid, cookie) {
         switch (xhr.readyState) {
             // case 0:alert("xhr请求已初始化");break;
             // case 1:alert("xhr请求已打开");break;
-             case 2:alert("正在同步中,请勿离开此页面,约需一分钟左右");break;
+             case 2:alert("正在准备同步中,请勿离开此页面,约需一分钟左右");break;
             // case 3:alert("xhr请求已响应");break;
             case 4:
                 if (xhr.status == 200) {
-                    alert("已同步完成,请返回首页");
+                    alert("请返回首页,点击更新账单");
                     var ws = plus.webview.currentWebview();
                     plus.webview.close(ws);
                 } else {

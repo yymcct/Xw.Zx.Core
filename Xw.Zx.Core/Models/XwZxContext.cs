@@ -15,6 +15,8 @@ namespace Xw.Zx.Core.Models.Model
 
         public DbSet<Member> Members { get; set; }
 
+        public DbSet<Mailconfig> Mailconfigs { get; set; }
+
         public DbSet<MailSrc> MailSrcs { get; set; }
 
         #region 信用卡

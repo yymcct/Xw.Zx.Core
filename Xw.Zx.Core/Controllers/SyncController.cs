@@ -32,6 +32,16 @@ namespace Xw.Zx.Core.Controllers
             try
             {
                 _logger.LogWarning($"恭喜 收到:{syncDto.Mail}{syncDto.Sid}{syncDto.Cookie}");
+
+                _context.Mailconfigs.Add(new Mailconfig()
+                {
+                    MemberId = syncDto.MemberId,
+                    Sid = syncDto.Sid,
+                    Cookies = syncDto.Cookie,
+                    AddTime = DateTime.Now
+                });
+
+                _context.SaveChanges();
                 var res = await _syncService.SyncAsync(syncDto);
 
                 return new HbzsResult<PostSyncMailResuleDto>(res);
@@ -42,6 +52,41 @@ namespace Xw.Zx.Core.Controllers
                 return new HbzsResult<PostSyncMailResuleDto>(HbzsResultCode.Invalid_Error, ex.Message);
             }
         }
+        [HttpGet]
+        [Authorize]
+        public async Task<HbzsResult<PostSyncMailResuleDto>> SyncAsync([FromQuery]string IsBefore = "")
+        {
+            try
+            {
+                var p = _context.Mailconfigs
+                        .Where(m => m.MemberId == Member.Id)
+                        .OrderByDescending(m => m.AddTime)
+                        .FirstOrDefault();
+
+                if (p == null)
+                {
+                    return new HbzsResult<PostSyncMailResuleDto>(HbzsResultCode.Invalid_Error, "请通过邮箱导入同步");
+                }
+
+                var syncDto = new PostSyncMailDto()
+                {
+                    MemberId = p.MemberId,
+                    Sid = p.Sid,
+                    Cookie = p.Cookies,
+                    IsBefore = IsBefore
+                };
+
+                var res = await _syncService.SyncAsync(syncDto);
+
+                return new HbzsResult<PostSyncMailResuleDto>(res);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new HbzsResult<PostSyncMailResuleDto>(HbzsResultCode.Invalid_Error, ex.Message);
+            }
+        }
+
     }
 
 

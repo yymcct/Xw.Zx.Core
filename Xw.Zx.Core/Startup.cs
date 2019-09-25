@@ -174,6 +174,8 @@ namespace Xw.Zx.Core
             services.AddAlipay(Configuration.GetSection("Alipay"));
             #endregion
 
+
+
             services.AddHttpClient();
         }
 
@@ -190,6 +192,12 @@ namespace Xw.Zx.Core
             app.UseAuthentication();
 
             app.UseCors("AllowAllHeaders");
+
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
 
             app.UseHttpsRedirection();
 

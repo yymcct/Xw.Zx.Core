@@ -52,6 +52,13 @@ namespace Xw.Zx.Core.Controllers
 
                 var res = _mapper.Map<List<BankInfoDto>>(cards);
 
+                for (var i = 0; i < res.Count; i++)
+                {
+                    res[i].OverdueFine = _context.BankBillDetails
+                            .Where(b => b.MemberID == Member.Id && b.CardNum == res[i].CardNum)
+                            .Sum(b => b.Amount);
+                }
+
                 return new HbzsResult<List<BankInfoDto>>(res);
             }
             catch (Exception ex)
@@ -65,9 +72,13 @@ namespace Xw.Zx.Core.Controllers
         {
             try
             {
-                var OverdueFine = _context.BankCards
-                    .AsNoTracking()
-                    .Where(b => b.MemberId == Member.Id && b.Disabled == false).Sum(b => b.OverdueFine);
+                //var OverdueFine = _context.BankCards
+                //    .AsNoTracking()
+                //    .Where(b => b.MemberId == Member.Id && b.Disabled == false).Sum(b => b.OverdueFine);
+
+                var OverdueFine = _context.BankBillDetails
+                    .Where(b => b.MemberID == Member.Id)
+                    .Sum(b=>b.Amount);
 
                 var res = new CardTotalInfo()
                 {
