@@ -47,6 +47,8 @@ namespace Xw.Zx.Core.Service
 
             PraseNeedPare();
 
+            UpdateBankCardSate();
+
             return BuildSyncInfo();
 
         }
@@ -58,12 +60,12 @@ namespace Xw.Zx.Core.Service
                 LastSyncTime = DateTime.Now,
                 BankBillAmount = "0"
             };
-            var mail = _xwZxContext.MailSrcs.Where(m=>m.MemberId == _postSyncMailDto.MemberId).OrderBy(m => m.SendTime).FirstOrDefault();
+            var mail = _xwZxContext.MailSrcs.Where(m => m.MemberId == _postSyncMailDto.MemberId).OrderBy(m => m.SendTime).FirstOrDefault();
             if (mail != null)
             {
                 res.LastSyncTime = mail.SendTime;
             }
-            var amount = _xwZxContext.BankBillDetails.Where(b=>b.MemberID==_postSyncMailDto.MemberId).Sum(b => b.Amount);
+            var amount = _xwZxContext.BankBillDetails.Where(b => b.MemberID == _postSyncMailDto.MemberId).Sum(b => b.Amount);
 
             res.BankBillAmount = amount.ToString();
             return res;
@@ -148,11 +150,11 @@ namespace Xw.Zx.Core.Service
             List<MailInfoDto> mails = null;
             if (string.IsNullOrEmpty(_postSyncMailDto.IsBefore))
             {
-                mails = await _mailService.SearchByFrom(ZhaoShangMailUrl, "1", pagesize.ToString());
+                mails = await _mailService.SearchByFrom(ZhaoShangMailUrl, 1, pagesize);
             }
             else
             {
-                int cnt = _xwZxContext.MailSrcs.Where(m=>m.MemberId==_postSyncMailDto.MemberId).Count();
+                int cnt = _xwZxContext.MailSrcs.Where(m => m.MemberId == _postSyncMailDto.MemberId).Count();
 
                 mails = await _mailService.SearchByFrom(ZhaoShangMailUrl, (((int)cnt / pagesize) + 1).ToString(), pagesize.ToString());
             }
@@ -205,6 +207,20 @@ namespace Xw.Zx.Core.Service
                     LastSyncTime = DateTime.Now,
                     LastSyncIsOk = true,
                 });
+                _xwZxContext.SaveChanges();
+            }          
+        }
+
+        private void UpdateBankCardSate()
+        {
+            var bank = _xwZxContext.BankCards
+                .Where(b => b.MemberId == _postSyncMailDto.MemberId && b.Bank == BankCardType.招商银行)
+                .FirstOrDefault();
+
+            if (bank != null)
+            {
+                bank.LastSyncIsOk = true;
+                bank.LastSyncTime = DateTime.Now;
                 _xwZxContext.SaveChanges();
             }
         }

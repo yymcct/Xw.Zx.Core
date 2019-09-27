@@ -7,8 +7,9 @@ using Xw.Zx.Core.Models.Model;
 namespace Xw.Zx.Core.Service
 {
     public interface IMailService
-    {
-        Task<List<MailInfoDto>> SearchByFrom(string fromMail, string page, string pagesize);
+    { 
+
+        Task<List<MailInfoDto>> SearchByFrom(string fromMail, int page, int pagesize);
 
         Task<List<MailInfoDto>> SearchByFrom(string fromMail);
 

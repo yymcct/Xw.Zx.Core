@@ -18,6 +18,8 @@ namespace Xw.Zx.Core.Service
         private string _sid = "";
         private string _cookies = "";
         private HttpClient _client;
+
+
         public QQMailService(ILogger<QQMailService> logger)
         {
             _logger = logger;
@@ -81,7 +83,7 @@ namespace Xw.Zx.Core.Service
             {
                 _logger.LogDebug($"[SearchByFrom]错误:sid:{_sid};cookies:{_cookies};fromMail:{fromMail};resStr:{resStr};Exception:{ex.Message}");
             }
-            return null;
+            return new List<MailInfoDto>();
         }
 
         public async Task<List<MailInfoDto>> SearchByFrom(string fromMail, string keyword)
@@ -114,7 +116,7 @@ namespace Xw.Zx.Core.Service
             return null;
         }
 
-        public async Task<List<MailInfoDto>> SearchByFrom(string fromMail, string page, string pagesize)
+        public async Task<List<MailInfoDto>> SearchByFrom(string fromMail, int page, int pagesize)
         {
             string resStr = "";
             try
