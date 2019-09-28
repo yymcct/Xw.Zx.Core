@@ -14,7 +14,7 @@ namespace Xw.Zx.Core.Service
     public class QQMailService: IQQMailService
     {
         private readonly ILogger<QQMailService> _logger;
-        private Uri _baseAddress = new Uri("https://w.mail.qq.com");
+        private readonly Uri _baseAddress = new Uri("https://w.mail.qq.com");
         private string _sid = "";
         private string _cookies = "";
         private HttpClient _client;
@@ -25,7 +25,7 @@ namespace Xw.Zx.Core.Service
             _logger = logger;
         }
 
-        public IMailServiceFactory Init(string sid, string cookie)
+        public IMailService Init(string sid, string cookie)
         {
             _sid = sid;
             _cookies = cookie;
@@ -156,16 +156,17 @@ namespace Xw.Zx.Core.Service
                 JObject res = JObject.Parse(resStr);
                 var mls = (JToken)res["mls"][0];
 
-                var mail = new MailSrc();
-
-                mail.Uid = (string)mls["inf"]["id"];
-                mail.Sublic = (string)mls["inf"]["subj"];
-                mail.From = (string)mls["inf"]["from"]["addr"];
-                mail.To = (string)mls["inf"]["toLst"][0]["addr"];
-                mail.Body = (string)mls["content"]["body"];
-                mail.BodyText = (string)mls["content"]["bodytext"];
-                mail.SendTime = TypeHelper.UnixTimeToDateTime((int)mls["inf"]["date"]);
-                mail.AddTime = DateTime.Now;
+                var mail = new MailSrc
+                {
+                    Uid = (string)mls["inf"]["id"],
+                    Sublic = (string)mls["inf"]["subj"],
+                    From = (string)mls["inf"]["from"]["addr"],
+                    To = (string)mls["inf"]["toLst"][0]["addr"],
+                    Body = (string)mls["content"]["body"],
+                    BodyText = (string)mls["content"]["bodytext"],
+                    SendTime = TypeHelper.UnixTimeToDateTime((int)mls["inf"]["date"]),
+                    AddTime = DateTime.Now
+                };
 
                 return mail;
             }

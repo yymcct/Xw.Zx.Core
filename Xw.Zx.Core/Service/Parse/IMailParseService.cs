@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Xw.Zx.Core.Service.Parse
 {
-    interface IMailParseService
+    public interface IMailParseService
     {
         void Parse(int member);
     }

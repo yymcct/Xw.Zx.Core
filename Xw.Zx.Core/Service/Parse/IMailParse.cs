@@ -6,7 +6,7 @@ using Xw.Zx.Core.Models.Model;
 
 namespace Xw.Zx.Core.Service.Parse
 {
-    interface IMailParse
+    public interface IMailParse
     {
         int Member { set; }
         void Parse();

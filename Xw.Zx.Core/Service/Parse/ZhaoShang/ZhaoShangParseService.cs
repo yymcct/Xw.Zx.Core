@@ -37,13 +37,15 @@ namespace Xw.Zx.Core.Service.Parse
                         SaveBankBillDetail(details);
                     }
                     UpdateMailIsPrased(mail);
+                    
                 }
                 catch (Exception ex)
                 {
                     _logger.LogError($"解析账单出错!用户:{ _memberId},邮件ID{mails[i].Uid}");
                 }
-
             }
+
+            UpdateBankCardSate();
         }
 
         private void UpdateMailIsPrased(MailSrc mail)
@@ -126,6 +128,21 @@ namespace Xw.Zx.Core.Service.Parse
                     LastSyncTime = DateTime.Now,
                     LastSyncIsOk = true,
                 });
+                _xwZxContext.SaveChanges();
+            }
+        }
+
+
+        private void UpdateBankCardSate()
+        {
+            var bank = _xwZxContext.BankCards
+                .Where(b => b.MemberId == _memberId && b.Bank == BankCardType.招商银行)
+                .FirstOrDefault();
+
+            if (bank != null)
+            {
+                bank.LastSyncIsOk = true;
+                bank.LastSyncTime = DateTime.Now;
                 _xwZxContext.SaveChanges();
             }
         }
