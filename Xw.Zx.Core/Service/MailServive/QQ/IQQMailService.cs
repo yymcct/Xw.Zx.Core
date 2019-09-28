@@ -6,8 +6,8 @@ using Xw.Zx.Core.Models.Model;
 
 namespace Xw.Zx.Core.Service
 {
-    public interface IQQMailService: IMailService
+    public interface IQQMailService: IMailServiceFactory
     {
-        IMailService Init(string sid, string cookie);
+        IMailServiceFactory Init(string sid, string cookie);
     }
 }

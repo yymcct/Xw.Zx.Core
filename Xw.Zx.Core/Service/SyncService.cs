@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xw.Zx.Core.Models.Dto;
 using Xw.Zx.Core.Models.Model;
+using Xw.Zx.Core.Service.MailSync;
 using Xw.Zx.Core.Service.Parse;
 
 namespace Xw.Zx.Core.Service
@@ -16,16 +17,36 @@ namespace Xw.Zx.Core.Service
         private readonly XwZxContext _xwZxContext;
         private readonly IQQMailService _qqMailService;
         private PostSyncMailDto _postSyncMailDto;
-        private IMailService _mailService;
+        private IMailServiceFactory _mailService;
+        private readonly IMailSync _mailSync;
+        private readonly IMailParseService _mailParseService;
         private string ZhaoShangMailUrl = "ccsvc@message.cmbchina.com";
 
         public SyncService(ILogger<SyncService> logger
             , IQQMailService qqMailService
-            , XwZxContext xwZxContext)
+            , XwZxContext xwZxContext
+            , IMailSync mailSync
+            , IMailParseService mailParseService)
         {
             _logger = logger;
             _qqMailService = qqMailService;
             _xwZxContext = xwZxContext;
+            _mailSync = mailSync;
+            _mailParseService = mailParseService;
+        }
+
+        public PostSyncMailResuleDto SyncAllAsync(PostSyncMailDto postSyncMailDto)
+        {
+            _mailSync.MemberId = _postSyncMailDto.MemberId;
+            _mailSync.MailService = _qqMailService.Init(_postSyncMailDto.Sid, _postSyncMailDto.Cookie);
+
+            _mailSync.SyncMailDirToDb();
+            _mailSync.SyncMailToDb();
+
+            _mailParseService.Parse(_postSyncMailDto.MemberId);
+
+            return BuildSyncInfo();
+
         }
 
         public async Task<PostSyncMailResuleDto> SyncAsync(PostSyncMailDto postSyncMailDto)
@@ -128,7 +149,7 @@ namespace Xw.Zx.Core.Service
                         mail.Body = tmpmail.Body;
                         mail.BodyText = tmpmail.BodyText;
                     }
-
+                   
                     _xwZxContext.SaveChanges();
                 }
                 catch (Exception ex)

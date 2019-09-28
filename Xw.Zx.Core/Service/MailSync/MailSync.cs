@@ -7,14 +7,20 @@ using Xw.Zx.Core.Models.Model;
 
 namespace Xw.Zx.Core.Service.MailSync
 {
-    public class MailSync
+    public class MailSync: IMailSync
     {
-        private readonly string ZHAOSHANG = "ccsvc@message.cmbchina.com";
-        private readonly string ZHONGXIN = "citiccard @bill.citiccard.com";
-
         private int _memberId;
+        public int MemberId {
+            set {
+                _memberId = value;
+            }
+        }
         private IMailService _mailService;
-
+        public IMailService MailService {
+            set {
+                _mailService = value;
+            }
+        }
         private readonly ILogger<SyncService> _logger;
         private readonly XwZxContext _xwZxContext;
         public MailSync(ILogger<SyncService> logger
@@ -24,19 +30,20 @@ namespace Xw.Zx.Core.Service.MailSync
             _xwZxContext = xwZxContext;
         }
 
+
+        #region 同步目录
         /// <summary>
         /// 同步该邮箱所有银行卡目录
         /// </summary>
-        /// <param name="mailService"></param>
         /// <returns></returns>
-        public async Task<int> SyncMailDirToDb(IMailService mailService, int memberId)
+        public int SyncMailDirToDb()
         {
 
-            var zhaoshang = await SyncMailDirToDb(ZHAOSHANG);
-            var zhongxin = await SyncMailDirToDb(ZHONGXIN);
+            var zhaoshang =  SyncMailDirToDb(BankMailUrl.ZHAOSHANG);
+            var zhongxin =  SyncMailDirToDb(BankMailUrl.ZHONGXIN);
 
-            _logger.LogError($"邮箱目录同步,用户{ _memberId},邮件ID{m.Id},Exception:{ex.Message}")
-            return zhaoshang + zhongxin;
+            //_logger.LogError($"邮箱目录同步,用户{ _memberId},邮件ID{.Id},Exception:{ex.Message}");
+            return  zhaoshang.Result + zhongxin.Result;
         }
 
         private async Task<int> SyncMailDirToDb(string mailurl)
@@ -130,5 +137,67 @@ namespace Xw.Zx.Core.Service.MailSync
             }
 
         }
+
+        #endregion
+
+        #region 同步邮件详情
+        public int SyncMailToDb()
+        {
+            var zhaoshang =  SyncMailToDb_Zhaoshang();
+            var zhongxin =  SyncMailToDb_ZhongXin();
+            //TODO 中信等
+
+            return zhaoshang.Result + zhongxin.Result;
+        }
+
+        private async Task<int> SyncMailToDb_Zhaoshang()
+        {
+            var mails = _xwZxContext.MailSrcs
+                    .Where(m => m.MemberId == _memberId
+                        && m.From == BankMailUrl.ZHAOSHANG
+                        && m.IsPrased == false
+                        && m.Sublic.Contains("招商银行信用卡电子账单")
+                        && string.IsNullOrEmpty(m.BodyText)).ToList();
+
+            await GetMailSaveDbAsync(mails);
+            return mails.Count;
+        }
+
+        private async Task<int> SyncMailToDb_ZhongXin()
+        {
+            var mails = _xwZxContext.MailSrcs
+                    .Where(m => m.MemberId == _memberId
+                        && m.From == BankMailUrl.ZHAOSHANG
+                        && m.IsPrased == false
+                        && m.Sublic.Contains("中信银行信用卡电子账单")
+                        && string.IsNullOrEmpty(m.BodyText)).ToList();
+
+            await GetMailSaveDbAsync(mails);
+            return mails.Count;
+        }
+
+        private async Task GetMailSaveDbAsync(List<MailSrc> mailDirs)
+        {
+            for (var i = 0; i < mailDirs.Count; i++)
+            {
+                try
+                {
+                    var mail = mailDirs[i];
+                    var tmpmail = await _mailService.GetMail(mail.Uid);
+                    if (tmpmail != null)
+                    {
+                        mail.Body = tmpmail.Body;
+                        mail.BodyText = tmpmail.BodyText;
+                    }
+                    _xwZxContext.Entry(mail).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    _xwZxContext.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"保存邮件详情出错!用户:{ _memberId},邮件ID{ mailDirs[i].Uid}");
+                }
+            }
+        }
+        #endregion
     }
 }

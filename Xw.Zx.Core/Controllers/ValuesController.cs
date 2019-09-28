@@ -11,7 +11,7 @@ using Xw.Zx.Core.Models.Model;
 using Xw.Zx.Core.Service;
 using Xw.Zx.Core.Service.Parse;
 using Xw.Zx.Core.Utility;
-using IMailService = Xw.Zx.Core.Service.IMailService;
+using IMailService = Xw.Zx.Core.Service.IMailServiceFactory;
 
 namespace Xw.Zx.Core.Controllers
 {

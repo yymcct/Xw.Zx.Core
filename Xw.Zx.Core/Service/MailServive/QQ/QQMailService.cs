@@ -25,7 +25,7 @@ namespace Xw.Zx.Core.Service
             _logger = logger;
         }
 
-        public IMailService Init(string sid, string cookie)
+        public IMailServiceFactory Init(string sid, string cookie)
         {
             _sid = sid;
             _cookies = cookie;
