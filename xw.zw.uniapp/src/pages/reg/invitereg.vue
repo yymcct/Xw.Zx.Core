@@ -95,7 +95,8 @@ export default {
         data: {
           phone: this.account,
           password: this.password,
-          mail: this.email
+          mail: this.email,
+          inviteid: this.inviteid
         },
         method: "POST",
         header: {
