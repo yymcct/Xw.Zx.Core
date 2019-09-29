@@ -11,7 +11,7 @@ using Xw.Zx.Core.Models.Model;
 using Xw.Zx.Core.Service;
 using Xw.Zx.Core.Service.Parse;
 using Xw.Zx.Core.Utility;
-using IMailService = Xw.Zx.Core.Service.IMailService;
+
 
 namespace Xw.Zx.Core.Controllers
 {
@@ -66,26 +66,7 @@ namespace Xw.Zx.Core.Controllers
             return "完毕";
         }
 
-        [HttpGet]
-        public object GetQQmailAsync()
-        {
-            var l = _xwZxContext.MailSrcs.Where(m => m.MemberId == 6 && m.BodyText.Contains("循环利息")).ToList();
-            List<BankBillDetail> list= new List<BankBillDetail>();
-            foreach (var t in l)
-            {
-                try
-                {
-                    list = new ZhaoShangParse().Parse2(t);
-                }
-                catch { 
-                
-                }
-               
-            }
 
-            return list;
-
-        }
 
 
 

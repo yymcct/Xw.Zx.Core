@@ -35,7 +35,7 @@
       </uni-swipe-action>
     </view>
     <view class="btn">
-      <button type="primary" @click="syncBankCard">更新账单</button>
+      <button type="primary" @click="syncBankCard">检查信用卡滞纳金</button>
     </view>
   </view>
 </template>
@@ -113,17 +113,17 @@ export default {
           if (res.data.statusCode == 200) {
             this.cardList = res.data.result;
             // console.log(this.cardList);
-            if (this.cardList.length == 0) {
-              uni.showModal({
-                title: "提示",
-                content: "请添加银行卡!",
-                success: function(res) {
-                  if (res.confirm) {
-                    uni.navigateTo({ url: "../cards/addcard" }); //TODO 导航下载APP
-                  }
-                }
-              });
-            }
+            // if (this.cardList.length == 0) {
+            //   uni.showModal({
+            //     title: "提示",
+            //     content: "立即导入银行卡?",
+            //     success: function(res) {
+            //       if (res.confirm) {
+            //         uni.navigateTo({ url: "../user/web" }); //TODO 导航下载APP
+            //       }
+            //     }
+            //   });
+            // }
           } else {
             uni.showToast({
               icon: "none",
@@ -183,22 +183,31 @@ export default {
         },
         success: res => {
           if (res.data.statusCode == 200) {
-            uni.showModal({
-              title: "提示",
-              content: `截止到${res.data.result.lastSyncTime}合计利息:${res.data.result.bankBillAmount},是否继续检测`,
-              success: function(res) {
-                if (res.confirm) {
-                 // this.syncAsync("t");
-                } else if (res.cancel) {
-                  console.log("用户点击取消");
-                }
-              }
-            });
-          } else {
+            var msg = `同步完成,截至日期:${res.data.result.lastSyncTime}`;
+            if (res.data.result.bankBillAmount == "0") {
+              msg = `恭喜您!截止日期:${res.data.result.lastSyncTime},您的账户未发现滞纳金或利息!`;
+            }
             uni.showToast({
               icon: "none",
-              title: res.data.msg
+              title: msg
             });
+            // uni.showModal({
+            //   title: "提示",
+            //   content: `截止到${res.data.result.lastSyncTime}合计利息:${res.data.result.bankBillAmount},是否继续检测`,
+            //   success: function(res) {
+            //     if (res.confirm) {
+            //      // this.syncAsync("t");
+            //     } else if (res.cancel) {
+            //       console.log("用户点击取消");
+            //     }
+            //   }
+            // });
+          } else {
+            // uni.showToast({
+            //   icon: "none",
+            //   title: res.data.msg
+            // });
+            uni.navigateTo({ url: "../user/web" }); //TODO 导航下载APP
           }
           uni.hideLoading();
         },

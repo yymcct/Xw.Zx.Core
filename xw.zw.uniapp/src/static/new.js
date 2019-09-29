@@ -31,6 +31,9 @@ function qqmailIslogin() {
     if (href.indexOf("https://w.mail.qq.com/cgi-bin/mobile") != -1) {
         return true;
     }
+	if (href.indexOf("https://w.mail.qq.com/cgi-bin/today") != -1) {
+	    return true;
+	}
     return false;
 };
 

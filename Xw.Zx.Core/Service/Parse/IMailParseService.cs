@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Xw.Zx.Core.Models.Model;
 
 namespace Xw.Zx.Core.Service.Parse
 {
-    public interface IMailParse
+    public interface IMailParseService
     {
-        int Member { set; }
-        void Parse();
+        void Parse(int member);
     }
 }
