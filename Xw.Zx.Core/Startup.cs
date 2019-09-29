@@ -45,55 +45,13 @@ namespace Xw.Zx.Core
 
             #region Swagger           
 
-            services.AddApiVersioning(option =>
-            {
-                // 可选，为true时API返回支持的版本信息
-                option.ReportApiVersions = true;
-                // 不提供版本时，默认为1.0
-                option.AssumeDefaultVersionWhenUnspecified = true;
-                // 请求中未指定版本时默认为1.0
-                option.DefaultApiVersion = new ApiVersion(1, 0);
-            });
-            services.AddVersionedApiExplorer(option =>
-            {
-                // 版本名的格式：v+版本号
-                option.GroupNameFormat = "'v'VVVV";
-                option.AssumeDefaultVersionWhenUnspecified = true;
-            });
-
-            Provider = services.BuildServiceProvider().GetRequiredService<IApiVersionDescriptionProvider>();
-
             //Swagger
-            services.AddSwaggerGen(options =>
+            services.AddSwaggerGen(c =>
             {
-                foreach (var item in Provider.ApiVersionDescriptions)
-                {
-                    // 添加文档信息
-                    options.SwaggerDoc(item.GroupName, new Info
-                    {
-                        Title = "追息宝 Api",
-                        Version = item.ApiVersion.ToString(),
-                    });
-                }
+                c.SwaggerDoc("v1", new Info { Title = "Xw.Zx.Core", Version = "v1" });
                 var basePath = Path.GetDirectoryName(typeof(Program).Assembly.Location);//获取应用程序所在目录（绝对，不受工作目录影响，建议采用此方法获取路径）
                 var xmlPath = Path.Combine(basePath, "Xw.Zx.Core.xml");
-                options.IncludeXmlComments(xmlPath);
-                options.OperationFilter<SwaggerUploadFilter>();
-
-                options.AddSecurityDefinition("Bearer", new ApiKeyScheme
-                {
-                    Description = "Authorization: Bearer {token}",
-                    Name = "Authorization",
-                    In = "header",
-                    Type = "apiKey"
-                });
-
-                var security = new Dictionary<string, IEnumerable<string>>
-                {
-                    {"Bearer", new string[] { }},
-                };
-
-                options.AddSecurityRequirement(security);
+                c.IncludeXmlComments(xmlPath);
             });
             #endregion
 
@@ -212,12 +170,10 @@ namespace Xw.Zx.Core
 
             app.UseSwagger();
 
+
             app.UseSwaggerUI(c =>
             {
-                foreach (var item in Provider.ApiVersionDescriptions)
-                {
-                    c.SwaggerEndpoint($"/swagger/{item.GroupName}/swagger.json", "Hbzs.Api " + item.ApiVersion);
-                }                
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Xw.Zx.Core V1");
             });
         }
     }

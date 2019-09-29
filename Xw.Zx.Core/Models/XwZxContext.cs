@@ -18,7 +18,7 @@ namespace Xw.Zx.Core.Models.Model
         /// <summary>
         /// 会员码 普通会员可以通过会员码升级为会员
         /// </summary>
-        public DbSet<VipCode> VipCodes { get; set; }
+        public DbSet<UpdateVipAuthCode> UpdateVipAuthCodes { get; set; }
 
         public DbSet<Mailconfig> Mailconfigs { get; set; }
 
