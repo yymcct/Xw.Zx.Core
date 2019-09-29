@@ -751,7 +751,7 @@
             消费明细账单
             </summary>
         </member>
-        <member name="M:Xw.Zx.Core.Service.MailSync.MailSync.SyncMailDirToDb">
+        <member name="M:Xw.Zx.Core.Service.MailSyncService.SyncMailDirToDb">
             <summary>
             同步该邮箱所有银行卡目录
             </summary>

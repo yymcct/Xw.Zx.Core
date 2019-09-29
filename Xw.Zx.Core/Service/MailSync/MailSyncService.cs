@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xw.Zx.Core.Models.Model;
 
-namespace Xw.Zx.Core.Service.MailSync
+namespace Xw.Zx.Core.Service
 {
-    public class MailSync: IMailSync
+    public class MailSyncService: IMailSyncService
     {
         private int _memberId;
         public int MemberId {
@@ -23,7 +23,7 @@ namespace Xw.Zx.Core.Service.MailSync
         }
         private readonly ILogger<SyncService> _logger;
         private readonly XwZxContext _xwZxContext;
-        public MailSync(ILogger<SyncService> logger
+        public MailSyncService(ILogger<SyncService> logger
             , XwZxContext xwZxContext)
         {
             _logger = logger;

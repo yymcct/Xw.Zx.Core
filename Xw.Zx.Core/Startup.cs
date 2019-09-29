@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Loader;
 using System.Threading.Tasks;
 using Alipay.AopSdk.AspnetCore;
@@ -116,8 +117,9 @@ namespace Xw.Zx.Core
 
             #region 注册服务
             //services.AddScoped<IMailService, MailService>();
-            services.AddScoped<IQQMailService, QQMailService>();
-            services.AddScoped<ISyncService, SyncService>();
+            //services.AddScoped<IQQMailService, QQMailService>();
+            //services.AddScoped<ISyncService, SyncService>();
+            AddAssembly(services, "Xw.Zx.Core");
             #endregion
 
             #region AutoMapper
@@ -175,6 +177,40 @@ namespace Xw.Zx.Core
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Xw.Zx.Core V1");
             });
+        }
+
+
+        public  void AddAssembly( IServiceCollection service, string assemblyName
+            , ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
+        {
+            var assembly =  AssemblyLoadContext.Default.LoadFromAssemblyPath(AppContext.BaseDirectory + $"{assemblyName}.dll");
+
+            var types = assembly.GetTypes();
+            var list = types.Where(u => u.IsClass && !u.IsAbstract && !u.IsGenericType && u.Namespace == "Xw.Zx.Core.Service").ToList();
+            list = list.Where(u => u.Name.Contains("Service")).ToList();
+            foreach (var type in list)
+            {
+                var interfaceList = type.GetInterfaces();
+                if (interfaceList.Any())
+                {
+                    var inter = interfaceList.First();
+
+                    switch (serviceLifetime)
+                    {
+                        case ServiceLifetime.Transient:
+                            service.AddTransient(inter, type);
+                            break;
+                        case ServiceLifetime.Scoped:
+                            service.AddScoped(inter, type);
+                            break;
+                        case ServiceLifetime.Singleton:
+                            service.AddSingleton(inter, type);
+                            break;
+
+                    }
+                    service.AddScoped(inter, type);
+                }
+            }
         }
     }
 }

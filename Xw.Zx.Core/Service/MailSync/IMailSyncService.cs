@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Xw.Zx.Core.Service.MailSync
+namespace Xw.Zx.Core.Service
 {
-    public interface IMailSync
+    public interface IMailSyncService
     {
         int MemberId { set; }
         IMailService MailService { set; }
