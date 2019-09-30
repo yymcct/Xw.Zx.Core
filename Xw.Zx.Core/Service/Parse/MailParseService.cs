@@ -9,8 +9,8 @@ namespace Xw.Zx.Core.Service
 
     public class MailParseService : IMailParseService
     {
-        private readonly IZhaoShangParseService _zhaoShangParseService;
-        public MailParseService(IZhaoShangParseService zhaoShangParseService)
+        private readonly IGuangfaParseService _zhaoShangParseService;
+        public MailParseService(IGuangfaParseService zhaoShangParseService)
         {
             _zhaoShangParseService = zhaoShangParseService;
         }

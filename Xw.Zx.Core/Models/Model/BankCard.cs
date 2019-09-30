@@ -15,7 +15,8 @@ namespace Xw.Zx.Core.Models.Model
         平安银行 = 3,
         广大银行 = 4,
         华夏银行 = 5,
-        民生银行 = 6
+        民生银行 = 6,
+        广发银行 = 7
     }
     public class BankCard
     {
