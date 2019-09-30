@@ -17,7 +17,7 @@ namespace Xw.Zx.Core.Service
         private readonly IQQMailService _qqMailService;
         private readonly IMailSyncService _mailSync;
         private readonly IMailParseService _mailParseService;
-
+      
 
         public SyncService(ILogger<SyncService> logger
             , IQQMailService qqMailService
