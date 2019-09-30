@@ -26,7 +26,7 @@ namespace Xw.Zx.Core.Service
             _logger = logger;
         }
 
-        public IMailService Init(string sid, string cookie)
+        public void Init(string sid, string cookie)
         {
             _sid = sid;
             _cookies = cookie;
@@ -57,7 +57,6 @@ namespace Xw.Zx.Core.Service
 
             _logger.LogDebug($"开始初始化sid:{sid} cookie{cookie}");
 
-            return this;
         }
         public async Task<List<MailInfoDto>> SearchByFrom(string fromMail)
         {

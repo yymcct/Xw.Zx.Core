@@ -13,9 +13,9 @@ namespace Xw.Zx.Core.Service
     {
         private int _memberId;
         public int Member { set { _memberId = value; } }
-        private readonly ILogger<SyncService> _logger;
+        private readonly ILogger<ZhaoShangParseService> _logger;
         private readonly XwZxContext _xwZxContext;
-        public ZhaoShangParseService(ILogger<SyncService> logger
+        public ZhaoShangParseService(ILogger<ZhaoShangParseService> logger
             , XwZxContext xwZxContext)
         {
             _logger = logger;

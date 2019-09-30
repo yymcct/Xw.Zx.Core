@@ -751,12 +751,6 @@
             消费明细账单
             </summary>
         </member>
-        <member name="M:Xw.Zx.Core.Service.MailSyncService.SyncMailDirToDbAsync">
-            <summary>
-            同步该邮箱所有银行卡目录
-            </summary>
-            <returns></returns>
-        </member>
         <member name="F:Xw.Zx.Core.Startup.Provider">
             <summary>
             Api版本信息
