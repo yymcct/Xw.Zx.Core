@@ -139,6 +139,12 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:Xw.Zx.Core.Controllers.VipUpdateCodeController.Get">
+            <summary>
+            获取
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Xw.Zx.Core.Helper.CommonHelper.GetWebAdress">
             <summary>
             所上传的图片加域名
@@ -678,6 +684,41 @@
         <member name="T:Xw.Zx.Core.Models.Model.Receivable">
             <summary>
             收款表
+            </summary>
+        </member>
+        <member name="T:Xw.Zx.Core.Models.Model.UpdateVipAuthCode">
+            <summary>
+            升级Vip用的授权码
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.UpdateVipAuthCode.SourceId">
+            <summary>
+            原优惠券ID
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.UpdateVipAuthCode.OwinId">
+            <summary>
+            所有者ID
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.UpdateVipAuthCode.SourceOwinId">
+            <summary>
+            原所有者ID
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.UpdateVipAuthCode.Code">
+            <summary>
+            优惠码 = MD5()
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.UpdateVipAuthCode.ExpiesTime">
+            <summary>
+            失效时间
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.XwZxContext.UpdateVipAuthCodes">
+            <summary>
+            会员码 普通会员可以通过会员码升级为会员
             </summary>
         </member>
         <member name="P:Xw.Zx.Core.Models.Model.XwZxContext.BankCards">
