@@ -10,8 +10,8 @@ namespace Xw.Zx.Core.Service
         int MemberId { set; }
         IMailService MailService { set; }
 
-        int SyncMailDirToDb();
+        Task<int> SyncMailDirToDbAsync();
 
-        int SyncMailToDb();
+        Task<int> SyncMailToDbAsync();
     }
 }

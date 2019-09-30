@@ -142,7 +142,7 @@ namespace Xw.Zx.Core.Service
             {
                 _logger.LogDebug($"[SearchByFrom]错误:sid:{_sid};cookies:{_cookies};fromMail:{fromMail};resStr:{resStr};Exception:{ex.Message}");
             }
-            return null;
+            return new List<MailInfoDto>();
         }
 
         public async Task<MailSrc> GetMail(string mailid)

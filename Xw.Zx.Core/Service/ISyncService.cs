@@ -8,6 +8,6 @@ namespace Xw.Zx.Core.Service
 {
     public interface ISyncService
     {
-       PostSyncMailResuleDto SyncAsync(PostSyncMailDto postSyncMailDto);
+        Task<PostSyncMailResuleDto> SyncAsync(PostSyncMailDto postSyncMailDto);
     }
 }

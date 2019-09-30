@@ -7,17 +7,21 @@ using Xw.Zx.Core.Models.Model;
 
 namespace Xw.Zx.Core.Service
 {
-    public class MailSyncService: IMailSyncService
+    public class MailSyncService : IMailSyncService
     {
         private int _memberId;
-        public int MemberId {
-            set {
+        public int MemberId
+        {
+            set
+            {
                 _memberId = value;
             }
         }
         private IMailService _mailService;
-        public IMailService MailService {
-            set {
+        public IMailService MailService
+        {
+            set
+            {
                 _mailService = value;
             }
         }
@@ -36,14 +40,14 @@ namespace Xw.Zx.Core.Service
         /// 同步该邮箱所有银行卡目录
         /// </summary>
         /// <returns></returns>
-        public int SyncMailDirToDb()
+        public async Task<int> SyncMailDirToDbAsync()
         {
 
-            var zhaoshang =  SyncMailDirToDb(BankMailUrl.ZHAOSHANG);
-            var zhongxin =  SyncMailDirToDb(BankMailUrl.ZHONGXIN);
-
+            var zhaoshang = await SyncMailDirToDb(BankMailUrl.ZHAOSHANG);
+            var zhongxin = await SyncMailDirToDb(BankMailUrl.ZHONGXIN);
+            var cnt = zhaoshang + zhongxin;
             //_logger.LogError($"邮箱目录同步,用户{ _memberId},邮件ID{.Id},Exception:{ex.Message}");
-            return  zhaoshang.Result + zhongxin.Result;
+            return cnt;
         }
 
         private async Task<int> SyncMailDirToDb(string mailurl)
@@ -66,7 +70,7 @@ namespace Xw.Zx.Core.Service
 
             var mails = await _mailService.SearchByFrom(mailurl, 1, 100);
 
-            mails.Where(m => m.Date > lastmail.SendTime).ToList();
+            mails = mails.Where(m => m.Date > lastmail.SendTime).ToList();
 
             SaveMailDir(mails);
 
@@ -81,21 +85,21 @@ namespace Xw.Zx.Core.Service
             do
             {
                 var mails = await _mailService.SearchByFrom(mailurl, page++, pagesize);
-
-                if (mails.Count == 0) break;
-
+               
                 SaveMailDir(mails);
 
                 cnt += mails.Count;
 
-            } while (page < 5);
+                if (mails.Count == 0 || mails.Count < pagesize) break;
+
+            } while (page < 7);
 
             return cnt;
         }
 
         private bool IsFirstSyncDir(string mailurl)
         {
-            return _xwZxContext.MailSrcs
+            return !_xwZxContext.MailSrcs
                 .Where(m => m.MemberId == _memberId
                     && m.From == mailurl).Any();
         }
@@ -109,45 +113,40 @@ namespace Xw.Zx.Core.Service
 
         private void SaveMailDir(List<MailInfoDto> mails)
         {
-            foreach (var m in mails)
-            {
-                try
+            if (mails == null || mails.Count == 0) return;
+            try
+            {              
+                var ms = mails.Select(m => new MailSrc()
                 {
-                    if (_xwZxContext.MailSrcs.Any(t => t.MemberId == _memberId && t.Uid == m.Id) == false)
-                    {
-                        var tmail = new MailSrc()
-                        {
-                            MemberId = _memberId,
-                            Uid = m.Id,
-                            Sublic = m.Subj,
-                            From = m.From,
-                            To = m.To,
-                            SendTime = m.Date,
-                            AddTime = DateTime.Now
-                        };
+                    MemberId = _memberId,
+                    Uid = m.Id,
+                    Sublic = m.Subj,
+                    From = m.From,
+                    To = m.To,
+                    SendTime = m.Date,
+                    AddTime = DateTime.Now
+                }).ToList();
 
-                        _xwZxContext.MailSrcs.Add(tmail);
-                        _xwZxContext.SaveChanges();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError($"保存邮件Info出错!用户:{ _memberId},邮件ID{m.Id},Exception:{ex.Message}");
-                }
+
+                _xwZxContext.MailSrcs.AddRange(ms);
+                _xwZxContext.SaveChanges();
             }
-
+            catch (Exception ex)
+            {
+                _logger.LogError($"保存邮件Info出错!用户:{ _memberId},邮件ID{mails[0].Id},Exception:{ex.Message}");
+            }             
         }
 
         #endregion
 
         #region 同步邮件详情
-        public int SyncMailToDb()
+        public async Task<int> SyncMailToDbAsync()
         {
-            var zhaoshang =  SyncMailToDb_Zhaoshang();
-            var zhongxin =  SyncMailToDb_ZhongXin();
+            var zhaoshang = await SyncMailToDb_Zhaoshang();
+            var zhongxin = await SyncMailToDb_ZhongXin();
             //TODO 中信等
 
-            return zhaoshang.Result + zhongxin.Result;
+            return zhaoshang + zhongxin;
         }
 
         private async Task<int> SyncMailToDb_Zhaoshang()
@@ -167,7 +166,7 @@ namespace Xw.Zx.Core.Service
         {
             var mails = _xwZxContext.MailSrcs
                     .Where(m => m.MemberId == _memberId
-                        && m.From == BankMailUrl.ZHAOSHANG
+                        && m.From == BankMailUrl.ZHONGXIN
                         && m.IsPrased == false
                         && m.Sublic.Contains("中信银行信用卡电子账单")
                         && string.IsNullOrEmpty(m.BodyText)).ToList();

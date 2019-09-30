@@ -32,7 +32,7 @@ namespace Xw.Zx.Core.Controllers
         /// <param name="syncDto"></param>
         /// <returns></returns>
         [HttpPost]
-        public HbzsResult<PostSyncMailResuleDto>  SyncAsync([FromBody]PostSyncMailDto syncDto)
+        public async Task<HbzsResult<PostSyncMailResuleDto>> SyncAsync([FromBody]PostSyncMailDto syncDto)
         {
             try
             {
@@ -47,7 +47,7 @@ namespace Xw.Zx.Core.Controllers
                 });
 
                 _context.SaveChanges();
-                var res =  _syncService.SyncAsync(syncDto);
+                 var res = await _syncService.SyncAsync(syncDto);
 
                 return new HbzsResult<PostSyncMailResuleDto>(res);
             }
@@ -66,7 +66,7 @@ namespace Xw.Zx.Core.Controllers
         /// <returns></returns>
         [HttpGet]
         [Authorize]
-        public  HbzsResult<PostSyncMailResuleDto> SyncAsync([FromQuery]string IsBefore = "")
+        public async Task<HbzsResult<PostSyncMailResuleDto>> SyncAsync([FromQuery]string IsBefore = "")
         {
             try
             {
@@ -88,7 +88,7 @@ namespace Xw.Zx.Core.Controllers
                     IsBefore = IsBefore
                 };
 
-                var res =  _syncService.SyncAsync(syncDto);
+                var res = await _syncService.SyncAsync(syncDto);
 
                 return new HbzsResult<PostSyncMailResuleDto>(res);
             }

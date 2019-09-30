@@ -32,13 +32,13 @@ namespace Xw.Zx.Core.Service
             _mailParseService = mailParseService;
         }
 
-        public PostSyncMailResuleDto SyncAsync(PostSyncMailDto postSyncMailDto)
+        public async Task<PostSyncMailResuleDto> SyncAsync(PostSyncMailDto postSyncMailDto)
         {
             _mailSync.MemberId = postSyncMailDto.MemberId;
             _mailSync.MailService = _qqMailService.Init(postSyncMailDto.Sid, postSyncMailDto.Cookie);
 
-            _mailSync.SyncMailDirToDb();
-            _mailSync.SyncMailToDb();
+            await _mailSync.SyncMailDirToDbAsync();
+            await _mailSync.SyncMailToDbAsync();
 
             _mailParseService.Parse(postSyncMailDto.MemberId);
 
