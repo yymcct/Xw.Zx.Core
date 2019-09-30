@@ -1,0 +1,125 @@
+@baseUrl = http://139.155.8.217
+
+@sid= JJ5afn_w-NlQJSR5x4q9AZ2X,4,c9du-YhXDy80.
+@cookie = mcookie=0&y; pgv_pvi=4695865344; pgv_si=s628980736; ptisp=cnc; RK=3bhtSpu5ER; ptcz=bc24f99180878c500213a4494d91c59fa2401eaeb0ddec90b86d7457ec23f774; qm_flag=0; edition=mail.qq.com; wimrefreshrun=0&; qm_logintype=qq; uin=o0019202490; luin=o0019202490; p_uin=o0019202490; p_luin=o0019202490; qqmail_alias=xiawei1981@foxmail.com; qm_username=19202490; username=19202490&19202490; newpt=2; qm_loginfrom=68771803&psaread|19202490&psaread; webp=1; CCSHOW=000000; 3g_guest_id=-8573880012074123264; g_ut=3; skey=@LfGV4Rhp5; lskey=00010000e2e9bd46216f9ed21f263343b1e431fe42893ad9aaf82f2378febf8651982b5f9ff940c8827e38eb; pt4_token=XhrYJlvPBL1M6IgJFk9f*7W5Fs6*kOe-G*P91U*Aq1o_; p_skey=-27wLGyHpV08nWa00ufGXrMh4ZxOnPKJAdEz7lQ6Axk_; p_lskey=00040000bb2979f439b0269b4742f6434b747960bb29f4683d76cc9e8e9679a3828b83a5084e1e9478a6fe21; pcache=5064871ab245e93MTU3MTg0MzEyNQ@19202490@4; mpwd=972C25DBB49DD346F8E7BA332ED303503316DB59F57B2E08884CE96CE082A404@19202490@4; tinfo=1569339751.0000*; device=iPad; msid=JJ5afn_w-NlQJSR5T_69AZ2X,4,c9du-YgvrvDs.; sid=19202490&b933d2463b6ad60d71f263d95b6984bc,c9du-YgvrvDs.; ssl_edition=sail.qq.com; qm_sk=19202490&bqi9A52V; promote_iphone=1; device=; new_mail_num=68771803&196|19202490&230; qm_ssum=19202490&9a1aaa03b79b200a4d678c4b1bf0349a
+
+
+
+
+@contentType = application/json
+@UserAgent = Mozilla/5.0 (Windows Phone 10.0;  Android 4.2.1; Nokia; Lumia 520) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Mobile Safari/537.36 Edge/12.0
+
+#############################################################QQ邮箱测试###################################################
+### 获取邮件目录 第一页
+GET https://w.mail.qq.com/cgi-bin/mail_list
+    ?ef=js
+    &r=0.4908667012315633
+    &sid={{sid}}
+    &t=mobile_data.json
+    &s=list
+    &cursor=max
+    &cursorcount=20
+    &folderid=1
+    &device=android&app=phone&ver=app
+Accept: , */*
+Accept-Language: zh-Hans-CN,zh-Hans;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+User-Agent: {{UserAgent}}
+Host: w.mail.qq.com
+Connection: Keep-Alive
+Cookie: {{cookie}}
+
+
+### 获取邮件正文
+GET https://w.mail.qq.com/cgi-bin/readmail
+    ?ef=js
+    &sid={{sid}}
+    &t=mobile_data.json
+    &s=read&showreplyhead=1
+    &disptype=html
+    &mailid=ZC2905-B72LsbDxoIX1UVANFZIvM99
+Accept: , */*
+Accept-Language: zh-Hans-CN,zh-Hans;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+User-Agent: {{UserAgent}}
+Host: w.mail.qq.com
+Connection: Keep-Alive
+Cookie:  {{cookie}}
+
+### 手机站普通搜索
+GET https://w.mail.qq.com/cgi-bin/mail_list
+    ?sid={{sid}}
+    &t=mobile_data.json
+    &s=list
+    &page=1
+    &pagesize=100
+    &folderid=all
+    &topmails=0
+    &subject=ccsvc%40message.cmbchina.com
+Accept: , */*
+Accept-Language: zh-Hans-CN,zh-Hans;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+User-Agent: {{UserAgent}}
+Host: w.mail.qq.com
+Connection: Keep-Alive
+Cookie:  {{cookie}}
+
+### 搜索邮件 
+GET https://w.mail.qq.com/cgi-bin/mail_list
+    ?ef=js
+    &sid={{sid}}
+    &t=mobile_data.json
+    &s=list
+    &cursor=max
+    &cursorcount=300
+    &cursorsearch=1
+    &folderid=all
+    &sender=ccsvc%40message.cmbchina.com
+    &subject=%E5%BE%AA%E7%8E%AF%E5%88%A9%E6%81%AF
+    &daterange=8
+    &combinetype=or
+    &device=unknow
+    &app=phone
+    &ver=app
+    &advancesearch=2
+Accept: , */*
+Accept-Language: zh-Hans-CN,zh-Hans;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+User-Agent: {{UserAgent}}
+Referer: https://w.mail.qq.com/
+Host: w.mail.qq.com
+Connection: Keep-Alive
+Cookie: {{cookie}}
+
+
+
+### 搜索邮件  %E5%BE%AA%E7%8E%AF%E5%88%A9%E6%81%AF
+GET https://w.mail.qq.com/cgi-bin/mail_list
+    ?ef=js
+    &sid={{sid}}
+    &t=mobile_data.json
+    &s=list
+    &searchmode=advance
+    &page=0
+    &topmails=0
+    &subject=%E5%BE%AA%E7%8E%AF%E5%88%A9%E6%81%AF
+    &receiver=
+    &sender=ccsvc%40message.cmbchina.com
+    &advancesearch=2
+    &flagnew=
+    &attach=
+    &position=0
+    &folderid=all
+    &daterange=8
+Accept: , */*
+Accept-Language: zh-Hans-CN,zh-Hans;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+User-Agent: {{UserAgent}}
+Referer: https://w.mail.qq.com/
+Host: w.mail.qq.com
+Connection: Keep-Alive
+Cookie: {{cookie}}
+
+
+
+

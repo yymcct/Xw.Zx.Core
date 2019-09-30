@@ -6,8 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xw.Zx.Core.Models.Dto;
 using Xw.Zx.Core.Models.Model;
-using Xw.Zx.Core.Service.MailSync;
-using Xw.Zx.Core.Service.Parse;
+
 
 namespace Xw.Zx.Core.Service
 {
@@ -16,14 +15,14 @@ namespace Xw.Zx.Core.Service
         private readonly ILogger<SyncService> _logger;
         private readonly XwZxContext _xwZxContext;
         private readonly IQQMailService _qqMailService;
-        private readonly IMailSync _mailSync;
+        private readonly IMailSyncService _mailSync;
         private readonly IMailParseService _mailParseService;
 
 
         public SyncService(ILogger<SyncService> logger
             , IQQMailService qqMailService
             , XwZxContext xwZxContext
-            , IMailSync mailSync
+            , IMailSyncService mailSync
             , IMailParseService mailParseService)
         {
             _logger = logger;

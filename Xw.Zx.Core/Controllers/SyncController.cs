@@ -26,6 +26,11 @@ namespace Xw.Zx.Core.Controllers
             _syncService = syncService;
         }
 
+        /// <summary>
+        /// 邮箱账单同步
+        /// </summary>
+        /// <param name="syncDto"></param>
+        /// <returns></returns>
         [HttpPost]
         public HbzsResult<PostSyncMailResuleDto>  SyncAsync([FromBody]PostSyncMailDto syncDto)
         {
@@ -52,6 +57,13 @@ namespace Xw.Zx.Core.Controllers
                 return new HbzsResult<PostSyncMailResuleDto>(HbzsResultCode.Invalid_Error, ex.Message);
             }
         }
+        
+        
+        /// <summary>
+        /// 邮箱账单同步
+        /// </summary>
+        /// <param name="IsBefore"></param>
+        /// <returns></returns>
         [HttpGet]
         [Authorize]
         public  HbzsResult<PostSyncMailResuleDto> SyncAsync([FromQuery]string IsBefore = "")

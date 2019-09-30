@@ -67,15 +67,17 @@ namespace Xw.Zx.Core.Controllers
                 return new HbzsResult<List<BankInfoDto>>(HbzsResultCode.Invalid_Error, ex.Message);
             }
         }
+        
+        /// <summary>
+        /// 获取卡片合计信息
+        /// </summary>
+        /// <param name="sieveModel"></param>
+        /// <returns></returns>
         [HttpGet]
         public HbzsResult<CardTotalInfo> GetCardTotal([FromQuery]SieveModel sieveModel)
         {
             try
             {
-                //var OverdueFine = _context.BankCards
-                //    .AsNoTracking()
-                //    .Where(b => b.MemberId == Member.Id && b.Disabled == false).Sum(b => b.OverdueFine);
-
                 var OverdueFine = _context.BankBillDetails
                     .Where(b => b.MemberID == Member.Id)
                     .Sum(b=>b.Amount);
@@ -225,11 +227,6 @@ namespace Xw.Zx.Core.Controllers
 
 
 
-
-        #region 同步信用卡
-
-
-        #endregion
 
 
     }

@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Xw.Zx.Core.Models.Model;
 
-namespace Xw.Zx.Core.Service.Parse
+namespace Xw.Zx.Core.Service
 {
     public class ZhaoShangParseService : IZhaoShangParseService
     {

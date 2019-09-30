@@ -9,15 +9,16 @@
             配置mapper
             </summary>
         </member>
-        <member name="M:Xw.Zx.Core.Controllers.AlipayController.GetUpdateVip1Order">
-            <summary>
-            获取升级VIP1订单信息
-            </summary>
-            <returns></returns>
-        </member>
         <member name="M:Xw.Zx.Core.Controllers.BankCardController.Gets(Sieve.Models.SieveModel)">
             <summary>
             获取自己名下的银行卡信息, 可检索, 排序, 分页      
+            </summary>
+            <param name="sieveModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.BankCardController.GetCardTotal(Sieve.Models.SieveModel)">
+            <summary>
+            获取卡片合计信息
             </summary>
             <param name="sieveModel"></param>
             <returns></returns>
@@ -137,6 +138,20 @@
             获取个人信息, 需要认证
             </summary>
             <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.SyncController.SyncAsync(Xw.Zx.Core.Models.Dto.PostSyncMailDto)">
+            <summary>
+            邮箱账单同步
+            </summary>
+            <param name="syncDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.SyncController.SyncAsync(System.String)">
+            <summary>
+            邮箱账单同步
+            </summary>
+            <param name="IsBefore"></param>
             <returns></returns>
         </member>
         <member name="M:Xw.Zx.Core.Controllers.VipUpdateCodeController.Get">
@@ -736,7 +751,7 @@
             消费明细账单
             </summary>
         </member>
-        <member name="M:Xw.Zx.Core.Service.MailSync.MailSync.SyncMailDirToDb">
+        <member name="M:Xw.Zx.Core.Service.MailSyncService.SyncMailDirToDb">
             <summary>
             同步该邮箱所有银行卡目录
             </summary>

@@ -34,14 +34,7 @@ namespace Xw.Zx.Core.Controllers
             _logger = logger;
             _alipayService = alipayService;
         }
-        [HttpGet]
-        public string HeHe()
-        {
-            var dat = DateTime.Now.ToString() + "我再测试";
-            _logger.LogWarning(dat);
-            _logger.LogWarning(dat);
-            return dat;
-        }
+
         /// <summary>
         /// 获取升级VIP1订单信息
         /// </summary>

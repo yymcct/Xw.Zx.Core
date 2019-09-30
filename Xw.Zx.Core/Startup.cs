@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Loader;
 using System.Threading.Tasks;
 using Alipay.AopSdk.AspnetCore;
@@ -45,55 +46,13 @@ namespace Xw.Zx.Core
 
             #region Swagger           
 
-            services.AddApiVersioning(option =>
-            {
-                // 可选，为true时API返回支持的版本信息
-                option.ReportApiVersions = true;
-                // 不提供版本时，默认为1.0
-                option.AssumeDefaultVersionWhenUnspecified = true;
-                // 请求中未指定版本时默认为1.0
-                option.DefaultApiVersion = new ApiVersion(1, 0);
-            });
-            services.AddVersionedApiExplorer(option =>
-            {
-                // 版本名的格式：v+版本号
-                option.GroupNameFormat = "'v'VVVV";
-                option.AssumeDefaultVersionWhenUnspecified = true;
-            });
-
-            Provider = services.BuildServiceProvider().GetRequiredService<IApiVersionDescriptionProvider>();
-
             //Swagger
-            services.AddSwaggerGen(options =>
+            services.AddSwaggerGen(c =>
             {
-                foreach (var item in Provider.ApiVersionDescriptions)
-                {
-                    // 添加文档信息
-                    options.SwaggerDoc(item.GroupName, new Info
-                    {
-                        Title = "追息宝 Api",
-                        Version = item.ApiVersion.ToString(),
-                    });
-                }
+                c.SwaggerDoc("v1", new Info { Title = "Xw.Zx.Core", Version = "v1" });
                 var basePath = Path.GetDirectoryName(typeof(Program).Assembly.Location);//获取应用程序所在目录（绝对，不受工作目录影响，建议采用此方法获取路径）
                 var xmlPath = Path.Combine(basePath, "Xw.Zx.Core.xml");
-                options.IncludeXmlComments(xmlPath);
-                options.OperationFilter<SwaggerUploadFilter>();
-
-                options.AddSecurityDefinition("Bearer", new ApiKeyScheme
-                {
-                    Description = "Authorization: Bearer {token}",
-                    Name = "Authorization",
-                    In = "header",
-                    Type = "apiKey"
-                });
-
-                var security = new Dictionary<string, IEnumerable<string>>
-                {
-                    {"Bearer", new string[] { }},
-                };
-
-                options.AddSecurityRequirement(security);
+                c.IncludeXmlComments(xmlPath);
             });
             #endregion
 
@@ -158,8 +117,9 @@ namespace Xw.Zx.Core
 
             #region 注册服务
             //services.AddScoped<IMailService, MailService>();
-            services.AddScoped<IQQMailService, QQMailService>();
-            services.AddScoped<ISyncService, SyncService>();
+            //services.AddScoped<IQQMailService, QQMailService>();
+            //services.AddScoped<ISyncService, SyncService>();
+            AddAssembly(services, "Xw.Zx.Core");
             #endregion
 
             #region AutoMapper
@@ -212,13 +172,45 @@ namespace Xw.Zx.Core
 
             app.UseSwagger();
 
+
             app.UseSwaggerUI(c =>
             {
-                foreach (var item in Provider.ApiVersionDescriptions)
-                {
-                    c.SwaggerEndpoint($"/swagger/{item.GroupName}/swagger.json", "Hbzs.Api " + item.ApiVersion);
-                }                
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Xw.Zx.Core V1");
             });
+        }
+
+
+        public  void AddAssembly( IServiceCollection service, string assemblyName
+            , ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
+        {
+            var assembly =  AssemblyLoadContext.Default.LoadFromAssemblyPath(AppContext.BaseDirectory + $"{assemblyName}.dll");
+
+            var types = assembly.GetTypes();
+            var list = types.Where(u => u.IsClass && !u.IsAbstract && !u.IsGenericType && u.Namespace == "Xw.Zx.Core.Service").ToList();
+            list = list.Where(u => u.Name.Contains("Service")).ToList();
+            foreach (var type in list)
+            {
+                var interfaceList = type.GetInterfaces();
+                if (interfaceList.Any())
+                {
+                    var inter = interfaceList.First();
+
+                    switch (serviceLifetime)
+                    {
+                        case ServiceLifetime.Transient:
+                            service.AddTransient(inter, type);
+                            break;
+                        case ServiceLifetime.Scoped:
+                            service.AddScoped(inter, type);
+                            break;
+                        case ServiceLifetime.Singleton:
+                            service.AddSingleton(inter, type);
+                            break;
+
+                    }
+                    service.AddScoped(inter, type);
+                }
+            }
         }
     }
 }

@@ -18,12 +18,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\AlipayController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Api.http" />
+    <None Remove="Xw.Zx.Core.xml" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Api.http">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Xw.Zx.Core.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
