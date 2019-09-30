@@ -17,7 +17,7 @@ namespace Xw.Zx.Core.Service
         private readonly IQQMailService _qqMailService;
         private readonly IMailSyncService _mailSync;
         private readonly IMailParseService _mailParseService;
-
+      
 
         public SyncService(ILogger<SyncService> logger
             , IQQMailService qqMailService
@@ -36,7 +36,7 @@ namespace Xw.Zx.Core.Service
         {
             _mailSync.MemberId = postSyncMailDto.MemberId;
             _mailSync.MailService = _qqMailService.Init(postSyncMailDto.Sid, postSyncMailDto.Cookie);
-
+   
             _mailSync.SyncMailDirToDb();
             _mailSync.SyncMailToDb();
 

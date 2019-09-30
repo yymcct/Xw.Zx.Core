@@ -9,5 +9,8 @@ namespace Xw.Zx.Core.Service
     public interface IQQMailService: IMailService
     {
         IMailService Init(string sid, string cookie);
+        Task<List<string>> SearchByZhaoshang();
+        Task<List<string>> SearchByGuangfa();
+        Task<List<string>> SearchByZhongxin();
     }
 }

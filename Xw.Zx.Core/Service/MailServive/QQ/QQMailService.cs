@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Xw.Zx.Core.Helper;
 using Xw.Zx.Core.Models.Model;
@@ -143,6 +144,86 @@ namespace Xw.Zx.Core.Service
                 _logger.LogDebug($"[SearchByFrom]错误:sid:{_sid};cookies:{_cookies};fromMail:{fromMail};resStr:{resStr};Exception:{ex.Message}");
             }
             return null;
+        }
+
+        public async Task<List<string>> SearchByZhaoshang()
+        {
+            string resStr = "";
+            var mailIds = new List<string>();
+            try
+            {
+                string uri = $"/cgi-bin/mail_list?sid={_sid}&s=search&folderid=all&page=0&subject=ccsvc@message.cmbchina.com%20%D1%AD%BB%B7%C0%FB%CF%A2&sender=ccsvc@message.cmbchina.com%20%D1%AD%BB%B7%C0%FB%CF%A2&receiver=ccsvc@message.cmbchina.com%20%D1%AD%BB%B7%C0%FB%CF%A2&searchmode=&topmails=0&advancesearch=0&loc=frame_html,,,6";
+                resStr = await _client.GetStringAsync(uri);
+
+                var matchs = new Regex(@"mailid=(.+?)\&").Matches(resStr);
+                
+                foreach (Match m in matchs)
+                {
+                    var id = m.Groups[1].Value;
+
+                    mailIds.Add(id);
+                }
+
+                return mailIds;
+            }
+            catch (Exception ex)
+            {
+               // _logger.LogDebug($"[SearchByFrom]错误:sid:{_sid};cookies:{_cookies};fromMail:{fromMail};resStr:{resStr};Exception:{ex.Message}");
+            }
+            return mailIds;
+        }
+
+        public async Task<List<string>> SearchByGuangfa()
+        {
+            string resStr = "";
+            var mailIds = new List<string>();
+            try
+            {
+                string uri = $"/cgi-bin/mail_list?sid={_sid}&s=search&folderid=all&page=0&subject=creditcard@cgbchina.com.cn%20%C1%E3%CA%DB%C0%FB%CF%A2&sender=creditcard@cgbchina.com.cn%20%C1%E3%CA%DB%C0%FB%CF%A2&receiver=creditcard@cgbchina.com.cn%20%C1%E3%CA%DB%C0%FB%CF%A2&searchmode=&topmails=0&advancesearch=0&loc=frame_html,,,6";
+                resStr = await _client.GetStringAsync(uri);
+
+                var matchs = new Regex(@"mailid=(.+?)\&").Matches(resStr);
+
+                foreach (Match m in matchs)
+                {
+                    var id = m.Groups[1].Value;
+
+                    mailIds.Add(id);
+                }
+
+                return mailIds;
+            }
+            catch (Exception ex)
+            {
+                // _logger.LogDebug($"[SearchByFrom]错误:sid:{_sid};cookies:{_cookies};fromMail:{fromMail};resStr:{resStr};Exception:{ex.Message}");
+            }
+            return mailIds;
+        }
+        public async Task<List<string>> SearchByZhongxin()
+        {
+            string resStr = "";
+            var mailIds = new List<string>();
+            try
+            {
+                string uri = $"/cgi-bin/mail_list?sid={_sid}&s=search&folderid=all&page=0&subject=citiccard@bill.citiccard.com%20%C0%FB%CF%A2&sender=citiccard@bill.citiccard.com%20%C0%FB%CF%A2&receiver=citiccard@bill.citiccard.com%20%C0%FB%CF%A2&searchmode=&topmails=0&advancesearch=0&loc=frame_html,,,6";
+                resStr = await _client.GetStringAsync(uri);
+
+                var matchs = new Regex(@"mailid=(.+?)\&").Matches(resStr);
+
+                foreach (Match m in matchs)
+                {
+                    var id = m.Groups[1].Value;
+
+                    mailIds.Add(id);
+                }
+
+                return mailIds;
+            }
+            catch (Exception ex)
+            {
+                // _logger.LogDebug($"[SearchByFrom]错误:sid:{_sid};cookies:{_cookies};fromMail:{fromMail};resStr:{resStr};Exception:{ex.Message}");
+            }
+            return mailIds;
         }
 
         public async Task<MailSrc> GetMail(string mailid)

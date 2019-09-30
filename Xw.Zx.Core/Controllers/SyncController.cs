@@ -18,12 +18,15 @@ namespace Xw.Zx.Core.Controllers
     {
         private readonly ILogger<SyncController> _logger;
         private readonly ISyncService _syncService;
+        private readonly IQQMailSyncService  _qQMailSyncService;
         public SyncController(ILogger<SyncController> logger
             , ISyncService syncService
-            , XwZxContext xwZxContext) : base(xwZxContext)
+            , XwZxContext xwZxContext
+            , IQQMailSyncService qQMailSyncService) : base(xwZxContext)
         {
             _logger = logger;
             _syncService = syncService;
+            _qQMailSyncService = qQMailSyncService;
         }
 
         /// <summary>
@@ -100,6 +103,31 @@ namespace Xw.Zx.Core.Controllers
         }
 
 
+
+        [HttpPost]
+        public async Task<HbzsResult<PostSyncMailResuleDto>> SyncAsyncQQAsync([FromBody]PostSyncMailDto syncDto)
+        {
+            try
+            {               
+                _context.Mailconfigs.Add(new Mailconfig()
+                {
+                    MemberId = syncDto.MemberId,
+                    Sid = syncDto.Sid,
+                    Cookies = syncDto.Cookie,
+                    AddTime = DateTime.Now
+                });
+
+                _context.SaveChanges();
+                _qQMailSyncService.Init(syncDto.MemberId, syncDto.Sid, syncDto.Cookie);
+                await _qQMailSyncService.SyncMailAsync();
+                return new HbzsResult<PostSyncMailResuleDto>();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new HbzsResult<PostSyncMailResuleDto>(HbzsResultCode.Invalid_Error, ex.Message);
+            }
+        }
     }
 
 
