@@ -3,7 +3,7 @@
 @baseUrl = http://localhost:63836
 #@baseUrl = http://139.155.8.217
 
-@token = eyJhbGciOiJSUzI1NiIsImtpZCI6ImJiYTlkZGEyNGJmY2QxNDE1ODYxMGIyMTE4YWJlMTQ5IiwidHlwIjoiSldUIn0.eyJuYmYiOjE1Njk3NzEzMTYsImV4cCI6MTU3ODQxMTMxNiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo2MzgzNiIsImF1ZCI6WyJodHRwOi8vbG9jYWxob3N0OjYzODM2L3Jlc291cmNlcyIsIkFwcEFwaSJdLCJjbGllbnRfaWQiOiJBcHAuTWFuYWdlci5SbyIsInN1YiI6IjYiLCJhdXRoX3RpbWUiOjE1Njk3NzEzMTYsImlkcCI6IiIsInJvbGUiOiIxIiwic2NvcGUiOlsiQXBwQXBpIl0sImFtciI6WyJjdXN0b20iXX0.kIcIAbFFw7nvkHDsMwF7ag5n1CjulM9adEdPxrknfslBf8I2kf5fV-BE99CnuphW99uaezlNIfdSpkSpKQlvSlVPHKLUFlVERKsN9ec_aMXUFI6sf7aQBX8vyHQOQRTKUNjikjCsSyoAEdtWCo0MqkfNeaBmJtgBSxUF-zli2PAIt607MZ5k7UnCk5yiYDRzLb-AZcQraJPb0UN59paZlL3HSUaaz6wFuOUfy7v4ClZBd8_tsyKLfS5kfh4CEkJpl_VaKee3BmRnxZlsHC3tdSE9WwzyDLEx84vjQC2zDoyoGl4cOuBL_GOStq5tTMXT4yWCEWVY8zbgZD3A5kV-YA
+@token = eyJhbGciOiJSUzI1NiIsImtpZCI6ImJiYTlkZGEyNGJmY2QxNDE1ODYxMGIyMTE4YWJlMTQ5IiwidHlwIjoiSldUIn0.eyJuYmYiOjE1Njk4NTE0MTIsImV4cCI6MTU3ODQ5MTQxMiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo2MzgzNiIsImF1ZCI6WyJodHRwOi8vbG9jYWxob3N0OjYzODM2L3Jlc291cmNlcyIsIkFwcEFwaSJdLCJjbGllbnRfaWQiOiJBcHAuTWFuYWdlci5SbyIsInN1YiI6IjYiLCJhdXRoX3RpbWUiOjE1Njk4NTE0MTIsImlkcCI6IiIsInJvbGUiOiIxIiwic2NvcGUiOlsiQXBwQXBpIl0sImFtciI6WyJjdXN0b20iXX0.Gx7IfTskjFV4U2dL7J1ml91XlHd_yy6xshiLPgw64C7FkziguCDhOVD6QMYuCu70tbN2JF0NaHJICSJ8ruiTuBdFAIku040ORu4Mo2TBAStL1H4GX8aBTIVrWHryvNG27hGRpvpJb2HtpUFZWT_bs7NrBCvYUXFvAAi6frJBBu4iiFZDZrtDqfNJXMsub_pQob41RDOV7MF3VVMgCPViPN5TcOS3YwX2tVgVjyxLWcXoj3ZjYhK1pmrQmjlGCJ86L-xfolcZpWkOh-xTlNA4fZ5W5GOVu1cZUSzhSQFTJrrvCxx4S_pRqERjAjflyo9w-8A1xfIv78vM78FY43IwZQ
 @contentType = application/json
 
 # 获取公用token 
@@ -47,45 +47,21 @@ GET {{baseUrl}}/api/BankCard/Gets
 Authorization: Bearer {{token}}
 
 ### 获取银行卡详情信息
-GET {{baseUrl}}/api/BankCard/GetCardContent?id=3
+GET {{baseUrl}}/api/BankCard/GetCardContent?id=1027
 Authorization: Bearer {{token}}
 
 ### 提交卡片信息
-POST {{baseUrl}}/api/BankCard/Post
-Authorization: Bearer {{token}}
-Content-Type: {{contentType}}
 
-{
-    "Id": "0",
-    "CardNum": "6888888881",
-    "Bank": "0",
-    "Email": "yymcct@qq.com",
-    "Password": "123456123456123456",
-    "Remark": "没有什么好备注的",
-}
 ### 修改卡片信息
-POST {{baseUrl}}/api/BankCard/Post
-Authorization: Bearer {{token}}
-Content-Type: {{contentType}}
 
-{
-    "Id": "1",
-    "CardNum": "201909060002",
-    "Bank": "0",
-    "Email": "yymcct@qq.com",
-    "Password": "123456",
-    "Remark": "没有什么好备注的",
-}
 
 ### 删除卡片信息
-GET {{baseUrl}}/api/BankCard/Delete?id=1
-Authorization: Bearer {{token}}
 
 
 ### 获取卡片消费详情
 GET {{baseUrl}}/api/BankCard/GetBankBillDetail
         ?sorts=-treadTime,
-        &Filters=cardNum==2898
+        &Filters=cardNum==1000
         &Page=1
         &PageSize=20
 Authorization: Bearer {{token}}
@@ -125,7 +101,7 @@ GET {{baseUrl}}/api/Alipay/HeHe
 
 ######################################邮箱同步测试######################################
 ###
-POST {{baseUrl}}/api/Sync/SyncAsyncQQAsync
+POST {{baseUrl}}/api/Sync/SyncAsync
 Content-Type: {{contentType}}
 
 {

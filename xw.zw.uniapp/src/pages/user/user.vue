@@ -15,10 +15,10 @@
         </navigator>
       </uni-list>
     </view>
-<!--    <navigator url="../cards/addcard" hover-class="navigator-hover">
-      <button type="primary">添加信用卡</button>
-    </navigator>
-	<navigator url="../user/web" hover-class="navigator-hover">
+    <view class="btn">
+      <button type="primary" @click="logout">退出登录</button>
+    </view>
+	<!-- <navigator url="../user/web" hover-class="navigator-hover">
 	  <button type="primary">QQ邮箱导入</button>
 	</navigator> -->
   </view>
@@ -48,7 +48,12 @@ export default {
       }
     };
   },
-  methods: {},
+  methods: {
+    logout:function(){
+      uni.removeStorage('USERS_KEY');
+      uni.uni.switchTab({ url: '../mian/main'});
+    }
+  },
   onLoad: function() {
     console.log("AAAAAAAAAAAAAAA");
     let user = this.getUser("../user/user");

@@ -29,7 +29,7 @@
             >状态: 已同步 {{iteam.lastSyncTime}} 利息:{{iteam.overdueFine}}</text>
           </view>
           <view class="uni-triplex-right">
-            <text class="uni-h5"></text>
+            <text class="uni-h5">查看详情</text>
           </view>
         </view>
       </uni-swipe-action>
@@ -45,6 +45,7 @@ import uniSwipeAction from "@/components/uni-swipe-action/uni-swipe-action.vue";
 import uniIcon from "@/components/uni-icon/uni-icon.vue";
 export default {
   components: {
+    uniIcon,
     uniSwipeAction
   },
   data() {
@@ -62,9 +63,6 @@ export default {
       cardList: [],
       heardInfo: null
     };
-  },
-  components: {
-    uniIcon
   },
   methods: {
     bindClick(value) {
@@ -88,6 +86,8 @@ export default {
           return "华夏银行";
         case 6:
           return "民生银行";
+        case 7:
+          return "广发银行";
       }
     },
     zhuxi: function name() {

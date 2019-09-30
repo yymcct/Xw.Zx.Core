@@ -17,15 +17,12 @@ namespace Xw.Zx.Core.Controllers
     public class SyncController : BaseController
     {
         private readonly ILogger<SyncController> _logger;
-        private readonly ISyncService _syncService;
         private readonly IQQMailSyncService  _qQMailSyncService;
         public SyncController(ILogger<SyncController> logger
-            , ISyncService syncService
             , XwZxContext xwZxContext
             , IQQMailSyncService qQMailSyncService) : base(xwZxContext)
         {
-            _logger = logger;
-            _syncService = syncService;
+            _logger = logger;          
             _qQMailSyncService = qQMailSyncService;
         }
 
@@ -49,10 +46,12 @@ namespace Xw.Zx.Core.Controllers
                     AddTime = DateTime.Now
                 });
 
-                _context.SaveChanges();
-                 var res = await _syncService.SyncAsync(syncDto);
+                _qQMailSyncService.Init(syncDto.MemberId, syncDto.Sid, syncDto.Cookie);
+                await _qQMailSyncService.SyncMailAsync();
 
-                return new HbzsResult<PostSyncMailResuleDto>(res);
+                return new HbzsResult<PostSyncMailResuleDto>(new PostSyncMailResuleDto() { 
+                    LastSyncTime = DateTime.Now
+                });
             }
             catch (Exception ex)
             {
@@ -74,7 +73,7 @@ namespace Xw.Zx.Core.Controllers
             try
             {
                 var p = _context.Mailconfigs
-                        .Where(m => m.MemberId == Member.Id)
+                        .Where(m => m.MemberId == Member.Id &&  m.AddTime.AddHours(5) > DateTime.Now)
                         .OrderByDescending(m => m.AddTime)
                         .FirstOrDefault();
 
@@ -91,36 +90,13 @@ namespace Xw.Zx.Core.Controllers
                     IsBefore = IsBefore
                 };
 
-                var res = await _syncService.SyncAsync(syncDto);
-
-                return new HbzsResult<PostSyncMailResuleDto>(res);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return new HbzsResult<PostSyncMailResuleDto>(HbzsResultCode.Invalid_Error, ex.Message);
-            }
-        }
-
-
-
-        [HttpPost]
-        public async Task<HbzsResult<PostSyncMailResuleDto>> SyncAsyncQQAsync([FromBody]PostSyncMailDto syncDto)
-        {
-            try
-            {               
-                _context.Mailconfigs.Add(new Mailconfig()
-                {
-                    MemberId = syncDto.MemberId,
-                    Sid = syncDto.Sid,
-                    Cookies = syncDto.Cookie,
-                    AddTime = DateTime.Now
-                });
-
-                _context.SaveChanges();
                 _qQMailSyncService.Init(syncDto.MemberId, syncDto.Sid, syncDto.Cookie);
                 await _qQMailSyncService.SyncMailAsync();
-                return new HbzsResult<PostSyncMailResuleDto>();
+
+                return new HbzsResult<PostSyncMailResuleDto>(new PostSyncMailResuleDto()
+                {
+                    LastSyncTime = DateTime.Now
+                });
             }
             catch (Exception ex)
             {
