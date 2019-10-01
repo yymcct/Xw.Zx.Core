@@ -35,7 +35,7 @@ namespace Xw.Zx.Core.Controllers
         /// <summary>
         /// 获取自己名下的银行卡信息, 可检索, 排序, 分页      
         /// </summary>
-        /// <param name="sieveModel"></param>
+        /// <param name="sieveModel">可空</param>
         /// <returns></returns>
         [HttpGet]
         public HbzsResult<List<BankInfoDto>> Gets([FromQuery]SieveModel sieveModel)
@@ -67,20 +67,19 @@ namespace Xw.Zx.Core.Controllers
                 return new HbzsResult<List<BankInfoDto>>(HbzsResultCode.Invalid_Error, ex.Message);
             }
         }
-        
+
         /// <summary>
-        /// 获取卡片合计信息
+        /// 获取自己名下欠息合计
         /// </summary>
-        /// <param name="sieveModel"></param>
         /// <returns></returns>
         [HttpGet]
-        public HbzsResult<CardTotalInfo> GetCardTotal([FromQuery]SieveModel sieveModel)
+        public HbzsResult<CardTotalInfo> GetCardTotal()
         {
             try
             {
                 var OverdueFine = _context.BankBillDetails
                     .Where(b => b.MemberID == Member.Id)
-                    .Sum(b=>b.Amount);
+                    .Sum(b => b.Amount);
 
                 var res = new CardTotalInfo()
                 {
@@ -97,10 +96,11 @@ namespace Xw.Zx.Core.Controllers
         }
 
         /// <summary>
-        /// 获取银行卡详情
+        /// 获取所请求的银行卡的欠息账单详情
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">银行卡ID</param>
         /// <returns></returns>
+        [HttpGet]
         public HbzsResult<CardContentDto> GetCardContent([FromQuery]int id)
         {
             try
@@ -126,7 +126,7 @@ namespace Xw.Zx.Core.Controllers
         }
 
         /// <summary>
-        /// 添加修改银行卡
+        /// [弃用] 添加修改银行卡
         /// </summary>
         /// <param name="card">ID=0添加, ID=1修改</param>
         /// <returns></returns>
@@ -167,10 +167,9 @@ namespace Xw.Zx.Core.Controllers
         }
 
         /// <summary>
-        /// 删除自己名下银行卡
-        /// 注:只能删除自己名下的银行卡
+        /// [弃用]删除自己名下银行卡
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">银行卡ID</param>
         [HttpGet]
         public HbzsResult Delete([FromQuery]int id)
         {
@@ -199,7 +198,7 @@ namespace Xw.Zx.Core.Controllers
         /// <summary>
         /// 获取自己名下的银行卡信息, 可检索, 排序, 分页      
         /// </summary>
-        /// <param name="sieveModel"></param>
+        /// <param name="sieveModel">可空</param>
         /// <returns></returns>
         [HttpGet]
         public HbzsResult<List<BankBillDetailDto>> GetBankBillDetail([FromQuery]SieveModel sieveModel)

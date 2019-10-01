@@ -49,7 +49,7 @@ namespace Xw.Zx.Core
             //Swagger
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "Xw.Zx.Core", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = "送钱宝", Version = "v1" });
                 var basePath = Path.GetDirectoryName(typeof(Program).Assembly.Location);//获取应用程序所在目录（绝对，不受工作目录影响，建议采用此方法获取路径）
                 var xmlPath = Path.Combine(basePath, "Xw.Zx.Core.xml");
                 c.IncludeXmlComments(xmlPath);

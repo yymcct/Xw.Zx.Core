@@ -110,6 +110,9 @@ namespace Xw.Zx.Core.Controllers
             return order;
         }
 
+        /// <summary>
+        /// 支付宝支付成功回调地址
+        /// </summary>
         [HttpPost]
         public async void Notifyurl()
         {

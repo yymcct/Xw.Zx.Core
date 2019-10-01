@@ -9,46 +9,55 @@
             配置mapper
             </summary>
         </member>
+        <member name="M:Xw.Zx.Core.Controllers.AlipayController.GetUpdateVip1Order">
+            <summary>
+            获取升级VIP1订单信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.AlipayController.Notifyurl">
+            <summary>
+            支付宝支付成功回调地址
+            </summary>
+        </member>
         <member name="M:Xw.Zx.Core.Controllers.BankCardController.Gets(Sieve.Models.SieveModel)">
             <summary>
             获取自己名下的银行卡信息, 可检索, 排序, 分页      
             </summary>
-            <param name="sieveModel"></param>
+            <param name="sieveModel">可空</param>
             <returns></returns>
         </member>
-        <member name="M:Xw.Zx.Core.Controllers.BankCardController.GetCardTotal(Sieve.Models.SieveModel)">
+        <member name="M:Xw.Zx.Core.Controllers.BankCardController.GetCardTotal">
             <summary>
-            获取卡片合计信息
+            获取自己名下欠息合计
             </summary>
-            <param name="sieveModel"></param>
             <returns></returns>
         </member>
         <member name="M:Xw.Zx.Core.Controllers.BankCardController.GetCardContent(System.Int32)">
             <summary>
-            获取银行卡详情
+            获取所请求的银行卡的欠息账单详情
             </summary>
-            <param name="id"></param>
+            <param name="id">银行卡ID</param>
             <returns></returns>
         </member>
         <member name="M:Xw.Zx.Core.Controllers.BankCardController.Post(Xw.Zx.Core.Models.Dto.PostBankDto)">
             <summary>
-            添加修改银行卡
+            [弃用] 添加修改银行卡
             </summary>
             <param name="card">ID=0添加, ID=1修改</param>
             <returns></returns>
         </member>
         <member name="M:Xw.Zx.Core.Controllers.BankCardController.Delete(System.Int32)">
             <summary>
-            删除自己名下银行卡
-            注:只能删除自己名下的银行卡
+            [弃用]删除自己名下银行卡
             </summary>
-            <param name="id"></param>
+            <param name="id">银行卡ID</param>
         </member>
         <member name="M:Xw.Zx.Core.Controllers.BankCardController.GetBankBillDetail(Sieve.Models.SieveModel)">
             <summary>
             获取自己名下的银行卡信息, 可检索, 排序, 分页      
             </summary>
-            <param name="sieveModel"></param>
+            <param name="sieveModel">可空</param>
             <returns></returns>
         </member>
         <member name="F:Xw.Zx.Core.Controllers.HbzsResultCode.Remote_Service_Error">
