@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Xw.Zx.Core.Models.Model;
 
 namespace Xw.Zx.Core.Migrations
 {
     [DbContext(typeof(XwZxContext))]
-    partial class XwZxContextModelSnapshot : ModelSnapshot
+    [Migration("20191001153928_chonggoubank")]
+    partial class chonggoubank
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,7 +56,7 @@ namespace Xw.Zx.Core.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(8, 2)");
 
-                    b.Property<int>("Bank");
+                    b.Property<int>("BankCardType");
 
                     b.Property<string>("CardNum");
 

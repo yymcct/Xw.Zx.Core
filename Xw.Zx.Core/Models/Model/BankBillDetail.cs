@@ -13,8 +13,11 @@ namespace Xw.Zx.Core.Models.Model
         public int Id { get; set; }
 
         [Sieve(CanFilter = true, CanSort = true)]
-        public string CardNum { get; set; }
+        public BankCardType Bank { get; set; }
 
+        [Sieve(CanFilter = true, CanSort = true)]
+        public string CardNum { get; set; }
+       
         /// <summary>
         /// 交易时间
         /// </summary>

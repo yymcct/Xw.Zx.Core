@@ -55,8 +55,9 @@ namespace Xw.Zx.Core.Controllers
                 for (var i = 0; i < res.Count; i++)
                 {
                     res[i].OverdueFine = _context.BankBillDetails
-                            .Where(b => b.MemberID == Member.Id && b.CardNum == res[i].CardNum)
+                            .Where(b => b.MemberID == Member.Id && b.Bank == res[i].Bank)
                             .Sum(b => b.Amount);
+                    res[i].BankName = res[i].Bank.ToString();
                 }
 
                 return new HbzsResult<List<BankInfoDto>>(res);

@@ -31,7 +31,6 @@ namespace Xw.Zx.Core.Models.Model
         //银行
         public BankCardType Bank { get; set; }
 
-
         //用户名
         public string Email { get; set; }
         //密码

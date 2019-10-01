@@ -12,12 +12,12 @@
       v-for="iteam in cardList"
       v-bind:key="iteam.id"
       class="card"
-      @click="bindClick(iteam.cardNum)"
+      @click="bindClick(iteam.bank)"
     >
       <uni-swipe-action :options="options1">
         <view class="uni-triplex-row crd">
           <view class="uni-triplex-left">
-            <text class="uni-title uni-ellipsis">{{getBankName(iteam.bank)}}</text>
+            <text class="uni-title uni-ellipsis">{{iteam.bankName}}</text>
             <text class="uni-text">卡号: {{iteam.cardNum}}</text>
             <text
               class="uni-text-small uni-ellipsis"
@@ -67,29 +67,9 @@ export default {
   methods: {
     bindClick(value) {
       uni.navigateTo({
-        url: `../cards/carddetail?cardnum=${value}`
+        url: `../cards/carddetail?bank=${value}`
       });
-    },
-    getBankName(bankid) {
-      switch (bankid) {
-        case 0:
-          return "招商银行";
-        case 1:
-          return "浦发银行";
-        case 2:
-          return "中信银行";
-        case 3:
-          return "平安银行";
-        case 4:
-          return "广大银行";
-        case 5:
-          return "华夏银行";
-        case 6:
-          return "民生银行";
-        case 7:
-          return "广发银行";
-      }
-    },
+    },   
     zhuxi: function name() {
       uni.showModal({
         title: "提示",

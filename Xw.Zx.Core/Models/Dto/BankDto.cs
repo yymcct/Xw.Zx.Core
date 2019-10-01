@@ -25,6 +25,7 @@ namespace Xw.Zx.Core.Models.Dto
         public int Id { get; set; }
         public string CardNum { get; set; }
         public BankCardType Bank { get; set; }
+        public string BankName { get; set; }
 
         public DateTime? LastSyncTime { get; set; }
 

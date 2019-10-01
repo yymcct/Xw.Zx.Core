@@ -42,7 +42,7 @@ export default {
       page: 1,
       reload: false,
       status: "more",
-      cardnum: "",
+      bank: "",
       user: null,
       contentText: {
         contentdown: "上拉加载更多",
@@ -57,8 +57,8 @@ export default {
       return false;
     }
     console.log( this.user);
-    this.cardnum = opthion.cardnum;
-    console.log( this.cardnum);
+    this.bank = opthion.bank;
+    console.log( this.bank);
     // this.getBanner();
     this.getList();
   },
@@ -97,7 +97,7 @@ export default {
         this.status = "loading";
       }
       uni.request({
-        url: `${this.baseUrl}/api/BankCard/GetBankBillDetail?sorts=-treadTime&Filters=cardNum==${this.cardnum}&Page=${this.page}&PageSize=20`,
+        url: `${this.baseUrl}/api/BankCard/GetBankBillDetail?sorts=-treadTime&Filters=bank==${this.bank}&Page=${this.page}&PageSize=20`,
         method: "GET",
         header: {
           "Content-Type": "application/json",

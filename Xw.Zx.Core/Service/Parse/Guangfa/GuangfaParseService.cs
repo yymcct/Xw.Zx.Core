@@ -79,6 +79,7 @@ namespace Xw.Zx.Core.Service
                 {
                     var detail = new BankBillDetail()
                     {
+                        Bank = BankCardType.广发银行,
                         MemberID = mail.MemberId,
                         MailId = mail.Id
                     };
@@ -87,7 +88,7 @@ namespace Xw.Zx.Core.Service
 
                     detail.TreadTime = DateTime.Parse(year);
                     detail.Unit = "人民币";
-                    detail.SellerName = "零售利息";
+                    detail.SellerName = "利息";
                     detail.Amount = decimal.Parse(m.Groups[1].Value);
                     details.Add(detail);
                 }
@@ -118,7 +119,7 @@ namespace Xw.Zx.Core.Service
         private void SaveBank(string CardNum)
         {
             if (_xwZxContext.BankCards.Any(b => b.MemberId == _memberId
-                    && b.CardNum == CardNum) == false)
+                    && b.Bank == BankCardType.广发银行) == false)
             {
                 _xwZxContext.BankCards.Add(new BankCard()
                 {

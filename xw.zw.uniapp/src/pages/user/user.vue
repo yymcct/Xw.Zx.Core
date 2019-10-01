@@ -16,7 +16,7 @@
       </uni-list>
     </view>
     <view class="btn">
-      <button type="primary" @click="logout">退出登录</button>
+      <!-- <button type="primary" @click="logout">退出登录</button> -->
     </view>
 	<!-- <navigator url="../user/web" hover-class="navigator-hover">
 	  <button type="primary">QQ邮箱导入</button>
@@ -50,8 +50,8 @@ export default {
   },
   methods: {
     logout:function(){
-      uni.removeStorage('USERS_KEY');
-      uni.uni.switchTab({ url: '../mian/main'});
+      uni.removeStorageSync('USERS_KEY');
+      uni.switchTab({ url: 'pages/main/main'});
     }
   },
   onLoad: function() {

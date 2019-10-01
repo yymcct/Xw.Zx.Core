@@ -79,6 +79,7 @@ namespace Xw.Zx.Core.Service
                 {
                     var detail = new BankBillDetail()
                     {
+                        Bank = BankCardType.中信银行,
                         MemberID = mail.MemberId,
                         MailId = mail.Id
                     };
@@ -118,7 +119,7 @@ namespace Xw.Zx.Core.Service
         private void SaveBank(string CardNum)
         {
             if (_xwZxContext.BankCards.Any(b => b.MemberId == _memberId
-                    && b.CardNum == CardNum) == false)
+                    && b.Bank == BankCardType.中信银行) == false)
             {
                 _xwZxContext.BankCards.Add(new BankCard()
                 {
