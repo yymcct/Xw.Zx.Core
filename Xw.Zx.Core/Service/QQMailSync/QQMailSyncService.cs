@@ -17,12 +17,14 @@ namespace Xw.Zx.Core.Service
         private readonly IZhaoShangParseService  _zhaoShangParseService;
         private readonly IGuangfaParseService  _guangfaParseService;
         private readonly IZhongxinParseService  _zhongxinParseService;
+        private readonly IGuangZhouYinHangParseService _guangZhouYinHangParseService;
         public QQMailSyncService(ILogger<QQMailSyncService> logger
              , XwZxContext xwZxContext
             , IQQMailService qqMailService
             , IZhaoShangParseService zhaoShangParseService
             , IGuangfaParseService guangfaParseService
-            , IZhongxinParseService zhongxinParseService)
+            , IZhongxinParseService zhongxinParseService
+            , IGuangZhouYinHangParseService guangZhouYinHangParseService)
         {
             _logger = logger;
             _qqMailService = qqMailService;
@@ -30,6 +32,7 @@ namespace Xw.Zx.Core.Service
             _zhaoShangParseService = zhaoShangParseService;
             _guangfaParseService = guangfaParseService;
             _zhongxinParseService = zhongxinParseService;
+            _guangZhouYinHangParseService = guangZhouYinHangParseService;
         }
 
         public void Init(int memberId, string sid, string cookie)
@@ -60,6 +63,9 @@ namespace Xw.Zx.Core.Service
 
             _zhongxinParseService.Member = _memberId;
             _zhongxinParseService.Parse();
+
+            _guangZhouYinHangParseService.Member = _memberId;
+            _guangZhouYinHangParseService.Parse();
         }
 
 

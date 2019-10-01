@@ -9,14 +9,16 @@ namespace Xw.Zx.Core.Models.Model
 {
     public enum BankCardType
     {
-        招商银行 = 0,
+        
+        招商银行 = 0,//以支持
         浦发银行 = 1,
-        中信银行 = 2,
+        中信银行 = 2,//以支持
         平安银行 = 3,
         广大银行 = 4,
         华夏银行 = 5,
         民生银行 = 6,
-        广发银行 = 7
+        广发银行 = 7,//以支持
+        广州银行 = 8 //以支持
     }
     public class BankCard
     {

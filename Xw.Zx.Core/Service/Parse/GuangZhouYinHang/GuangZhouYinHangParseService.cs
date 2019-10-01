@@ -9,7 +9,7 @@ using Xw.Zx.Core.Models.Model;
 
 namespace Xw.Zx.Core.Service
 {
-    public class GuangZhouYinHangParseService : IZhongxinParseService
+    public class GuangZhouYinHangParseService : IGuangZhouYinHangParseService
     {
         private int _memberId;
         public int Member { set { _memberId = value; } }
@@ -71,7 +71,7 @@ namespace Xw.Zx.Core.Service
             var details = new List<BankBillDetail>();
             try
             {
-                var matchs = new Regex(@"(\d{4}/\d{2}/\d{2})\s利息交易(.+)(\d+\.\d{2})").Matches(content);
+                var matchs = new Regex(@"(\d{4}/\d{2}/\d{2})利息交易￥(\d+\.\d{2})").Matches(content);
 
                 foreach (Match m in matchs)
                 {
@@ -82,11 +82,10 @@ namespace Xw.Zx.Core.Service
                     };
 
                     detail.CardNum = "0000";
-
-                    detail.TreadTime = DateTime.ParseExact( m.Groups[1].Value, "yyMMdd", new CultureInfo("zh-CN", true));
+                    detail.TreadTime = DateTime.ParseExact( m.Groups[1].Value, "yyyy/MM/dd", new CultureInfo("zh-CN", true));
                     detail.Unit = "人民币";
                     detail.SellerName = "利息";
-                    detail.Amount = decimal.Parse(m.Groups[3].Value);
+                    detail.Amount = decimal.Parse(m.Groups[2].Value);
                     details.Add(detail);
                 }
 
@@ -122,7 +121,7 @@ namespace Xw.Zx.Core.Service
                 {
                     MemberId = _memberId,
                     CardNum = CardNum,
-                    Bank = BankCardType.中信银行,
+                    Bank = BankCardType.广州银行,
                     LastSyncTime = DateTime.Now,
                     LastSyncIsOk = true,
                 });
@@ -134,7 +133,7 @@ namespace Xw.Zx.Core.Service
         private void UpdateBankCardSate()
         {
             var bank = _xwZxContext.BankCards
-                .Where(b => b.MemberId == _memberId && b.Bank == BankCardType.中信银行)
+                .Where(b => b.MemberId == _memberId && b.Bank == BankCardType.广州银行)
                 .FirstOrDefault();
 
             if (bank != null)
