@@ -213,7 +213,6 @@ namespace Xw.Zx.Core.Controllers
         /// <summary>
         /// 获取个人信息, 需要认证
         /// </summary>
-        /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
         [Authorize]

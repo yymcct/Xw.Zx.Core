@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sieve.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,9 +8,21 @@ namespace Xw.Zx.Core.Models.Model
 {
     public enum UpdateVipAuthCodeState
     {
+        /// <summary>
+        /// 待使用 
+        /// </summary>
         待使用 = 0,
+        /// <summary>
+        /// 已赠送
+        /// </summary>
         已赠送 = 1,
+        /// <summary>
+        /// 已使用
+        /// </summary>
         已使用 = 2,
+        /// <summary>
+        /// 已过期
+        /// </summary>
         已过期 = 3,
     }
 
@@ -18,6 +31,7 @@ namespace Xw.Zx.Core.Models.Model
     /// </summary>
     public class UpdateVipAuthCode
     {
+        [Sieve(CanFilter = true, CanSort = true)]
         public int Id { get; set; }
 
         /// <summary>
@@ -47,12 +61,14 @@ namespace Xw.Zx.Core.Models.Model
         /// <summary>
         /// 失效时间
         /// </summary>
+        [Sieve(CanFilter = true, CanSort = true)]
         public DateTime ExpiesTime { get; set; } = DateTime.Now.AddDays(15);
 
-        public UpdateVipAuthCodeState pdateVipAuthCodeState { get; set; } = UpdateVipAuthCodeState.待使用;
+        [Sieve(CanFilter = true, CanSort = true)]
+        public UpdateVipAuthCodeState UPdateVipAuthCodeState { get; set; } = UpdateVipAuthCodeState.待使用;
 
         public string Remark{ get; set; }
 
-        public DateTime dateTime { get; set; } = DateTime.Now;
+        public DateTime AddTime { get; set; } = DateTime.Now;
     }
 }

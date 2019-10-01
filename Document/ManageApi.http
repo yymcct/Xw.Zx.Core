@@ -3,14 +3,14 @@
 @baseUrl = http://localhost:63836
 #@baseUrl = http://139.155.8.217
 
-@token = eyJhbGciOiJSUzI1NiIsImtpZCI6ImJiYTlkZGEyNGJmY2QxNDE1ODYxMGIyMTE4YWJlMTQ5IiwidHlwIjoiSldUIn0.eyJuYmYiOjE1Njk4NTE0MTIsImV4cCI6MTU3ODQ5MTQxMiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo2MzgzNiIsImF1ZCI6WyJodHRwOi8vbG9jYWxob3N0OjYzODM2L3Jlc291cmNlcyIsIkFwcEFwaSJdLCJjbGllbnRfaWQiOiJBcHAuTWFuYWdlci5SbyIsInN1YiI6IjYiLCJhdXRoX3RpbWUiOjE1Njk4NTE0MTIsImlkcCI6IiIsInJvbGUiOiIxIiwic2NvcGUiOlsiQXBwQXBpIl0sImFtciI6WyJjdXN0b20iXX0.Gx7IfTskjFV4U2dL7J1ml91XlHd_yy6xshiLPgw64C7FkziguCDhOVD6QMYuCu70tbN2JF0NaHJICSJ8ruiTuBdFAIku040ORu4Mo2TBAStL1H4GX8aBTIVrWHryvNG27hGRpvpJb2HtpUFZWT_bs7NrBCvYUXFvAAi6frJBBu4iiFZDZrtDqfNJXMsub_pQob41RDOV7MF3VVMgCPViPN5TcOS3YwX2tVgVjyxLWcXoj3ZjYhK1pmrQmjlGCJ86L-xfolcZpWkOh-xTlNA4fZ5W5GOVu1cZUSzhSQFTJrrvCxx4S_pRqERjAjflyo9w-8A1xfIv78vM78FY43IwZQ
+@token = eyJhbGciOiJSUzI1NiIsImtpZCI6ImJiYTlkZGEyNGJmY2QxNDE1ODYxMGIyMTE4YWJlMTQ5IiwidHlwIjoiSldUIn0.eyJuYmYiOjE1Njk5MjIwOTUsImV4cCI6MTU3ODU2MjA5NSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo2MzgzNiIsImF1ZCI6WyJodHRwOi8vbG9jYWxob3N0OjYzODM2L3Jlc291cmNlcyIsIkFwcEFwaSJdLCJjbGllbnRfaWQiOiJBcHAuTWFuYWdlci5SbyIsInN1YiI6IjUiLCJhdXRoX3RpbWUiOjE1Njk5MjIwOTUsImlkcCI6IiIsInJvbGUiOiIxIiwic2NvcGUiOlsiQXBwQXBpIl0sImFtciI6WyJjdXN0b20iXX0.A5dnwjuCQ8lom-vTsXusIJveOuvTxRISXqBdDrrG8NqMX_wqbwxMwhTMMhZx_n8efwGqhDOiOudjAPJtjEIcFYXvYRi1eJ6YPQJORzRXbutRCRhH4bO0niCpfbO9slvlNZH4f8KkVZrImsLZvelvhUSg9Xf-DSGmdK3VEaLK1mFR9dIEOMphoqB_4wVv-h5kpb2w-bhXFqObMFXr6DaSS3v2EFjTkC6zuZCsTsGEcYPDjnkDQc6WxB4eIR7gtHFUOAu9SOlwWcin8TXPbBaCtYd4JG-2L9zeerGZp1EPcRdIJWiGeigiKjnSg58HKoaQZSv0wgI6mSE027pys_cCig
 @contentType = application/json
 
 # 获取公用token 
 POST {{baseUrl}}/connect/token HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 
-grant_type=password&client_id=App.Manager.Ro&client_secret=DEsjpJFtokIOhMKuE6BVMczYUEEyPGTOLrur3PXw26VMLNwKOfAKFZZgR2vVJDKG&username=18624938008&password=123456
+grant_type=password&client_id=App.Manager.Ro&client_secret=DEsjpJFtokIOhMKuE6BVMczYUEEyPGTOLrur3PXw26VMLNwKOfAKFZZgR2vVJDKG&username=18624938007&password=123456
 
 ###############################################登录注册###############################################
 ### 注册
@@ -115,6 +115,13 @@ GET {{baseUrl}}/api/Sync/SyncAsync
 Authorization: Bearer {{token}}
 ###
 GET {{baseUrl}}/api/Values/get
+
+
+#######################################升级码测试#############################################
+### 生成升级码
+GET {{baseUrl}}/api/UpdateVipAuthCode/Create?memberid=6&cnt=6
+Authorization: Bearer {{token}}
+###
 
 如果没有最后同步同时, 就直接获取最新的长的那, 返回数据 账单条数, 和最后同步时间
 

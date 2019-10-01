@@ -29,10 +29,7 @@ using Xw.Zx.Core.Utility;
 namespace Xw.Zx.Core
 {
     public class Startup
-    {   /// <summary>
-        /// Api版本信息
-        /// </summary>
-        private IApiVersionDescriptionProvider Provider;
+    {   
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;

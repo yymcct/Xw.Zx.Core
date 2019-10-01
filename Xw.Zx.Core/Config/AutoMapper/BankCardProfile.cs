@@ -14,9 +14,14 @@ namespace Xw.Zx.Core.Config.AutoMapper
         public BankCardProfile()
         {
             CreateMap<PostBankDto, BankCard>().ReverseMap();
+            
             CreateMap<BankCard, BankInfoDto>();
+            
             CreateMap<Member, MyTeamUserDto>();
+            
             CreateMap<BankBillDetail, BankBillDetailDto>();
+            
+            CreateMap<UpdateVipAuthCode, UpdaeVipAuthCodeDto>();
         }
     }
 }

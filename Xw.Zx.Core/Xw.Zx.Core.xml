@@ -146,7 +146,6 @@
             <summary>
             获取个人信息, 需要认证
             </summary>
-            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:Xw.Zx.Core.Controllers.SyncController.SyncAsync(Xw.Zx.Core.Models.Dto.PostSyncMailDto)">
@@ -163,10 +162,33 @@
             <param name="IsBefore"></param>
             <returns></returns>
         </member>
-        <member name="M:Xw.Zx.Core.Controllers.VipUpdateCodeController.Get">
+        <member name="M:Xw.Zx.Core.Controllers.UpdateVipAuthCodeController.Get(Sieve.Models.SieveModel)">
             <summary>
-            获取
+            获取自己名下所有的VIP授权码
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.UpdateVipAuthCodeController.Create(System.Int32,System.Int32)">
+            <summary>
+            生成指定数量的优惠券到指定用户的账号下, 内部使用,
+            </summary>
+            <param name="memberid"></param>
+            <param name="cnt"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.UpdateVipAuthCodeController.Send(System.String,System.Int32)">
+            <summary>
+            TODO:预留 暂不使用 将自己的升级码赠送给自己团队的某人
+            </summary>
+            <param name="code"></param>
+            <param name="toMemberId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.UpdateVipAuthCodeController.Use(System.String)">
+            <summary>
+            使用VIp升级码 升级为会员
+            </summary>
+            <param name="code"></param>
             <returns></returns>
         </member>
         <member name="M:Xw.Zx.Core.Helper.CommonHelper.GetWebAdress">
@@ -625,6 +647,31 @@
             交易额
             </summary>
         </member>
+        <member name="P:Xw.Zx.Core.Models.Dto.UpdaeVipAuthCodeDto.SourceOwinId">
+            <summary>
+            赠送人ID
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Dto.UpdaeVipAuthCodeDto.SourceOwinPhone">
+            <summary>
+            赠送人电话
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Dto.UpdaeVipAuthCodeDto.Code">
+            <summary>
+            升级码
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Dto.UpdaeVipAuthCodeDto.ExpiesTime">
+            <summary>
+            失效时间
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Dto.UpdaeVipAuthCodeDto.UPdateVipAuthCodeState">
+            <summary>
+            升级码状态 0 待使用, 1 已赠送, 2 已使用, 3 已过期
+            </summary>
+        </member>
         <member name="T:Xw.Zx.Core.Models.Model.BankBill">
             <summary>
             银行卡账单
@@ -710,6 +757,26 @@
             收款表
             </summary>
         </member>
+        <member name="F:Xw.Zx.Core.Models.Model.UpdateVipAuthCodeState.待使用">
+            <summary>
+            待使用 
+            </summary>
+        </member>
+        <member name="F:Xw.Zx.Core.Models.Model.UpdateVipAuthCodeState.已赠送">
+            <summary>
+            已赠送
+            </summary>
+        </member>
+        <member name="F:Xw.Zx.Core.Models.Model.UpdateVipAuthCodeState.已使用">
+            <summary>
+            已使用
+            </summary>
+        </member>
+        <member name="F:Xw.Zx.Core.Models.Model.UpdateVipAuthCodeState.已过期">
+            <summary>
+            已过期
+            </summary>
+        </member>
         <member name="T:Xw.Zx.Core.Models.Model.UpdateVipAuthCode">
             <summary>
             升级Vip用的授权码
@@ -758,11 +825,6 @@
         <member name="P:Xw.Zx.Core.Models.Model.XwZxContext.BankBillDetails">
             <summary>
             消费明细账单
-            </summary>
-        </member>
-        <member name="F:Xw.Zx.Core.Startup.Provider">
-            <summary>
-            Api版本信息
             </summary>
         </member>
     </members>

@@ -9,7 +9,7 @@ namespace Xw.Zx.Core.Models.Dto
     public class MemberDto
     {
         public int Id { get; set; }
-        public MemberVipType MemberVipType { get; set; } = MemberVipType.普通;
+        public MemberVipType MemberVipType { get; set; }
 
         public string Phone { get; set; }
 
