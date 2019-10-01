@@ -145,6 +145,7 @@ namespace Xw.Zx.Core.Service
             return new List<MailInfoDto>();
         }
 
+        #region 各个银行
         public async Task<List<string>> SearchByZhaoshang()
         {
             string resStr = "";
@@ -225,6 +226,37 @@ namespace Xw.Zx.Core.Service
             return mailIds;
         }
 
+        public async Task<List<string>> SearchByGuangZhouYingHang()
+        {
+            string resStr = "";
+            var mailIds = new List<string>();
+            try
+            {
+                string uri = $"/cgi-bin/mail_list?sid={_sid}&s=search&folderid=all&page=0&subject=creditcard@electronicbill.gzcb.com.cn%20%C0%FB%CF%A2%BD%BB%D2%D7&sender=creditcard@electronicbill.gzcb.com.cn%20%C0%FB%CF%A2%BD%BB%D2%D7&receiver=creditcard@electronicbill.gzcb.com.cn%20%C0%FB%CF%A2%BD%BB%D2%D7&searchmode=&topmails=0&advancesearch=0&loc=frame_html,,,6";
+                resStr = await _client.GetStringAsync(uri);
+
+                var matchs = new Regex(@"<span>利息交易<\/span>(.+)mailid=(.+?)\&").Matches(resStr);
+
+                foreach (Match m in matchs)
+                {
+                    var id = m.Groups[2].Value;
+
+                    mailIds.Add(id);
+                }
+
+                return mailIds;
+            }
+            catch (Exception ex)
+            {
+                // _logger.LogDebug($"[SearchByFrom]错误:sid:{_sid};cookies:{_cookies};fromMail:{fromMail};resStr:{resStr};Exception:{ex.Message}");
+            }
+            return mailIds;
+        }
+
+        #endregion
+
+
+
         public async Task<MailSrc> GetMail(string mailid)
         {
             string resStr = "";
@@ -256,5 +288,7 @@ namespace Xw.Zx.Core.Service
             }
             return null;
         }
+
+     
     }
 }

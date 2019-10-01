@@ -18,7 +18,9 @@ namespace Xw.Zx.Core.Config.AutoMapper
             CreateMap<BankCard, BankInfoDto>();
             
             CreateMap<Member, MyTeamUserDto>();
-            
+
+            CreateMap<Member, MemberDto>();
+
             CreateMap<BankBillDetail, BankBillDetailDto>();
             
             CreateMap<UpdateVipAuthCode, UpdaeVipAuthCodeDto>();

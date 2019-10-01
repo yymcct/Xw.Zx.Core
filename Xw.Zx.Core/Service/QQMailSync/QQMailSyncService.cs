@@ -49,6 +49,9 @@ namespace Xw.Zx.Core.Service
             uids = await _qqMailService.SearchByZhongxin();
             await SaveMails(uids);
 
+            uids = await _qqMailService.SearchByGuangZhouYingHang();
+            await SaveMails(uids);
+
             _zhaoShangParseService.Member = _memberId;
             _zhaoShangParseService.Parse();
 

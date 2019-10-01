@@ -121,7 +121,7 @@ namespace Xw.Zx.Core.Controllers
             {
                 var vipUpdateCode = _context
                                         .UpdateVipAuthCodes
-                                        .Where(v => v.Code == code && v.ExpiesTime < DateTime.Now)
+                                        .Where(v => v.Code == code && v.ExpiesTime > DateTime.Now)
                                         .FirstOrDefault();
 
                 //检查升级码 状态
@@ -149,19 +149,31 @@ namespace Xw.Zx.Core.Controllers
                 using (TransactionScope scope = new TransactionScope())
                 {
                     Member.MemberVipType = MemberVipType.Vip会员;
+                    Member.Remark = $"{DateTime.Now}通过升级码:{vipUpdateCode.Id}升级";
                     _context.Entry(Member).State = EntityState.Modified;
 
                     vipUpdateCode.UPdateVipAuthCodeState = UpdateVipAuthCodeState.已使用;
-
+                    vipUpdateCode.UsedMemberId = Member.Id;
+                    vipUpdateCode.UsedTime = DateTime.Now;
+                    vipUpdateCode.Remark = $"用户ID{Member.Id}, 电话{Member.Phone} 使用的";
                     //Save and discard changes
                     _context.SaveChanges();
 
                     //if we get here things are looking good.
                     scope.Complete();
                 }
-                var res = _mapper.Map<MemberDto>(Member);
+                var selef = _mapper.Map<MemberDto>(Member);
+                if (selef.InviteId != 0)
+                {
+                    var inviteUser = _context.Members
+                       .FirstOrDefault(m => m.Id == selef.InviteId && m.Disabled == false);
+                    if (inviteUser != null)
+                    {
+                        selef.InvitePhone = inviteUser.Phone;
+                    }
+                }
 
-                return new HbzsResult<MemberDto>(res);
+                return new HbzsResult<MemberDto>(selef);
             }
             catch (Exception ex)
             {

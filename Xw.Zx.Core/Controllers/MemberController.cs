@@ -222,13 +222,8 @@ namespace Xw.Zx.Core.Controllers
             {
                 var user = _context.Members
                     .First(m => m.Id == Member.Id && m.Disabled == false);
-                var memberDto = new MemberDto()
-                {
-                    Id = user.Id,
-                    MemberVipType = user.MemberVipType,
-                    Phone = user.Phone,
-                    InviteId = user.InviteId
-                };
+
+               var memberDto =  _mapper.Map<MemberDto>(user);
 
                 if (user.InviteId != 0)
                 {
@@ -236,7 +231,7 @@ namespace Xw.Zx.Core.Controllers
                        .FirstOrDefault(m => m.Id == user.InviteId && m.Disabled == false);
                     if (inviteUser != null)
                     {
-                        memberDto.InvitePhone = user.Phone;
+                        memberDto.InvitePhone = inviteUser.Phone;
                     }
                 }
                 return new HbzsResult<MemberDto>(memberDto);

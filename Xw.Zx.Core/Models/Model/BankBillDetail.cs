@@ -36,6 +36,7 @@ namespace Xw.Zx.Core.Models.Model
         /// </summary>
         public string Unit { get; set; }
 
+        //public DateTime AddTime { get; set; }
 
         #region 辅助字段
         [Sieve(CanFilter = true, CanSort = true)]

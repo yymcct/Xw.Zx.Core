@@ -49,6 +49,13 @@ namespace Xw.Zx.Core.Models.Model
         /// </summary>
         public int SourceOwinId { get; set; } = 0;
 
+        /// <summary>
+        /// 使用者ID
+        /// </summary>
+        public int UsedMemberId { get; set; } = 0;
+
+        public DateTime UsedTime { get; set; }
+
         //public string InternalCode { get; set; }
 
         //public string Salt { get; set; }

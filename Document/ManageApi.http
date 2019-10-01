@@ -3,14 +3,14 @@
 @baseUrl = http://localhost:63836
 #@baseUrl = http://139.155.8.217
 
-@token = eyJhbGciOiJSUzI1NiIsImtpZCI6ImJiYTlkZGEyNGJmY2QxNDE1ODYxMGIyMTE4YWJlMTQ5IiwidHlwIjoiSldUIn0.eyJuYmYiOjE1Njk5MjIwOTUsImV4cCI6MTU3ODU2MjA5NSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo2MzgzNiIsImF1ZCI6WyJodHRwOi8vbG9jYWxob3N0OjYzODM2L3Jlc291cmNlcyIsIkFwcEFwaSJdLCJjbGllbnRfaWQiOiJBcHAuTWFuYWdlci5SbyIsInN1YiI6IjUiLCJhdXRoX3RpbWUiOjE1Njk5MjIwOTUsImlkcCI6IiIsInJvbGUiOiIxIiwic2NvcGUiOlsiQXBwQXBpIl0sImFtciI6WyJjdXN0b20iXX0.A5dnwjuCQ8lom-vTsXusIJveOuvTxRISXqBdDrrG8NqMX_wqbwxMwhTMMhZx_n8efwGqhDOiOudjAPJtjEIcFYXvYRi1eJ6YPQJORzRXbutRCRhH4bO0niCpfbO9slvlNZH4f8KkVZrImsLZvelvhUSg9Xf-DSGmdK3VEaLK1mFR9dIEOMphoqB_4wVv-h5kpb2w-bhXFqObMFXr6DaSS3v2EFjTkC6zuZCsTsGEcYPDjnkDQc6WxB4eIR7gtHFUOAu9SOlwWcin8TXPbBaCtYd4JG-2L9zeerGZp1EPcRdIJWiGeigiKjnSg58HKoaQZSv0wgI6mSE027pys_cCig
+@token = eyJhbGciOiJSUzI1NiIsImtpZCI6ImJiYTlkZGEyNGJmY2QxNDE1ODYxMGIyMTE4YWJlMTQ5IiwidHlwIjoiSldUIn0.eyJuYmYiOjE1Njk5Mzc3NDEsImV4cCI6MTU3ODU3Nzc0MSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo2MzgzNiIsImF1ZCI6WyJodHRwOi8vbG9jYWxob3N0OjYzODM2L3Jlc291cmNlcyIsIkFwcEFwaSJdLCJjbGllbnRfaWQiOiJBcHAuTWFuYWdlci5SbyIsInN1YiI6IjYiLCJhdXRoX3RpbWUiOjE1Njk5Mzc3NDEsImlkcCI6IiIsInJvbGUiOiIxIiwic2NvcGUiOlsiQXBwQXBpIl0sImFtciI6WyJjdXN0b20iXX0.pflAHSbYQp8uGXTqK8KsHSap9IS-8sDSgmGOOValu_4BZwZTht5ZEeqDlxdJECAIsW5anPhs--dGNwOjWQQBuOvaVJYGKPcuJ3kP_QoVdrkr5g1h7Zrlo3wLD_nUjdMBbdiGk1udiH8YDliNaOzLQ6U0Ey6mecGL8SIUpbOYYO6iAQJ7YTTG6CU9Xlw-QvgQTMfqsiLwapQ6YaVFPy7efyoMEQEBvVJcmaomyhO7Ralym3ddho4JXJlZDKwWuPAnPAzDajatadR6DVTNWzaBhq44otIpHNQpbV4g-Gx1pZLqL1K_Kg8v4eXOhfuL-hk-qIt40eYUF2bzv9jWY-rTmg
 @contentType = application/json
 
 # 获取公用token 
 POST {{baseUrl}}/connect/token HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 
-grant_type=password&client_id=App.Manager.Ro&client_secret=DEsjpJFtokIOhMKuE6BVMczYUEEyPGTOLrur3PXw26VMLNwKOfAKFZZgR2vVJDKG&username=18624938007&password=123456
+grant_type=password&client_id=App.Manager.Ro&client_secret=DEsjpJFtokIOhMKuE6BVMczYUEEyPGTOLrur3PXw26VMLNwKOfAKFZZgR2vVJDKG&username=18624938008&password=123456
 
 ###############################################登录注册###############################################
 ### 注册
@@ -79,8 +79,8 @@ Content-Type: {{contentType}}
 {
     "MemberId": "6",
     "Mail": "19202490@qq.com",
-    "Sid": "qxG6ERDB3-p0KCl0x4q9AZ2X,4,c9du-YiUnoNM.",
-    "Cookie": "mcookie=0&y; pgv_pvi=4695865344; pgv_si=s628980736; ptisp=cnc; RK=3bhtSpu5ER; ptcz=bc24f99180878c500213a4494d91c59fa2401eaeb0ddec90b86d7457ec23f774; qm_flag=0; edition=mail.qq.com; wimrefreshrun=0&; qm_logintype=qq; uin=o0019202490; luin=o0019202490; p_uin=o0019202490; p_luin=o0019202490; qqmail_alias=xiawei1981@foxmail.com; qm_username=19202490; username=19202490&19202490; newpt=2; qm_loginfrom=68771803&psaread|19202490&psaread; webp=1; 3g_guest_id=-8573880012074123264; g_ut=3; pcache=5064871ab245e93MTU3MTg0MzEyNQ@19202490@4; CCSHOW=000001; msuid=k10u647us7ugscwjo6ovif31zos0joy1usf3gw7k; lskey=000100004b8c77d3f21b2ca750ddba7495f74c16b9ecfef4498a185ec7a626361af4cd6711420a6b54b8fe6b; pt4_token=GgUeQVpUOcc2uOhptA*SD*6abz7HLdneo4h1UGOBNP4_; p_skey=r7yafGO3Qdbp2e-eAXCMiXMAt*G9RiM56Be93boIccE_; p_lskey=00040000f2f9fa1309de34fbc55a216e30feda48e8905c0ba07a81a6c4b35d46f3968d5fc8f2333e6e82c6ec; tinfo=1569687733.0000*; new_mail_num=68771803&196|19202490&0; device=iPad; mpwd=972C25DBB49DD346F8E7BA332ED303503316DB59F57B2E08884CE96CE082A404@19202490@4; msid=qxG6ERDB3-p0KCl0T_69AZ2X,4,c9du-YpNpwr4.; sid=19202490&05717f222fb839a4d859742850221d4b,c9du-YpNpwr4.; ssl_edition=sail.qq.com; device=; qm_sk=19202490&bqi9A52V; qm_ssum=19202490&b0ba4cc11a26589a9d614494a0d8069c",
+    "Sid": "W_GU4uP_ByKxWFkE",
+    "Cookie": "W_GU4uP_ByKxWFkEmcookie=0&y; pgv_pvi=4695865344; pgv_si=s628980736; ptisp=cnc; RK=3bhtSpu5ER; ptcz=bc24f99180878c500213a4494d91c59fa2401eaeb0ddec90b86d7457ec23f774; qm_flag=0; edition=mail.qq.com; wimrefreshrun=0&; qm_logintype=qq; uin=o0019202490; luin=o0019202490; p_uin=o0019202490; p_luin=o0019202490; qqmail_alias=xiawei1981@foxmail.com; qm_username=19202490; username=19202490&19202490; newpt=2; qm_loginfrom=68771803&psaread|19202490&psaread; webp=1; 3g_guest_id=-8573880012074123264; g_ut=3; CCSHOW=000001; msuid=k10u647us7ugscwjo6ovif31zos0joy1usf3gw7k; lskey=000100004b8c77d3f21b2ca750ddba7495f74c16b9ecfef4498a185ec7a626361af4cd6711420a6b54b8fe6b; pt4_token=GgUeQVpUOcc2uOhptA*SD*6abz7HLdneo4h1UGOBNP4_; p_skey=r7yafGO3Qdbp2e-eAXCMiXMAt*G9RiM56Be93boIccE_; p_lskey=00040000f2f9fa1309de34fbc55a216e30feda48e8905c0ba07a81a6c4b35d46f3968d5fc8f2333e6e82c6ec; qm_sk=19202490&bqi9A52V; ssl_edition=sail.qq.com; msid=W_GU4uP_ByKxWFkET_69AZ2X,4,c9du-Ynf_HPs.; sid=19202490&2d741545daddbf6839a38477fd8d987c,c9du-Ynf_HPs.; device=; new_mail_num=68771803&196|19202490&224; qm_ssum=19202490&de0b026c6e947f55307d956f6670d24b",
 }
 
 ##########################支付宝##############################################
@@ -121,8 +121,16 @@ GET {{baseUrl}}/api/Values/get
 ### 生成升级码
 GET {{baseUrl}}/api/UpdateVipAuthCode/Create?memberid=6&cnt=6
 Authorization: Bearer {{token}}
-###
 
+### 获取名下的升级码
+GET {{baseUrl}}/api/UpdateVipAuthCode/Get?page=1&pagesize=2
+Authorization: Bearer {{token}}
+
+### 使用升级码
+GET {{baseUrl}}/api/UpdateVipAuthCode/Use?code=8ba14909-47ff-4d1a-91d1-5d2a2f801328
+Authorization: Bearer {{token}}
+
+###
 如果没有最后同步同时, 就直接获取最新的长的那, 返回数据 账单条数, 和最后同步时间
 
 第一次同步

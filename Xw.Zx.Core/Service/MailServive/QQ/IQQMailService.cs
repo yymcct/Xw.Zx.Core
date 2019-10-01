@@ -14,5 +14,7 @@ namespace Xw.Zx.Core.Service
         Task<List<string>> SearchByZhaoshang();
         Task<List<string>> SearchByGuangfa();
         Task<List<string>> SearchByZhongxin();
+
+        Task<List<string>> SearchByGuangZhouYingHang();
     }
 }

@@ -797,6 +797,11 @@
             原所有者ID
             </summary>
         </member>
+        <member name="P:Xw.Zx.Core.Models.Model.UpdateVipAuthCode.UsedMemberId">
+            <summary>
+            使用者ID
+            </summary>
+        </member>
         <member name="P:Xw.Zx.Core.Models.Model.UpdateVipAuthCode.Code">
             <summary>
             优惠码 = MD5()
