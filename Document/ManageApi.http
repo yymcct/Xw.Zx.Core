@@ -47,7 +47,7 @@ GET {{baseUrl}}/api/BankCard/Gets
 Authorization: Bearer {{token}}
 
 ### 获取银行卡详情信息
-GET {{baseUrl}}/api/BankCard/GetCardContent?id=1027
+GET {{baseUrl}}/api/BankCard/GetCardContent?id=1044
 Authorization: Bearer {{token}}
 
 ### 提交卡片信息
@@ -61,7 +61,7 @@ Authorization: Bearer {{token}}
 ### 获取卡片消费详情
 GET {{baseUrl}}/api/BankCard/GetBankBillDetail
         ?sorts=-treadTime,
-        &Filters=cardNum==1000
+        &Filters=Bank==0
         &Page=1
         &PageSize=20
 Authorization: Bearer {{token}}
@@ -79,8 +79,8 @@ Content-Type: {{contentType}}
 {
     "MemberId": "6",
     "Mail": "19202490@qq.com",
-    "Sid": "W_GU4uP_ByKxWFkE",
-    "Cookie": "W_GU4uP_ByKxWFkEmcookie=0&y; pgv_pvi=4695865344; pgv_si=s628980736; ptisp=cnc; RK=3bhtSpu5ER; ptcz=bc24f99180878c500213a4494d91c59fa2401eaeb0ddec90b86d7457ec23f774; qm_flag=0; edition=mail.qq.com; wimrefreshrun=0&; qm_logintype=qq; uin=o0019202490; luin=o0019202490; p_uin=o0019202490; p_luin=o0019202490; qqmail_alias=xiawei1981@foxmail.com; qm_username=19202490; username=19202490&19202490; newpt=2; qm_loginfrom=68771803&psaread|19202490&psaread; webp=1; 3g_guest_id=-8573880012074123264; g_ut=3; CCSHOW=000001; msuid=k10u647us7ugscwjo6ovif31zos0joy1usf3gw7k; lskey=000100004b8c77d3f21b2ca750ddba7495f74c16b9ecfef4498a185ec7a626361af4cd6711420a6b54b8fe6b; pt4_token=GgUeQVpUOcc2uOhptA*SD*6abz7HLdneo4h1UGOBNP4_; p_skey=r7yafGO3Qdbp2e-eAXCMiXMAt*G9RiM56Be93boIccE_; p_lskey=00040000f2f9fa1309de34fbc55a216e30feda48e8905c0ba07a81a6c4b35d46f3968d5fc8f2333e6e82c6ec; qm_sk=19202490&bqi9A52V; ssl_edition=sail.qq.com; msid=W_GU4uP_ByKxWFkET_69AZ2X,4,c9du-Ynf_HPs.; sid=19202490&2d741545daddbf6839a38477fd8d987c,c9du-Ynf_HPs.; device=; new_mail_num=68771803&196|19202490&224; qm_ssum=19202490&de0b026c6e947f55307d956f6670d24b",
+    "Sid": "LJZVtLVn9dBDfXwh",
+    "Cookie": "mcookie=0&y; pgv_pvi=4695865344; pgv_si=s628980736; ptisp=cnc; RK=3bhtSpu5ER; ptcz=bc24f99180878c500213a4494d91c59fa2401eaeb0ddec90b86d7457ec23f774; qm_flag=0; edition=mail.qq.com; wimrefreshrun=0&; qm_logintype=qq; uin=o0019202490; luin=o0019202490; p_uin=o0019202490; p_luin=o0019202490; qqmail_alias=xiawei1981@foxmail.com; qm_username=19202490; username=19202490&19202490; newpt=2; webp=1; 3g_guest_id=-8573880012074123264; g_ut=3; msuid=k10u647us7ugscwjo6ovif31zos0joy1usf3gw7k; lskey=000100004b8c77d3f21b2ca750ddba7495f74c16b9ecfef4498a185ec7a626361af4cd6711420a6b54b8fe6b; p_lskey=00040000f2f9fa1309de34fbc55a216e30feda48e8905c0ba07a81a6c4b35d46f3968d5fc8f2333e6e82c6ec; ssl_edition=sail.qq.com; msid=W_GU4uP_ByKxWFkET_69AZ2X,4,c9du-Ynf_HPs.; CCSHOW=000001; ptui_loginuin=19202490@qq.com; qm_domain=https://mail.qq.com; qm_ptlsk=19202490&000100004b8c77d3f21b2ca750ddba7495f74c16b9ecfef4498a185ec7a626361af4cd6711420a6b54b8fe6b; foxacc=19202490&1; qm_loginfrom=68771803&psaread|19202490&wpt; skey=@iRRB4wAxy; pt4_token=blEwjNQ8hnF7NgPY-4sitFpc9N-LagJ3EXejsdRz8jo_; p_skey=mUVDzakU71703MyF00VCZ9vA1NHSmTpncVeJ5OXoHlc_; sid=19202490&6093105f1f9f959cea13489cd16cd6b6,c9du-YpmVCsw.; qm_ptsk=19202490&@iRRB4wAxy; new_mail_num=68771803&196|19202490&224",
 }
 
 ##########################支付宝##############################################
@@ -106,8 +106,8 @@ Content-Type: {{contentType}}
 
 {
     "MemberId":6,
-    "Sid": "W_GU4uP_ByKxWFkE&rank=2",
-    "Cookie": "mcookie=0&y; pgv_pvi=4695865344; pgv_si=s628980736; ptisp=cnc; RK=3bhtSpu5ER; ptcz=bc24f99180878c500213a4494d91c59fa2401eaeb0ddec90b86d7457ec23f774; qm_flag=0; edition=mail.qq.com; wimrefreshrun=0&; qm_logintype=qq; uin=o0019202490; luin=o0019202490; p_uin=o0019202490; p_luin=o0019202490; qqmail_alias=xiawei1981@foxmail.com; qm_username=19202490; username=19202490&19202490; newpt=2; webp=1; 3g_guest_id=-8573880012074123264; g_ut=3; msuid=k10u647us7ugscwjo6ovif31zos0joy1usf3gw7k; lskey=000100004b8c77d3f21b2ca750ddba7495f74c16b9ecfef4498a185ec7a626361af4cd6711420a6b54b8fe6b; p_lskey=00040000f2f9fa1309de34fbc55a216e30feda48e8905c0ba07a81a6c4b35d46f3968d5fc8f2333e6e82c6ec; qm_sk=19202490&bqi9A52V; ssl_edition=sail.qq.com; msid=W_GU4uP_ByKxWFkET_69AZ2X,4,c9du-Ynf_HPs.; qm_ssum=19202490&de0b026c6e947f55307d956f6670d24b; CCSHOW=000001; ptui_loginuin=19202490@qq.com; skey=@MHLADoo6M; pt4_token=yqY9JGrPpfVVe7QVO26aglOXkjP73bTdtzaZEsfGAmo_; p_skey=knNGxAq20PCLhL97v7MCNdOxV5xuzXAnL79NqAKxYeM_; sid=19202490&2d741545daddbf6839a38477fd8d987c,c9du-YndGBy0.; qm_domain=https://mail.qq.com; qm_ptsk=19202490&@MHLADoo6M; qm_ptlsk=19202490&000100004b8c77d3f21b2ca750ddba7495f74c16b9ecfef4498a185ec7a626361af4cd6711420a6b54b8fe6b; foxacc=19202490&1; qm_loginfrom=68771803&psaread|19202490&wpt; new_mail_num=68771803&196|19202490&224",
+    "Sid": "LJZVtLVn9dBDfXwh",
+    "Cookie": "mcookie=0&y; pgv_pvi=4695865344; pgv_si=s628980736; ptisp=cnc; RK=3bhtSpu5ER; ptcz=bc24f99180878c500213a4494d91c59fa2401eaeb0ddec90b86d7457ec23f774; qm_flag=0; edition=mail.qq.com; wimrefreshrun=0&; qm_logintype=qq; uin=o0019202490; luin=o0019202490; p_uin=o0019202490; p_luin=o0019202490; qqmail_alias=xiawei1981@foxmail.com; qm_username=19202490; username=19202490&19202490; newpt=2; webp=1; 3g_guest_id=-8573880012074123264; g_ut=3; msuid=k10u647us7ugscwjo6ovif31zos0joy1usf3gw7k; lskey=000100004b8c77d3f21b2ca750ddba7495f74c16b9ecfef4498a185ec7a626361af4cd6711420a6b54b8fe6b; p_lskey=00040000f2f9fa1309de34fbc55a216e30feda48e8905c0ba07a81a6c4b35d46f3968d5fc8f2333e6e82c6ec; ssl_edition=sail.qq.com; msid=W_GU4uP_ByKxWFkET_69AZ2X,4,c9du-Ynf_HPs.; CCSHOW=000001; ptui_loginuin=19202490@qq.com; qm_domain=https://mail.qq.com; qm_ptlsk=19202490&000100004b8c77d3f21b2ca750ddba7495f74c16b9ecfef4498a185ec7a626361af4cd6711420a6b54b8fe6b; foxacc=19202490&1; qm_loginfrom=68771803&psaread|19202490&wpt; skey=@iRRB4wAxy; pt4_token=blEwjNQ8hnF7NgPY-4sitFpc9N-LagJ3EXejsdRz8jo_; p_skey=mUVDzakU71703MyF00VCZ9vA1NHSmTpncVeJ5OXoHlc_; sid=19202490&6093105f1f9f959cea13489cd16cd6b6,c9du-YpmVCsw.; qm_ptsk=19202490&@iRRB4wAxy; new_mail_num=68771803&196|19202490&224",
 }
 
 ###

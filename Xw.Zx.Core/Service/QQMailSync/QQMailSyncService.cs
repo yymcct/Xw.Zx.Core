@@ -18,13 +18,15 @@ namespace Xw.Zx.Core.Service
         private readonly IGuangfaParseService  _guangfaParseService;
         private readonly IZhongxinParseService  _zhongxinParseService;
         private readonly IGuangZhouYinHangParseService _guangZhouYinHangParseService;
+        private readonly IYouZhengParseService _youZhengParseService;
         public QQMailSyncService(ILogger<QQMailSyncService> logger
              , XwZxContext xwZxContext
             , IQQMailService qqMailService
             , IZhaoShangParseService zhaoShangParseService
             , IGuangfaParseService guangfaParseService
             , IZhongxinParseService zhongxinParseService
-            , IGuangZhouYinHangParseService guangZhouYinHangParseService)
+            , IGuangZhouYinHangParseService guangZhouYinHangParseService
+            , IYouZhengParseService youZhengParseService )
         {
             _logger = logger;
             _qqMailService = qqMailService;
@@ -33,6 +35,7 @@ namespace Xw.Zx.Core.Service
             _guangfaParseService = guangfaParseService;
             _zhongxinParseService = zhongxinParseService;
             _guangZhouYinHangParseService = guangZhouYinHangParseService;
+            _youZhengParseService = youZhengParseService;
         }
 
         public void Init(int memberId, string sid, string cookie)
@@ -55,6 +58,9 @@ namespace Xw.Zx.Core.Service
             uids = await _qqMailService.SearchByGuangZhouYingHang();
             await SaveMails(uids);
 
+            uids = await _qqMailService.SearchByYouZhengYingHang();
+            await SaveMails(uids);
+
             _zhaoShangParseService.Member = _memberId;
             _zhaoShangParseService.Parse();
 
@@ -66,6 +72,9 @@ namespace Xw.Zx.Core.Service
 
             _guangZhouYinHangParseService.Member = _memberId;
             _guangZhouYinHangParseService.Parse();
+
+            _youZhengParseService.Member = _memberId;
+            _youZhengParseService.Parse();
         }
 
 

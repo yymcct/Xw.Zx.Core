@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using HtmlAgilityPack;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -244,6 +245,37 @@ namespace Xw.Zx.Core.Service
                     mailIds.Add(id);
                 }
 
+                return mailIds;
+            }
+            catch (Exception ex)
+            {
+                // _logger.LogDebug($"[SearchByFrom]错误:sid:{_sid};cookies:{_cookies};fromMail:{fromMail};resStr:{resStr};Exception:{ex.Message}");
+            }
+            return mailIds;
+        }
+
+        public async Task<List<string>> SearchByYouZhengYingHang()
+        {
+            string resStrHtml = "";
+            var mailIds = new List<string>();
+            try
+            {
+                string uri = $"/cgi-bin/mail_list?sid={_sid}&s=search&folderid=all&page=0&subject=creditcardcenter@cardmail.psbc.com%20%C0%FB%CF%A2%BD%BB%D2%D7&sender=creditcardcenter@cardmail.psbc.com%20%C0%FB%CF%A2%BD%BB%D2%D7&receiver=creditcardcenter@cardmail.psbc.com%20%C0%FB%CF%A2%BD%BB%D2%D7&searchmode=&topmails=0&advancesearch=0&loc=frame_html,,,6";
+                resStrHtml = await _client.GetStringAsync(uri);
+
+
+                var htmlDoc = new HtmlDocument();
+                htmlDoc.LoadHtml(resStrHtml);
+                var htmlNodes = htmlDoc.DocumentNode
+                    .SelectNodes(@"//*[@class=""maillist_listItem""]");
+               
+                foreach (var node in htmlNodes)
+                {
+                    if (node.InnerText.Contains("利息交易"))
+                    {
+                        mailIds.Add(node.Id);
+                    }
+                }
                 return mailIds;
             }
             catch (Exception ex)
