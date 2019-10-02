@@ -19,7 +19,8 @@ namespace Xw.Zx.Core.Models.Model
         民生银行 = 6,
         广发银行 = 7,//支持
         广州银行 = 8,//支持
-        邮政银行 = 9 //支持
+        邮政银行 = 9,//支持
+        交通银行 = 10//支持
     }
     public class BankCard
     {

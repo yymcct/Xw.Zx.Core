@@ -9,19 +9,16 @@ using Xw.Zx.Core.Models.Model;
 
 namespace Xw.Zx.Core.Service
 {
-    public class YouZhengParseService : IYouZhengParseService
+    public class YouZhengParseService : ParseServiceBase,IYouZhengParseService
     {
         //TODO
-        protected readonly BankCardType ThisBankCardType;
         private int _memberId;
         public int Member { set { _memberId = value; } }
         private readonly ILogger<YouZhengParseService> _logger;
-        private readonly XwZxContext _xwZxContext;
         public YouZhengParseService(ILogger<YouZhengParseService> logger
-            , XwZxContext xwZxContext)
+            , XwZxContext xwZxContext) : base(xwZxContext, BankCardType.邮政银行)
         {
             _logger = logger;
-            _xwZxContext = xwZxContext;
         }
         public void Parse()
         {
@@ -35,7 +32,7 @@ namespace Xw.Zx.Core.Service
                     var details = ToBillDetail(mail);
                     if (details != null && details.Count > 0)
                     {
-                        SaveBank(details[0].CardNum);
+                        SaveBank(details[0].CardNum, _memberId);
                         SaveBankBillDetail(details);
                     }
                     UpdateMailIsPrased(mail);
@@ -47,24 +44,7 @@ namespace Xw.Zx.Core.Service
                 }
             }
 
-            UpdateBankCardSate();
-        }
-
-        private void UpdateMailIsPrased(MailSrc mail)
-        {
-            mail.IsPrased = true;
-            _xwZxContext.Entry(mail).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            _xwZxContext.SaveChanges();
-        }
-
-        private void SaveBankBillDetail(List<BankBillDetail> details)
-        {
-            foreach (var detail in details)
-            {
-                _xwZxContext.BankBillDetails.Add(detail);
-            }
-
-            _xwZxContext.SaveChanges();
+            UpdateBankCardSate(_memberId);
         }
 
         public List<BankBillDetail> ToBillDetail(MailSrc mail)
@@ -134,37 +114,6 @@ namespace Xw.Zx.Core.Service
 
             return mails;
         }
-
-        private void SaveBank(string CardNum)
-        {
-            if (_xwZxContext.BankCards.Any(b => b.MemberId == _memberId
-                    && b.Bank == ThisBankCardType) == false)
-            {
-                _xwZxContext.BankCards.Add(new BankCard()
-                {
-                    MemberId = _memberId,
-                    CardNum = CardNum,
-                    Bank = ThisBankCardType,
-                    LastSyncTime = DateTime.Now,
-                    LastSyncIsOk = true,
-                });
-                _xwZxContext.SaveChanges();
-            }
-        }
-
-
-        private void UpdateBankCardSate()
-        {
-            var bank = _xwZxContext.BankCards
-                .Where(b => b.MemberId == _memberId && b.Bank == ThisBankCardType)
-                .FirstOrDefault();
-
-            if (bank != null)
-            {
-                bank.LastSyncIsOk = true;
-                bank.LastSyncTime = DateTime.Now;
-                _xwZxContext.SaveChanges();
-            }
-        }
+       
     }
 }

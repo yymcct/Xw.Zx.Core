@@ -13,7 +13,7 @@ using Xw.Zx.Core.Models.Model;
 
 namespace Xw.Zx.Core.Service
 {
-    public class QQMailService: IQQMailService
+    public class QQMailService : IQQMailService
     {
         private readonly ILogger<QQMailService> _logger;
         private readonly Uri _baseAddress = new Uri("https://w.mail.qq.com");
@@ -27,6 +27,7 @@ namespace Xw.Zx.Core.Service
             _logger = logger;
         }
 
+        #region 邮箱基础操作
         public void Init(string sid, string cookie)
         {
             _sid = sid;
@@ -50,7 +51,7 @@ namespace Xw.Zx.Core.Service
             var handler = new HttpClientHandler() { CookieContainer = cookieContainer };
             _client = new HttpClient(handler) { BaseAddress = _baseAddress };
 
-            _client.DefaultRequestHeaders.Add("Accept", "*/*");        
+            _client.DefaultRequestHeaders.Add("Accept", "*/*");
             _client.DefaultRequestHeaders.Add("Accept-Encoding", "*gzip, deflate*");
             _client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows Phone 10.0;  Android 4.2.1; Nokia; Lumia 520) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Mobile Safari/537.36 Edge/12.0");
             _client.DefaultRequestHeaders.Add("Host", "w.mail.qq.com");
@@ -121,7 +122,7 @@ namespace Xw.Zx.Core.Service
         {
             string resStr = "";
             try
-            {               
+            {
                 string uri = $"/cgi-bin/mail_list?sid={_sid}&t=mobile_data.json&s=list&page={page}&pagesize={pagesize}&folderid=all&topmails=0&subject={fromMail}";
                 resStr = await _client.GetStringAsync(uri);
                 JObject res = JObject.Parse(resStr);
@@ -146,6 +147,39 @@ namespace Xw.Zx.Core.Service
             return new List<MailInfoDto>();
         }
 
+        public async Task<MailSrc> GetMail(string mailid)
+        {
+            string resStr = "";
+            try
+            {
+                string uri = $"/cgi-bin/readmail?ef=js&sid={_sid}&t=mobile_data.json&s=read&showreplyhead=1&disptype=html&mailid={mailid}";
+
+                resStr = await _client.GetStringAsync(uri);
+                JObject res = JObject.Parse(resStr);
+                var mls = (JToken)res["mls"][0];
+
+                var mail = new MailSrc
+                {
+                    Uid = (string)mls["inf"]["id"],
+                    Sublic = (string)mls["inf"]["subj"],
+                    From = (string)mls["inf"]["from"]["addr"],
+                    To = (string)mls["inf"]["toLst"][0]["addr"],
+                    Body = (string)mls["content"]["body"],
+                    BodyText = (string)mls["content"]["bodytext"],
+                    SendTime = TypeHelper.UnixTimeToDateTime((int)mls["inf"]["date"]),
+                    AddTime = DateTime.Now
+                };
+
+                return mail;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogDebug($"[SearchByFrom]错误:sid:{_sid};cookies:{_cookies};mailid:{mailid};resStr:{resStr};Exception:{ex.Message}");
+            }
+            return null;
+        }
+        #endregion
+
         #region 各个银行
         public async Task<List<string>> SearchByZhaoshang()
         {
@@ -157,7 +191,7 @@ namespace Xw.Zx.Core.Service
                 resStr = await _client.GetStringAsync(uri);
 
                 var matchs = new Regex(@"mailid=(.+?)\&").Matches(resStr);
-                
+
                 foreach (Match m in matchs)
                 {
                     var id = m.Groups[1].Value;
@@ -169,7 +203,7 @@ namespace Xw.Zx.Core.Service
             }
             catch (Exception ex)
             {
-               // _logger.LogDebug($"[SearchByFrom]错误:sid:{_sid};cookies:{_cookies};fromMail:{fromMail};resStr:{resStr};Exception:{ex.Message}");
+                // _logger.LogDebug($"[SearchByFrom]错误:sid:{_sid};cookies:{_cookies};fromMail:{fromMail};resStr:{resStr};Exception:{ex.Message}");
             }
             return mailIds;
         }
@@ -268,7 +302,7 @@ namespace Xw.Zx.Core.Service
                 htmlDoc.LoadHtml(resStrHtml);
                 var htmlNodes = htmlDoc.DocumentNode
                     .SelectNodes(@"//*[@class=""maillist_listItem""]");
-               
+
                 foreach (var node in htmlNodes)
                 {
                     if (node.InnerText.Contains("利息交易"))
@@ -285,42 +319,72 @@ namespace Xw.Zx.Core.Service
             return mailIds;
         }
 
+        public async Task<List<string>> SearchByJiaoTongYingHang()
+        {
+            string resStrHtml = "";
+            var mailIds = new List<string>();
+            int i = 0;
+            string uri = $"/cgi-bin/mail_list?sid={_sid}&s=search&folderid=all&page=0&subject=pccc@bocomcc.com%20%B1%BE%C6%DA%C0%FB%CF%A2&sender=pccc@bocomcc.com%20%B1%BE%C6%DA%C0%FB%CF%A2&receiver=pccc@bocomcc.com%20%B1%BE%C6%DA%C0%FB%CF%A2&searchmode=&topmails=0&advancesearch=0&loc=frame_html,,,6";
+            try
+            {
+                do
+                {
+                    resStrHtml = await _client.GetStringAsync(uri);
+
+                    var htmlDoc = new HtmlDocument();
+                    htmlDoc.LoadHtml(resStrHtml);
+                    var htmlNodes = htmlDoc.DocumentNode
+                        .SelectNodes(@"//*[@class=""maillist_listItem""]");
+
+                    foreach (var node in htmlNodes)
+                    {
+                        if (node.InnerText.Contains("本期利息"))
+                        {
+                            mailIds.Add(node.Id);
+                        }
+                    }
+
+                    //检查下一页
+                    uri = GetNextPage(htmlDoc);
+                    if (string.IsNullOrEmpty(uri)) break;
+
+                } while (++i < 5);
+
+                return mailIds;
+            }
+            catch (Exception ex)
+            {
+                // _logger.LogDebug($"[SearchByFrom]错误:sid:{_sid};cookies:{_cookies};fromMail:{fromMail};resStr:{resStr};Exception:{ex.Message}");
+            }
+            return mailIds;
+        }
+
+        private string GetNextPage(HtmlDocument htmlDoc)
+        {
+            string url = "";
+
+            try
+            {
+                url = htmlDoc.DocumentNode
+                            .SelectNodes(@"//*[@title=""下一页"" ]")
+                            .First()
+                            .Attributes["href"]
+                            .Value;
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return url;
+        }
+
         #endregion
 
 
 
-        public async Task<MailSrc> GetMail(string mailid)
-        {
-            string resStr = "";
-            try
-            {
-                string uri = $"/cgi-bin/readmail?ef=js&sid={_sid}&t=mobile_data.json&s=read&showreplyhead=1&disptype=html&mailid={mailid}";
 
-                resStr = await _client.GetStringAsync(uri);
-                JObject res = JObject.Parse(resStr);
-                var mls = (JToken)res["mls"][0];
 
-                var mail = new MailSrc
-                {
-                    Uid = (string)mls["inf"]["id"],
-                    Sublic = (string)mls["inf"]["subj"],
-                    From = (string)mls["inf"]["from"]["addr"],
-                    To = (string)mls["inf"]["toLst"][0]["addr"],
-                    Body = (string)mls["content"]["body"],
-                    BodyText = (string)mls["content"]["bodytext"],
-                    SendTime = TypeHelper.UnixTimeToDateTime((int)mls["inf"]["date"]),
-                    AddTime = DateTime.Now
-                };
 
-                return mail;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogDebug($"[SearchByFrom]错误:sid:{_sid};cookies:{_cookies};mailid:{mailid};resStr:{resStr};Exception:{ex.Message}");
-            }
-            return null;
-        }
-
-     
     }
 }
