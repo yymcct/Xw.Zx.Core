@@ -15,14 +15,13 @@ namespace Xw.Zx.Core.Models.Model
 
         public DbSet<Member> Members { get; set; }
 
-        /// <summary>
-        /// 会员码 普通会员可以通过会员码升级为会员
-        /// </summary>
-        public DbSet<UpdateVipAuthCode> UpdateVipAuthCodes { get; set; }
+      
 
+        #region 邮箱
         public DbSet<Mailconfig> Mailconfigs { get; set; }
-
         public DbSet<MailSrc> MailSrcs { get; set; }
+
+        #endregion
 
         #region 信用卡
 
@@ -40,16 +39,30 @@ namespace Xw.Zx.Core.Models.Model
         /// 消费明细账单
         /// </summary>
         public DbSet<BankBillDetail> BankBillDetails { get; set; }
-        
+
         #endregion
 
+        #region VIP 升级分润
+        /// <summary>
+        /// 会员码 普通会员可以通过会员码升级为会员
+        /// </summary>
+        public DbSet<UpdateVipAuthCode> UpdateVipAuthCodes { get; set; }
         public DbSet<Product> Products { get; set; }
-
         public DbSet<Order> Orders { get; set; }
 
         public DbSet<Payment> Payments { get; set; }
 
         public DbSet<Receivable> Receivables { get; set; }
+
+        //用户收益表
+        public DbSet<IncomeAccount> IncomeAccounts { get; set; }
+
+        #endregion
+
+
+
+
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

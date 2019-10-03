@@ -16,6 +16,7 @@ using Microsoft.Extensions.Logging;
 using Sieve.Services;
 using Xw.Zx.Core.Models.Dto;
 using Xw.Zx.Core.Models.Model;
+using Xw.Zx.Core.Service;
 
 namespace Xw.Zx.Core.Controllers
 {
@@ -25,14 +26,17 @@ namespace Xw.Zx.Core.Controllers
     {
         private readonly ILogger<AlipayController> _logger;
         private readonly AlipayService _alipayService;
+        private readonly IUpDateVip1Service _upDateVip1Service;
         public AlipayController(ILogger<AlipayController> logger
             , XwZxContext xwZxContext
             , IMapper mapper
             , ISieveProcessor sieveProcessor
-            , AlipayService alipayService) : base(xwZxContext, mapper, sieveProcessor)
+            , AlipayService alipayService
+            , IUpDateVip1Service upDateVip1Service) : base(xwZxContext, mapper, sieveProcessor)
         {
             _logger = logger;
             _alipayService = alipayService;
+            _upDateVip1Service = upDateVip1Service;
         }
 
         /// <summary>
@@ -44,35 +48,8 @@ namespace Xw.Zx.Core.Controllers
         public HbzsResult<AliPayOrderDto> GetUpdateVip1Order()
         {
             try
-            {                
-                if (Member.MemberVipType != MemberVipType.普通)
-                {
-                    new Exception($"异常:用户{Member.Phone}已是VIP, 无法升级");
-                }
-
-                Order order = CreateOrder();                
-
-                AlipayTradeAppPayModel model = new AlipayTradeAppPayModel();
-                model.Body = order.ProducName;
-                model.Subject = order.ProducName;
-                model.TotalAmount = order.Amount.ToString("n");
-                model.ProductCode = "QUICK_MSECURITY_PAY";
-                model.OutTradeNo = order.Timestamp;
-                model.TimeoutExpress = "50m";
-                //model.SellerId = Member.Id.ToString();
-
-                AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
-                request.SetNotifyUrl("http://139.155.8.217/api/Alipay/Notifyurl");
-                request.SetBizModel(model);
-
-                AlipayTradeAppPayResponse response = _alipayService.SdkExecute(request);
-
-                return new HbzsResult<AliPayOrderDto>(new AliPayOrderDto()
-                {
-                    ProductName = order.ProducName,
-                    ProductPrice = order.Amount.ToString("n"),
-                    AlipayTradeAppPayResponse = response.Body
-                });
+            {               
+                return new HbzsResult<AliPayOrderDto>(_upDateVip1Service.CreateAliPayOrder(Member));
             }
             catch (Exception ex)
             {
@@ -80,34 +57,6 @@ namespace Xw.Zx.Core.Controllers
                 return new HbzsResult<AliPayOrderDto>(HbzsResultCode.Invalid_Error, ex.Message);
             }
 
-        }
-
-        private Order CreateOrder()
-        {
-            var order = _context.Orders.Where(o => o.MemberId == Member.Id
-                                    && o.ProducName == "升级会员"
-                                    && DateTime.Now.AddMinutes(-30) < o.AddTime
-                                    && o.OrderState == OrderState.待付款).FirstOrDefault();
-
-            if (order == null)
-            {
-                var product = _context.Products.First(p => p.Name == "升级会员");
-                order = new Order()
-                {
-                    MemberId = Member.Id,
-                    Timestamp = DateTime.Now.ToString("yyyyMMddHHmmssffffff"),
-                    MemberPhone = Member.Phone,
-                    ProductId = product.Id,
-                    ProducName = product.Name,
-                    Amount = product.Price,
-                    AddTime = DateTime.Now,
-                    OrderState = OrderState.待付款
-                };
-                _context.Add(order);
-                _context.SaveChanges();
-            }
-
-            return order;
         }
 
         /// <summary>
@@ -122,7 +71,7 @@ namespace Xw.Zx.Core.Controllers
                3、校验通知中的seller_id（或者seller_email) 是否为out_trade_no这笔单据的对应的操作方（有的时候，一个商户可能有多个seller_id/seller_email）
                4、验证app_id是否为该商户本身。
                */
-            _logger.LogWarning("1111111111111111111GetUpdateVip1Order");
+            _logger.LogWarning("GetUpdateVip1Order");
             Dictionary<string, string> sArray = GetRequestPost();
 
             LogsArray(sArray);
@@ -142,54 +91,8 @@ namespace Xw.Zx.Core.Controllers
                     Console.WriteLine(Request.Form["trade_status"]);
 
                     if (sArray["trade_status"] == "TRADE_SUCCESS")
-                    { // 交易成功
-
-                        var order = _context.Orders.Where(o => o.Timestamp == sArray["out_trade_no"]).FirstOrDefault();
-
-                        if (order == null)
-                        {
-                            throw new Exception($"Notifyurl:异常订单 {sArray.ToString()}");
-                        }
-
-                        if (order.Amount != decimal.Parse(sArray["total_amount"]))
-                        {
-                            throw new Exception($"Notifyurl:异常订单, 金额不符 {sArray.ToString()}");
-                        }
-                        //if (order.MemberId != int.Parse(sArray["seller_id"]))
-                        //{
-                        //    throw new Exception($"Notifyurl:异常订单, 买方不正确 {sArray.ToString()}");
-                        //}
-
-                        using (var transaction = _context.Database.BeginTransaction())
-                        {
-                            try
-                            {
-                                order.OrderState = OrderState.已付款;
-                                _context.SaveChanges();
-
-                                var receivables = new Receivable()
-                                {
-                                    OrderId = order.Id,
-                                    Amount = order.Amount,
-                                };
-
-                                _context.Receivables.Add(receivables);
-                                _context.SaveChanges();
-
-                                var member = _context.Members.First(m => m.Id == order.MemberId);
-                                if (member.MemberVipType == MemberVipType.普通)
-                                {
-                                    member.MemberVipType = MemberVipType.Vip会员;
-                                }
-                                _context.SaveChanges();
-
-                                transaction.Commit();
-                            }
-                            catch (Exception ex)
-                            {
-                                _logger.LogWarning($"事务处理失败:{ex.Message}");
-                            }
-                        }
+                    { 
+                        _upDateVip1Service.AliPayMentSucessHandle(sArray);
                     }
                 }
 
