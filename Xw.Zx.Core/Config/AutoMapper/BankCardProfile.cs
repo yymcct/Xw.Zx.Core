@@ -24,6 +24,8 @@ namespace Xw.Zx.Core.Config.AutoMapper
             CreateMap<BankBillDetail, BankBillDetailDto>();
             
             CreateMap<UpdateVipAuthCode, UpdaeVipAuthCodeDto>();
+
+            CreateMap<IncomeAccount, IncomeDetailDto>();
         }
     }
 }

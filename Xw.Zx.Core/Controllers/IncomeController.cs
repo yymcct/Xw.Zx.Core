@@ -1,0 +1,97 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Sieve.Models;
+using Sieve.Services;
+using Xw.Zx.Core.Models.Dto;
+using Xw.Zx.Core.Models.Model;
+
+namespace Xw.Zx.Core.Controllers
+{
+    [Route("api/[controller]/[action]")]
+    [ApiController]
+    [Authorize]
+    public class IncomeController : BaseController
+    {
+        private readonly ILogger<IncomeController> _logger;
+        public IncomeController(ILogger<IncomeController> logger
+            , XwZxContext xwZxContext
+            , IMapper mapper
+            , ISieveProcessor sieveProcessor) : base(xwZxContext, mapper, sieveProcessor)
+        {
+            _logger = logger;
+
+        }
+
+        /// <summary>
+        /// 获取自己名下收益明细, 可检索, 排序, 分页      
+        /// </summary>
+        /// <param name="sieveModel">可空</param>
+        /// <returns></returns>
+        [HttpGet]
+        public HbzsResult<List<IncomeDetailDto>> GetDetails([FromQuery]SieveModel sieveModel)
+        {
+            try
+            {
+                var db = _context.IncomeAccounts
+                    .AsNoTracking()
+                    .Where(b => b.MemberId == Member.Id);
+
+                var details = _sieveProcessor
+                    .Apply(sieveModel, db)
+                    .ToList();
+
+                var res = _mapper.Map<List<IncomeDetailDto>>(details);
+
+                return new HbzsResult<List<IncomeDetailDto>>(res);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new HbzsResult<List<IncomeDetailDto>>(HbzsResultCode.Invalid_Error, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// 获取自己名下收益概括
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public HbzsResult<IncomInfo> GetCardTotal()
+        {
+            try
+            {
+                var OverdueFine = _context.IncomeAccounts
+                    .Where(b => b.MemberId == Member.Id)
+                    .Sum(b => b.Amount);
+
+                var res = new IncomInfo()
+                {
+                    IncomTotal = _context.IncomeAccounts
+                        .Where(b => b.MemberId == Member.Id)
+                        .Sum(b => b.Amount),
+                    CanGet = _context.BankBillDetails
+                        .Where(b => b.MemberID == Member.Id)
+                        .Sum(b => b.Amount),//TODO
+                };
+
+                return new HbzsResult<IncomInfo>(res);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new HbzsResult<IncomInfo>(HbzsResultCode.Invalid_Error, ex.Message);
+            }
+        }
+    
+    }
+}

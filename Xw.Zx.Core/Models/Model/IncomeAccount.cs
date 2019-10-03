@@ -16,7 +16,7 @@ namespace Xw.Zx.Core.Models.Model
     {
         public int Id { get; set; }
 
-        public int MemberID { get; set; }
+        public int MemberId { get; set; }
 
         [Column(TypeName = "decimal(8, 2)")]
         public decimal Amount { get; set; }      

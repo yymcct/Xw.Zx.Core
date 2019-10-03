@@ -153,13 +153,13 @@ namespace Xw.Zx.Core.Service
                     //生成一代直接收益单
                     _context.IncomeAccounts.Add(new IncomeAccount()
                     {
-                        MemberID = InviteId,
+                        MemberId = InviteId,
                         Amount = 60.00m,
                         SourceOrderId = order.Id,
                         SourceOrderMemberId = member.Id,
                         SourceOrderMemberInviteId = member.InviteId,
                         IncomeAccountType = IncomeAccountType.直接收益,
-                        Remark = $"{member.Phone}产生的直接收益",
+                        Remark = $"{member.Phone}升级会员产生的直接收益",
                     });
 
                     // 生成二代间接收益单
@@ -167,13 +167,13 @@ namespace Xw.Zx.Core.Service
                     {                       
                         _context.IncomeAccounts.Add(new IncomeAccount()
                         {
-                            MemberID = InviteInviteId,
+                            MemberId = InviteInviteId,
                             Amount = 80.00m,
                             SourceOrderId = order.Id,
                             SourceOrderMemberId = member.Id,
                             SourceOrderMemberInviteId = member.InviteId,
                             IncomeAccountType = IncomeAccountType.间接收益,
-                            Remark = $"{member.Phone}产生的间接收益",
+                            Remark = $"{member.Phone}升级会员产生的间接收益",
                         });                        
                     }
 
@@ -182,13 +182,13 @@ namespace Xw.Zx.Core.Service
                     {
                         _context.IncomeAccounts.Add(new IncomeAccount()
                         {
-                            MemberID = HeHuoRen.Id,
+                            MemberId = HeHuoRen.Id,
                             Amount = 5.00m,
                             SourceOrderId = order.Id,
                             SourceOrderMemberId = member.Id,
                             SourceOrderMemberInviteId = member.InviteId,
                             IncomeAccountType = IncomeAccountType.级差收益,
-                            Remark = $"{member.Phone}产生的间接收益",
+                            Remark = $"{member.Phone}升级会员产生的间接收益",
                         });
                     }
                     //服务站 分润
@@ -197,13 +197,13 @@ namespace Xw.Zx.Core.Service
                         var tmpAmount = HeHuoRen != null ? 5.00m : 10.00m;
                         _context.IncomeAccounts.Add(new IncomeAccount()
                         {
-                            MemberID = FuWuZhan.Id,
+                            MemberId = FuWuZhan.Id,
                             Amount = 5.00m,
                             SourceOrderId = order.Id,
                             SourceOrderMemberId = member.Id,
                             SourceOrderMemberInviteId = member.InviteId,
                             IncomeAccountType = IncomeAccountType.级差收益,
-                            Remark = $"{member.Phone}产生的级差收益",
+                            Remark = $"{member.Phone}升级会员产生的级差收益",
                         });                      
                     }
                     //运营商 分润
@@ -228,13 +228,13 @@ namespace Xw.Zx.Core.Service
                         }
                         _context.IncomeAccounts.Add(new IncomeAccount()
                         {
-                            MemberID = YunYinShang.Id,
+                            MemberId = YunYinShang.Id,
                             Amount = tmpAmount,
                             SourceOrderId = order.Id,
                             SourceOrderMemberId = member.Id,
                             SourceOrderMemberInviteId = member.InviteId,
                             IncomeAccountType = IncomeAccountType.级差收益,
-                            Remark = $"{member.Phone}产生的级差收益",
+                            Remark = $"{member.Phone}升级会员产生的级差收益",
                         });
                     }
 

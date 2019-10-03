@@ -90,6 +90,19 @@
             消息
             </summary>
         </member>
+        <member name="M:Xw.Zx.Core.Controllers.IncomeController.GetDetails(Sieve.Models.SieveModel)">
+            <summary>
+            获取自己名下收益明细, 可检索, 排序, 分页      
+            </summary>
+            <param name="sieveModel">可空</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.IncomeController.GetCardTotal">
+            <summary>
+            获取自己名下欠息合计
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:Xw.Zx.Core.Controllers.InterestController">
             <summary>
             利息
@@ -732,6 +745,21 @@
             滞纳金, 同步时进行更新
             </summary>
         </member>
+        <member name="P:Xw.Zx.Core.Models.Model.IncomeAccount.SourceOrderId">
+            <summary>
+            产生收益的单据ID
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.IncomeAccount.SourceOrderMemberId">
+            <summary>
+            产品收益的单据的付款人ID
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.IncomeAccount.SourceOrderMemberInviteId">
+            <summary>
+            付款人的邀请人ID, 如果是直接收益则为0
+            </summary>
+        </member>
         <member name="T:Xw.Zx.Core.Models.Model.MailSrcBank">
             <summary>
             存放的原始邮件
@@ -812,11 +840,6 @@
             失效时间
             </summary>
         </member>
-        <member name="P:Xw.Zx.Core.Models.Model.XwZxContext.UpdateVipAuthCodes">
-            <summary>
-            会员码 普通会员可以通过会员码升级为会员
-            </summary>
-        </member>
         <member name="P:Xw.Zx.Core.Models.Model.XwZxContext.BankCards">
             <summary>
             信用卡
@@ -831,6 +854,18 @@
             <summary>
             消费明细账单
             </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.XwZxContext.UpdateVipAuthCodes">
+            <summary>
+            会员码 普通会员可以通过会员码升级为会员
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Service.UpDateVip1Service.FindBigVip(Xw.Zx.Core.Models.Model.Member)">
+            <summary>
+            查找用户链上的 运营商, 服务站, 合伙人
+            </summary>
+            <param name="member"></param>
+            <returns></returns>
         </member>
     </members>
 </doc>
