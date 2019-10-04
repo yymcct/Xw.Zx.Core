@@ -34,4 +34,5 @@ namespace Xw.Zx.Core.Models.Dto
         /// </summary>
         public UpdateVipAuthCodeState UPdateVipAuthCodeState { get; set; }
     }
+
 }

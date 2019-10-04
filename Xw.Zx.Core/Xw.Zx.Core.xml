@@ -99,7 +99,7 @@
         </member>
         <member name="M:Xw.Zx.Core.Controllers.IncomeController.GetCardTotal">
             <summary>
-            获取自己名下欠息合计
+            获取自己名下收益概括
             </summary>
             <returns></returns>
         </member>
@@ -658,6 +658,21 @@
         <member name="P:Xw.Zx.Core.Models.Dto.BankBillDetailDto.Amount">
             <summary>
             交易额
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Dto.IncomInfo.IncomTotal">
+            <summary>
+            累计收入
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Dto.IncomInfo.CanGet">
+            <summary>
+            可提现余额
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Dto.IncomeDetailDto.AddTime">
+            <summary>
+            收益时间
             </summary>
         </member>
         <member name="P:Xw.Zx.Core.Models.Dto.UpdaeVipAuthCodeDto.SourceOwinId">

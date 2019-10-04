@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Transactions;
 using Xw.Zx.Core.Models.Dto;
 using Xw.Zx.Core.Models.Model;
+using Xw.Zx.Core.Utility;
 
 namespace Xw.Zx.Core.Controllers
 {
@@ -32,7 +33,7 @@ namespace Xw.Zx.Core.Controllers
 
 
         /// <summary>
-        /// 获取自己名下所有的VIP授权码
+        /// 获取自己名下所有的VIP升级码
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -181,6 +182,21 @@ namespace Xw.Zx.Core.Controllers
                 return new HbzsResult<MemberDto>(HbzsResultCode.Invalid_Error, ex.Message);
             }
 
+        }
+
+        /// <summary>
+        /// 获取是否有生成VIP升级码的权限
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public HbzsResult<bool> CanCreateCode()
+        {
+            if (AppsettingsUtility.CanCreateUpdateVipCodePhone.Any(phone => phone == Member.Phone))
+            {
+                return new HbzsResult<bool>(true);
+            }
+
+            return new HbzsResult<bool>(false);
         }
     }
 }

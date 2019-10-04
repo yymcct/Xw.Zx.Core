@@ -9,6 +9,7 @@ namespace Xw.Zx.Core.Models.Dto
     public class MemberDto
     {
         public int Id { get; set; }
+
         public MemberVipType MemberVipType { get; set; }
 
         public string Phone { get; set; }
@@ -16,6 +17,16 @@ namespace Xw.Zx.Core.Models.Dto
         public int InviteId { get; set; } = 0;
 
         public string InvitePhone { get; set; }
+
+        public string RealName { get; set; }
+
+        public MemberSex Sex { get; set; }
+
+        public DateTime BirthDay { get; set; }
+
+        public int TopRegionId { get; set; }
+
+        public int RegionId { get; set; }
     }
     public class MyTeamDto
     {
@@ -44,4 +55,17 @@ namespace Xw.Zx.Core.Models.Dto
         public string InvitePhone { get; set; }
     }
 
+
+    public class PostUserDto
+    {
+        public string RealName { get; set; }
+
+        public MemberSex Sex { get; set; }
+
+        public DateTime BirthDay { get; set; }
+
+        public int TopRegionId { get; set; }
+
+        public int RegionId { get; set; }
+    }
 }

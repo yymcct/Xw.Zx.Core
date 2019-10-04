@@ -132,6 +132,7 @@ namespace Xw.Zx.Core
             #endregion
 
 
+            new AppsettingsUtility().Initial(Configuration);
 
             services.AddHttpClient();
         }

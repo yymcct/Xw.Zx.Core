@@ -21,6 +21,10 @@ select * from MailSrcs where MemberId=6  and [from] ='creditcardcenter@cardmail.
 delete MailSrcs  where MemberId=6  and [from] ='creditcardcenter@cardmail.psbc.com'
 
 
+------------------------------------------------------VIPÉý¼¶·ÖÈó--------------------------------------------------
+select * from orders
+select * from Receivables
+
 
 
 

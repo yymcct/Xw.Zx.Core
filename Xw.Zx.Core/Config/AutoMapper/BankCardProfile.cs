@@ -26,6 +26,8 @@ namespace Xw.Zx.Core.Config.AutoMapper
             CreateMap<UpdateVipAuthCode, UpdaeVipAuthCodeDto>();
 
             CreateMap<IncomeAccount, IncomeDetailDto>();
+
+            CreateMap<PostUserDto, Member>();
         }
     }
 }

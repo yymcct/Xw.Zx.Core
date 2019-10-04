@@ -243,6 +243,28 @@ namespace Xw.Zx.Core.Controllers
             }
         }
 
+        [HttpPost]
+        [Authorize]
+        public HbzsResult<MemberDto> PostMember(PostUserDto postUserDto)
+        {
+            try
+            {
+                var member = _mapper.Map(postUserDto, Member);
+
+                _context.Entry(member).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+
+                _context.SaveChanges();
+
+                var res = _mapper.Map<MemberDto>(member);
+
+                return new HbzsResult<MemberDto>(res);
+            }
+            catch (Exception ex)
+            {
+                return new HbzsResult<MemberDto>(HbzsResultCode.Invalid_Error, ex.Message);
+            }
+
+        }
     }
 
 
