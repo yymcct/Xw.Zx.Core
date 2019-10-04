@@ -62,6 +62,9 @@ namespace Xw.Zx.Core.Models.Model
         public int TopRegionId { get; set; }
         //省市区ID
         public int RegionId { get; set; }
+
+        //城市码
+        public string CityCode { get; set; } = "";
         //街道地址
         public string Address { get; set; }
 

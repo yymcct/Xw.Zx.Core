@@ -24,9 +24,9 @@ namespace Xw.Zx.Core.Models.Dto
 
         public DateTime BirthDay { get; set; }
 
-        public int TopRegionId { get; set; }
+        public string CityCode { get; set; }
 
-        public int RegionId { get; set; }
+        public int Address { get; set; }
     }
     public class MyTeamDto
     {
@@ -64,8 +64,8 @@ namespace Xw.Zx.Core.Models.Dto
 
         public DateTime BirthDay { get; set; }
 
-        public int TopRegionId { get; set; }
+        public string CityCode { get; set; }
 
-        public int RegionId { get; set; }
+        public int Address { get; set; }
     }
 }

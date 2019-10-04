@@ -28,6 +28,8 @@ namespace Xw.Zx.Core.Config.AutoMapper
             CreateMap<IncomeAccount, IncomeDetailDto>();
 
             CreateMap<PostUserDto, Member>();
+
+            CreateMap<ApplyForZx, ApplyDto>();
         }
     }
 }

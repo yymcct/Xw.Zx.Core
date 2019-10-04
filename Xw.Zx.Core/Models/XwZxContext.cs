@@ -15,7 +15,7 @@ namespace Xw.Zx.Core.Models.Model
 
         public DbSet<Member> Members { get; set; }
 
-      
+        public DbSet<ApplyForZx> ApplyForZxs { get; set; }
 
         #region 邮箱
         public DbSet<Mailconfig> Mailconfigs { get; set; }
@@ -58,10 +58,6 @@ namespace Xw.Zx.Core.Models.Model
         public DbSet<IncomeAccount> IncomeAccounts { get; set; }
 
         #endregion
-
-
-
-
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

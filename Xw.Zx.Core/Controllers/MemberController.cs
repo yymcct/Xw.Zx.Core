@@ -243,6 +243,11 @@ namespace Xw.Zx.Core.Controllers
             }
         }
 
+        /// <summary>
+        /// 修改用户基本信息
+        /// </summary>
+        /// <param name="postUserDto"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize]
         public HbzsResult<MemberDto> PostMember(PostUserDto postUserDto)
