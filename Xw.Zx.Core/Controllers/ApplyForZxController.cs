@@ -73,6 +73,7 @@ namespace Xw.Zx.Core.Controllers
         /// 查看系统匹配到自己的追息申请单,服务站及以上级别可看, 否提示异常信息
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
         public HbzsResult<List<ApplyDto>> GettApply([FromQuery]SieveModel sieveModel)
         {
             List<ApplyDto> applyDtos = new List<ApplyDto>();

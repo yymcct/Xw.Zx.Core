@@ -20,6 +20,19 @@
             支付宝支付成功回调地址
             </summary>
         </member>
+        <member name="M:Xw.Zx.Core.Controllers.ApplyForZxController.PostApply(Xw.Zx.Core.Models.Dto.PostApplyDto)">
+            <summary>
+            提交追息申请, 提交前需补全用户基本信息
+            </summary>
+            <param name="postApplyDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.ApplyForZxController.GettApply(Sieve.Models.SieveModel)">
+            <summary>
+            查看系统匹配到自己的追息申请单,服务站及以上级别可看, 否提示异常信息
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Xw.Zx.Core.Controllers.BankCardController.Gets(Sieve.Models.SieveModel)">
             <summary>
             获取自己名下的银行卡信息, 可检索, 排序, 分页      
@@ -161,6 +174,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Xw.Zx.Core.Controllers.MemberController.PostMember(Xw.Zx.Core.Models.Dto.PostUserDto)">
+            <summary>
+            修改用户基本信息
+            </summary>
+            <param name="postUserDto"></param>
+            <returns></returns>
+        </member>
         <member name="M:Xw.Zx.Core.Controllers.SyncController.SyncAsync(Xw.Zx.Core.Models.Dto.PostSyncMailDto)">
             <summary>
             邮箱账单同步
@@ -177,7 +197,7 @@
         </member>
         <member name="M:Xw.Zx.Core.Controllers.UpdateVipAuthCodeController.Get(Sieve.Models.SieveModel)">
             <summary>
-            获取自己名下所有的VIP授权码
+            获取自己名下所有的VIP升级码
             </summary>
             <returns></returns>
         </member>
@@ -202,6 +222,12 @@
             使用VIp升级码 升级为会员
             </summary>
             <param name="code"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.UpdateVipAuthCodeController.CanCreateCode">
+            <summary>
+            获取是否有生成VIP升级码的权限
+            </summary>
             <returns></returns>
         </member>
         <member name="M:Xw.Zx.Core.Helper.CommonHelper.GetWebAdress">
@@ -645,6 +671,36 @@
             是否是数值(包括整数和小数)
             </summary>
         </member>
+        <member name="P:Xw.Zx.Core.Models.Dto.ApplyDto.ApplyMember">
+            <summary>
+            申请人
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Dto.ApplyDto.Amount">
+            <summary>
+            利息金额
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Dto.ApplyDto.Remaek">
+            <summary>
+            申请备注
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Dto.ApplyDto.ApplyForZxState">
+            <summary>
+            追息单状态  待处理 = 0, 处理中 = 1,已完结 = 2
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Dto.ApplyDto.AddTime">
+            <summary>
+            申请时间
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Dto.PostApplyDto.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
         <member name="P:Xw.Zx.Core.Models.Dto.BankBillDetailDto.TreadTime">
             <summary>
             交易时间
@@ -698,6 +754,11 @@
         <member name="P:Xw.Zx.Core.Models.Dto.UpdaeVipAuthCodeDto.UPdateVipAuthCodeState">
             <summary>
             升级码状态 0 待使用, 1 已赠送, 2 已使用, 3 已过期
+            </summary>
+        </member>
+        <member name="T:Xw.Zx.Core.Models.Model.ApplyForZx">
+            <summary>
+            追息申请表
             </summary>
         </member>
         <member name="T:Xw.Zx.Core.Models.Model.BankBill">

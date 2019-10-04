@@ -22,8 +22,8 @@ namespace Xw.Zx.Core.Controllers
     [Authorize]
     public class BankCardController : BaseController
     {
-        private readonly ILogger<MemberController> _logger;
-        public BankCardController(ILogger<MemberController> logger
+        private readonly ILogger<BankCardController> _logger;
+        public BankCardController(ILogger<BankCardController> logger
             , XwZxContext xwZxContext
             , IMapper mapper
             , ISieveProcessor sieveProcessor) : base(xwZxContext, mapper, sieveProcessor)
