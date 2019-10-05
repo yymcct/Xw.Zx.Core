@@ -11,13 +11,19 @@
         </member>
         <member name="M:Xw.Zx.Core.Controllers.AlipayController.GetUpdateVip1Order">
             <summary>
-            获取升级VIP1订单信息
+            获取升级VIP1订单信息, 用户支付宝支付
             </summary>
             <returns></returns>
         </member>
         <member name="M:Xw.Zx.Core.Controllers.AlipayController.Notifyurl">
             <summary>
-            支付宝支付成功回调地址
+            支付宝支付成功回调地址 
+            TODO: 校验是否是来自于支付宝的域名
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.AlipayController.NotifyurlTest">
+            <summary>
+            模拟支付宝
             </summary>
         </member>
         <member name="M:Xw.Zx.Core.Controllers.ApplyForZxController.PostApply(Xw.Zx.Core.Models.Dto.PostApplyDto)">

@@ -34,7 +34,7 @@ namespace Xw.Zx.Core.Service
         {
             if (member.MemberVipType != MemberVipType.普通)
             {
-                new Exception($"异常:用户{member.Phone}已是VIP, 无法升级");
+                throw new Exception($"异常:用户{member.Phone}已是VIP, 无法升级");
             }
 
             Order order = CreateOrder(member);

@@ -25,7 +25,8 @@ delete MailSrcs  where MemberId=6  and [from] ='creditcardcenter@cardmail.psbc.c
 select * from orders
 select * from Receivables
 
-
+-- VIP升级时会产生:
+-- 订单, 支付单 一代收益单 二代收益单 合伙人收益单 服务站收益单 运营商收益单
 
 
 

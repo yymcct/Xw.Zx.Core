@@ -40,7 +40,7 @@ namespace Xw.Zx.Core.Controllers
         }
 
         /// <summary>
-        /// 获取升级VIP1订单信息
+        /// 获取升级VIP1订单信息, 用户支付宝支付
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -60,7 +60,8 @@ namespace Xw.Zx.Core.Controllers
         }
 
         /// <summary>
-        /// 支付宝支付成功回调地址
+        /// 支付宝支付成功回调地址 
+        /// TODO: 校验是否是来自于支付宝的域名
         /// </summary>
         [HttpPost]
         public async void Notifyurl()
@@ -103,6 +104,19 @@ namespace Xw.Zx.Core.Controllers
                 await Response.WriteAsync("fail");
             }
         }
+
+        /// <summary>
+        /// 模拟支付宝
+        /// </summary>
+        [HttpPost]
+        public async void NotifyurlTest()
+        {
+            Dictionary<string, string> sArray = GetRequestPost();
+            _upDateVip1Service.AliPayMentSucessHandle(sArray);
+
+            await Response.WriteAsync("success");
+        }
+
 
         private void LogsArray(Dictionary<string, string> dict)
         {

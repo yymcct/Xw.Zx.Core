@@ -1,16 +1,16 @@
 # REST Client
 
-@baseUrl = http://localhost:63836
-#@baseUrl = http://139.155.8.217
+#@baseUrl = http://localhost:63836
+@baseUrl = http://139.155.8.217
 
-@token = eyJhbGciOiJSUzI1NiIsImtpZCI6ImJiYTlkZGEyNGJmY2QxNDE1ODYxMGIyMTE4YWJlMTQ5IiwidHlwIjoiSldUIn0.eyJuYmYiOjE1NzAwMjU0NTgsImV4cCI6MTU3ODY2NTQ1OCwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo2MzgzNiIsImF1ZCI6WyJodHRwOi8vbG9jYWxob3N0OjYzODM2L3Jlc291cmNlcyIsIkFwcEFwaSJdLCJjbGllbnRfaWQiOiJBcHAuTWFuYWdlci5SbyIsInN1YiI6IjUiLCJhdXRoX3RpbWUiOjE1NzAwMjU0NTgsImlkcCI6IiIsInJvbGUiOiIxIiwic2NvcGUiOlsiQXBwQXBpIl0sImFtciI6WyJjdXN0b20iXX0.WM-XiLL6aj49LPgvuPai_ErsIDug9J3HryBTJVIO1tSODYuLfGhu9X0bTATgSqON4F0QtBDUlltgmVdObbAfo-wu_LKFH4KZmsuD9ZimScMyqrtEpsbT-BOCX5uo32y4uLaJJ6t0Qui2Z5BVzgik9yZSzrxuSn3nRebA9tBHpTqwrjEs15sTP296IaAZlGpISN-NOkggxOBLp7ikukwY6SyIbgpWptR-DNR9CoItCo9cc0wvNi1j01D2MLdU_TluLsDFdPZ9u8t-EoYTt9E90BNSaZ1bBcYcRgJ2Cfc-yX4yXW9OPIvKEnkoRgPQfh1N3_tORjasrb50J8VixhfM5g
+@token = eyJhbGciOiJSUzI1NiIsImtpZCI6ImJiYTlkZGEyNGJmY2QxNDE1ODYxMGIyMTE4YWJlMTQ5IiwidHlwIjoiSldUIn0.eyJuYmYiOjE1NzAxODAyMzEsImV4cCI6MTU3ODgyMDIzMSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo2MzgzNiIsImF1ZCI6WyJodHRwOi8vbG9jYWxob3N0OjYzODM2L3Jlc291cmNlcyIsIkFwcEFwaSJdLCJjbGllbnRfaWQiOiJBcHAuTWFuYWdlci5SbyIsInN1YiI6IjciLCJhdXRoX3RpbWUiOjE1NzAxODAyMzEsImlkcCI6IiIsInJvbGUiOiIxIiwic2NvcGUiOlsiQXBwQXBpIl0sImFtciI6WyJjdXN0b20iXX0.RYh0n-mTMafqrR7BKSDXuSsL-tCf9Fb4M9tTCGGOseYXYKKajzGafvQzgiQfBXpUhIA7cjtNBoj86uCHxPQP54Ts4BGMp_Wo-aibi6x-8RtiPoUbD2EBeKUczMbw-BFHGuw3nCCt73t-sGBOOUZ2ak_JwhFJlIJNgeGyKyl7G_X4NEnYenmVfYxhE1k7hioL81lJOKY1m_hHEhjlJi-A0Tm_qHW608WVR4aRmABeygVVItvKl4Qcs2PmTM8rz45HFxz2UTdW7J42jvmeUXtzWsmy67kP834Um11o2gFK1hFzIWv_otuM7wGbQ02oG0k2adsbPJHrhaKLBhfV9Xhwhg
 @contentType = application/json
 
 # 获取公用token 
 POST {{baseUrl}}/connect/token HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 
-grant_type=password&client_id=App.Manager.Ro&client_secret=DEsjpJFtokIOhMKuE6BVMczYUEEyPGTOLrur3PXw26VMLNwKOfAKFZZgR2vVJDKG&username=18624938007&password=123456
+username=18624938009&password=123456&grant_type=password&client_id=App.Manager.Ro&client_secret=DEsjpJFtokIOhMKuE6BVMczYUEEyPGTOLrur3PXw26VMLNwKOfAKFZZgR2vVJDKG
 
 ###############################################登录注册###############################################
 ### 注册
@@ -85,21 +85,18 @@ Content-Type: {{contentType}}
     "Cookie": "mcookie=0&y; pgv_pvi=4695865344; pgv_si=s628980736; ptisp=cnc; RK=3bhtSpu5ER; ptcz=bc24f99180878c500213a4494d91c59fa2401eaeb0ddec90b86d7457ec23f774; qm_flag=0; edition=mail.qq.com; wimrefreshrun=0&; qm_logintype=qq; uin=o0019202490; luin=o0019202490; p_uin=o0019202490; p_luin=o0019202490; qqmail_alias=xiawei1981@foxmail.com; qm_username=19202490; username=19202490&19202490; newpt=2; webp=1; 3g_guest_id=-8573880012074123264; g_ut=3; msuid=k10u647us7ugscwjo6ovif31zos0joy1usf3gw7k; lskey=000100004b8c77d3f21b2ca750ddba7495f74c16b9ecfef4498a185ec7a626361af4cd6711420a6b54b8fe6b; p_lskey=00040000f2f9fa1309de34fbc55a216e30feda48e8905c0ba07a81a6c4b35d46f3968d5fc8f2333e6e82c6ec; ssl_edition=sail.qq.com; msid=W_GU4uP_ByKxWFkET_69AZ2X,4,c9du-Ynf_HPs.; CCSHOW=000001; ptui_loginuin=19202490@qq.com; qm_domain=https://mail.qq.com; qm_ptlsk=19202490&000100004b8c77d3f21b2ca750ddba7495f74c16b9ecfef4498a185ec7a626361af4cd6711420a6b54b8fe6b; foxacc=19202490&1; qm_loginfrom=68771803&psaread|19202490&wpt; skey=@iRRB4wAxy; pt4_token=blEwjNQ8hnF7NgPY-4sitFpc9N-LagJ3EXejsdRz8jo_; p_skey=mUVDzakU71703MyF00VCZ9vA1NHSmTpncVeJ5OXoHlc_; sid=19202490&6093105f1f9f959cea13489cd16cd6b6,c9du-YpmVCsw.; qm_ptsk=19202490&@iRRB4wAxy; new_mail_num=68771803&196|19202490&224",
 }
 
-##########################支付宝##############################################
+##################################################################支付宝###################################################
 ### 获取订单
 GET {{baseUrl}}/api/Alipay/GetUpdateVip1Order
 Authorization: Bearer {{token}}
 ###
-POST {{baseUrl}}/api/Alipay/Notifyurl
+POST {{baseUrl}}/api/Alipay/NotifyurlTest
 Content-Type: application/x-www-form-urlencoded
 
-grant_type=password&client_id=App.Manager.Ro&client_secret=DEsjpJF
+out_trade_no=20191004171051210367&total_amount=198
 
 ### 
-GET {{baseUrl}}/api/Alipay/HeHe
 
-###
-GET {{baseUrl}}/api/Alipay/HeHe
 
 ######################################邮箱同步测试######################################
 ###
@@ -115,8 +112,6 @@ Content-Type: {{contentType}}
 ###
 GET {{baseUrl}}/api/Sync/SyncAsync
 Authorization: Bearer {{token}}
-###
-GET {{baseUrl}}/api/Values/get
 
 
 #######################################升级码测试#############################################
