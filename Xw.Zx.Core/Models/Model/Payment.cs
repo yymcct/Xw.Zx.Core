@@ -14,7 +14,13 @@ namespace Xw.Zx.Core.Models.Model
         public int Id { get; set; }
 
         public int OrderId { get; set; }
+
+        public int MemberId { get; set; }
+
         [Column(TypeName = "decimal(8, 2)")]
         public decimal Amount { get; set; }
+
+        public DateTime AddTime { get; set; } = DateTime.Now;
+
     }
 }

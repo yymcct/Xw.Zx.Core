@@ -71,7 +71,10 @@ namespace Xw.Zx.Core.Controllers
         {
             try
             {
-                if (Member.Phone != "18624938007") throw new Exception("无权限!");
+                if (!AppsettingsUtility.CanCreateUpdateVipCodePhone.Any(p => p == Member.Phone))
+                {
+                    return new HbzsResult(HbzsResultCode.Invalid_Error, "无权限");
+                }
 
                 var member = _context.Members.First(m => m.Id == memberid);
                 if (member.MemberVipType == MemberVipType.普通) throw new Exception("普通会员不能拥有升级码");

@@ -17,6 +17,8 @@ using Sieve.Services;
 using Xw.Zx.Core.Models.Dto;
 using Xw.Zx.Core.Models.Model;
 using Xw.Zx.Core.Service;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Xw.Zx.Core.Controllers
 {
@@ -133,21 +135,20 @@ namespace Xw.Zx.Core.Controllers
             _logger.LogWarning(str);
         }
 
+ 
+
         [HttpGet]
         public string WithdrawDeposit()
         {
 
             AlipayFundTransToaccountTransferRequest request = new AlipayFundTransToaccountTransferRequest();
-            request.BizContent = "{" +
-            "\"out_biz_no\":\"3142321423432\"," +
-            "\"payee_type\":\"ALIPAY_LOGONID\"," +
-            "\"payee_account\":\"yymcct@163.com\"," +
-            "\"amount\":\"0.1\"," +
-            "\"payer_show_name\":\"申请提现\"," +
-            "\"payee_real_name\":\"翁奎\"," +
-            "\"remark\":\"转账备注:送钱包提现\"" +
-            "  }";
+
+     
+
+            
             AlipayFundTransToaccountTransferResponse response = _alipayService.Execute(request);
+
+            
             Console.WriteLine(response.Body);
             return response.Body;
         }

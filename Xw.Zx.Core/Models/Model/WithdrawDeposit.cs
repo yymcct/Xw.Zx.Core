@@ -10,7 +10,8 @@ namespace Xw.Zx.Core.Models.Model
     {
         申请中 = 0,
         通过 = 1,
-        拒绝 = 2
+        拒绝 = 2,
+        失败=3
     }
     public class WithdrawDeposit
     {

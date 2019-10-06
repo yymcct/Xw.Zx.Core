@@ -38,7 +38,7 @@ namespace Xw.Zx.Core.Controllers
         /// <param name="postApplyDto"></param>
         /// <returns></returns>
         [HttpPost]
-        public HbzsResult PostApply(PostApplyDto postApplyDto)
+        public HbzsResult PostApply([FromBody]PostApplyDto postApplyDto)
         {
             try
             {

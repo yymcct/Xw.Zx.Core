@@ -242,6 +242,27 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Xw.Zx.Core.Controllers.WithdrawDepositController.GetWithdrawDepositdetails(Sieve.Models.SieveModel)">
+            <summary>
+            获取申请单
+            </summary>
+            <param name="sieveModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.WithdrawDepositController.GetAuditWithdrawDepositdetails(Sieve.Models.SieveModel)">
+            <summary>
+            待审核的提现申请单, 只有白名单账号可以查看
+            </summary>
+            <param name="sieveModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.WithdrawDepositController.AuditWithdrawDepositdetail(Xw.Zx.Core.Models.Dto.AuditWithdrawDepositdetailDto)">
+            <summary>
+            通过或拒绝
+            </summary>
+            <param name="sieveModel"></param>
+            <returns></returns>
+        </member>
         <member name="M:Xw.Zx.Core.Helper.CommonHelper.GetWebAdress">
             <summary>
             所上传的图片加域名

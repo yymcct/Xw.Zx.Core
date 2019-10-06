@@ -12,16 +12,22 @@ using IdentityServer4.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Sieve.Models;
 using Sieve.Services;
 using Xw.Zx.Core.Models.Dto;
 using Xw.Zx.Core.Models.Model;
 using Xw.Zx.Core.Service;
+using Xw.Zx.Core.Utility;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace Xw.Zx.Core.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize]
     public class WithdrawDepositController : BaseController
     {
         private readonly ILogger<WithdrawDepositController> _logger;
@@ -44,11 +50,26 @@ namespace Xw.Zx.Core.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [Authorize]
-        public HbzsResult PostWithdrawDeposit(PostWithdrawDepositDto postWithdrawDepositDto)
+        public HbzsResult PostWithdrawDeposit([FromBody]PostWithdrawDepositDto postWithdrawDepositDto)
         {
             try
             {
+                if (Member.MemberVipType == MemberVipType.普通 || Member.Disabled == true)
+                {
+                    return new HbzsResult(HbzsResultCode.Invalid_Error, "您的账户异常, 请人工处理!");
+                }
+
+                if (string.IsNullOrEmpty(Member.RealName))
+                {
+                    return new HbzsResult(HbzsResultCode.Invalid_Error, "请前往[我的],补全个人信息后再申请提现!");
+                }
+
+                if (_context.WithdrawDeposits.Any(w => w.MemberId == Member.Id
+                     && w.WithdrawDepositState == WithdrawDepositState.申请中))
+                {
+                    return new HbzsResult(HbzsResultCode.Sucess, "我们已收到您的申请,正在处理中,请稍后");
+                }
+
                 var withdrawDeposit = new WithdrawDeposit()
                 {
                     MemberId = Member.Id,
@@ -56,7 +77,7 @@ namespace Xw.Zx.Core.Controllers
                 };
                 _context.WithdrawDeposits.Add(withdrawDeposit);
                 _context.SaveChanges();
-                return new HbzsResult(HbzsResultCode.Sucess);
+                return new HbzsResult(HbzsResultCode.Sucess, "我们已收到您的申请,正在处理中,请稍后");
             }
             catch (Exception ex)
             {
@@ -67,8 +88,161 @@ namespace Xw.Zx.Core.Controllers
         }
 
 
+        /// <summary>
+        /// 获取申请单
+        /// </summary>
+        /// <param name="sieveModel"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public HbzsResult<List<GetWithdrawDepositDetailsDto>> GetWithdrawDepositdetails([FromQuery]SieveModel sieveModel)
+        {
+            try
+            {
+                var db = _context.WithdrawDeposits
+                     .AsNoTracking()
+                     .Where(w => w.MemberId == Member.Id);
+
+                var details = _sieveProcessor
+                        .Apply(sieveModel, db)
+                        .ToList();
+
+                var res = _mapper.Map<List<GetWithdrawDepositDetailsDto>>(details);
+
+                return new HbzsResult<List<GetWithdrawDepositDetailsDto>>(res);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex.Message);
+                return new HbzsResult<List<GetWithdrawDepositDetailsDto>>(HbzsResultCode.Invalid_Error, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// 待审核的提现申请单, 只有白名单账号可以查看
+        /// </summary>
+        /// <param name="sieveModel"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public HbzsResult<List<GetWithdrawDepositDetailsDto>> GetAuditWithdrawDepositdetails([FromQuery]SieveModel sieveModel)
+        {
+            try
+            {
+                if (!AppsettingsUtility.CanCreateUpdateVipCodePhone.Any(p => p == Member.Phone))
+                {
+                    return new HbzsResult<List<GetWithdrawDepositDetailsDto>>(HbzsResultCode.Invalid_Error, "无权限");
+                }
+                var db = _context.WithdrawDeposits
+                     .AsNoTracking()
+                     .Where(w => w.WithdrawDepositState == WithdrawDepositState.申请中);
+
+                var details = _sieveProcessor
+                        .Apply(sieveModel, db)
+                        .ToList();
+
+                var res = _mapper.Map<List<GetWithdrawDepositDetailsDto>>(details);
+
+                return new HbzsResult<List<GetWithdrawDepositDetailsDto>>(res);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex.Message);
+                return new HbzsResult<List<GetWithdrawDepositDetailsDto>>(HbzsResultCode.Invalid_Error, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// 通过或拒绝
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public HbzsResult AuditWithdrawDepositdetail([FromBody]AuditWithdrawDepositdetailDto dto)
+        {
+            try
+            {
+
+                var detail = _context.WithdrawDeposits.First(w => w.Timestamp == dto.Timestamp);
+                var detailMemnber = _context.Members.First(m => m.Id == detail.MemberId);
+
+                if (detail.WithdrawDepositState != WithdrawDepositState.申请中)
+                {
+                    return new HbzsResult(HbzsResultCode.Invalid_Error, "单据状态异常,无法处理!");
+                }
+
+                if (detailMemnber.Disabled == true)
+                {
+                    return new HbzsResult(HbzsResultCode.Invalid_Error, "申请人账户异常,无法处理!");
+                }
+
+                if (dto.IsPass == false)
+                {
+                    detail.WithdrawDepositState = WithdrawDepositState.拒绝;
+                    _context.SaveChanges();
+                    return new HbzsResult(HbzsResultCode.Sucess);
+                }
 
 
+                //转账
+                var paylog = Alipayment(detail, detailMemnber);
+
+                if (paylog.code != "10000")
+                {
+                    detail.WithdrawDepositState = WithdrawDepositState.失败;
+                    _context.SaveChanges();
+
+                    return new HbzsResult(HbzsResultCode.Invalid_Error, paylog.sub_msg);
+                }
+
+
+                using (var transaction = _context.Database.BeginTransaction())
+                {
+                    detail.WithdrawDepositState = WithdrawDepositState.通过;
+
+                    _context.Payments.Add(new Payment()
+                    {
+                        OrderId = detail.Id,
+                        MemberId = Member.Id,
+                        Amount = detail.Amount
+                    });
+
+                    _context.SaveChanges();
+
+                    transaction.Commit();
+                }
+
+                return new HbzsResult(HbzsResultCode.Sucess);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex.Message);
+                return new HbzsResult(HbzsResultCode.Invalid_Error, ex.Message);
+            }
+        }
+
+        private AlipayLog Alipayment(WithdrawDeposit withdrawDeposit, Member PayMember)
+        {
+            var bizContent = new
+            {
+                out_biz_no = withdrawDeposit.Timestamp,
+                payee_type = "ALIPAY_LOGONID",
+                payee_account = PayMember.Phone,
+                amount = withdrawDeposit.Amount,
+                payer_show_name = $"{PayMember.Phone}申请提现",
+                payee_real_name = PayMember.RealName,
+                remark = "转账备注:送钱包提现"
+            };
+
+            AlipayFundTransToaccountTransferRequest request = new AlipayFundTransToaccountTransferRequest();
+            request.BizContent = JsonConvert.SerializeObject(bizContent);
+            AlipayFundTransToaccountTransferResponse response = _alipayService.Execute(request);
+            var log = JsonConvert.DeserializeObject<AlipayResponse>(response.Body).alipay_fund_trans_toaccount_transfer_response;
+
+            log.PaymentId = withdrawDeposit.Id;
+            _context.AlipayLogs.Add(log);
+            _context.SaveChanges();
+
+            return log;
+        }
 
     }
 }

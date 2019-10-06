@@ -59,6 +59,9 @@ namespace Xw.Zx.Core.Models.Model
 
         //用户提现表
         public DbSet<WithdrawDeposit> WithdrawDeposits { get; set; }
+
+        //支付宝支付记录表
+        public DbSet<AlipayLog> AlipayLogs { get; set; }
         #endregion
 
 

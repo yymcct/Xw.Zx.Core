@@ -30,6 +30,8 @@ namespace Xw.Zx.Core.Config.AutoMapper
             CreateMap<PostUserDto, Member>();
 
             CreateMap<ApplyForZx, ApplyDto>();
+
+            CreateMap<WithdrawDeposit, GetWithdrawDepositDetailsDto>();
         }
     }
 }
