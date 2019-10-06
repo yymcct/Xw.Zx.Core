@@ -76,18 +76,20 @@ namespace Xw.Zx.Core.Controllers
         {
             try
             {
-                var OverdueFine = _context.IncomeAccounts
+                var IncomTotal = _context.IncomeAccounts
                     .Where(b => b.MemberId == Member.Id)
                     .Sum(b => b.Amount);
 
+                var WithdrawDeposit = _context.WithdrawDeposits
+                        .Where(b => b.MemberId == Member.Id
+                                && b.WithdrawDepositState == WithdrawDepositState.通过)
+                        .Sum(b => b.Amount);
+
                 var res = new IncomInfo()
                 {
-                    IncomTotal = _context.IncomeAccounts
-                        .Where(b => b.MemberId == Member.Id)
-                        .Sum(b => b.Amount),
-                    CanGet = _context.IncomeAccounts
-                        .Where(b => b.MemberId == Member.Id)
-                        .Sum(b => b.Amount),//TODO
+                    IncomTotal = IncomTotal,
+
+                    CanGet = IncomTotal - WithdrawDeposit,
                 };
 
                 return new HbzsResult<IncomInfo>(res);

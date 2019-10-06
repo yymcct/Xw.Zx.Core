@@ -20,13 +20,9 @@ namespace Xw.Zx.Core.Models.Dto
 
         public string RealName { get; set; }
 
-        public MemberSex Sex { get; set; }
-
-        public DateTime BirthDay { get; set; }
-
         public string CityCode { get; set; }
 
-        public int Address { get; set; }
+        public string Address { get; set; }
     }
     public class MyTeamDto
     {
@@ -60,12 +56,8 @@ namespace Xw.Zx.Core.Models.Dto
     {
         public string RealName { get; set; }
 
-        public MemberSex Sex { get; set; }
-
-        public DateTime BirthDay { get; set; }
-
         public string CityCode { get; set; }
 
-        public int Address { get; set; }
+        public string Address { get; set; }
     }
 }

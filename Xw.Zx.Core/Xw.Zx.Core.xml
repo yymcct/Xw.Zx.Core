@@ -260,7 +260,7 @@
             <summary>
             通过或拒绝
             </summary>
-            <param name="sieveModel"></param>
+            <param name="dto"></param>
             <returns></returns>
         </member>
         <member name="M:Xw.Zx.Core.Helper.CommonHelper.GetWebAdress">

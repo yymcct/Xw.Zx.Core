@@ -250,7 +250,7 @@ namespace Xw.Zx.Core.Controllers
         /// <returns></returns>
         [HttpPost]
         [Authorize]
-        public HbzsResult<MemberDto> PostMember(PostUserDto postUserDto)
+        public HbzsResult<MemberDto> PostMember([FromBody]PostUserDto postUserDto)
         {
             try
             {

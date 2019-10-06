@@ -70,6 +70,22 @@ namespace Xw.Zx.Core.Controllers
                     return new HbzsResult(HbzsResultCode.Sucess, "我们已收到您的申请,正在处理中,请稍后");
                 }
 
+                var IncomTotal = _context.IncomeAccounts
+                        .Where(b => b.MemberId == Member.Id)
+                        .Sum(b => b.Amount);
+
+                var WithdrawDeposit = _context.WithdrawDeposits
+                        .Where(b => b.MemberId == Member.Id
+                                && b.WithdrawDepositState == WithdrawDepositState.通过)
+                        .Sum(b => b.Amount);
+
+                var canGet = IncomTotal - WithdrawDeposit;
+
+                if (postWithdrawDepositDto.Amount < 0.1m || postWithdrawDepositDto.Amount > canGet)
+                {
+                    return new HbzsResult(HbzsResultCode.Sucess, "提现的金额过大或过小, 无法处理");
+                }
+
                 var withdrawDeposit = new WithdrawDeposit()
                 {
                     MemberId = Member.Id,
