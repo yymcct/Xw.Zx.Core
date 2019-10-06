@@ -116,7 +116,7 @@
             <param name="sieveModel">可空</param>
             <returns></returns>
         </member>
-        <member name="M:Xw.Zx.Core.Controllers.IncomeController.GetCardTotal">
+        <member name="M:Xw.Zx.Core.Controllers.IncomeController.GetIncomeInfo">
             <summary>
             获取自己名下收益概括
             </summary>
@@ -233,6 +233,12 @@
         <member name="M:Xw.Zx.Core.Controllers.UpdateVipAuthCodeController.CanCreateCode">
             <summary>
             获取是否有生成VIP升级码的权限
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.WithdrawDepositController.PostWithdrawDeposit(Xw.Zx.Core.Models.Dto.PostWithdrawDepositDto)">
+            <summary>
+            提交提现申请, 生成申请单
             </summary>
             <returns></returns>
         </member>

@@ -57,6 +57,8 @@ namespace Xw.Zx.Core.Models.Model
         //用户收益表
         public DbSet<IncomeAccount> IncomeAccounts { get; set; }
 
+        //用户提现表
+        public DbSet<WithdrawDeposit> WithdrawDeposits { get; set; }
         #endregion
 
 

@@ -52,6 +52,12 @@ namespace Xw.Zx.Core.Controllers
 
                 var res = _mapper.Map<List<IncomeDetailDto>>(details);
 
+                res = res.Select(r =>
+                {
+                    r.IncomeAccountTypeName = r.IncomeAccountType.ToString();
+                    return r;
+                }).ToList();
+
                 return new HbzsResult<List<IncomeDetailDto>>(res);
             }
             catch (Exception ex)
@@ -66,7 +72,7 @@ namespace Xw.Zx.Core.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public HbzsResult<IncomInfo> GetCardTotal()
+        public HbzsResult<IncomInfo> GetIncomeInfo()
         {
             try
             {
@@ -79,8 +85,8 @@ namespace Xw.Zx.Core.Controllers
                     IncomTotal = _context.IncomeAccounts
                         .Where(b => b.MemberId == Member.Id)
                         .Sum(b => b.Amount),
-                    CanGet = _context.BankBillDetails
-                        .Where(b => b.MemberID == Member.Id)
+                    CanGet = _context.IncomeAccounts
+                        .Where(b => b.MemberId == Member.Id)
                         .Sum(b => b.Amount),//TODO
                 };
 

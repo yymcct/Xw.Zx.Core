@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Xw.Zx.Core.Models.Model;
 
 namespace Xw.Zx.Core.Models.Dto
 {
@@ -24,11 +25,14 @@ namespace Xw.Zx.Core.Models.Dto
 
     public class IncomeDetailDto
     {
-        public int Id { get; set; }
 
         public decimal Amount { get; set; }
 
         public string Remark { get; set; }
+
+        public IncomeAccountType IncomeAccountType { get; set; }
+
+        public string IncomeAccountTypeName { get; set; }
 
         /// <summary>
         /// 收益时间
