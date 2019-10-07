@@ -24,6 +24,14 @@ namespace Xw.Zx.Core.Models.Dto
         public DateTime AddTime { get; set; }
 
         public WithdrawDepositState WithdrawDepositState { get; set; }
+
+        public string WithdrawDepositStateName { get; set; }
+    }
+
+    public class GetAuditWithdrawDepositDetailsDto
+    {
+        public GetWithdrawDepositDetailsDto DetailsDto { get; set; }
+        public MemberDto MemberDto { get; set; }
     }
 
     public class AuditWithdrawDepositdetailDto

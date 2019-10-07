@@ -31,7 +31,8 @@ namespace Xw.Zx.Core.Config.AutoMapper
 
             CreateMap<ApplyForZx, ApplyDto>();
 
-            CreateMap<WithdrawDeposit, GetWithdrawDepositDetailsDto>();
+            CreateMap<WithdrawDeposit, GetWithdrawDepositDetailsDto>()
+                .ForMember(dest => dest.WithdrawDepositStateName, opt=>opt.MapFrom(src=>src.WithdrawDepositState.ToString()));
         }
     }
 }

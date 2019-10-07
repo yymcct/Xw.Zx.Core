@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Xw.Zx.Core.Helper;
 using Xw.Zx.Core.Models.Dto;
 using Xw.Zx.Core.Models.Model;
+using Xw.Zx.Core.Utility;
 
 namespace Xw.Zx.Core.Controllers
 {
@@ -270,6 +271,24 @@ namespace Xw.Zx.Core.Controllers
             }
 
         }
+
+        /// <summary>
+        /// 检查是否是白名单用户
+        /// </summary>
+        /// <param name="phone"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Authorize]
+        public HbzsResult IsWhite()
+        {
+            if (AppsettingsUtility.CanCreateUpdateVipCodePhone.Any(p => p == Member.Phone))
+            {
+                return new HbzsResult(HbzsResultCode.Sucess);
+            }
+
+            return new HbzsResult(HbzsResultCode.Invalid_Error);
+        }
+       
     }
 
 

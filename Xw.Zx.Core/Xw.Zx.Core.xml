@@ -187,6 +187,13 @@
             <param name="postUserDto"></param>
             <returns></returns>
         </member>
+        <member name="M:Xw.Zx.Core.Controllers.MemberController.IsWhite">
+            <summary>
+            检查是否是白名单用户
+            </summary>
+            <param name="phone"></param>
+            <returns></returns>
+        </member>
         <member name="M:Xw.Zx.Core.Controllers.SyncController.SyncAsync(Xw.Zx.Core.Models.Dto.PostSyncMailDto)">
             <summary>
             邮箱账单同步

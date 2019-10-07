@@ -139,30 +139,35 @@ namespace Xw.Zx.Core.Controllers
         /// <param name="sieveModel"></param>
         /// <returns></returns>
         [HttpGet]
-        public HbzsResult<List<GetWithdrawDepositDetailsDto>> GetAuditWithdrawDepositdetails([FromQuery]SieveModel sieveModel)
+        public HbzsResult<List<GetAuditWithdrawDepositDetailsDto>> GetAuditWithdrawDepositdetails([FromQuery]SieveModel sieveModel)
         {
             try
             {
                 if (!AppsettingsUtility.CanCreateUpdateVipCodePhone.Any(p => p == Member.Phone))
                 {
-                    return new HbzsResult<List<GetWithdrawDepositDetailsDto>>(HbzsResultCode.Invalid_Error, "无权限");
+                    return new HbzsResult<List<GetAuditWithdrawDepositDetailsDto>>(HbzsResultCode.Invalid_Error, "无权限");
                 }
                 var db = _context.WithdrawDeposits
-                     .AsNoTracking()
-                     .Where(w => w.WithdrawDepositState == WithdrawDepositState.申请中);
+                     .AsNoTracking();
+                    // .Where(w => w.WithdrawDepositState == WithdrawDepositState.申请中);
 
                 var details = _sieveProcessor
                         .Apply(sieveModel, db)
+                        .OrderByDescending(d=>d.AddTime)
                         .ToList();
 
-                var res = _mapper.Map<List<GetWithdrawDepositDetailsDto>>(details);
+                var res = details.Select(d => new GetAuditWithdrawDepositDetailsDto()
+                {
+                    DetailsDto = _mapper.Map<GetWithdrawDepositDetailsDto>(d),
+                    MemberDto = _mapper.Map<MemberDto>(_context.Members.First(m => m.Id == d.MemberId))
+                }).ToList();
 
-                return new HbzsResult<List<GetWithdrawDepositDetailsDto>>(res);
+                return new HbzsResult<List<GetAuditWithdrawDepositDetailsDto>>(res);
             }
             catch (Exception ex)
             {
                 _logger.LogWarning(ex.Message);
-                return new HbzsResult<List<GetWithdrawDepositDetailsDto>>(HbzsResultCode.Invalid_Error, ex.Message);
+                return new HbzsResult<List<GetAuditWithdrawDepositDetailsDto>>(HbzsResultCode.Invalid_Error, ex.Message);
             }
         }
 
@@ -179,6 +184,11 @@ namespace Xw.Zx.Core.Controllers
 
                 var detail = _context.WithdrawDeposits.First(w => w.Timestamp == dto.Timestamp);
                 var detailMemnber = _context.Members.First(m => m.Id == detail.MemberId);
+
+                if (!AppsettingsUtility.CanCreateUpdateVipCodePhone.Any(p => p == Member.Phone))
+                {
+                    return new HbzsResult(HbzsResultCode.Invalid_Error, "账户无权限!");
+                }
 
                 if (detail.WithdrawDepositState != WithdrawDepositState.申请中)
                 {
