@@ -79,11 +79,14 @@ namespace Xw.Zx.Core.Controllers
                 var member = _context.Members.First(m => m.Id == memberid);
                 if (member.MemberVipType == MemberVipType.普通) throw new Exception("普通会员不能拥有升级码");
 
+                var random = new Random();
                 for (int i = 0; i < cnt; i++)
                 {
+                    var codeNum = random.Next(100000, 999999).ToString();
+
                     var code = new UpdateVipAuthCode() { 
                         OwinId = memberid,
-                        Code =  Guid.NewGuid().ToString(),
+                        Code = codeNum,
                     };
                     _context.UpdateVipAuthCodes.Add(code);
                 }
@@ -141,14 +144,14 @@ namespace Xw.Zx.Core.Controllers
                 }
 
                 //检查我是否是升级码所有者的团队成员
-                var InviteId = Member.InviteId;
-                var InviteInviteId = _context.Members.First(m => m.Id == InviteId).InviteId;
-                if (!(vipUpdateCode.OwinId == Member.Id
-                    || vipUpdateCode.OwinId == InviteId
-                    || vipUpdateCode.OwinId == InviteInviteId))
-                {
-                    throw new Exception("您不是赠送人团队成员,无法使用!");
-                }
+                //var InviteId = Member.InviteId;
+                //var InviteInviteId = _context.Members.First(m => m.Id == InviteId).InviteId;
+                //if (!(vipUpdateCode.OwinId == Member.Id
+                //    || vipUpdateCode.OwinId == InviteId
+                //    || vipUpdateCode.OwinId == InviteInviteId))
+                //{
+                //    throw new Exception("您不是赠送人团队成员,无法使用!");
+                //}
 
                 using (TransactionScope scope = new TransactionScope())
                 {

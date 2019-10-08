@@ -251,7 +251,7 @@ namespace Xw.Zx.Core.Controllers
             {
                 out_biz_no = withdrawDeposit.Timestamp,
                 payee_type = "ALIPAY_LOGONID",
-                payee_account = PayMember.Phone,
+                payee_account = PayMember.AliPayAccount,
                 amount = withdrawDeposit.Amount,
                 payer_show_name = $"{PayMember.Phone}申请提现",
                 payee_real_name = PayMember.RealName,

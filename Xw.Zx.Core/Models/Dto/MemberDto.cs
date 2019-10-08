@@ -23,6 +23,8 @@ namespace Xw.Zx.Core.Models.Dto
         public string CityCode { get; set; }
 
         public string Address { get; set; }
+
+        public string AliPayAccount { get; set; }
     }
     public class MyTeamDto
     {
@@ -59,5 +61,7 @@ namespace Xw.Zx.Core.Models.Dto
         public string CityCode { get; set; }
 
         public string Address { get; set; }
+
+        public string AliAccount { get; set; }
     }
 }

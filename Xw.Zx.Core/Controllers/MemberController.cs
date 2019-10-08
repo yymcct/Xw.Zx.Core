@@ -256,6 +256,10 @@ namespace Xw.Zx.Core.Controllers
             try
             {
                 var member = _mapper.Map(postUserDto, Member);
+                if (string.IsNullOrEmpty(member.AliPayAccount))
+                {
+                    member.AliPayAccount = postUserDto.AliAccount.Trim();
+                }
 
                 _context.Entry(member).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 

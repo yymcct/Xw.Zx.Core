@@ -66,7 +66,7 @@ namespace Xw.Zx.Core.Models.Model
         //城市码
         public string CityCode { get; set; } = "";
         //街道地址
-        public string Address { get; set; }
+        public string Address { get; set; } = "";
 
         //微信OpendID
         public string WxOpenId { get; set; }
@@ -85,5 +85,7 @@ namespace Xw.Zx.Core.Models.Model
         public DateTime LastLoginDate { get; set; }
         //备注
         public string Remark { get; set; }
+
+        public string AliPayAccount { get; set; } = "";
     }
 }
