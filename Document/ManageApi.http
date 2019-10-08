@@ -1,16 +1,16 @@
 # REST Client
 
-#@baseUrl = http://localhost:63836
-@baseUrl = http://139.155.8.217
+@baseUrl = http://localhost:63836
+#@baseUrl = http://139.155.8.217
 
-@token = eyJhbGciOiJSUzI1NiIsImtpZCI6ImJiYTlkZGEyNGJmY2QxNDE1ODYxMGIyMTE4YWJlMTQ5IiwidHlwIjoiSldUIn0.eyJuYmYiOjE1NzAzNzMxNjgsImV4cCI6MTU3OTAxMzE2OCwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo2MzgzNiIsImF1ZCI6WyJodHRwOi8vbG9jYWxob3N0OjYzODM2L3Jlc291cmNlcyIsIkFwcEFwaSJdLCJjbGllbnRfaWQiOiJBcHAuTWFuYWdlci5SbyIsInN1YiI6IjYiLCJhdXRoX3RpbWUiOjE1NzAzNzMxNjgsImlkcCI6IiIsInJvbGUiOiIxIiwic2NvcGUiOlsiQXBwQXBpIl0sImFtciI6WyJjdXN0b20iXX0.qOaKYjSiAcY3Ds8jSg6vH6pWunEnIYIvH8MO5cazmG3qHaDcAv3INLSmrnzmbfPgfN1mlv7t5PiZqtXW6an4v4HsTAACojYYmyiLj4UcPt_xbkZtyMjY1G1Z45CzyiTXO2eTtVIZHdhpo9kF8J1qSz8K2LFoEn6i86EPNYuu3NKF8fWOEHp83GytWaA_pn2A0iSOgwnzejFw489NaHPerPUrHPivOruPZI9F5MAJ3xuOpk0lGwn0Rb8IC5hQTD3jXIm8VDxLzMDFJChfMYGaI0N2t1Hmuyf_2obN6UMtSqC8Ec2kmYpC4uhM0kgsOXUi7LAVWstUPBGE8PkslGA_vg
+@token = eyJhbGciOiJSUzI1NiIsImtpZCI6ImJiYTlkZGEyNGJmY2QxNDE1ODYxMGIyMTE4YWJlMTQ5IiwidHlwIjoiSldUIn0.eyJuYmYiOjE1NzA1MDc3ODksImV4cCI6MTU3OTE0Nzc4OSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo2MzgzNiIsImF1ZCI6WyJodHRwOi8vbG9jYWxob3N0OjYzODM2L3Jlc291cmNlcyIsIkFwcEFwaSJdLCJjbGllbnRfaWQiOiJBcHAuTWFuYWdlci5SbyIsInN1YiI6IjUiLCJhdXRoX3RpbWUiOjE1NzA1MDc3ODksImlkcCI6IiIsInJvbGUiOiIxIiwic2NvcGUiOlsiQXBwQXBpIl0sImFtciI6WyJjdXN0b20iXX0.Go1yjEnTJa3Ge6BVb3qrDJYYFku_tWFJbgwHctuo2MzpIG7C068_BXPvasX7RfRdVqmPtX97ubflDO_Hr09Krspo1e3eXfEtwKpm8cfGTj2r0WphULCuCVUOMe-rRN9TdhDFZ86ZSkpMo2DKT-f7Ws3TUHlSwAYjGsbzJMtAOAx9tAuk2PE94kdxDoEPgQbDT39iBe0rKu7GCpdCMGjYEiuefHZscFmLgnnoOWc_HxSxWBnijfF52jOLGu1sCDVTfRiE9gVOQjA6b8c6PU26lJLWdUGwg6UefiPDFTVz8S1geE7ucU2TX0x6gaNsnlEw5H006q9QyAEnWMjb-0AXGg
 @contentType = application/json
 
 # 获取公用token 
 POST {{baseUrl}}/connect/token HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 
-username=18624938008&password=123456&grant_type=password&client_id=App.Manager.Ro&client_secret=DEsjpJFtokIOhMKuE6BVMczYUEEyPGTOLrur3PXw26VMLNwKOfAKFZZgR2vVJDKG
+username=18624938007&password=123456&grant_type=password&client_id=App.Manager.Ro&client_secret=DEsjpJFtokIOhMKuE6BVMczYUEEyPGTOLrur3PXw26VMLNwKOfAKFZZgR2vVJDKG
 
 ###############################################登录注册###############################################
 ### 注册
@@ -115,7 +115,8 @@ Authorization: Bearer {{token}}
 ### 我的提现单
 
 ### 审核提现单明细
-
+GET {{baseUrl}}/api/WithdrawDeposit/GetAuditWithdrawDepositdetails
+Authorization: Bearer {{token}}
 ### 审核提现单
 
 ######################################邮箱同步测试######################################
