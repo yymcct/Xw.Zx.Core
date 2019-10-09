@@ -41,7 +41,7 @@ namespace Xw.Zx.Core.Models.Model
         //密码加盐
         public string PasswordSalt { get; set; }
         //真实姓名
-        public string RealName { get; set; }
+        public string RealName { get; set; } = "";
         //昵称
         public string Nick { get; set; }
         //头像
@@ -84,7 +84,7 @@ namespace Xw.Zx.Core.Models.Model
         //最后登录日期
         public DateTime LastLoginDate { get; set; }
         //备注
-        public string Remark { get; set; }
+        public string Remark { get; set; } = "";
 
         public string AliPayAccount { get; set; } = "";
     }

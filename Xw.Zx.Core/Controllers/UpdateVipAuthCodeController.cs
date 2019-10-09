@@ -128,7 +128,7 @@ namespace Xw.Zx.Core.Controllers
             {
                 var vipUpdateCode = _context
                                         .UpdateVipAuthCodes
-                                        .Where(v => v.Code == code && v.ExpiesTime > DateTime.Now)
+                                        .Where(v => v.Code == code && v.ExpiesTime > DateTime.Now &&v.UPdateVipAuthCodeState== UpdateVipAuthCodeState.待使用)
                                         .FirstOrDefault();
 
                 //检查升级码 状态
