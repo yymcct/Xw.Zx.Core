@@ -120,6 +120,7 @@ namespace Xw.Zx.Core.Controllers
 
                 var details = _sieveProcessor
                         .Apply(sieveModel, db)
+                        .OrderByDescending(d => d.AddTime)
                         .ToList();
 
                 var res = _mapper.Map<List<GetWithdrawDepositDetailsDto>>(details);
@@ -213,6 +214,7 @@ namespace Xw.Zx.Core.Controllers
 
                 if (paylog.code != "10000")
                 {
+                    detail.Remark = paylog.sub_msg;
                     detail.WithdrawDepositState = WithdrawDepositState.失败;
                     _context.SaveChanges();
 

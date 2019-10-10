@@ -27,5 +27,7 @@ namespace Xw.Zx.Core.Models.Model
         public DateTime AddTime { get; set; } = DateTime.Now;
 
         public WithdrawDepositState WithdrawDepositState { get; set; } = WithdrawDepositState.申请中;
+
+        public string Remark { get; set; } = "";
     }
 }

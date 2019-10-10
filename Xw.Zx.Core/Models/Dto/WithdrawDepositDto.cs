@@ -26,6 +26,8 @@ namespace Xw.Zx.Core.Models.Dto
         public WithdrawDepositState WithdrawDepositState { get; set; }
 
         public string WithdrawDepositStateName { get; set; }
+
+        public string Remark { get; set; }
     }
 
     public class GetAuditWithdrawDepositDetailsDto
