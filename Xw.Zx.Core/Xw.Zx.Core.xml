@@ -194,6 +194,12 @@
             <param name="phone"></param>
             <returns></returns>
         </member>
+        <member name="M:Xw.Zx.Core.Controllers.SqbAppController.GetAndroidVersion">
+            <summary>
+            获取安卓App升级版本
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Xw.Zx.Core.Controllers.SyncController.SyncAsync(Xw.Zx.Core.Models.Dto.PostSyncMailDto)">
             <summary>
             邮箱账单同步

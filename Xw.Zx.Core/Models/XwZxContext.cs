@@ -67,7 +67,7 @@ namespace Xw.Zx.Core.Models.Model
 
         #region 其他 
         public DbSet<AppVersion> AppVersions { get; set; }
-        #region
+        #endregion
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -38,11 +38,10 @@ namespace Xw.Zx.Core.Controllers
         }
 
         /// <summary>
-        /// App升级
+        /// 获取安卓App升级版本
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Authorize]
         public HbzsResult<AppVersion> GetAndroidVersion()
         {
             try
