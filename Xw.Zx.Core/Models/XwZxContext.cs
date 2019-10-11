@@ -65,6 +65,10 @@ namespace Xw.Zx.Core.Models.Model
         #endregion
 
 
+        #region 其他 
+        public DbSet<AppVersion> AppVersions { get; set; }
+        #region
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //optionsBuilder.UseSqlite("Data Source=blogging.db");
