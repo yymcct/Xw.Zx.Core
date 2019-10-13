@@ -47,3 +47,9 @@ select * from UpdateVipAuthCodes
 select WithdrawDeposits.*, Members.RealName , 
 case when WithdrawDepositState=0 then '´ýÉóºË' when WithdrawDepositState=1 then '³É¹¦' when WithdrawDepositState=3 then 'Ê§°Ü' end as ×´Ì¬
 from WithdrawDeposits join Members on WithdrawDeposits.MemberId = Members.Id
+
+select * from Payments
+select * from AlipayLogs
+select * from WithdrawDeposits
+
+delete  Payments where 
