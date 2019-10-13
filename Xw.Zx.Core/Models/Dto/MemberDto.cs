@@ -65,4 +65,11 @@ namespace Xw.Zx.Core.Models.Dto
 
         public string AliAccount { get; set; }
     }
+
+    public class ChangePassWordDto
+    {
+        public string Phone { get; set; }
+        public string NewPassword { get; set; }
+        public int SmsCheck { get; set; }
+    }
 }

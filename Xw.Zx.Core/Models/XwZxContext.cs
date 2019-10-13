@@ -66,6 +66,11 @@ namespace Xw.Zx.Core.Models.Model
 
 
         #region 其他 
+        /// <summary>
+        /// 验证码
+        /// </summary>
+        public DbSet<SmsCheck> SmsCheck { get; set; }
+
         public DbSet<AppVersion> AppVersions { get; set; }
         #endregion
 

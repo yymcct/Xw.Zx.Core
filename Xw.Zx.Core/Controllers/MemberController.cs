@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Xw.Zx.Core.Helper;
 using Xw.Zx.Core.Models.Dto;
 using Xw.Zx.Core.Models.Model;
+using Xw.Zx.Core.Service;
 using Xw.Zx.Core.Utility;
 
 namespace Xw.Zx.Core.Controllers
@@ -20,12 +21,15 @@ namespace Xw.Zx.Core.Controllers
     public class MemberController : BaseController
     {
         private readonly ILogger<MemberController> _logger;
+        private readonly ISmsService _sms;
         public MemberController(ILogger<MemberController> logger
             , XwZxContext xwZxContext
             , IMapper mapper
-            , ISieveProcessor sieveProcessor) : base(xwZxContext, mapper, sieveProcessor)
+            , ISieveProcessor sieveProcessor
+            , ISmsService sms) : base(xwZxContext, mapper, sieveProcessor)
         {
             _logger = logger;
+            _sms = sms;
         }
 
         /// <summary>
@@ -224,7 +228,7 @@ namespace Xw.Zx.Core.Controllers
                 var user = _context.Members
                     .First(m => m.Id == Member.Id && m.Disabled == false);
 
-               var memberDto =  _mapper.Map<MemberDto>(user);
+                var memberDto = _mapper.Map<MemberDto>(user);
 
                 if (user.InviteId != 0)
                 {
@@ -292,7 +296,99 @@ namespace Xw.Zx.Core.Controllers
 
             return new HbzsResult(HbzsResultCode.Invalid_Error);
         }
-       
+
+
+        /// <summary>
+        /// 发送验证码
+        /// </summary>
+        /// <param name="phone"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public HbzsResult GetSmsCode([FromQuery]string phone)
+        {
+            try
+            {
+                if (!ValidateHelper.IsMobile(phone))
+                {
+                    throw new Exception("请填写手机号");
+                }
+                var CheckCode = new Random().Next(1000, 9999);
+                _sms.Send(phone, CheckCode);
+                try
+                {
+                    var lastcode = _context.SmsCheck.Find(_context.SmsCheck.Where(s => s.Phone == phone).FirstOrDefault().Id);
+                    if (lastcode.CheckState == SmsCheckState.已验证)
+                    {
+                        lastcode.CheckState = SmsCheckState.已发送;
+                    }
+                    lastcode.LastSendCode = CheckCode;
+                    lastcode.LastSendTime = DateTime.Now;
+                    lastcode.SendCnt = lastcode.SendCnt + 1;
+                }
+                catch
+                {
+                    SmsCheck smsCheck = new SmsCheck();
+                    smsCheck.LastSendCode = CheckCode;
+                    smsCheck.LastSendTime = DateTime.Now;
+                    smsCheck.CheckState = SmsCheckState.已发送;
+                    smsCheck.Phone = phone;
+                    _context.SmsCheck.Add(smsCheck);
+                }
+                _context.SaveChanges();
+                return new HbzsResult(HbzsResultCode.Sucess);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new HbzsResult(HbzsResultCode.Invalid_Error, ex.Message);
+            }
+        }
+
+
+        /// <summary>
+        /// 发送验证码重置密码
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public HbzsResult PostChangePasswordBySmsCode([FromBody]ChangePassWordDto pass)
+        {
+            try
+            { //TODO 重构
+                if (!ValidateHelper.IsMobile(pass.Phone))
+                {
+                    throw new Exception("请填写正确手机号");
+                }
+                if (string.IsNullOrEmpty(pass.NewPassword))
+                {
+                    throw new Exception("请填写新密码");
+                }
+
+                if (_context.SmsCheck.Where(p => p.Phone == pass.Phone && p.CheckState == SmsCheckState.已发送).FirstOrDefault()?.LastSendCode == pass.SmsCheck)
+                {
+                    var smsCheck = _context.SmsCheck.Find(_context.SmsCheck.Where(p => p.Phone == pass.Phone).FirstOrDefault()?.Id);
+                    smsCheck.CheckState = SmsCheckState.已验证;
+                    if (_context.Members.Any(m => m.Phone == pass.Phone))
+                    {
+                        Member member = _context.Members.Where(m => m.Phone == pass.Phone).FirstOrDefault();
+                        member.Password = pass.NewPassword;
+                        _context.SaveChanges();
+                    }
+                    else
+                        throw new Exception("账号不存在");
+                }
+                else
+                {
+                    throw new Exception("验证码错误");
+                }
+                return new HbzsResult(HbzsResultCode.Sucess);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new HbzsResult(HbzsResultCode.Remote_Service_Error, "修改失败");
+            }
+        }
+
     }
 
 

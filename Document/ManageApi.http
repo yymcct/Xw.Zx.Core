@@ -38,7 +38,19 @@ Authorization: Bearer {{token}}
 GET {{baseUrl}}/api/Member/GetSelf
 Authorization: Bearer {{token}}
 
+### 获取短信
+GET {{baseUrl}}/api/Member/GetSmsCode?phone=18624938007
+
 ### 修改密码
+POST {{baseUrl}}/api/Member/PostChangePasswordBySmsCode
+Content-Type: {{contentType}}
+
+{
+    "phone": "18624938007",
+    "NewPassword": "654321",
+    "SmsCheck": "4162",
+}
+
 ###############################################获取卡片信息###############################################
 GET {{baseUrl}}/api/BankCard/Gets
         ?sorts=id,
@@ -150,4 +162,4 @@ Authorization: Bearer {{token}}
 
 ###
 #######################################测试程序更新#############################################
-GET {{baseUrl}}/api/SqbApp/Use
+GET {{baseUrl}}/api/SqbApp/GetAndroidVersion

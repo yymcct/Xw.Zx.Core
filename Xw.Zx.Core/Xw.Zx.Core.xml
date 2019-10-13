@@ -194,6 +194,19 @@
             <param name="phone"></param>
             <returns></returns>
         </member>
+        <member name="M:Xw.Zx.Core.Controllers.MemberController.GetSmsCode(System.String)">
+            <summary>
+            发送验证码
+            </summary>
+            <param name="phone"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.MemberController.PostChangePasswordBySmsCode(Xw.Zx.Core.Models.Dto.ChangePassWordDto)">
+            <summary>
+            发送验证码重置密码
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Xw.Zx.Core.Controllers.SqbAppController.GetAndroidVersion">
             <summary>
             获取安卓App升级版本
@@ -907,6 +920,31 @@
             收款表
             </summary>
         </member>
+        <member name="P:Xw.Zx.Core.Models.Model.SmsCheck.Phone">
+            <summary>
+            电话号吗
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.SmsCheck.LastSendCode">
+            <summary>
+            最后一次发送的验证码
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.SmsCheck.LastSendTime">
+            <summary>
+            最后一次发送时间
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.SmsCheck.SendCnt">
+            <summary>
+            合计发送次数
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.SmsCheck.CheckState">
+            <summary>
+            验证状态
+            </summary>
+        </member>
         <member name="F:Xw.Zx.Core.Models.Model.UpdateVipAuthCodeState.待使用">
             <summary>
             待使用 
@@ -980,6 +1018,11 @@
         <member name="P:Xw.Zx.Core.Models.Model.XwZxContext.UpdateVipAuthCodes">
             <summary>
             会员码 普通会员可以通过会员码升级为会员
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.XwZxContext.SmsCheck">
+            <summary>
+            验证码
             </summary>
         </member>
         <member name="M:Xw.Zx.Core.Service.UpDateVip1Service.FindBigVip(Xw.Zx.Core.Models.Model.Member)">
