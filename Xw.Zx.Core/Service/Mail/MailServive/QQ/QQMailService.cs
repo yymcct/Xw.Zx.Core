@@ -358,7 +358,7 @@ namespace Xw.Zx.Core.Service
             }
             return mailIds;
         }
-
+        //光大
         public async Task<List<string>> SearchByGuangdaYingHang()
         {
             string resStrHtml = "";
@@ -398,7 +398,7 @@ namespace Xw.Zx.Core.Service
             }
             return mailIds;
         }
-
+        //民生
         public async Task<List<string>> SearchByMingShengYingHang()
         {
             string resStrHtml = "";
@@ -438,7 +438,7 @@ namespace Xw.Zx.Core.Service
             }
             return mailIds;
         }
-
+        //建设
         public async Task<List<string>> SearchByJianSheYingHang()
         {
             string resStrHtml = "";
@@ -479,6 +479,7 @@ namespace Xw.Zx.Core.Service
             return mailIds;
         }
 
+        //兴业
         public async Task<List<string>> SearchByXingyeYingHang()
         {
             string resStrHtml = "";
@@ -499,6 +500,46 @@ namespace Xw.Zx.Core.Service
                     foreach (var node in htmlNodes)
                     {
                         if (node.InnerText.Contains("违约金"))
+                        {
+                            mailIds.Add(node.Id);
+                        }
+                    }
+
+                    //检查下一页
+                    uri = GetNextPage(htmlDoc);
+                    if (string.IsNullOrEmpty(uri)) break;
+
+                } while (++i < 5);
+
+                return mailIds;
+            }
+            catch (Exception ex)
+            {
+                // _logger.LogDebug($"[SearchByFrom]错误:sid:{_sid};cookies:{_cookies};fromMail:{fromMail};resStr:{resStr};Exception:{ex.Message}");
+            }
+            return mailIds;
+        }
+        //平安
+        public async Task<List<string>> SearchByPingAnYingHang()
+        {
+            string resStrHtml = "";
+            var mailIds = new List<string>();
+            int i = 0;
+            string uri = $"/cgi-bin/mail_list?sid={_sid}&s=search&folderid=all&page=0&subject=creditcard@service.pingan.com%20%C0%FB%CF%A2&sender=creditcard@service.pingan.com%20%C0%FB%CF%A2&receiver=creditcard@service.pingan.com%20%C0%FB%CF%A2&searchmode=&topmails=0&advancesearch=0&loc=frame_html,,,6";
+            try
+            {
+                do
+                {
+                    resStrHtml = await _client.GetStringAsync(uri);
+
+                    var htmlDoc = new HtmlDocument();
+                    htmlDoc.LoadHtml(resStrHtml);
+                    var htmlNodes = htmlDoc.DocumentNode
+                        .SelectNodes(@"//*[@class=""maillist_listItem""]");
+
+                    foreach (var node in htmlNodes)
+                    {
+                        if (node.InnerText.Contains("利息"))
                         {
                             mailIds.Add(node.Id);
                         }

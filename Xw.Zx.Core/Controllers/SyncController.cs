@@ -17,13 +17,21 @@ namespace Xw.Zx.Core.Controllers
     public class SyncController : BaseController
     {
         private readonly ILogger<SyncController> _logger;
-        private readonly IQQMailSyncService  _qQMailSyncService;
+        private readonly IQQMailSyncService _qQMailSyncService;
         public SyncController(ILogger<SyncController> logger
             , XwZxContext xwZxContext
             , IQQMailSyncService qQMailSyncService) : base(xwZxContext)
         {
-            _logger = logger;          
+            _logger = logger;
             _qQMailSyncService = qQMailSyncService;
+        }
+        /// <summary>
+        /// nothing
+        /// </summary>
+        [HttpGet]
+        public void Notthing()
+        {
+            return;
         }
 
         /// <summary>
@@ -49,7 +57,8 @@ namespace Xw.Zx.Core.Controllers
                 _qQMailSyncService.Init(syncDto.MemberId, syncDto.Sid, syncDto.Cookie);
                 await _qQMailSyncService.SyncMailAsync();
 
-                return new HbzsResult<PostSyncMailResuleDto>(new PostSyncMailResuleDto() { 
+                return new HbzsResult<PostSyncMailResuleDto>(new PostSyncMailResuleDto()
+                {
                     LastSyncTime = DateTime.Now
                 });
             }
@@ -59,8 +68,8 @@ namespace Xw.Zx.Core.Controllers
                 return new HbzsResult<PostSyncMailResuleDto>(HbzsResultCode.Invalid_Error, ex.Message);
             }
         }
-        
-        
+
+
         /// <summary>
         /// 邮箱账单同步
         /// </summary>
@@ -73,7 +82,7 @@ namespace Xw.Zx.Core.Controllers
             try
             {
                 var p = _context.Mailconfigs
-                        .Where(m => m.MemberId == Member.Id &&  m.AddTime.AddHours(5) > DateTime.Now)
+                        .Where(m => m.MemberId == Member.Id && m.AddTime.AddHours(5) > DateTime.Now)
                         .OrderByDescending(m => m.AddTime)
                         .FirstOrDefault();
 

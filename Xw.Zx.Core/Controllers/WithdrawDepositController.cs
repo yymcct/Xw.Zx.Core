@@ -81,7 +81,7 @@ namespace Xw.Zx.Core.Controllers
 
                 var canGet = IncomTotal - WithdrawDeposit;
 
-                if (postWithdrawDepositDto.Amount < 0.1m || postWithdrawDepositDto.Amount > canGet)
+                if (postWithdrawDepositDto.Amount < 2.1m || postWithdrawDepositDto.Amount > canGet)
                 {
                     return new HbzsResult(HbzsResultCode.Sucess, "提现的金额过大或过小, 无法处理");
                 }
@@ -150,11 +150,11 @@ namespace Xw.Zx.Core.Controllers
                 }
                 var db = _context.WithdrawDeposits
                      .AsNoTracking();
-                    // .Where(w => w.WithdrawDepositState == WithdrawDepositState.申请中);
+                // .Where(w => w.WithdrawDepositState == WithdrawDepositState.申请中);
 
                 var details = _sieveProcessor
                         .Apply(sieveModel, db)
-                        .OrderByDescending(d=>d.AddTime)
+                        .OrderByDescending(d => d.AddTime)
                         .ToList();
 
                 var res = details.Select(d => new GetAuditWithdrawDepositDetailsDto()
@@ -199,6 +199,24 @@ namespace Xw.Zx.Core.Controllers
                 if (detailMemnber.Disabled == true)
                 {
                     return new HbzsResult(HbzsResultCode.Invalid_Error, "申请人账户异常,无法处理!");
+                }
+
+                var IncomTotal = _context.IncomeAccounts
+                    .Where(b => b.MemberId == detail.MemberId)
+                    .Sum(b => b.Amount);
+
+                var WithdrawDeposit = _context.WithdrawDeposits
+                        .Where(b => b.MemberId == detail.MemberId
+                                && b.WithdrawDepositState == WithdrawDepositState.通过)
+                        .Sum(b => b.Amount);
+
+                var canGet = IncomTotal - WithdrawDeposit;
+                if (detail.Amount < 2.09m || detail.Amount > canGet)
+                {
+                    detail.WithdrawDepositState = WithdrawDepositState.拒绝;
+                    detail.Remark = "提现的金额过大或过小, 无法处理";
+                    _context.SaveChanges();
+                    return new HbzsResult(HbzsResultCode.Sucess, "提现的金额过大或过小, 无法处理");
                 }
 
                 if (dto.IsPass == false)
@@ -254,7 +272,7 @@ namespace Xw.Zx.Core.Controllers
                 out_biz_no = withdrawDeposit.Timestamp,
                 payee_type = "ALIPAY_LOGONID",
                 payee_account = PayMember.AliPayAccount,
-                amount = withdrawDeposit.Amount,
+                amount = withdrawDeposit.Amount - 2,
                 payer_show_name = $"{PayMember.Phone}申请提现",
                 payee_real_name = PayMember.RealName,
                 remark = "转账备注:送钱包提现"

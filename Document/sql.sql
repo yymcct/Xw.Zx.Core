@@ -10,25 +10,32 @@ select * from Members where AliPayAccount !=''
 ------------------------------------------------------银行卡账单---------------------------------------------------
 select * from BankCards where MemberId = 6
 select * from MailSrcs where memberid=6 
-select * from BankBillDetails where memberid=6
+select * from BankBillDetails where memberid=162
 
-select * from Members where Phone = 13525691770
+select * from Members where id= 162
 
 update Members set MemberVipType = 0 where phone = 18624938007
 
 select * from UpdateVipAuthCodes
 
+select * from MailSrcs where IsPrased = 0
 
+select * from MailSrcs where MemberId=72 
+select * from BankBillDetails where MemberID = 72
 
-select * from MailSrcs where MemberId=77  
-select * from BankBillDetails where MemberID = 109
+delete Mailconfigs where  MemberId=72 
+delete  MailSrcs where MemberId=72 
+delete BankBillDetails where MemberID = 72
 
+update MailSrcs set IsPrased = 0 where MemberID= 162
 
 ------------------------------------------------------VIP升级分润--------------------------------------------------
 select * from orders where MemberId = 7
 select * from Receivables
 select * from IncomeAccounts
 select * from WithdrawDeposits
+delete WithdrawDeposits where id = 41
+
 select * from Payments
 select * from AlipayLogs
 --delete WithdrawDeposits where MemberId =6
@@ -52,5 +59,5 @@ from WithdrawDeposits join Members on WithdrawDeposits.MemberId = Members.Id
 select * from Payments
 select * from AlipayLogs
 select * from WithdrawDeposits
+select * from IncomeAccounts where MemberId = 53
 
-delete  Payments where 

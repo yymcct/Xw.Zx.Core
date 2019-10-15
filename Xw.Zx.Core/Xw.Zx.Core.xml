@@ -213,6 +213,11 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Xw.Zx.Core.Controllers.SyncController.Notthing">
+            <summary>
+            nothing
+            </summary>
+        </member>
         <member name="M:Xw.Zx.Core.Controllers.SyncController.SyncAsync(Xw.Zx.Core.Models.Dto.PostSyncMailDto)">
             <summary>
             邮箱账单同步

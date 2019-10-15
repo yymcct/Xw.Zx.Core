@@ -89,7 +89,7 @@ namespace Xw.Zx.Core.Service
             _jiaoTongParseService.Parse();
 
 
-   
+
             uids = await _qqMailService.SearchByGuangdaYingHang();
             await SaveMails(uids);
             _guangDaParseService.Member = _memberId;
@@ -103,6 +103,9 @@ namespace Xw.Zx.Core.Service
             uids = await _qqMailService.SearchByJianSheYingHang();
             await SaveMails(uids);
 
+
+            uids = await _qqMailService.SearchByPingAnYingHang();
+            await SaveMails(uids);
 
         }
 
