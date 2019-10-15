@@ -21,6 +21,8 @@ namespace Xw.Zx.Core.Service
         private readonly IGuangZhouYinHangParseService _guangZhouYinHangParseService;
         private readonly IYouZhengParseService _youZhengParseService;
         private readonly IJiaoTongParseService _jiaoTongParseService;
+        private readonly IGuangDaParseService _guangDaParseService;
+        private readonly IMengShengParseService _mengShengParseService;
         public QQMailSyncService(ILogger<QQMailSyncService> logger
              , XwZxContext xwZxContext
             , IQQMailService qqMailService
@@ -29,7 +31,9 @@ namespace Xw.Zx.Core.Service
             , IZhongxinParseService zhongxinParseService
             , IGuangZhouYinHangParseService guangZhouYinHangParseService
             , IYouZhengParseService youZhengParseService
-            , IJiaoTongParseService jiaoTongParseService)
+            , IJiaoTongParseService jiaoTongParseService
+            , IGuangDaParseService guangDaParseService
+            , IMengShengParseService mengShengParseService)
         {
             _logger = logger;
             _qqMailService = qqMailService;
@@ -40,6 +44,8 @@ namespace Xw.Zx.Core.Service
             _guangZhouYinHangParseService = guangZhouYinHangParseService;
             _youZhengParseService = youZhengParseService;
             _jiaoTongParseService = jiaoTongParseService;
+            _guangDaParseService = guangDaParseService;
+            _mengShengParseService = mengShengParseService;
         }
 
         public void Init(int memberId, string sid, string cookie)
@@ -81,6 +87,23 @@ namespace Xw.Zx.Core.Service
             await SaveMails(uids);
             _jiaoTongParseService.Member = _memberId;
             _jiaoTongParseService.Parse();
+
+
+   
+            uids = await _qqMailService.SearchByGuangdaYingHang();
+            await SaveMails(uids);
+            _guangDaParseService.Member = _memberId;
+            _guangDaParseService.Parse();
+
+            uids = await _qqMailService.SearchByMingShengYingHang();
+            await SaveMails(uids);
+            _mengShengParseService.Member = _memberId;
+            _mengShengParseService.Parse();
+
+            uids = await _qqMailService.SearchByJianSheYingHang();
+            await SaveMails(uids);
+
+
         }
 
 
@@ -107,7 +130,7 @@ namespace Xw.Zx.Core.Service
                         }
                         else
                         {
-                            if (++errCnt > 3) 
+                            if (++errCnt > 3)
                                 break;
                             Thread.Sleep(5000);
                         }

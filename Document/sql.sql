@@ -12,15 +12,16 @@ select * from BankCards where MemberId = 6
 select * from MailSrcs where memberid=6 
 select * from BankBillDetails where memberid=6
 
-select * from Members where Phone = 18624938007
-update Members set MemberVipType = 0 where Phone = 18624938007
+select * from Members where Phone = 13525691770
 
+update Members set MemberVipType = 0 where phone = 18624938007
 
 select * from UpdateVipAuthCodes
 
 
 
-select * from MailSrcs where MemberId=6  and [from] ='creditcardcenter@cardmail.psbc.com' and BodyText like '%利息交易%'
+select * from MailSrcs where MemberId=77  
+select * from BankBillDetails where MemberID = 109
 
 
 ------------------------------------------------------VIP升级分润--------------------------------------------------
@@ -35,7 +36,7 @@ select * from AlipayLogs
 
 -- VIP升级时会产生:
 -- 订单, 支付单 一代收益单 二代收益单 合伙人收益单 服务站收益单 运营商收益单
-delete WithdrawDeposits where id=13
+
 
 ------------------------------------------------------追息申请--------------------------------------------------
 

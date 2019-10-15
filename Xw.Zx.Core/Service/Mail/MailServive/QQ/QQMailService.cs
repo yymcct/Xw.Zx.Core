@@ -359,6 +359,165 @@ namespace Xw.Zx.Core.Service
             return mailIds;
         }
 
+        public async Task<List<string>> SearchByGuangdaYingHang()
+        {
+            string resStrHtml = "";
+            var mailIds = new List<string>();
+            int i = 0;
+            string uri = $"/cgi-bin/mail_list?sid={_sid}&s=search&folderid=all&page=0&subject=cebbank@cardcenter.cebbank.com%20%CF%FB%B7%D1%C0%FB%CF%A2&sender=cebbank@cardcenter.cebbank.com%20%CF%FB%B7%D1%C0%FB%CF%A2&receiver=cebbank@cardcenter.cebbank.com%20%CF%FB%B7%D1%C0%FB%CF%A2&searchmode=&topmails=0&advancesearch=0&loc=frame_html,,,6";
+            try
+            {
+                do
+                {
+                    resStrHtml = await _client.GetStringAsync(uri);
+
+                    var htmlDoc = new HtmlDocument();
+                    htmlDoc.LoadHtml(resStrHtml);
+                    var htmlNodes = htmlDoc.DocumentNode
+                        .SelectNodes(@"//*[@class=""maillist_listItem""]");
+
+                    foreach (var node in htmlNodes)
+                    {
+                        if (node.InnerText.Contains("消费利息"))
+                        {
+                            mailIds.Add(node.Id);
+                        }
+                    }
+
+                    //检查下一页
+                    uri = GetNextPage(htmlDoc);
+                    if (string.IsNullOrEmpty(uri)) break;
+
+                } while (++i < 5);
+
+                return mailIds;
+            }
+            catch (Exception ex)
+            {
+                // _logger.LogDebug($"[SearchByFrom]错误:sid:{_sid};cookies:{_cookies};fromMail:{fromMail};resStr:{resStr};Exception:{ex.Message}");
+            }
+            return mailIds;
+        }
+
+        public async Task<List<string>> SearchByMingShengYingHang()
+        {
+            string resStrHtml = "";
+            var mailIds = new List<string>();
+            int i = 0;
+            string uri = $"/cgi-bin/mail_list?sid={_sid}&s=search&folderid=all&page=0&subject=master@creditcard.cmbc.com.cn%20%C0%FB%CF%A2%BD%BB%D2%D7&sender=master@creditcard.cmbc.com.cn%20%C0%FB%CF%A2%BD%BB%D2%D7&receiver=master@creditcard.cmbc.com.cn%20%C0%FB%CF%A2%BD%BB%D2%D7&searchmode=&topmails=0&advancesearch=0&loc=frame_html,,,6";
+            try
+            {
+                do
+                {
+                    resStrHtml = await _client.GetStringAsync(uri);
+
+                    var htmlDoc = new HtmlDocument();
+                    htmlDoc.LoadHtml(resStrHtml);
+                    var htmlNodes = htmlDoc.DocumentNode
+                        .SelectNodes(@"//*[@class=""maillist_listItem""]");
+
+                    foreach (var node in htmlNodes)
+                    {
+                        if (node.InnerText.Contains("利息交易"))
+                        {
+                            mailIds.Add(node.Id);
+                        }
+                    }
+
+                    //检查下一页
+                    uri = GetNextPage(htmlDoc);
+                    if (string.IsNullOrEmpty(uri)) break;
+
+                } while (++i < 5);
+
+                return mailIds;
+            }
+            catch (Exception ex)
+            {
+                // _logger.LogDebug($"[SearchByFrom]错误:sid:{_sid};cookies:{_cookies};fromMail:{fromMail};resStr:{resStr};Exception:{ex.Message}");
+            }
+            return mailIds;
+        }
+
+        public async Task<List<string>> SearchByJianSheYingHang()
+        {
+            string resStrHtml = "";
+            var mailIds = new List<string>();
+            int i = 0;
+            string uri = $"/cgi-bin/mail_list?sid={_sid}&s=search&folderid=all&page=0&subject=service@vip.ccb.com%20%C0%FB%CF%A2&sender=service@vip.ccb.com%20%C0%FB%CF%A2&receiver=service@vip.ccb.com%20%C0%FB%CF%A2&searchmode=&topmails=0&advancesearch=0&loc=frame_html,,,6";
+            try
+            {
+                do
+                {
+                    resStrHtml = await _client.GetStringAsync(uri);
+
+                    var htmlDoc = new HtmlDocument();
+                    htmlDoc.LoadHtml(resStrHtml);
+                    var htmlNodes = htmlDoc.DocumentNode
+                        .SelectNodes(@"//*[@class=""maillist_listItem""]");
+
+                    foreach (var node in htmlNodes)
+                    {
+                        if (node.InnerText.Contains("利息"))
+                        {
+                            mailIds.Add(node.Id);
+                        }
+                    }
+
+                    //检查下一页
+                    uri = GetNextPage(htmlDoc);
+                    if (string.IsNullOrEmpty(uri)) break;
+
+                } while (++i < 5);
+
+                return mailIds;
+            }
+            catch (Exception ex)
+            {
+                // _logger.LogDebug($"[SearchByFrom]错误:sid:{_sid};cookies:{_cookies};fromMail:{fromMail};resStr:{resStr};Exception:{ex.Message}");
+            }
+            return mailIds;
+        }
+
+        public async Task<List<string>> SearchByXingyeYingHang()
+        {
+            string resStrHtml = "";
+            var mailIds = new List<string>();
+            int i = 0;
+            string uri = $"/cgi-bin/mail_list?sid={_sid}&s=search&folderid=all&page=0&subject=creditcard@message.cib.com.cn%20%CE%A5%D4%BC%BD%F0&sender=creditcard@message.cib.com.cn%20%CE%A5%D4%BC%BD%F0&receiver=creditcard@message.cib.com.cn%20%CE%A5%D4%BC%BD%F0&searchmode=&topmails=0&advancesearch=0&loc=frame_html,,,6";
+            try
+            {
+                do
+                {
+                    resStrHtml = await _client.GetStringAsync(uri);
+
+                    var htmlDoc = new HtmlDocument();
+                    htmlDoc.LoadHtml(resStrHtml);
+                    var htmlNodes = htmlDoc.DocumentNode
+                        .SelectNodes(@"//*[@class=""maillist_listItem""]");
+
+                    foreach (var node in htmlNodes)
+                    {
+                        if (node.InnerText.Contains("违约金"))
+                        {
+                            mailIds.Add(node.Id);
+                        }
+                    }
+
+                    //检查下一页
+                    uri = GetNextPage(htmlDoc);
+                    if (string.IsNullOrEmpty(uri)) break;
+
+                } while (++i < 5);
+
+                return mailIds;
+            }
+            catch (Exception ex)
+            {
+                // _logger.LogDebug($"[SearchByFrom]错误:sid:{_sid};cookies:{_cookies};fromMail:{fromMail};resStr:{resStr};Exception:{ex.Message}");
+            }
+            return mailIds;
+        }
         private string GetNextPage(HtmlDocument htmlDoc)
         {
             string url = "";
