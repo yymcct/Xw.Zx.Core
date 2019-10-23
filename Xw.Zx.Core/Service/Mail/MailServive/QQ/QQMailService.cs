@@ -458,7 +458,7 @@ namespace Xw.Zx.Core.Service
 
                     foreach (var node in htmlNodes)
                     {
-                        if (node.InnerText.Contains("利息"))
+                        if (node.InnerText.Contains("service@vip.ccb.com"))
                         {
                             mailIds.Add(node.Id);
                         }
@@ -525,7 +525,7 @@ namespace Xw.Zx.Core.Service
             string resStrHtml = "";
             var mailIds = new List<string>();
             int i = 0;
-            string uri = $"/cgi-bin/mail_list?sid={_sid}&s=search&folderid=all&page=0&subject=creditcard@service.pingan.com%20%C0%FB%CF%A2&sender=creditcard@service.pingan.com%20%C0%FB%CF%A2&receiver=creditcard@service.pingan.com%20%C0%FB%CF%A2&searchmode=&topmails=0&advancesearch=0&loc=frame_html,,,6";
+            string uri = $"/cgi-bin/mail_list?sid={_sid}&s=search&folderid=all&page=0&subject=creditcard@service.pingan.com%20%D1%AD%BB%B7%C0%FB%CF%A2&sender=creditcard@service.pingan.com%20%D1%AD%BB%B7%C0%FB%CF%A2&receiver=creditcard@service.pingan.com%20%D1%AD%BB%B7%C0%FB%CF%A2&searchmode=&topmails=0&advancesearch=0&loc=frame_html,,,6";
             try
             {
                 do
@@ -539,7 +539,7 @@ namespace Xw.Zx.Core.Service
 
                     foreach (var node in htmlNodes)
                     {
-                        if (node.InnerText.Contains("利息"))
+                        if (node.InnerText.Contains("循环利息"))
                         {
                             mailIds.Add(node.Id);
                         }

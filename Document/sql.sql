@@ -26,6 +26,7 @@ select * from BankBillDetails where MemberID = 72
 delete Mailconfigs where  MemberId=72 
 delete  MailSrcs where MemberId=72 
 delete BankBillDetails where MemberID = 72
+delete  bank where member
 
 update MailSrcs set IsPrased = 0 where MemberID= 162
 

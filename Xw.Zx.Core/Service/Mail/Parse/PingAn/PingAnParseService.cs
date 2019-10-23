@@ -53,8 +53,7 @@ namespace Xw.Zx.Core.Service
             var details = new List<BankBillDetail>();
             try
             {
-                var data = new  Regex(@"(\d{4}/\d{2}/\d{2})").Matches(content)[0].Groups[1].Value;
-                var matchs = new Regex(@"(\d{2}/\d{2}\s+)利息\s+(\d+\.\d{2})").Matches(content);
+                var matchs = new Regex(@"(\d{4}-\d{2}-\d{2})利息￥\s+(\d+\.\d{2})").Matches(content);
 
                 foreach (Match m in matchs)
                 {
@@ -66,14 +65,14 @@ namespace Xw.Zx.Core.Service
                         CardNum = "0000",
                         Unit = "人民币",
                         SellerName = "利息",
-                        TreadTime = DateTime.ParseExact(data, "yyyy/MM/dd", new CultureInfo("zh-CN", true)),
+                        TreadTime = DateTime.ParseExact(m.Groups[1].Value, "yyyy-MM-dd", new CultureInfo("zh-CN", true)),
                         Amount = decimal.Parse(m.Groups[2].Value)
                     };
 
                     details.Add(detail);
                 }
 
-                var matchWyjs = new Regex(@"(\d{2}/\d{2}\s+)违约金\s+(\d+\.\d{2})").Matches(content);
+                var matchWyjs = new Regex(@"(\d{4}-\d{2}-\d{2})违约金￥\s+(\d+\.\d{2})").Matches(content);
 
                 foreach (Match m in matchWyjs)
                 {
@@ -85,7 +84,7 @@ namespace Xw.Zx.Core.Service
                         CardNum = "0000",
                         Unit = "人民币",
                         SellerName = "违约金",
-                        TreadTime = DateTime.ParseExact(data, "yyyy/MM/dd", new CultureInfo("zh-CN", true)),
+                        TreadTime = DateTime.ParseExact(m.Groups[1].Value, "yyyy/MM/dd", new CultureInfo("zh-CN", true)),
                         Amount = decimal.Parse(m.Groups[2].Value)
                     };
                     details.Add(detail);
@@ -106,10 +105,10 @@ namespace Xw.Zx.Core.Service
             //TODO 修改
             var mails = _xwZxContext.MailSrcs
                .Where(m => m.MemberId == _memberId
-                   && m.From == "master@creditcard.cmbc.com.cn"
+                   && m.From == "creditcard@service.pingan.com"
                    && m.IsPrased == false
-                   && m.Sublic.Contains("电子对账单")
-                   && m.BodyText.Contains("利息交易")).ToList();
+                   && m.Sublic.Contains("电子账单")
+                   && m.BodyText.Contains("交易")).ToList();
 
             return mails;
         }
