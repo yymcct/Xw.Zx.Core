@@ -22,7 +22,7 @@ namespace Xw.Zx.Core.Service
         public void Parse()
         {
             var mails = GetNeedParse();
-
+            SaveBank("0000", _memberId);
             for (var i = 0; i < mails.Count; i++)
             {
                 try
@@ -31,7 +31,7 @@ namespace Xw.Zx.Core.Service
                     var details = ToBillDetail(mail);
                     if (details != null && details.Count > 0)
                     {
-                        SaveBank(details[0].CardNum, _memberId);
+                        
                         SaveBankBillDetail(details);
                     }
                     UpdateMailIsPrased(mail);

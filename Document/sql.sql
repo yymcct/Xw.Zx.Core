@@ -26,9 +26,11 @@ select * from BankBillDetails where MemberID = 72
 delete Mailconfigs where  MemberId=72 
 delete  MailSrcs where MemberId=72 
 delete BankBillDetails where MemberID = 72
-delete  bank where member
+delete  BankCards where memberid=72
 
-update MailSrcs set IsPrased = 0 where MemberID= 162
+select * from MailSrcs where MemberId = 72 and [from]='service@vip.ccb.com'
+
+update MailSrcs set IsPrased = 0 where MemberID= 72
 
 ------------------------------------------------------VIPÉý¼¶·ÖÈó--------------------------------------------------
 select * from orders where MemberId = 7

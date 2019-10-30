@@ -9,13 +9,13 @@ using Xw.Zx.Core.Models.Model;
 
 namespace Xw.Zx.Core.Service
 {
-    public class PingAnParseService : ParseServiceBase, IPingAnParseService
+    public class JianSheParseService : ParseServiceBase, IJianSheParseService
     {
         private int _memberId;
         public int Member { set { _memberId = value; } }
-        private readonly ILogger<PingAnParseService> _logger;
-        public PingAnParseService(ILogger<PingAnParseService> logger
-            , XwZxContext xwZxContext):base(xwZxContext, BankCardType.平安银行)//TODO
+        private readonly ILogger<JianSheParseService> _logger;
+        public JianSheParseService(ILogger<JianSheParseService> logger
+            , XwZxContext xwZxContext):base(xwZxContext, BankCardType.建设银行)//TODO
         {
             _logger = logger;
         }
@@ -31,7 +31,7 @@ namespace Xw.Zx.Core.Service
                     var details = ToBillDetail(mail);
                     if (details != null && details.Count > 0)
                     {
-                       
+                        
                         SaveBankBillDetail(details);
                     }
                     UpdateMailIsPrased(mail);
@@ -53,7 +53,7 @@ namespace Xw.Zx.Core.Service
             var details = new List<BankBillDetail>();
             try
             {
-                var matchs = new Regex(@"(\d{4}-\d{2}-\d{2})利息￥\s+(\d+\.\d{2})").Matches(content);
+                var matchs = new Regex(@"(\d{4}-\d{2}-\d{2})(\d{4})利息CNY(\d+\.\d{2})").Matches(content);
 
                 foreach (Match m in matchs)
                 {
@@ -66,13 +66,13 @@ namespace Xw.Zx.Core.Service
                         Unit = "人民币",
                         SellerName = "利息",
                         TreadTime = DateTime.ParseExact(m.Groups[1].Value, "yyyy-MM-dd", new CultureInfo("zh-CN", true)),
-                        Amount = decimal.Parse(m.Groups[2].Value)
+                        Amount = decimal.Parse(m.Groups[3].Value)
                     };
 
                     details.Add(detail);
                 }
 
-                var matchWyjs = new Regex(@"(\d{4}-\d{2}-\d{2})违约金￥\s+(\d+\.\d{2})").Matches(content);
+                var matchWyjs = new Regex(@"(\d{4}-\d{2}-\d{2})(\d{4})扣收违约金CNY(\d+\.\d{2})").Matches(content);
 
                 foreach (Match m in matchWyjs)
                 {
@@ -85,7 +85,7 @@ namespace Xw.Zx.Core.Service
                         Unit = "人民币",
                         SellerName = "违约金",
                         TreadTime = DateTime.ParseExact(m.Groups[1].Value, "yyyy-MM-dd", new CultureInfo("zh-CN", true)),
-                        Amount = decimal.Parse(m.Groups[2].Value)
+                        Amount = decimal.Parse(m.Groups[3].Value)
                     };
                     details.Add(detail);
                 }              
@@ -105,7 +105,7 @@ namespace Xw.Zx.Core.Service
             //TODO 修改
             var mails = _xwZxContext.MailSrcs
                .Where(m => m.MemberId == _memberId
-                   && m.From == "creditcard@service.pingan.com"
+                   && m.From == "service@vip.ccb.com"
                    && m.IsPrased == false
                    && m.Sublic.Contains("电子账单")
                    && m.BodyText.Contains("利息")).ToList();
