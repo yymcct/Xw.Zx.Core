@@ -1,5 +1,5 @@
 // vue.config.js
 module.exports = {
     // 选项...
-    publicPath: 'jishu'
+    publicPath: '2P9GVXFAs4qFyqE5jG5Le7iPOPAJpJ1Z'
 }

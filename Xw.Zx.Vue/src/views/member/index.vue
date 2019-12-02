@@ -5,16 +5,35 @@
     <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
       <el-form :inline="true" :model="filters">
         <el-form-item>
-          <el-input v-model="filters.roleName" placeholder="角色"></el-input>
+          <el-select v-model="filters.vipType" placeholder="请选择">
+            <el-option label="全部类型" value="999"></el-option>
+            <el-option label="普通" value="0"></el-option>
+            <el-option label="VIP会员" value="1"></el-option>
+            <el-option label="合伙人" value="2"></el-option>
+            <el-option label="服务站" value="3"></el-option>
+            <el-option label="运营商" value="4"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item>
-          <el-input v-model="filters.nick" placeholder="昵称"></el-input>
+          <el-input class="keyword" v-model="filters.keywords" placeholder="角色,姓名,手机号,备注,会员类型"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-input v-model="filters.phone" placeholder="手机号"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-input v-model="filters.remark" placeholder="备注"></el-input>
+          <el-date-picker
+            v-model="filters.addTimeStart"
+            type="date"
+            placeholder="开始时间"
+            align="right"
+            :picker-options="glpickerOptions"
+            value-format="yyyy-MM-dd"
+          ></el-date-picker>
+          <el-date-picker
+            v-model="filters.addTimeEnd"
+            type="date"
+            placeholder="结束时间"
+            align="right"
+            :picker-options="glpickerOptions"
+            value-format="yyyy-MM-dd"
+          ></el-date-picker>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="getMemberMDtos">查询</el-button>
@@ -34,21 +53,15 @@
       :header-cell-style="{
                           'background-color': '#eef1f6',
                           'color': '#1f2d3d',
-                          'border-bottom': '1px #606266 solid'
                       }"
     >
       <el-table-column prop="id" label="Id" width="100px" sortable></el-table-column>
       <el-table-column prop="roleName" label="角色" width="100px" sortable></el-table-column>
-      <el-table-column prop="nick" label="昵称" width="250px" sortable></el-table-column>
-      <el-table-column prop="photo" label="图像" width="100px" sortable>
-        <template slot-scope="scope">
-          <el-image
-            :src="scope.row.photo"
-            style="width: 40px; height: 40px;margin: 0px 3px;"
-          ></el-image>
-        </template>
-      </el-table-column>
+      <el-table-column prop="realName" label="姓名" width="100px" sortable></el-table-column>
       <el-table-column prop="phone" label="手机" width="120px" sortable></el-table-column>
+      <el-table-column prop="memberVipTypeName" label="级别" width="120px" sortable></el-table-column>
+      <el-table-column prop="aliPayAccount" label="支付宝" width="150px" sortable></el-table-column>
+      <el-table-column prop="queryTimes" label="查询次数" width="120px" sortable></el-table-column>
       <el-table-column prop="remark" label="备注" sortable></el-table-column>
       <el-table-column prop="createDate" label="添加时间" width="100px" sortable></el-table-column>
       <el-table-column label="操作" width="100px">
@@ -92,6 +105,7 @@
 import { api_getMemberMDtos, api_delMemberMDto } from "../../api/api";
 import { type } from "os";
 import edit from "./edit";
+import { MessageBox, Message } from "element-ui";
 export default {
   components: {
     edit
@@ -106,10 +120,10 @@ export default {
       },
       //TODO:删减查询条件
       filters: {
-        roleName: null,
-        nick: null,
-        phone: null,
-        remark: null
+        keywords: null,
+        addTimeStart: null,
+        addTimeEnd: null,
+        vipType: "999"
       },
       memberMDtos: [],
       total: 0,
@@ -134,18 +148,16 @@ export default {
       this.page = 1;
       this.requestParams.filters = "";
 
-     
-      if (this.filters.roleName)
-        this.requestParams.filters += `RoleName@=${this.filters.roleName},`;
+      if (this.filters.vipType !== "999")
+        this.requestParams.filters += `MemberVipType==${this.filters.vipType},`;
 
-      if (this.filters.nick)
-        this.requestParams.filters += `Nick@=${this.filters.nick},`;
+      if (this.filters.keywords)
+        this.requestParams.filters += `(RoleName|Phone|Remark|RealName)@=${this.filters.keywords},`;
 
-      if (this.filters.phone)
-        this.requestParams.filters += `Phone@=${this.filters.phone},`;
-
-      if (this.filters.remark)
-        this.requestParams.filters += `Remark@=${this.filters.remark},`;
+      if (this.filters.addTimeStart)
+        this.requestParams.filters += `CreateDate>=${this.filters.addTimeStart},`;
+      if (this.filters.addTimeEnd)
+        this.requestParams.filters += `CreateDate<=${this.filters.addTimeEnd},`;
 
       api_getMemberMDtos(this.requestParams).then(respone => {
         this.listLoading = false;
@@ -155,8 +167,13 @@ export default {
     },
     //显示编辑界面
     handleEdit: function(index, row) {
-      this.editForm = Object.assign({}, row);
-      this.editAction = "edit";
+      Message({
+        message: "TODO 开发中..",
+        type: "error",
+        duration: 5 * 1000
+      });
+      // this.editForm = Object.assign({}, row);
+      // this.editAction = "edit";
     },
     //显示新增界面
     handleAdd: function() {
@@ -164,19 +181,24 @@ export default {
     },
     //删除
     handleDel: function(index, row) {
-      this.$confirm("确认删除?", "提示", { type: "warning" }).then(() => {
-        this.listLoading = true;
-        //NProgress.start();
-        api_delMemberMDto(row.id).then(res => {
-          this.listLoading = false;
-          //NProgress.done();
-          this.$message({
-            message: "删除成功",
-            type: "success"
-          });
-          this.getMemberMDtos();
-        });
+      Message({
+        message: "TODO 开发中..",
+        type: "error",
+        duration: 5 * 1000
       });
+      // this.$confirm("确认删除?", "提示", { type: "warning" }).then(() => {
+      //   this.listLoading = true;
+      //   //NProgress.start();
+      //   api_delMemberMDto(row.id).then(res => {
+      //     this.listLoading = false;
+      //     //NProgress.done();
+      //     this.$message({
+      //       message: "删除成功",
+      //       type: "success"
+      //     });
+      //     this.getMemberMDtos();
+      //   });
+      // });
     },
     editChange(cancel) {
       this.editAction = "none";
@@ -193,4 +215,7 @@ export default {
 </script>
 
 <style scoped>
+.keyword {
+  width: 300px;
+}
 </style>

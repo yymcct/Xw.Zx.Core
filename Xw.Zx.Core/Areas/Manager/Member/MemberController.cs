@@ -78,7 +78,9 @@ namespace Xw.Zx.Core.Areas.Manager
                              Remark = member.Remark,
                              RealName = member.RealName,
                              MemberVipType = member.MemberVipType,
-                             MemberVipTypeName = member.MemberVipType.ToString()
+                             MemberVipTypeName = member.MemberVipType.ToString(),
+                             AliPayAccount = member.AliPayAccount,
+                             QueryTimes = member.QueryTimes
                          };
 
                 var list = _sieveProcessor.Apply(sieveModel, db).ToList();
