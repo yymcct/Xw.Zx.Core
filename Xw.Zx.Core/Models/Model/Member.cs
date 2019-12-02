@@ -87,5 +87,7 @@ namespace Xw.Zx.Core.Models.Model
         public string Remark { get; set; } = "";
 
         public string AliPayAccount { get; set; } = "";
+        //查询次数
+        public int? QueryTimes { get; set; } 
     }
 }

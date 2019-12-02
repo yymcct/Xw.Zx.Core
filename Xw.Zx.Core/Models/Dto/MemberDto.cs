@@ -25,6 +25,11 @@ namespace Xw.Zx.Core.Models.Dto
         public string Address { get; set; }
 
         public string AliPayAccount { get; set; }
+
+        public string Email { get; set; }
+
+        public int? QueryTimes { get; set; } 
+
     }
     public class MyTeamDto
     {
@@ -64,6 +69,12 @@ namespace Xw.Zx.Core.Models.Dto
         public string Address { get; set; }
 
         public string AliAccount { get; set; }
+
+        public string Email { get; set; }
+
+        public int SmsCheck { get; set; }
+
+        public string Phone { get; set; }
     }
 
     public class ChangePassWordDto

@@ -116,6 +116,13 @@
             <param name="sieveModel">可空</param>
             <returns></returns>
         </member>
+        <member name="M:Xw.Zx.Core.Controllers.IncomeController.GetPeronDetails(System.Int32)">
+            <summary>
+            获取某个人的利润记录      
+            </summary>
+            <param name="sieveModel">可空</param>
+            <returns></returns>
+        </member>
         <member name="M:Xw.Zx.Core.Controllers.IncomeController.GetIncomeInfo">
             <summary>
             获取自己名下收益概括

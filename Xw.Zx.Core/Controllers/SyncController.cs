@@ -57,6 +57,14 @@ namespace Xw.Zx.Core.Controllers
                 _qQMailSyncService.Init(syncDto.MemberId, syncDto.Sid, syncDto.Cookie);
                 await _qQMailSyncService.SyncMailAsync();
 
+                #region 查询次数
+                var member = _context.Members.FirstOrDefault(row=>row.Id == syncDto.MemberId);
+                member.QueryTimes = member.QueryTimes == null ? 1 : member.QueryTimes + 1;
+
+                _context.Entry(member).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _context.SaveChanges();
+                #endregion
+
                 return new HbzsResult<PostSyncMailResuleDto>(new PostSyncMailResuleDto()
                 {
                     LastSyncTime = DateTime.Now
@@ -81,6 +89,9 @@ namespace Xw.Zx.Core.Controllers
         {
             try
             {
+                //不去检查是否有邮箱凭证
+                return new HbzsResult<PostSyncMailResuleDto>(HbzsResultCode.Invalid_Error, "请通过邮箱导入同步");
+
                 var p = _context.Mailconfigs
                         .Where(m => m.MemberId == Member.Id && m.AddTime.AddHours(5) > DateTime.Now)
                         .OrderByDescending(m => m.AddTime)

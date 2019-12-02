@@ -15,7 +15,7 @@ namespace Xw.Zx.Core.Service
         public int Member { set { _memberId = value; } }
         private readonly ILogger<GuangDaParseService> _logger;
         public GuangDaParseService(ILogger<GuangDaParseService> logger
-            , XwZxContext xwZxContext):base(xwZxContext, BankCardType.广大银行)//TODO
+            , XwZxContext xwZxContext):base(xwZxContext, BankCardType.光大银行)//TODO
         {
             _logger = logger;
         }

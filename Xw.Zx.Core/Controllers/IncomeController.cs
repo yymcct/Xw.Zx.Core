@@ -66,6 +66,42 @@ namespace Xw.Zx.Core.Controllers
                 return new HbzsResult<List<IncomeDetailDto>>(HbzsResultCode.Invalid_Error, ex.Message);
             }
         }
+        /// <summary>
+        /// 获取某个人的利润记录      
+        /// </summary>
+        /// <param name="sieveModel">可空</param>
+        /// <returns></returns>
+        [HttpGet]
+        public HbzsResult<List<IncomeDetailDto>> GetPeronDetails(int memberId)
+        {
+            try
+            {
+                var db = _context.IncomeAccounts
+                    .AsNoTracking()
+                    .Where(b => b.MemberId == memberId);
+
+                var details = _sieveProcessor
+                    .Apply(new SieveModel(),db)
+                    .ToList();
+
+                var res = _mapper.Map<List<IncomeDetailDto>>(details);
+
+                res = res.Select(r =>
+                {
+                    r.IncomeAccountTypeName = r.IncomeAccountType.ToString();
+                    return r;
+                })
+                    .OrderByDescending(item=>item.AddTime)
+                    .ToList();
+
+                return new HbzsResult<List<IncomeDetailDto>>(res);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new HbzsResult<List<IncomeDetailDto>>(HbzsResultCode.Invalid_Error, ex.Message);
+            }
+        }
 
         /// <summary>
         /// 获取自己名下收益概括

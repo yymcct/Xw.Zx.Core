@@ -45,7 +45,6 @@ namespace Xw.Zx.Core.Controllers
                 if (!ValidateHelper.IsMobile(user.Phone)) throw new Exception("请填写手机号");
                 if (string.IsNullOrEmpty(user.Password)) throw new Exception("请填写密码");
                 if (_context.Members.Any(p => p.Phone == user.Phone)) throw new Exception("请勿重复注册");
-                if (_context.Members.Any(m => m.Email == user.Mail)) throw new Exception("邮箱已被占用");
 
                 var InviteUser = _context.Members.FirstOrDefault(m => m.Id == user.InviteId && m.Disabled == false);
                 if (InviteUser == null)
@@ -54,15 +53,19 @@ namespace Xw.Zx.Core.Controllers
                 }
                 if (InviteUser == null) throw new Exception("邀请人无效!");
 
-                var member = _context.Members.Add(new Member()
+                var model = new Member()
                 {
                     Phone = user.Phone,
                     Password = user.Password,
                     UserName = user.Phone,
                     Nick = user.Phone,
                     InviteId = InviteUser.Id,
+                    Email = "",
+                    QueryTimes = 0,
                     Photo = CommonHelper.GetMemberPhoto()
-                });
+                };
+
+                var member = _context.Members.Add(model);
                 _context.SaveChanges();
 
                 return new HbzsResult(HbzsResultCode.Sucess);
@@ -259,11 +262,18 @@ namespace Xw.Zx.Core.Controllers
         {
             try
             {
-                var member = _mapper.Map(postUserDto, Member);
-                if (string.IsNullOrEmpty(member.AliPayAccount))
+                if (_context.SmsCheck.Where(p => p.Phone == postUserDto.Phone && p.CheckState == SmsCheckState.已发送).FirstOrDefault()?.LastSendCode == postUserDto.SmsCheck)
                 {
-                    member.AliPayAccount = postUserDto.AliAccount.Trim();
-                }
+                    var smsCheck = _context.SmsCheck.Find(_context.SmsCheck.Where(p => p.Phone == postUserDto.Phone).FirstOrDefault()?.Id);
+                    smsCheck.CheckState = SmsCheckState.已验证;
+
+                    if (_context.Members.Any(m => m.Phone == postUserDto.Phone))
+                    {
+                        var member = _mapper.Map(postUserDto, Member);
+                        if (string.IsNullOrEmpty(member.AliPayAccount))
+                        {
+                            member.AliPayAccount = postUserDto.AliAccount.Trim();
+                        }
 
                 _context.Entry(member).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 
@@ -271,7 +281,15 @@ namespace Xw.Zx.Core.Controllers
 
                 var res = _mapper.Map<MemberDto>(member);
 
-                return new HbzsResult<MemberDto>(res);
+                        return new HbzsResult<MemberDto>(res);
+                    }
+                    else
+                        throw new Exception("账号不存在");
+                }
+                else
+                {
+                    throw new Exception("验证码错误");
+                }
             }
             catch (Exception ex)
             {
