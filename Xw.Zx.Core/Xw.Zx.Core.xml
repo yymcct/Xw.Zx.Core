@@ -4,6 +4,62 @@
         <name>Xw.Zx.Core</name>
     </assembly>
     <members>
+        <member name="F:Xw.Zx.Core.Areas.Manager.HbzsManagerResultCode.Remote_Service_Error">
+            <summary>
+            远程服务错误
+            </summary>
+        </member>
+        <member name="F:Xw.Zx.Core.Areas.Manager.HbzsManagerResultCode.Invalid_Error">
+            <summary>
+            参数校验错误
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.HbzsManagerResult.StatusCode">
+            <summary>
+            状态码
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.HbzsManagerResult.Msg">
+            <summary>
+            消息
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.HbzsManagerResult`1.StatusCode">
+            <summary>
+            状态码
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.HbzsManagerResult`1.Msg">
+            <summary>
+            消息
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.MemberController.GetUser">
+            <summary>
+            获取用户
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.MemberController.GetMembers(Sieve.Models.SieveModel)">
+            <summary>
+            TODO
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.MemberController.PostMember(Xw.Zx.Core.Areas.Manager.PostMemberMDto)">
+            <summary>
+            TODO
+            </summary>
+            <param name="membermdto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.MemberController.DeleteMember(System.Int32)">
+            <summary>
+            TODO
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="T:Xw.Zx.Core.Config.ApplicationSieveProcessor">
             <summary>
             配置mapper

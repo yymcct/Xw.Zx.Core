@@ -35,7 +35,7 @@ namespace Xw.Zx.Core.Config
                     t.Add("id", member.Id);
                     context.Result = new GrantValidationResult(subject: member.Id.ToString()
                         , authenticationMethod: "custom",
-                        claims: new List<Claim>() { new Claim(JwtClaimTypes.Role, "1") }, "", t);
+                        claims: new List<Claim>() { new Claim(JwtClaimTypes.Role, member.RoleName) }, "", t);
                 }
                 else
                 {

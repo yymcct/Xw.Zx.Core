@@ -1,0 +1,242 @@
+﻿<#@ template debug="true" hostspecific="true" language="C#" #>
+<#@ assembly name="System" #>
+<#@ assembly name="System.IO" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ include file="Common.tt" #>
+<#@ output extension=".vue" #>
+
+<# 
+    string solutionPath = Host.ResolveAssemblyReference("$(SolutionDir)");
+    string modelFile=@"C:\Users\yymcc\Documents\Source\HbMeeting\HbMeeting\HbMeeting.Template\bin\Debug\HbMeeting.Template.dll";
+     //加载实体程序集
+    byte[] fileData= File.ReadAllBytes(modelFile);
+    Assembly assembly = Assembly.LoadFrom(modelFile);
+    Type modelTypes = assembly.GetTypes().FirstOrDefault(c => c.Name == "ShortMsgMDto");
+    var property = modelTypes.GetProperties();
+
+#>
+<template>
+  <section>
+    <!--TODO:配置查询条件-->
+    <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
+      <el-form :inline="true" :model="filters">
+<#foreach (PropertyInfo p in property){ if (p.Name.ToLower() == "isdelete") continue;#>
+        <el-form-item>
+<# if (p.PropertyType.IsEnum) { #>
+            <el-select v-model="filters.<#=TitleToLower(p.Name) #>" placeholder="请选择" style="width:120px">
+                <el-option
+                  v-for="item in filters.<#=TitleToLower(p.Name) #>Drops" :key="item.value" :label="item.label" :value="item.value">
+                </el-option>
+            </el-select>
+<#} else if(p.PropertyType == typeof(DateTime)){#>  
+            <el-date-picker v-model="filters.<#=TitleToLower(p.Name) #>Start" type="date" placeholder="开始时间" align="right" :picker-options="glpickerOptions" value-format="yyyy-MM-dd"></el-date-picker>
+            <el-date-picker v-model="filters.<#=TitleToLower(p.Name) #>End" type="date" placeholder="结束时间" align="right" :picker-options="glpickerOptions" value-format="yyyy-MM-dd"></el-date-picker>
+<#} else {#>       
+            <el-input v-model="filters.<#= TitleToLower(p.Name) #>" placeholder="<#= TitleToLower(p.Name) #>"></el-input>
+<#}#>
+        </el-form-item>
+<#}#>
+        <el-form-item>
+          <el-button type="primary" @click="get<#= modelTypes.Name #>s">查询</el-button>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="handleAdd">添加</el-button>
+        </el-form-item>
+      </el-form>
+    </el-col>
+
+    <!--列表-->
+    <el-table
+      :data="<#= TitleToLower(modelTypes.Name) #>s"
+      highlight-current-row
+      v-loading="listLoading"
+      style="width: 100%;"
+      :header-cell-style="{
+                          'background-color': '#eef1f6',
+                          'color': '#1f2d3d',
+                          'border-bottom': '1px #606266 solid'
+                      }"
+    >
+<#foreach (PropertyInfo p in property){if (p.Name.ToLower() == "isdelete") if (p.Name.ToLower() == "isdelete") continue;#>
+    <#  if (p.PropertyType.IsEnum) { #>
+       <el-table-column prop="<#= TitleToLower(p.Name) #>" label="<#=p.Name #>"   width="100px" sortable></el-table-column>
+    <#  } else if (p.PropertyType == typeof(bool)) { #>
+        <el-table-column prop="<#= TitleToLower(p.Name) #>" label="<#=p.Name #>"   width="100px" sortable>
+            <template slot-scope="scope">
+                <span v-if="scope.row.<#= TitleToLower(p.Name) #>" style="font-weight: bold;color: #67C23A;">正常</span>          
+                <span v-else style="font-weight: bold;color: #f56c6c;">锁定</span>
+            </template>
+        </el-table-column>
+    <#} else {#>
+        <el-table-column prop="<#= TitleToLower(p.Name) #>" label="<#=p.Name #>" width="100px" sortable></el-table-column>
+    <#}#>
+<#}#>
+      <el-table-column label="操作" width="100px">
+        <template scope="scope">
+          <i
+            class="el-icon-edit"
+            style="margin: 0 5px; font-weight:bold;cursor: pointer;"
+            @click="handleEdit(scope.$index, scope.row)"
+          ></i>
+          <i
+            class="el-icon-delete"
+            style="margin: 0 5px; font-weight:bold;cursor: pointer;"
+            @click="handleDel(scope.$index, scope.row)"
+          ></i>
+        </template>
+      </el-table-column>
+    </el-table>
+
+    <!--工具条align='center'-->
+    <el-col :span="24" class="toolbar" align="right">
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="requestParams.page"
+        :page-sizes="[10, 50, 100, 500]"
+        :page-size="requestParams.pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+        background
+      ></el-pagination>
+    </el-col>
+
+   <!--TODO:删减编辑界面数据-->
+    <edit :action="editAction" :Post<#=modelTypes.Name#>="editForm" @change="editChange"></edit>
+  </section>
+</template>
+
+<script>
+//TODO: 拷贝到api文件
+//export const api_get<#=modelTypes.Name#>s = (params) => request.get('/manager/<#=modelTypes.Name.Replace("MDto","")#>/Get<#=modelTypes.Name.Replace("MDto","")#>s', { params: params });
+//export const api_post<#=modelTypes.Name#> = (params) => request.post('/manager/<#=modelTypes.Name.Replace("MDto","")#>/Post<#=modelTypes.Name.Replace("MDto","")#>', params);
+//export const api_del<#=modelTypes.Name#> = (id) => request.get('/manager/<#=modelTypes.Name.Replace("MDto","")#>/Delete<#=modelTypes.Name.Replace("MDto","")#>', { params:{'id':id}});
+import { api_get<#=modelTypes.Name#>s,  api_del<#=modelTypes.Name#> } from "../../api/api";
+import { type } from "os";
+import edit from "./edit";
+export default {
+  components: {
+    edit
+  },
+  data() {
+    return {
+      requestParams: {
+        page: 1,
+        pageSize: 10,
+        filters: "",
+        sorts: "-id"
+      },
+//TODO:删减查询条件
+      filters: {
+<# foreach (PropertyInfo p in property) { if (p.Name.ToLower() == "isdelete") continue;#>
+<#  if (p.PropertyType == typeof(string)) { #>
+        <#= TitleToLower(p.Name) #>: null,
+<#  }else if (p.PropertyType == typeof(int)) { #>
+        <#=TitleToLower(p.Name) #>: null,
+<#  }else if (p.PropertyType == typeof(DateTime)) { #>
+        <#=TitleToLower(p.Name) #>Start: null,
+        <#=TitleToLower(p.Name) #>End: null,
+<#  }else{ #>
+        <#= TitleToLower(p.Name) #>: null,
+    <#}#>
+<#}#>
+<# foreach (PropertyInfo p in property) { #>
+<# if (p.PropertyType.IsEnum) { #>
+         <#= TitleToLower(p.Name) #>Drops: [
+          { value: "", label: "全部" },     
+<#foreach (var enumValue in Enum.GetValues(p.PropertyType)) {#>
+          { value: <#=(int)enumValue#>, label: "<#=enumValue #>" },
+<#} #>
+        ],
+<#}#>
+<#}#>
+      },
+      <#= TitleToLower(modelTypes.Name) #>s: [],
+      total: 0,
+      listLoading: false,
+
+//TODO:删减编辑界面数据
+      editForm: null,  
+      editAction: "none"   
+    };
+  },
+  methods: {
+    handleSizeChange(val) {
+      this.requestParams.pageSize = val;
+      this.get<#= modelTypes.Name #>s();
+    },
+    handleCurrentChange(val) {
+      this.requestParams.page = val;
+      this.get<#= modelTypes.Name #>s();
+    },
+    get<#= modelTypes.Name #>s() {
+      this.listLoading = true;
+      this.page = 1;
+      this.requestParams.filters = "";
+
+//TODO:删减查询条件
+<# foreach (PropertyInfo p in property) { if (p.Name.ToLower() == "isdelete") continue;#>
+<#if (p.PropertyType == typeof(DateTime)) { #>
+      if (this.filters.<#= TitleToLower(p.Name) #>Start)
+        this.requestParams.filters += `<#=p.Name#>>=${this.filters.<#= TitleToLower(p.Name) #>Start},`;
+      if (this.filters.<#= TitleToLower(p.Name) #>End)
+        this.requestParams.filters += `<#=p.Name#><=${this.filters.<#= TitleToLower(p.Name) #>End},`;
+<#} else{ #>
+      if (this.filters.<#= TitleToLower(p.Name) #>)
+        this.requestParams.filters += `<#=p.Name#>==${this.filters.<#= TitleToLower(p.Name) #>},`;
+<#}#>      
+<#}#>
+         
+      api_get<#=modelTypes.Name#>s(this.requestParams).then(respone => {
+        this.listLoading = false;
+        this.<#= TitleToLower(modelTypes.Name) #>s = respone.result;
+        this.total = respone.total;
+      });
+    },
+    //显示编辑界面
+    handleEdit: function(index, row) {
+      this.editForm = Object.assign({}, row);
+      this.editAction = "edit";
+    },
+    //显示新增界面
+    handleAdd: function() {
+        this.editAction = "add";
+    },   
+    //删除
+    handleDel: function(index, row) {
+      this.$confirm("确认删除?", "提示", { type: "warning" }).then(() => {
+        this.listLoading = true;
+        //NProgress.start();
+        api_del<#=modelTypes.Name#>(row.id).then(res => {
+          this.listLoading = false;
+          //NProgress.done();
+          this.$message({
+            message: "删除成功",
+            type: "success"
+          });
+          this.get<#= modelTypes.Name #>s();
+        });
+      });
+    },
+    editChange(cancel) {
+      this.editAction = "none";
+      if (cancel != 'cancel'){
+         this.get<#= modelTypes.Name #>s();
+      }
+    }
+  },
+    
+  mounted() {
+    this.get<#= modelTypes.Name #>s();
+  }
+};
+</script>
+
+<style scoped>
+</style>

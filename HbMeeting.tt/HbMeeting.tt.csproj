@@ -1,0 +1,57 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Update="vue\Controller.tt">
+      <LastGenOutput>Controller.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="vue\Common.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Common.cs</LastGenOutput>
+    </None>
+    <None Update="vue\Controllerbak.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Controllerbak.cs</LastGenOutput>
+    </None>
+    <None Update="vue\edit.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>edit.vue</LastGenOutput>
+    </None>
+    <None Update="vue\edit.vue">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>edit.tt</DependentUpon>
+    </None>
+    <None Update="vue\index.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>index.vue</LastGenOutput>
+    </None>
+    <None Update="vue\index.vue">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>index.tt</DependentUpon>
+    </None>
+    <None Update="vue\Vue - 复制.tt">
+      <LastGenOutput>Vue.vue</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="vue\Vue - 复制.vue">
+      <DependentUpon>Vue.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </None>
+    <None Update="vue\Vue.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Vue.vue</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+</Project>

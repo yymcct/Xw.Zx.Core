@@ -1,0 +1,190 @@
+﻿<#@ template debug="true" hostspecific="true" language="C#" #>
+<#@ assembly name="System" #>
+<#@ assembly name="System.IO" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ include file="Common.tt" #>
+<#@ output extension=".vue" #>
+
+<# 
+    string solutionPath = Host.ResolveAssemblyReference("$(SolutionDir)");
+    string modelFile=@"C:\Users\yymcc\Documents\Source\HbMeeting\HbMeeting\HbMeeting.Template\bin\Debug\HbMeeting.Template.dll";
+     //加载实体程序集
+    byte[] fileData= File.ReadAllBytes(modelFile);
+    Assembly assembly = Assembly.LoadFrom(modelFile);
+    Type modelTypes = assembly.GetTypes().FirstOrDefault(c => c.Name == "PostShortMsgMDto");
+    var property = modelTypes.GetProperties();
+
+#>
+<template>
+  <section>
+    <!--TODO:删减编辑界面数据-->
+    <el-dialog
+      :title="editForm.id==0 ? '添加':'编辑'"
+      :visible.sync="editFormVisible"
+      :close-on-click-modal="false"
+      @close="cancelSubmit"
+    >
+      <el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
+<# foreach (PropertyInfo p in property) { if (p.Name.ToLower() == "isdelete" || p.Name.ToLower() == "id" ) continue; #>
+        <el-row>
+        <el-col :span="12">
+           <el-tooltip class="item" effect="dark" content="TODO" placement="top-start">
+          <el-form-item label="<#= TitleToLower(p.Name) #>" prop="<#= TitleToLower(p.Name) #>">
+<#  if (p.PropertyType == typeof(string)) { #>
+            <el-input v-model="editForm.<#= TitleToLower(p.Name) #>"></el-input>
+<#  } else if (p.PropertyType == typeof(DateTime)) { #>
+           <el-date-picker v-model="editForm.<#=TitleToLower(p.Name) #>" type="datetime" placeholder="时间" align="right" :picker-options="glpickerOptions"></el-date-picker>
+<#  } else if (p.PropertyType == typeof(int)) { #>
+            <el-input-number v-model="editForm.<#= TitleToLower(p.Name) #>" :min="0" :max="999"></el-input-number>
+<#  } else if (p.PropertyType == typeof(bool)) { #>
+            <el-switch v-model="editForm.<#= TitleToLower(p.Name) #>" active-text="解锁" inactive-text="锁定"></el-switch>  
+<#  } else if (p.PropertyType.IsEnum) { #>
+            <el-radio-group v-model="editForm.<#= TitleToLower(p.Name) #>">
+              <el-radio-button
+                class="radio"
+                v-for="item in filters.<#= TitleToLower(p.Name) #>Drops"
+                v-if="item.value != 999"
+                :key="item.value"
+                :label="item.value"
+              >{{item.label}}</el-radio-button>
+            </el-radio-group>
+<#  }else  { #>
+            <el-input v-model="editForm.<#= TitleToLower(p.Name) #>"></el-input><#}#>
+            </el-form-item>
+            </el-tooltip>
+         </el-col>
+        </el-row>
+<#}#>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click.native="editFormVisible = false">取消</el-button>
+        <el-button type="primary" @click.native="editSubmit">提交</el-button>
+      </div>
+    </el-dialog>
+  </section>
+</template>
+
+<script>
+import {  api_post<#=modelTypes.Name.Replace("Post", "")#>} from "../../api/api";
+import { type } from "os";
+
+export default {
+  name: "<#=modelTypes.Name#>Edit",
+  components: {
+  },
+  props: {
+    action: String, //'none' 'add' 'edit'
+    <#=modelTypes.Name#>: Object
+  },
+  watch: {
+    action: {
+      handler(val) {
+        if (val == 'none') {
+          this.editFormVisible = false;
+        } else if (val == 'add') {
+          this.initAdd();
+          this.editFormVisible = true;
+        }else if (val == 'edit') {
+          this.initEdit();
+          this.editFormVisible = true;
+        }
+      }
+    }
+  },
+  data() {
+    return {   
+      editFormVisible: false,
+      editLoading: false,
+      editFormRules: {
+<# foreach (PropertyInfo p in property) { if (p.Name.ToLower() == "isdelete") continue;#>
+<#  if (p.PropertyType == typeof(string)) { #>
+         <#=TitleToLower(p.Name) #>: [{ required: true, message: "不可为空", trigger: "blur" }],
+<#  }else if (p.PropertyType == typeof(int)) { #>
+         <#=TitleToLower(p.Name) #>: [{ required: true, message: "不可为空", trigger: "blur" }],
+<#  }else if (p.PropertyType == typeof(bool)) { #>
+         <#=TitleToLower(p.Name) #>: [{ required: true, message: "不可为空", trigger: "blur" }],
+<#  }else if (p.PropertyType == typeof(DateTime)) { #>
+        <#=TitleToLower(p.Name) #>: [ { type: 'date', required: true, message: '请选择日期', trigger: 'change' }],
+<#  }else if (p.PropertyType.IsEnum) { #>
+        <#=TitleToLower(p.Name) #>: [{ required: true, message: "不可为空", trigger: "blur" }],
+<#  } else{ #>
+         <#=TitleToLower(p.Name) #>: [{ required: true, message: "不可为空", trigger: "blur" }],
+    <#}#>
+<#}#>
+        
+      },
+//TODO:删减编辑界面数据
+      editForm: {
+<# foreach (PropertyInfo p in property) { if (p.Name.ToLower() == "isdelete") continue;#>
+<#  if (p.PropertyType == typeof(string) || p.PropertyType == typeof(DateTime)) { #>
+        <#= TitleToLower(p.Name) #>: "",
+<#  }else if (p.PropertyType == typeof(int) || p.PropertyType.IsEnum) { #>
+        <#=TitleToLower(p.Name) #>: 0,
+<#  }else if (p.PropertyType == typeof(bool)) { #>
+        <#=TitleToLower(p.Name) #>: true,
+<#  } else{ #>
+        <#= TitleToLower(p.Name) #>: "",
+    <#}#>
+<#}#>
+      },     
+    };
+  },
+  methods: {
+      //显示编辑界面
+    initEdit: function() {
+<# foreach (PropertyInfo p in property) { if (p.Name.ToLower() == "isdelete") continue;#>
+        this.editForm.<#= TitleToLower(p.Name) #> = this.<#=modelTypes.Name#>.<#= TitleToLower(p.Name) #>;
+<#}#>
+      this.editFormVisible = true;     
+    },
+    //显示新增界面
+    initAdd: function() {
+<# foreach (PropertyInfo p in property) { if (p.Name.ToLower() == "isdelete") continue;#>
+<#if (p.PropertyType == typeof(int) || p.PropertyType.IsEnum) { #>
+        this.editForm.<#=TitleToLower(p.Name) #> = 0;
+<#  }else if (p.PropertyType == typeof(bool)) { #>
+        this.editForm.<#=TitleToLower(p.Name) #>= true;
+<#} else{ #>
+        this.editForm.<#= TitleToLower(p.Name) #> = "";
+<#}#>
+<#}#>
+    },  
+    //编辑
+    editSubmit: function() {
+      this.$refs.editForm.validate(valid => {
+        if (valid) {
+          this.$confirm("确认提交吗？", "提示", {}).then(() => {
+            this.editLoading = true;
+            api_post<#=modelTypes.Name.Replace("Post", "")#>(this.editForm).then(res => {
+              this.editLoading = false;
+              //NProgress.done();
+              this.$message({
+                message: "提交成功",
+                type: "success"
+              });
+              this.$refs["editForm"].resetFields();
+              this.editFormVisible = false;
+              this.$emit('change', 'sumbit');
+            });
+          });
+        }
+      });
+    },
+    cancelSubmit: function(){
+      this.editFormVisible = false;
+      this.$emit('change','cancel');
+    }
+  },    
+  mounted() {    
+  }
+};
+</script>
+
+<style scoped>
+</style>

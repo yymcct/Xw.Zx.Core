@@ -1,0 +1,196 @@
+﻿
+<template>
+  <section>
+    <!--TODO:配置查询条件-->
+    <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
+      <el-form :inline="true" :model="filters">
+        <el-form-item>
+          <el-input v-model="filters.roleName" placeholder="角色"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="filters.nick" placeholder="昵称"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="filters.phone" placeholder="手机号"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="filters.remark" placeholder="备注"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="getMemberMDtos">查询</el-button>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="handleAdd">添加</el-button>
+        </el-form-item>
+      </el-form>
+    </el-col>
+
+    <!--列表-->
+    <el-table
+      :data="memberMDtos"
+      highlight-current-row
+      v-loading="listLoading"
+      style="width: 100%;"
+      :header-cell-style="{
+                          'background-color': '#eef1f6',
+                          'color': '#1f2d3d',
+                          'border-bottom': '1px #606266 solid'
+                      }"
+    >
+      <el-table-column prop="id" label="Id" width="100px" sortable></el-table-column>
+      <el-table-column prop="roleName" label="角色" width="100px" sortable></el-table-column>
+      <el-table-column prop="nick" label="昵称" width="250px" sortable></el-table-column>
+      <el-table-column prop="photo" label="图像" width="100px" sortable>
+        <template slot-scope="scope">
+          <el-image
+            :src="scope.row.photo"
+            style="width: 40px; height: 40px;margin: 0px 3px;"
+          ></el-image>
+        </template>
+      </el-table-column>
+      <el-table-column prop="phone" label="手机" width="120px" sortable></el-table-column>
+      <el-table-column prop="remark" label="备注" sortable></el-table-column>
+      <el-table-column prop="createDate" label="添加时间" width="100px" sortable></el-table-column>
+      <el-table-column label="操作" width="100px">
+        <template scope="scope">
+          <i
+            class="el-icon-edit"
+            style="margin: 0 5px; font-weight:bold;cursor: pointer;"
+            @click="handleEdit(scope.$index, scope.row)"
+          ></i>
+          <i
+            class="el-icon-delete"
+            style="margin: 0 5px; font-weight:bold;cursor: pointer;"
+            @click="handleDel(scope.$index, scope.row)"
+          ></i>
+        </template>
+      </el-table-column>
+    </el-table>
+
+    <!--工具条align='center'-->
+    <el-col :span="24" class="toolbar" align="right">
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="requestParams.page"
+        :page-sizes="[10, 50, 100, 500]"
+        :page-size="requestParams.pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+        background
+      ></el-pagination>
+    </el-col>
+
+    <!--TODO:删减编辑界面数据-->
+    <edit :action="editAction" :PostMemberMDto="editForm" @change="editChange"></edit>
+  </section>
+</template>
+
+<script>
+//TODO: 拷贝到api文件
+
+import { api_getMemberMDtos, api_delMemberMDto } from "../../api/api";
+import { type } from "os";
+import edit from "./edit";
+export default {
+  components: {
+    edit
+  },
+  data() {
+    return {
+      requestParams: {
+        page: 1,
+        pageSize: 10,
+        filters: "",
+        sorts: "-id"
+      },
+      //TODO:删减查询条件
+      filters: {
+        roleName: null,
+        nick: null,
+        phone: null,
+        remark: null
+      },
+      memberMDtos: [],
+      total: 0,
+      listLoading: false,
+
+      //TODO:删减编辑界面数据
+      editForm: null,
+      editAction: "none"
+    };
+  },
+  methods: {
+    handleSizeChange(val) {
+      this.requestParams.pageSize = val;
+      this.getMemberMDtos();
+    },
+    handleCurrentChange(val) {
+      this.requestParams.page = val;
+      this.getMemberMDtos();
+    },
+    getMemberMDtos() {
+      this.listLoading = true;
+      this.page = 1;
+      this.requestParams.filters = "";
+
+     
+      if (this.filters.roleName)
+        this.requestParams.filters += `RoleName@=${this.filters.roleName},`;
+
+      if (this.filters.nick)
+        this.requestParams.filters += `Nick@=${this.filters.nick},`;
+
+      if (this.filters.phone)
+        this.requestParams.filters += `Phone@=${this.filters.phone},`;
+
+      if (this.filters.remark)
+        this.requestParams.filters += `Remark@=${this.filters.remark},`;
+
+      api_getMemberMDtos(this.requestParams).then(respone => {
+        this.listLoading = false;
+        this.memberMDtos = respone.result;
+        this.total = respone.total;
+      });
+    },
+    //显示编辑界面
+    handleEdit: function(index, row) {
+      this.editForm = Object.assign({}, row);
+      this.editAction = "edit";
+    },
+    //显示新增界面
+    handleAdd: function() {
+      this.editAction = "add";
+    },
+    //删除
+    handleDel: function(index, row) {
+      this.$confirm("确认删除?", "提示", { type: "warning" }).then(() => {
+        this.listLoading = true;
+        //NProgress.start();
+        api_delMemberMDto(row.id).then(res => {
+          this.listLoading = false;
+          //NProgress.done();
+          this.$message({
+            message: "删除成功",
+            type: "success"
+          });
+          this.getMemberMDtos();
+        });
+      });
+    },
+    editChange(cancel) {
+      this.editAction = "none";
+      if (cancel != "cancel") {
+        this.getMemberMDtos();
+      }
+    }
+  },
+
+  mounted() {
+    this.getMemberMDtos();
+  }
+};
+</script>
+
+<style scoped>
+</style>
