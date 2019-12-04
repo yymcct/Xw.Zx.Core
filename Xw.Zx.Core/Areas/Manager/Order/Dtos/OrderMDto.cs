@@ -26,6 +26,6 @@ namespace Xw.Zx.Core.Areas.Manager
         public DateTime AddTime { get; set; } = DateTime.Now;
 
         [Sieve(CanFilter = true)]
-        public string MemberName { get; set; }
+        public string RealName { get; set; }
     }
 }

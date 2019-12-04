@@ -13,10 +13,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Common.cs</LastGenOutput>
     </None>
-    <None Update="vue\Controllerbak.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Controllerbak.cs</LastGenOutput>
-    </None>
     <None Update="vue\edit.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>edit.vue</LastGenOutput>
@@ -52,6 +48,14 @@
 
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="vue\Controller.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Controller.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>

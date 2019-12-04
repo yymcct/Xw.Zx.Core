@@ -23,13 +23,22 @@ export default new Router({
     //   ]
     // },
     {
-     path: '/',
-     name: '用户管理',
-     component: Home,
-     iconCls: 'el-icon-menu',
-     children: [
-       { path: '/member', component: () => import('./views/member/index'), name: '用户管理' },
-     ]
-   }
+      path: '/',
+      name: '用户管理',
+      component: Home,
+      iconCls: 'el-icon-menu',
+      children: [
+        { path: '/member', component: () => import('./views/member/index'), name: '用户管理' },
+      ]
+    },
+    {
+      path: '/',
+      name: '账户管理',
+      component: Home,
+      iconCls: 'el-icon-tickets',
+      children: [
+        { path: '/order', component: () => import('./views/order/index'), name: '毛收入管理' },
+      ]
+    }
   ]
 })

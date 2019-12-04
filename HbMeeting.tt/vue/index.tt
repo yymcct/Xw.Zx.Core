@@ -38,7 +38,7 @@
             <el-date-picker v-model="filters.<#=TitleToLower(p.Name) #>Start" type="date" placeholder="开始时间" align="right" :picker-options="glpickerOptions" value-format="yyyy-MM-dd"></el-date-picker>
             <el-date-picker v-model="filters.<#=TitleToLower(p.Name) #>End" type="date" placeholder="结束时间" align="right" :picker-options="glpickerOptions" value-format="yyyy-MM-dd"></el-date-picker>
 <#} else {#>       
-            <el-input v-model="filters.<#= TitleToLower(p.Name) #>" placeholder="<#= TitleToLower(p.Name) #>"></el-input>
+            <el-input v-model.trim="filters.<#= TitleToLower(p.Name) #>" placeholder="<#= TitleToLower(p.Name) #>"></el-input>
 <#}#>
         </el-form-item>
 <#}#>
@@ -60,7 +60,6 @@
       :header-cell-style="{
                           'background-color': '#eef1f6',
                           'color': '#1f2d3d',
-                          'border-bottom': '1px #606266 solid'
                       }"
     >
 <#foreach (PropertyInfo p in property){if (p.Name.ToLower() == "isdelete") if (p.Name.ToLower() == "isdelete") continue;#>

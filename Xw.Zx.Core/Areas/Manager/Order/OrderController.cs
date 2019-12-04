@@ -56,13 +56,15 @@ namespace Xw.Zx.Core.Areas.Manager
                              ProducName = order.ProducName,
                              Amount = order.Amount,
                              AddTime = order.AddTime,
-                             MemberName = _context.Members.FirstOrDefault(m => m.Id == order.MemberId).RealName,
+                             RealName = _context.Members.FirstOrDefault(m => m.Id == order.MemberId).RealName,
                          };
+
+                var filterDb = _sieveProcessor.Apply(sieveModel, db);
 
                 var result = new OrderTotalMDto()
                 {
-                    OrderMDtos = _sieveProcessor.Apply(sieveModel, db).ToList(),
-                    PageTotal = _sieveProcessor.Apply(sieveModel, db).Sum(o => o.Amount),
+                    OrderMDtos = filterDb.ToList(),
+                    //PageTotal = filterDb.Sum(o => o.Amount),
                     QueryTotal = _sieveProcessor.Apply(sieveModel, db, null, true, true, false).Sum(o => o.Amount),
                     AllOrderTotal = db.Sum(o => o.Amount),
                     WithdrawDepositsTotal = _context.WithdrawDeposits.Where(w => w.WithdrawDepositState == WithdrawDepositState.通过).Sum(w => w.Amount),
