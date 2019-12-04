@@ -17,7 +17,7 @@
      //加载实体程序集
     byte[] fileData= File.ReadAllBytes(modelFile);
     Assembly assembly = Assembly.LoadFrom(modelFile);
-    Type modelTypes = assembly.GetTypes().FirstOrDefault(c => c.Name == "ShortMsgMDto");
+    Type modelTypes = assembly.GetTypes().FirstOrDefault(c => c.Name == "OrderMDto");
     var property = modelTypes.GetProperties();
 
 #>

@@ -11,16 +11,16 @@
 <#@ include file="Common.tt" #>
 <#@ output extension=".cs" #>
 
-<#    string propertie = "ShortMsg"; #>
+<#    string propertie = "Order"; #>
 <# 
     string solutionPath = Host.ResolveAssemblyReference("$(SolutionDir)");
-    string modelFile=@"C:\Users\yymcc\Documents\Source\HbMeeting\HbMeeting\HbMeeting.Template\bin\Debug\HbMeeting.Template.dll";
+    string modelFile=@"C:\Users\yymcc\Documents\Source\优秀代码\XwZx\Xw.Zx.Core\HbMeeting.Template\bin\Debug\HbMeeting.Template.dll";
      //加载实体程序集
     byte[] fileData= File.ReadAllBytes(modelFile);
     Assembly assembly = Assembly.LoadFrom(modelFile);
     Type modelTypes = assembly.GetTypes().FirstOrDefault(c => c.Name == propertie);
     var property = modelTypes.GetProperties();
-
+ 
     string propertieMDto = propertie+"MDto";
 
 
@@ -45,11 +45,11 @@ using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using Sieve.Models;
-using HbMeeting.Models;
+using Xw.Zx.Core.Models.Model;
 using Sieve.Services;
 using Microsoft.EntityFrameworkCore;
 
-namespace HbMeeting.Controllers.Manager
+namespace Xw.Zx.Core.Areas.Manager
 {
 
     [ApiController]
@@ -60,7 +60,7 @@ namespace HbMeeting.Controllers.Manager
         private readonly ILogger<<#= propertie #>Controller> _logger;
 
         public <#= propertie #>Controller(ILogger<<#= propertie #>Controller> logger
-            , HbMeetContext context
+            , XwZxContext context
             , IMapper mapper
             , ISieveProcessor sieveProcessor) : base(context, mapper, sieveProcessor)
         {

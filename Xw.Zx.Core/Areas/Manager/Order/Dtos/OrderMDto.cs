@@ -1,0 +1,31 @@
+﻿using Sieve.Attributes;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Xw.Zx.Core.Areas.Manager
+{
+    public class OrderMDto
+    {
+        [Sieve(CanFilter = true, CanSort = true)]
+        public int Id { get; set; }
+
+        public int MemberId { get; set; }
+
+        [Sieve(CanFilter = true)]
+        public string MemberPhone { get; set; }
+
+        public int ProductId { get; set; }
+
+        public string ProducName { get; set; }
+
+        public decimal Amount { get; set; }
+
+        [Sieve(CanFilter = true)]
+        public DateTime AddTime { get; set; } = DateTime.Now;
+
+        [Sieve(CanFilter = true)]
+        public string MemberName { get; set; }
+    }
+}
