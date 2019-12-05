@@ -140,7 +140,7 @@ namespace Xw.Zx.Core.Areas.Manager
                 {
                     detail.WithdrawDepositState = WithdrawDepositState.拒绝;
                     _context.SaveChanges();
-                    return new HbzsManagerResult(HbzsManagerResultCode.Sucess,"");
+                    return new HbzsManagerResult(HbzsManagerResultCode.Sucess, "");
                 }
 
 
@@ -173,7 +173,7 @@ namespace Xw.Zx.Core.Areas.Manager
                     transaction.Commit();
                 }
 
-                return new HbzsManagerResult(HbzsManagerResultCode.Sucess,"");
+                return new HbzsManagerResult(HbzsManagerResultCode.Sucess, "");
             }
             catch (Exception ex)
             {
@@ -206,6 +206,58 @@ namespace Xw.Zx.Core.Areas.Manager
             _context.SaveChanges();
 
             return log;
+        }
+
+
+        [HttpGet]
+        public HbzsManagerResult<GetAuditWithdrawDepositdetailDto> GetAuditWithdrawDepositdetails([FromQuery] int memberId)
+        {
+            try
+            {
+
+                var result = new GetAuditWithdrawDepositdetailDto()
+                {
+                    IncomeDetails = _context.IncomeAccounts
+                                    .Where(i => i.MemberId == memberId)
+                                    .OrderBy(i => i.AddTime)
+                                    .Select(i => new IncomeDetail
+                                    {
+                                        Id = i.Id,
+                                        IncomeAccountTypeName = i.IncomeAccountType.ToString(),
+                                        Amount = i.Amount,
+                                        Remark = i.Remark,
+                                        AddTime = i.AddTime
+                                    }).ToList(),
+
+                    WithdrawDepositDetails = _context.WithdrawDeposits
+                                    .Where(w => w.MemberId == memberId)
+                                    .OrderBy(w => w.Id)
+                                    .Select(w => new WithdrawDepositDetail
+                                    {
+                                        Id = w.Id,
+                                        WithdrawDepositStateName = w.WithdrawDepositState.ToString(),
+                                        Amount = w.Amount,
+                                        AddTime = w.AddTime
+                                    }).ToList(),
+
+                    IncomeTotal = _context.IncomeAccounts
+                                .Where(i => i.MemberId == memberId)
+                                .Sum(i => i.Amount),
+
+                    WithdrawDeposit = _context.WithdrawDeposits
+                                .Where(i => i.MemberId == memberId && i.WithdrawDepositState == WithdrawDepositState.通过)
+                                .Sum(i => i.Amount),
+                };
+
+                result.Balance = result.IncomeTotal - result.WithdrawDeposit;
+
+                return new HbzsManagerResult<GetAuditWithdrawDepositdetailDto>(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new HbzsManagerResult<GetAuditWithdrawDepositdetailDto>(HbzsManagerResultCode.Invalid_Error, ex.Message);
+            }
         }
     }
 }

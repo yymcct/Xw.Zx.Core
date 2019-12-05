@@ -16,7 +16,7 @@
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-input v-model.trim="filters.keyword" placeholder="姓名,电话,支付宝,金额,备注"></el-input>
+            <el-input v-model.trim="filters.keyword" placeholder="姓名,电话,支付宝,备注"></el-input>
           </el-form-item>
           <el-form-item>
             <el-date-picker
@@ -77,7 +77,7 @@
           <el-button
             size="mini"
             type="info"
-            @click="handleShowDetails(scope.$index, scope.row, true)"
+            @click="handleShowDetails(scope.$index, scope.row)"
           >历史</el-button>
           <el-button
             v-if="scope.row.withdrawDepositState == 0"
@@ -110,7 +110,11 @@
     </el-col>
 
     <!--TODO:删减编辑界面数据-->
-    <!-- <edit :action="editAction" :PostWithdrawDepositMDto="editForm" @change="editChange"></edit> -->
+    <detail
+      :action="showDetailsAction"
+      :memberId="shwoMemberId"
+      @change="showDetailsChage"
+    ></detail>
   </section>
 </template>
 
@@ -123,10 +127,10 @@ import {
 } from "../../api/api";
 import { type } from "os";
 import { MessageBox, Message } from "element-ui";
-// import edit from "./edit";
+import detail from "./detail";
 export default {
   components: {
-    // edit
+    detail
   },
   data() {
     return {
@@ -148,8 +152,8 @@ export default {
       listLoading: false,
 
       //TODO:删减编辑界面数据
-      editForm: null,
-      editAction: "none",
+      shwoMemberId: null,
+      showDetailsAction: "none",
       withdrawDepositStateDrops: [
         { value: 999, label: "全部" },
         { value: 0, label: "申请中" },
@@ -178,7 +182,7 @@ export default {
         this.requestParams.filters += `WithdrawDepositState==${this.filters.withdrawDepositState},`;
 
       if (this.filters.keyword)
-        this.requestParams.filters += `(Amount|Remark|RealName|Phone|AliPayAccount)@=${this.filters.keyword},`;
+        this.requestParams.filters += `(Remark|RealName|Phone|AliPayAccount)@=${this.filters.keyword},`;
 
       if (this.filters.addTimeStart)
         this.requestParams.filters += `AddTime>=${this.filters.addTimeStart},`;
@@ -193,15 +197,15 @@ export default {
     },
     //显示编辑界面
     handleAuditPass: function(index, row, ispass) {
-      this.editForm = Object.assign({}, row);
-      this.editAction = "edit";
+      this.shwoMemberId = Object.assign({}, row);
+      this.showDetailsAction = "edit";
     },
-    handleShowDetails: function(index, row, ispass) {
-      Message({
-        message: "TODO 开发中..",
-        type: "error",
-        duration: 5 * 1000
-      });
+    handleShowDetails: function(index, row) {
+      this.showDetailsAction = "show";
+      this.shwoMemberId = row.memberId;
+    },
+    showDetailsChage(cancel) {
+      this.showDetailsAction = "none";
     }
   },
 
