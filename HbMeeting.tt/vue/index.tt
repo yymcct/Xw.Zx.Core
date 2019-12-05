@@ -17,7 +17,7 @@
      //加载实体程序集
     byte[] fileData= File.ReadAllBytes(modelFile);
     Assembly assembly = Assembly.LoadFrom(modelFile);
-    Type modelTypes = assembly.GetTypes().FirstOrDefault(c => c.Name == "OrderMDto");
+    Type modelTypes = assembly.GetTypes().FirstOrDefault(c => c.Name == "WithdrawDepositMDto");
     var property = modelTypes.GetProperties();
 
 #>
