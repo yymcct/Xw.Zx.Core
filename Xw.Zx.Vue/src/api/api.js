@@ -29,3 +29,7 @@ export const api_delMemberMDto = (id) => request.get('/manager/Member/DeleteMemb
 
 //订单管理
 export const api_getOrderMDtos = (params) => request.get('/manager/Order/GetOrders', { params: params });
+
+//提现管理
+export const api_getWithdrawDepositMDtos = (params) => request.get('/manager/WithdrawDeposit/GetWithdrawDeposits', { params: params });
+export const api_AuditWithdrawDepositdetail = (params) => request.post('/manager/WithdrawDeposit/AuditWithdrawDepositdetail', params);

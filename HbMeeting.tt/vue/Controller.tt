@@ -11,7 +11,7 @@
 <#@ include file="Common.tt" #>
 <#@ output extension=".cs" #>
 
-<#    string propertie = "Order"; #>
+<#    string propertie = "WithdrawDeposit"; #>
 <# 
     string solutionPath = Host.ResolveAssemblyReference("$(SolutionDir)");
     string modelFile=@"C:\Users\yymcc\Documents\Source\优秀代码\XwZx\Xw.Zx.Core\HbMeeting.Template\bin\Debug\HbMeeting.Template.dll";

@@ -38,6 +38,7 @@ export default new Router({
       iconCls: 'el-icon-tickets',
       children: [
         { path: '/order', component: () => import('./views/order/index'), name: '毛收入管理' },
+        { path: '/withdrawDeposit', component: () => import('./views/order/index'), name: '提现管理' },
       ]
     }
   ]
