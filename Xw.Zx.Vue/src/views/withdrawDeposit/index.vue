@@ -2,48 +2,59 @@
 <template>
   <section>
     <!--TODO:配置查询条件-->
-    <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-      <el-form :inline="true" :model="filters">
-        <el-form-item>
-          <el-select v-model="filters.withdrawDepositState" placeholder="请选择" style="width:120px">
-            <el-option
-              v-for="item in withdrawDepositStateDrops"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item>
-          <el-input v-model.trim="filters.keyword" placeholder="金额,备注,姓名,电话,支付宝"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-date-picker
-            v-model="filters.addTimeStart"
-            type="date"
-            placeholder="开始时间"
-            align="right"
-            :picker-options="glpickerOptions"
-            value-format="yyyy-MM-dd"
-          ></el-date-picker>
-          <el-date-picker
-            v-model="filters.addTimeEnd"
-            type="date"
-            placeholder="结束时间"
-            align="right"
-            :picker-options="glpickerOptions"
-            value-format="yyyy-MM-dd"
-          ></el-date-picker>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="getWithdrawDepositMDtos">查询</el-button>
-        </el-form-item>
-      </el-form>
-    </el-col>
+    <el-row>
+      <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
+        <el-form :inline="true" :model="filters">
+          <el-form-item>
+            <el-select v-model="filters.withdrawDepositState" placeholder="请选择" style="width:120px">
+              <el-option
+                v-for="item in withdrawDepositStateDrops"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item>
+            <el-input v-model.trim="filters.keyword" placeholder="姓名,电话,支付宝,金额,备注"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-date-picker
+              v-model="filters.addTimeStart"
+              type="date"
+              placeholder="开始时间"
+              align="right"
+              :picker-options="glpickerOptions"
+              value-format="yyyy-MM-dd"
+            ></el-date-picker>
+            <el-date-picker
+              v-model="filters.addTimeEnd"
+              type="date"
+              placeholder="结束时间"
+              align="right"
+              :picker-options="glpickerOptions"
+              value-format="yyyy-MM-dd"
+            ></el-date-picker>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="getWithdrawDepositMDtos">查询</el-button>
+          </el-form-item>
+        </el-form>
+      </el-col>
+    </el-row>
+
+    <el-row class="toolbar" style="padding-top: 20px;padding-bottom: 20px;">
+      <el-col :span="24">
+        <el-tag type="danger">当查询条件下合计:{{withdrawDepositMDtos.queryTotal}}</el-tag>
+        <el-tag>全部提现合计:{{withdrawDepositMDtos.allTotal}}</el-tag>
+        <el-tag>全部毛收入合计:{{withdrawDepositMDtos.orderTotal}}</el-tag>
+        <el-tag>(全部毛收入-全部提现)合计:{{withdrawDepositMDtos.balance}}</el-tag>
+      </el-col>
+    </el-row>
 
     <!--列表-->
     <el-table
-      :data="withdrawDepositMDtos"
+      :data="withdrawDepositMDtos.withdrawDepositMDtos"
       highlight-current-row
       v-loading="listLoading"
       style="width: 100%;"
@@ -53,26 +64,33 @@
                       }"
     >
       <el-table-column prop="id" label="Id" width="100px" sortable></el-table-column>
-      <el-table-column prop="realName" label="姓名" width="100px" sortable></el-table-column>
-      <el-table-column prop="phone" label="电话" width="100px" sortable></el-table-column>
-      <el-table-column prop="aliPayAccount" label="支付宝" width="100px" sortable></el-table-column>
+      <el-table-column prop="realName" label="姓名" width="150px" sortable></el-table-column>
+      <el-table-column prop="phone" label="电话" width="150px" sortable></el-table-column>
+      <el-table-column prop="aliPayAccount" label="支付宝" width="200px" sortable></el-table-column>
       <el-table-column prop="amount" label="金额" width="100px" sortable></el-table-column>
-      <el-table-column prop="remark" label="备注" width="100px" sortable></el-table-column>
       <el-table-column prop="withdrawDepositStateName" label="状态" width="100px" sortable></el-table-column>
-      <el-table-column prop="addTime" label="AddTime" width="100px" sortable></el-table-column>
+      <el-table-column prop="remark" label="备注" sortable></el-table-column>
+      <el-table-column prop="addTime" label="时间" width="100px" sortable></el-table-column>
 
-      <el-table-column label="操作" width="100px">
+      <el-table-column label="操作" width="210px">
         <template scope="scope">
-          <i
-            class="el-icon-edit"
-            style="margin: 0 5px; font-weight:bold;cursor: pointer;"
-            @click="handleEdit(scope.$index, scope.row)"
-          ></i>
-          <i
-            class="el-icon-delete"
-            style="margin: 0 5px; font-weight:bold;cursor: pointer;"
-            @click="handleDel(scope.$index, scope.row)"
-          ></i>
+          <el-button
+            size="mini"
+            type="info"
+            @click="handleShowDetails(scope.$index, scope.row, true)"
+          >历史</el-button>
+          <el-button
+            v-if="scope.row.withdrawDepositState == 0"
+            size="mini"
+            type="warning"
+            @click="handleAuditPass(scope.$index, scope.row, false)"
+          >拒绝</el-button>
+          <el-button
+            v-if="scope.row.withdrawDepositState == 0"
+            size="mini"
+            type="success"
+            @click="handleAuditPass(scope.$index, scope.row, true)"
+          >通过</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -92,7 +110,7 @@
     </el-col>
 
     <!--TODO:删减编辑界面数据-->
-    <edit :action="editAction" :PostWithdrawDepositMDto="editForm" @change="editChange"></edit>
+    <!-- <edit :action="editAction" :PostWithdrawDepositMDto="editForm" @change="editChange"></edit> -->
   </section>
 </template>
 
@@ -104,10 +122,11 @@ import {
   api_delWithdrawDepositMDto
 } from "../../api/api";
 import { type } from "os";
-import edit from "./edit";
+import { MessageBox, Message } from "element-ui";
+// import edit from "./edit";
 export default {
   components: {
-    edit
+    // edit
   },
   data() {
     return {
@@ -119,7 +138,7 @@ export default {
       },
       //TODO:删减查询条件
       filters: {
-        withdrawDepositState: null,
+        withdrawDepositState: 999,
         keyword: null,
         addTimeStart: null,
         addTimeEnd: null
@@ -132,7 +151,7 @@ export default {
       editForm: null,
       editAction: "none",
       withdrawDepositStateDrops: [
-        { value: "", label: "全部" },
+        { value: 999, label: "全部" },
         { value: 0, label: "申请中" },
         { value: 1, label: "通过" },
         { value: 2, label: "拒绝" },
@@ -155,11 +174,16 @@ export default {
       this.requestParams.filters = "";
 
       //TODO:删减查询条件
-      if (this.filters.withdrawDepositState)
+      if (this.filters.withdrawDepositState != 999)
         this.requestParams.filters += `WithdrawDepositState==${this.filters.withdrawDepositState},`;
 
-      if (this.filters.id)
-        this.requestParams.filters += `(Amount|Remark|RealName|Phone|AliPayAccount)@=${this.filters.id},`;
+      if (this.filters.keyword)
+        this.requestParams.filters += `(Amount|Remark|RealName|Phone|AliPayAccount)@=${this.filters.keyword},`;
+
+      if (this.filters.addTimeStart)
+        this.requestParams.filters += `AddTime>=${this.filters.addTimeStart},`;
+      if (this.filters.addTimeEnd)
+        this.requestParams.filters += `AddTime<=${this.filters.addTimeEnd},`;
 
       api_getWithdrawDepositMDtos(this.requestParams).then(respone => {
         this.listLoading = false;
@@ -168,35 +192,16 @@ export default {
       });
     },
     //显示编辑界面
-    handleEdit: function(index, row) {
+    handleAuditPass: function(index, row, ispass) {
       this.editForm = Object.assign({}, row);
       this.editAction = "edit";
     },
-    //显示新增界面
-    handleAdd: function() {
-      this.editAction = "add";
-    },
-    //删除
-    handleDel: function(index, row) {
-      this.$confirm("确认删除?", "提示", { type: "warning" }).then(() => {
-        this.listLoading = true;
-        //NProgress.start();
-        api_delWithdrawDepositMDto(row.id).then(res => {
-          this.listLoading = false;
-          //NProgress.done();
-          this.$message({
-            message: "删除成功",
-            type: "success"
-          });
-          this.getWithdrawDepositMDtos();
-        });
+    handleShowDetails: function(index, row, ispass) {
+      Message({
+        message: "TODO 开发中..",
+        type: "error",
+        duration: 5 * 1000
       });
-    },
-    editChange(cancel) {
-      this.editAction = "none";
-      if (cancel != "cancel") {
-        this.getWithdrawDepositMDtos();
-      }
     }
   },
 
@@ -207,4 +212,7 @@ export default {
 </script>
 
 <style scoped>
+.el-tag {
+  margin-left: 10px;
+}
 </style>

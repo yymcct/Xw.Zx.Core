@@ -9,7 +9,7 @@ namespace Xw.Zx.Core.Areas.Manager
 {
     public class WithdrawDepositMDto
     {
-        [Sieve(CanFilter = true)]
+        [Sieve(CanFilter = true, CanSort = true)]
         public int Id { get; set; }
 
         public int MemberId { get; set; }
@@ -17,7 +17,8 @@ namespace Xw.Zx.Core.Areas.Manager
         [Sieve(CanFilter = true)]
         public decimal Amount { get; set; }
 
-        public DateTime AddTime { get; set; } = DateTime.Now;
+        [Sieve(CanFilter = true)]
+        public DateTime AddTime { get; set; } 
 
         [Sieve(CanFilter = true)]
         public WithdrawDepositState WithdrawDepositState { get; set; }

@@ -39,6 +39,7 @@ namespace Xw.Zx.Core.Areas.Manager
             , ISieveProcessor sieveProcessor) : base(context, mapper, sieveProcessor)
         {
             _logger = logger;
+            _alipayService = alipayService;
         }
 
         /// <summary>
@@ -46,7 +47,7 @@ namespace Xw.Zx.Core.Areas.Manager
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public HbzsManagerResult<List<WithdrawDepositMDto>> GetWithdrawDeposits([FromQuery]SieveModel sieveModel)
+        public HbzsManagerResult<WithdrawDepositTotalMDto> GetWithdrawDeposits([FromQuery]SieveModel sieveModel)
         {
             try
             {
@@ -80,12 +81,12 @@ namespace Xw.Zx.Core.Areas.Manager
                 result.Balance = result.OrderTotal - result.AllTotal;
 
                 var total = _sieveProcessor.Apply(sieveModel, db, null, true, true, false).Count();
-                return new HbzsManagerResult<List<WithdrawDepositMDto>>(list, total);
+                return new HbzsManagerResult<WithdrawDepositTotalMDto>(result, total);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-                return new HbzsManagerResult<List<WithdrawDepositMDto>>(HbzsManagerResultCode.Invalid_Error, ex.Message);
+                return new HbzsManagerResult<WithdrawDepositTotalMDto>(HbzsManagerResultCode.Invalid_Error, ex.Message);
             }
         }
         /// <summary>
