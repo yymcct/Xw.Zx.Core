@@ -15,7 +15,7 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-input class="keyword" v-model="filters.keywords" placeholder="角色,姓名,手机号,备注,会员类型"></el-input>
+          <el-input class="keyword" v-model="filters.keywords" placeholder="角色,姓名,手机号,备注,会员类型,推荐人,推荐人电话"></el-input>
         </el-form-item>
         <el-form-item>
           <el-date-picker
@@ -57,6 +57,8 @@
       <el-table-column prop="realName" label="姓名" width="100px" sortable></el-table-column>
       <el-table-column prop="phone" label="手机" width="120px" sortable></el-table-column>
       <el-table-column prop="memberVipTypeName" label="级别" width="120px" sortable></el-table-column>
+      <el-table-column prop="inviteName" label="推荐人" width="120px" sortable></el-table-column>
+      <el-table-column prop="invitePhone" label="推荐人电话" width="150px" sortable></el-table-column>
       <el-table-column prop="aliPayAccount" label="支付宝" width="150px" sortable></el-table-column>
       <el-table-column prop="queryTimes" label="查询次数" width="120px" sortable></el-table-column>
       <el-table-column prop="remark" label="备注" sortable></el-table-column>
@@ -149,7 +151,7 @@ export default {
         this.requestParams.filters += `MemberVipType==${this.filters.vipType},`;
 
       if (this.filters.keywords)
-        this.requestParams.filters += `(RoleName|Phone|Remark|RealName)@=${this.filters.keywords},`;
+        this.requestParams.filters += `(RoleName|Phone|Remark|RealName|inviteName|invitePhone)@=${this.filters.keywords},`;
 
       if (this.filters.addTimeStart)
         this.requestParams.filters += `CreateDate>=${this.filters.addTimeStart},`;
@@ -213,6 +215,6 @@ export default {
 
 <style scoped>
 .keyword {
-  width: 300px;
+  width: 400px;
 }
 </style>

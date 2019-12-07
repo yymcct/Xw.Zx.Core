@@ -80,7 +80,10 @@ namespace Xw.Zx.Core.Areas.Manager
                              MemberVipType = member.MemberVipType,
                              MemberVipTypeName = member.MemberVipType.ToString(),
                              AliPayAccount = member.AliPayAccount,
-                             QueryTimes = member.QueryTimes
+                             QueryTimes = member.QueryTimes,
+                             InviteId = member.InviteId,
+                             InviteName = _context.Members.FirstOrDefault(m => m.Id == member.InviteId).RealName,
+                             InvitePhone = _context.Members.FirstOrDefault(m => m.Id == member.InviteId).Phone
                          };
 
                 var list = _sieveProcessor.Apply(sieveModel, db).ToList();

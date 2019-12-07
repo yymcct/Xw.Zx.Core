@@ -54,5 +54,12 @@ namespace Xw.Zx.Core.Areas.Manager
 
         [Sieve(CanFilter = true)]
         public int? QueryTimes { get; set; }
+
+        public int InviteId { get; set; }
+
+        [Sieve(CanFilter = true)]
+        public string InviteName { get; set; }
+        [Sieve(CanFilter = true)]
+        public string InvitePhone { get; set; }
     }
 }
