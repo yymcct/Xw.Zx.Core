@@ -13,11 +13,11 @@
 
 <# 
     string solutionPath = Host.ResolveAssemblyReference("$(SolutionDir)");
-    string modelFile=@"C:\Users\yymcc\Documents\Source\HbMeeting\HbMeeting\HbMeeting.Template\bin\Debug\HbMeeting.Template.dll";
+    string modelFile=@"C:\Users\yymcc\Desktop\workplace\Xw.Zx.Core\HbMeeting.Template\bin\Debug\HbMeeting.Template.dll";
      //加载实体程序集
     byte[] fileData= File.ReadAllBytes(modelFile);
     Assembly assembly = Assembly.LoadFrom(modelFile);
-    Type modelTypes = assembly.GetTypes().FirstOrDefault(c => c.Name == "PostShortMsgMDto");
+    Type modelTypes = assembly.GetTypes().FirstOrDefault(c => c.Name == "PostUpdateVipAuthCodeMDto");
     var property = modelTypes.GetProperties();
 
 #>

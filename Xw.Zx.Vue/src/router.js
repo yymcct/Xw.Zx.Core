@@ -27,21 +27,36 @@ export default new Router({
             name: '用户管理',
             component: Home,
             iconCls: 'el-icon-menu',
-            children: [
-                { path: '/member', component: () =>
-                        import ('./views/member/index'), name: '用户管理' },
-            ]
+            children: [{
+                path: '/member',
+                component: () =>
+                    import ('./views/member/index'),
+                name: '用户管理'
+            }, ]
         },
         {
             path: '/',
             name: '账户管理',
             component: Home,
             iconCls: 'el-icon-tickets',
-            children: [
-                { path: '/order', component: () =>
-                        import ('./views/order/index'), name: '毛收入管理' },
-                { path: '/withdrawDeposit', component: () =>
-                        import ('./views/withdrawDeposit/index'), name: '提现管理' },
+            children: [{
+                    path: '/order',
+                    component: () =>
+                        import ('./views/order/index'),
+                    name: '毛收入管理'
+                },
+                {
+                    path: '/withdrawDeposit',
+                    component: () =>
+                        import ('./views/withdrawDeposit/index'),
+                    name: '提现管理'
+                },
+                {
+                    path: '/updateVipAuthCode',
+                    component: () =>
+                        import ('./views/updateVipAuthCode/index'),
+                    name: '升级码管理'
+                },
             ]
         }
     ]

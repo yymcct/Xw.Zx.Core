@@ -34,3 +34,7 @@ export const api_getOrderMDtos = (params) => request.get('/manager/Order/GetOrde
 export const api_getWithdrawDepositMDtos = (params) => request.get('/manager/WithdrawDeposit/GetWithdrawDeposits', { params: params });
 export const api_GetAuditWithdrawDepositdetails = (params) => request.get('/manager/WithdrawDeposit/GetAuditWithdrawDepositdetails', { params: params });
 export const api_AuditWithdrawDepositdetail = (params) => request.post('/manager/WithdrawDeposit/AuditWithdrawDepositdetail', params);
+
+//推荐码管理
+export const api_getUpdateVipAuthCodeMDtos = (params) => request.get('/manager/UpdateVipAuthCode/GetUpdateVipAuthCodes', { params: params });
+export const api_postUpdateVipAuthCodeMDto = (params) => request.post('/manager/UpdateVipAuthCode/PostUpdateVipAuthCode', params);
