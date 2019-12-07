@@ -51,6 +51,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Areas\Manager\UpdateVipAuthCode\UpdateVipAuthCodeController.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Update="Areas\Manager\WithdrawDeposit\WithdrawDepositController.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

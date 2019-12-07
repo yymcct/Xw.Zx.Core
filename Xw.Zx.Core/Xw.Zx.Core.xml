@@ -66,6 +66,19 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.UpdateVipAuthCodeController.GetUpdateVipAuthCodes(Sieve.Models.SieveModel)">
+            <summary>
+            TODO
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.UpdateVipAuthCodeController.PostUpdateVipAuthCode(Xw.Zx.Core.Areas.Manager.PostUpdateVipAuthCodeMDto)">
+            <summary>
+            TODO
+            </summary>
+            <param name="updatevipauthcodemdto"></param>
+            <returns></returns>
+        </member>
         <member name="M:Xw.Zx.Core.Areas.Manager.WithdrawDepositController.GetWithdrawDeposits(Sieve.Models.SieveModel)">
             <summary>
             TODO
