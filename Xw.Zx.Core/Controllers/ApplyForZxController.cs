@@ -53,7 +53,7 @@ namespace Xw.Zx.Core.Controllers
                     return new HbzsResult(HbzsResultCode.Invalid_Error, "已收到您的申请,无需重复提交!");
                 }
 
-                var apply = new ApplyForZx()
+                var apply = new ApplyForZxMDto()
                 {
                     MemberId = Member.Id,
                     Remark = postApplyDto.Remark,

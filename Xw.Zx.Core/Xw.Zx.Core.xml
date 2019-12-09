@@ -4,6 +4,19 @@
         <name>Xw.Zx.Core</name>
     </assembly>
     <members>
+        <member name="M:Xw.Zx.Core.Areas.Manager.ApplyForZxController.GetApplyForZxs(Sieve.Models.SieveModel)">
+            <summary>
+            TODO
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.ApplyForZxController.DeleteApplyForZx(System.Int32)">
+            <summary>
+            TODO
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="F:Xw.Zx.Core.Areas.Manager.HbzsManagerResultCode.Remote_Service_Error">
             <summary>
             远程服务错误
@@ -951,7 +964,7 @@
             升级码状态 0 待使用, 1 已赠送, 2 已使用, 3 已过期
             </summary>
         </member>
-        <member name="T:Xw.Zx.Core.Models.Model.ApplyForZx">
+        <member name="T:Xw.Zx.Core.Models.Model.ApplyForZxMDto">
             <summary>
             追息申请表
             </summary>

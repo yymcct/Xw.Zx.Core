@@ -41,3 +41,7 @@ export const api_postUpdateVipAuthCodeMDto = (params) => request.post('/manager/
 
 //收益管理
 export const api_getIncomeAccountMDtos = (params) => request.get('/manager/IncomeAccount/GetIncomeAccounts', { params: params });
+
+//申请追息管理
+export const api_getApplyForZxMDtos = (params) => request.get('/manager/ApplyForZx/GetApplyForZxs', { params: params });
+export const api_delApplyForZxMDto = (id) => request.get('/manager/ApplyForZx/DeleteApplyForZx', { params: { 'id': id } });

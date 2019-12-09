@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
-import About from './views/About.vue'
+
 
 Vue.use(Router)
 
@@ -62,6 +62,11 @@ export default new Router({
                     component: () =>
                         import ('./views/updateVipAuthCode/index'),
                     name: '升级码管理'
+                }, {
+                    path: '/applyForZx',
+                    component: () =>
+                        import ('./views/applyForZx/index'),
+                    name: '申请追息管理'
                 },
             ]
         }

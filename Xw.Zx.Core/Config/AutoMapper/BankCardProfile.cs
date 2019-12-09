@@ -29,7 +29,7 @@ namespace Xw.Zx.Core.Config.AutoMapper
 
             CreateMap<PostUserDto, Member>();
 
-            CreateMap<ApplyForZx, ApplyDto>();
+            CreateMap<ApplyForZxMDto, ApplyDto>();
 
             CreateMap<WithdrawDeposit, GetWithdrawDepositDetailsDto>()
                 .ForMember(dest => dest.WithdrawDepositStateName, opt=>opt.MapFrom(src=>src.WithdrawDepositState.ToString()));
