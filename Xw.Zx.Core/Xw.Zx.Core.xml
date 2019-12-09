@@ -34,6 +34,42 @@
             消息
             </summary>
         </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.IncomeAccountController.GetIncomeAccounts(Sieve.Models.SieveModel)">
+            <summary>
+            TODO
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMDto.ZhijieTotla">
+            <summary>
+            直接收益
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMDto.JianjieTotla">
+            <summary>
+            间接收益
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMDto.ChajiTotla">
+            <summary>
+            差级
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMDto.IncomeTotal">
+            <summary>
+            收益合计
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMDto.WithdrawDepositTotal">
+            <summary>
+            提现合计
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMDto.Balance">
+            <summary>
+            待提现
+            </summary>
+        </member>
         <member name="M:Xw.Zx.Core.Areas.Manager.MemberController.GetUser">
             <summary>
             获取用户

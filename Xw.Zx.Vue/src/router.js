@@ -46,6 +46,12 @@ export default new Router({
                     name: '毛收入管理'
                 },
                 {
+                    path: '/incomeAccount',
+                    component: () =>
+                        import ('./views/incomeAccount/index'),
+                    name: '分润管理'
+                },
+                {
                     path: '/withdrawDeposit',
                     component: () =>
                         import ('./views/withdrawDeposit/index'),

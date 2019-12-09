@@ -38,3 +38,6 @@ export const api_AuditWithdrawDepositdetail = (params) => request.post('/manager
 //推荐码管理
 export const api_getUpdateVipAuthCodeMDtos = (params) => request.get('/manager/UpdateVipAuthCode/GetUpdateVipAuthCodes', { params: params });
 export const api_postUpdateVipAuthCodeMDto = (params) => request.post('/manager/UpdateVipAuthCode/PostUpdateVipAuthCode', params);
+
+//收益管理
+export const api_getIncomeAccountMDtos = (params) => request.get('/manager/IncomeAccount/GetIncomeAccounts', { params: params });
