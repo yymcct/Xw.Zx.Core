@@ -8,7 +8,7 @@ namespace Xw.Zx.Core.Areas.Manager.UpdateVip
 {
     public class PostUpdateVipMDto
     {
-        public int MemeberId { get; set; }
+        public int MemberId { get; set; }
 
         public MemberVipType MemberVipType { get; set; }
     }

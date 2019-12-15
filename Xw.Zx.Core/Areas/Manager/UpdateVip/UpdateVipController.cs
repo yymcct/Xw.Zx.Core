@@ -58,7 +58,7 @@ namespace Xw.Zx.Core.Areas.Manager.UpdateVip
 
         private Order CreateOrder(PostUpdateVipMDto postUpdateVipMDto)
         {
-            var member = _context.Members.First(m => m.Id == postUpdateVipMDto.MemeberId);
+            var member = _context.Members.First(m => m.Id == postUpdateVipMDto.MemberId);
 
             var product = GetProductByVipType(postUpdateVipMDto.MemberVipType);
 
@@ -71,7 +71,8 @@ namespace Xw.Zx.Core.Areas.Manager.UpdateVip
                 ProducName = product.Name,
                 Amount = product.Price,
                 AddTime = DateTime.Now,
-                OrderState = OrderState.待付款
+                OrderState = OrderState.待付款,
+                OrderPaymentType = OrderPaymentType.线下,
             };
             _context.Add(order);
             _context.SaveChanges();

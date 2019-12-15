@@ -86,7 +86,6 @@ namespace Xw.Zx.Core.Service
                     OrderPaymentType = OrderPaymentType.支付宝
                 };
                 _context.Add(order);
-                _context.SaveChanges();
             }
 
             return order;
@@ -125,10 +124,11 @@ namespace Xw.Zx.Core.Service
         {
             using (var transaction = _context.Database.BeginTransaction())
             {
+                ShareProfit(order);
                 UpdateOrder(order);
 
                 //计算分润
-                ShareProfit(order);
+               
 
                 _context.SaveChanges();
                 transaction.Commit();
@@ -222,7 +222,7 @@ namespace Xw.Zx.Core.Service
             {
                 _context.IncomeAccounts.Add(new IncomeAccount()
                 {
-                    MemberId = oneInvite.InviteId,
+                    MemberId = oneInvite.Id,
                     Amount = 60.00m,
                     SourceOrderId = order.Id,
                     SourceOrderMemberId = member.Id,
@@ -236,7 +236,7 @@ namespace Xw.Zx.Core.Service
             {
                 _context.IncomeAccounts.Add(new IncomeAccount()
                 {
-                    MemberId = twoInvite.InviteId,
+                    MemberId = twoInvite.Id,
                     Amount = 80.00m,
                     SourceOrderId = order.Id,
                     SourceOrderMemberId = member.Id,
@@ -270,7 +270,7 @@ namespace Xw.Zx.Core.Service
                 {
                     _context.IncomeAccounts.Add(new IncomeAccount()
                     {
-                        MemberId = oneInvite.InviteId,
+                        MemberId = oneInvite.Id,
                         Amount = order.Amount * 0.1m,
                         SourceOrderId = order.Id,
                         SourceOrderMemberId = member.Id,
@@ -285,7 +285,7 @@ namespace Xw.Zx.Core.Service
                 {
                     _context.IncomeAccounts.Add(new IncomeAccount()
                     {
-                        MemberId = oneInvite.InviteId,
+                        MemberId = oneInvite.Id,
                         Amount = order.Amount * 0.3m,
                         SourceOrderId = order.Id,
                         SourceOrderMemberId = member.Id,
@@ -304,7 +304,7 @@ namespace Xw.Zx.Core.Service
                 {
                     _context.IncomeAccounts.Add(new IncomeAccount()
                     {
-                        MemberId = twoInvite.InviteId,
+                        MemberId = twoInvite.Id,
                         Amount = order.Amount * 0.15m,
                         SourceOrderId = order.Id,
                         SourceOrderMemberId = member.Id,
@@ -319,7 +319,7 @@ namespace Xw.Zx.Core.Service
             {
                 _context.IncomeAccounts.Add(new IncomeAccount()
                 {
-                    MemberId = fuWuZhan.InviteId,
+                    MemberId = fuWuZhan.Id,
                     Amount = 400m,
                     SourceOrderId = order.Id,
                     SourceOrderMemberId = member.Id,
@@ -335,7 +335,7 @@ namespace Xw.Zx.Core.Service
 
                 _context.IncomeAccounts.Add(new IncomeAccount()
                 {
-                    MemberId = fuWuZhan.InviteId,
+                    MemberId = fuWuZhan.Id,
                     Amount = amount,
                     SourceOrderId = order.Id,
                     SourceOrderMemberId = member.Id,
@@ -366,7 +366,7 @@ namespace Xw.Zx.Core.Service
                 {
                     _context.IncomeAccounts.Add(new IncomeAccount()
                     {
-                        MemberId = oneInvite.InviteId,
+                        MemberId = oneInvite.Id,
                         Amount = order.Amount * 0.1m,
                         SourceOrderId = order.Id,
                         SourceOrderMemberId = member.Id,
@@ -380,7 +380,7 @@ namespace Xw.Zx.Core.Service
                 {
                     _context.IncomeAccounts.Add(new IncomeAccount()
                     {
-                        MemberId = oneInvite.InviteId,
+                        MemberId = oneInvite.Id,
                         Amount = order.Amount * 0.3m,
                         SourceOrderId = order.Id,
                         SourceOrderMemberId = member.Id,
@@ -398,7 +398,7 @@ namespace Xw.Zx.Core.Service
                 {
                     _context.IncomeAccounts.Add(new IncomeAccount()
                     {
-                        MemberId = twoInvite.InviteId,
+                        MemberId = twoInvite.Id,
                         Amount = order.Amount * 0.1m,
                         SourceOrderId = order.Id,
                         SourceOrderMemberId = member.Id,
@@ -413,7 +413,7 @@ namespace Xw.Zx.Core.Service
             {
                 _context.IncomeAccounts.Add(new IncomeAccount()
                 {
-                    MemberId = fuWuZhan.InviteId,
+                    MemberId = fuWuZhan.Id,
                     Amount = order.Amount * 0.15m,
                     SourceOrderId = order.Id,
                     SourceOrderMemberId = member.Id,
@@ -429,7 +429,7 @@ namespace Xw.Zx.Core.Service
 
                 _context.IncomeAccounts.Add(new IncomeAccount()
                 {
-                    MemberId = fuWuZhan.InviteId,
+                    MemberId = fuWuZhan.Id,
                     Amount = amount,
                     SourceOrderId = order.Id,
                     SourceOrderMemberId = member.Id,

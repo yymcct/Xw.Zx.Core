@@ -64,3 +64,15 @@ select * from AlipayLogs
 select * from WithdrawDeposits
 select * from IncomeAccounts where MemberId = 53
 
+-- 501 一代498 二代403
+select * from Members where phone='17169248678'
+select * from Members where id='498'
+select * from IncomeAccounts
+
+update Members set MemberVipType=0 where phone='17169248678'
+
+select * from Orders where id = '1394'
+delete Orders where id = '1394'
+
+select * from Receivables
+delete Receivables where OrderId =  '1394'

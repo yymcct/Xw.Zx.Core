@@ -1037,7 +1037,19 @@
             验证码
             </summary>
         </member>
-        <member name="M:Xw.Zx.Core.Service.UpDateVip1Service.UpdateVipHandle(Xw.Zx.Core.Models.Model.Order)">
+        <member name="M:Xw.Zx.Core.Service.IUpDateVip1Service.AliPayMentSucessHandle(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            支付宝支付成功处理
+            </summary>
+            <param name="sArray"></param>
+        </member>
+        <member name="M:Xw.Zx.Core.Service.IUpDateVip1Service.PaymentedOrderHandle(Xw.Zx.Core.Models.Model.Order)">
+            <summary>
+            order 支付成功处理
+            </summary>
+            <param name="order"></param>
+        </member>
+        <member name="M:Xw.Zx.Core.Service.UpDateVip1Service.PaymentedOrderHandle(Xw.Zx.Core.Models.Model.Order)">
             <summary>
             </summary>
             <param name="order"></param>
@@ -1066,7 +1078,9 @@
             <summary>
              一代是服务站以上级别则30%  一代是服务站以下级别10%
              二代是服务站以上级别则10% 二代是服务站以下级别则没有
-             如果有运营商则级差15, 其余没有
+             级差:
+                服务站: 有无运营商15%
+                运营商: 无服务站30% 有服务站15%
             </summary>
             <param name="order"></param>
         </member>
@@ -1207,6 +1221,12 @@
             </summary>
             <param name="updatevipauthcodemdto"></param>
             <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.UpdateVip.UpdateVipController.UpdateVip(Xw.Zx.Core.Areas.Manager.UpdateVip.PostUpdateVipMDto)">
+            <summary>
+            升级VIP
+            </summary>
+            <param name="postUpdateVipMDto"></param>
         </member>
         <member name="T:Xw.Zx.Core.Areas.Manager.WithdrawDepositController">
             <summary>
