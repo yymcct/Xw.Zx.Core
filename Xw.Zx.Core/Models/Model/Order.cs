@@ -13,6 +13,13 @@ namespace Xw.Zx.Core.Models.Model
         已失效 = 2
     }
 
+    public enum OrderPaymentType
+    {
+        支付宝 = 0,
+        微信 = 1,
+        线下 = 2
+    }
+
     /// <summary>
     /// 订单表
     /// </summary>
@@ -33,7 +40,11 @@ namespace Xw.Zx.Core.Models.Model
         public decimal Amount { get; set; }
 
         public DateTime AddTime { get; set; } = DateTime.Now;
+
         public OrderState OrderState { get; set; } = OrderState.待付款;
+
+        public OrderPaymentType OrderPaymentType { get; set; } = OrderPaymentType.支付宝;
+
     }
 
 }

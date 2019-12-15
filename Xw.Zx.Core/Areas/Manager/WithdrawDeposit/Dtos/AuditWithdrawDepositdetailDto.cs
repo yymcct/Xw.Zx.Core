@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Xw.Zx.Core.Areas.Manager
 {
-    public class AuditWithdrawDepositdetailDto
+    public class PostAuditWithdrawDepositdetailDto
     {
         public string Timestamp { get; set; }
         public bool IsPass { get; set; }

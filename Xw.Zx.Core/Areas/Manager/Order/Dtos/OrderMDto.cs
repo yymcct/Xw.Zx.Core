@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Xw.Zx.Core.Models.Model;
 
 namespace Xw.Zx.Core.Areas.Manager
 {
@@ -27,5 +28,10 @@ namespace Xw.Zx.Core.Areas.Manager
 
         [Sieve(CanFilter = true)]
         public string RealName { get; set; }
+
+        [Sieve(CanFilter = true)]
+        public OrderPaymentType OrderPaymentType { get; set; }
+
+        public string OrderPaymentTypeName { get; set; }
     }
 }

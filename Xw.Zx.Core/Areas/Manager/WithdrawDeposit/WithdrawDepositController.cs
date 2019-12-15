@@ -25,6 +25,9 @@ using Alipay.AopSdk.Core.Response;
 namespace Xw.Zx.Core.Areas.Manager
 {
 
+    /// <summary>
+    /// TODO
+    /// </summary>
     [ApiController]
     [Route("manager/[controller]/[action]")]
     [Authorize(Roles = "Admin")]
@@ -45,6 +48,7 @@ namespace Xw.Zx.Core.Areas.Manager
         /// <summary>
         /// TODO
         /// </summary>
+        /// <param name="sieveModel"></param>
         /// <returns></returns>
         [HttpGet]
         public HbzsManagerResult<WithdrawDepositTotalMDto> GetWithdrawDeposits([FromQuery]SieveModel sieveModel)
@@ -89,13 +93,14 @@ namespace Xw.Zx.Core.Areas.Manager
                 return new HbzsManagerResult<WithdrawDepositTotalMDto>(HbzsManagerResultCode.Invalid_Error, ex.Message);
             }
         }
+
         /// <summary>
         /// 通过或拒绝
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPost]
-        public HbzsManagerResult AuditWithdrawDepositdetail([FromBody]AuditWithdrawDepositdetailDto dto)
+        public HbzsManagerResult AuditWithdrawDepositdetail([FromBody]PostAuditWithdrawDepositdetailDto dto)
         {
             try
             {
@@ -208,7 +213,11 @@ namespace Xw.Zx.Core.Areas.Manager
             return log;
         }
 
-
+        /// <summary>
+        /// 获取明细
+        /// </summary>
+        /// <param name="memberId"></param>
+        /// <returns></returns>
         [HttpGet]
         public HbzsManagerResult<GetAuditWithdrawDepositdetailDto> GetAuditWithdrawDepositdetails([FromQuery] int memberId)
         {

@@ -12,6 +12,16 @@ namespace Xw.Zx.Core.Service
         // 生成支付宝订单
         AliPayOrderDto CreateAliPayOrder(Member member);
 
+        /// <summary>
+        /// 支付宝支付成功处理
+        /// </summary>
+        /// <param name="sArray"></param>
         void AliPayMentSucessHandle(Dictionary<string, string> sArray);
+
+        /// <summary>
+        /// order 支付成功处理
+        /// </summary>
+        /// <param name="order"></param>
+        void PaymentedOrderHandle(Order order);
     }
 }

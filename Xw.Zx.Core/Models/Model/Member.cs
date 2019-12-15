@@ -14,7 +14,7 @@ namespace Xw.Zx.Core.Models.Model
     {
         普通 = 0,
         Vip会员 = 1,
-        合伙人 = 2,
+        创客 = 2,
         服务站 = 3,
         运营商 = 4,
 

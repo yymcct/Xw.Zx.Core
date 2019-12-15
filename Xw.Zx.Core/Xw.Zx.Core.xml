@@ -4,143 +4,6 @@
         <name>Xw.Zx.Core</name>
     </assembly>
     <members>
-        <member name="M:Xw.Zx.Core.Areas.Manager.ApplyForZxController.GetApplyForZxs(Sieve.Models.SieveModel)">
-            <summary>
-            TODO
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Xw.Zx.Core.Areas.Manager.ApplyForZxController.DeleteApplyForZx(System.Int32)">
-            <summary>
-            TODO
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="F:Xw.Zx.Core.Areas.Manager.HbzsManagerResultCode.Remote_Service_Error">
-            <summary>
-            远程服务错误
-            </summary>
-        </member>
-        <member name="F:Xw.Zx.Core.Areas.Manager.HbzsManagerResultCode.Invalid_Error">
-            <summary>
-            参数校验错误
-            </summary>
-        </member>
-        <member name="P:Xw.Zx.Core.Areas.Manager.HbzsManagerResult.StatusCode">
-            <summary>
-            状态码
-            </summary>
-        </member>
-        <member name="P:Xw.Zx.Core.Areas.Manager.HbzsManagerResult.Msg">
-            <summary>
-            消息
-            </summary>
-        </member>
-        <member name="P:Xw.Zx.Core.Areas.Manager.HbzsManagerResult`1.StatusCode">
-            <summary>
-            状态码
-            </summary>
-        </member>
-        <member name="P:Xw.Zx.Core.Areas.Manager.HbzsManagerResult`1.Msg">
-            <summary>
-            消息
-            </summary>
-        </member>
-        <member name="M:Xw.Zx.Core.Areas.Manager.IncomeAccountController.GetIncomeAccounts(Sieve.Models.SieveModel)">
-            <summary>
-            TODO
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMDto.ZhijieTotla">
-            <summary>
-            直接收益
-            </summary>
-        </member>
-        <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMDto.JianjieTotla">
-            <summary>
-            间接收益
-            </summary>
-        </member>
-        <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMDto.ChajiTotla">
-            <summary>
-            差级
-            </summary>
-        </member>
-        <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMDto.IncomeTotal">
-            <summary>
-            收益合计
-            </summary>
-        </member>
-        <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMDto.WithdrawDepositTotal">
-            <summary>
-            提现合计
-            </summary>
-        </member>
-        <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMDto.Balance">
-            <summary>
-            待提现
-            </summary>
-        </member>
-        <member name="M:Xw.Zx.Core.Areas.Manager.MemberController.GetUser">
-            <summary>
-            获取用户
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Xw.Zx.Core.Areas.Manager.MemberController.GetMembers(Sieve.Models.SieveModel)">
-            <summary>
-            TODO
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Xw.Zx.Core.Areas.Manager.MemberController.PostMember(Xw.Zx.Core.Areas.Manager.PostMemberMDto)">
-            <summary>
-            TODO
-            </summary>
-            <param name="membermdto"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Xw.Zx.Core.Areas.Manager.MemberController.DeleteMember(System.Int32)">
-            <summary>
-            TODO
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Xw.Zx.Core.Areas.Manager.OrderController.GetOrders(Sieve.Models.SieveModel)">
-            <summary>
-            TODO
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Xw.Zx.Core.Areas.Manager.UpdateVipAuthCodeController.GetUpdateVipAuthCodes(Sieve.Models.SieveModel)">
-            <summary>
-            TODO
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Xw.Zx.Core.Areas.Manager.UpdateVipAuthCodeController.PostUpdateVipAuthCode(Xw.Zx.Core.Areas.Manager.PostUpdateVipAuthCodeMDto)">
-            <summary>
-            TODO
-            </summary>
-            <param name="updatevipauthcodemdto"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Xw.Zx.Core.Areas.Manager.WithdrawDepositController.GetWithdrawDeposits(Sieve.Models.SieveModel)">
-            <summary>
-            TODO
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Xw.Zx.Core.Areas.Manager.WithdrawDepositController.AuditWithdrawDepositdetail(Xw.Zx.Core.Areas.Manager.AuditWithdrawDepositdetailDto)">
-            <summary>
-            通过或拒绝
-            </summary>
-            <param name="dto"></param>
-            <returns></returns>
-        </member>
         <member name="T:Xw.Zx.Core.Config.ApplicationSieveProcessor">
             <summary>
             配置mapper
@@ -1174,11 +1037,201 @@
             验证码
             </summary>
         </member>
+        <member name="M:Xw.Zx.Core.Service.UpDateVip1Service.UpdateVipHandle(Xw.Zx.Core.Models.Model.Order)">
+            <summary>
+            </summary>
+            <param name="order"></param>
+        </member>
+        <member name="M:Xw.Zx.Core.Service.UpDateVip1Service.UserToVip(Xw.Zx.Core.Models.Model.Order)">
+            <summary>
+            普通用户升级到会员: 一代60 2代80, 创客,服务站,运营商不再分润
+            </summary>
+            <param name="order"></param>
+        </member>
+        <member name="M:Xw.Zx.Core.Service.UpDateVip1Service.UserToChuangke(Xw.Zx.Core.Models.Model.Order)">
+            <summary>
+            用户升级创客
+            一代:
+                1. 是会员分润10% 2.会员以上分润30%
+            二代:
+                1. 是会员无分润 2.会员以上分润15%
+                
+            级差: 
+                服务站: 有无运营商400
+                运营商: 无服务站600 有服务站200
+            </summary>
+            <param name="order"></param>
+        </member>
+        <member name="M:Xw.Zx.Core.Service.UpDateVip1Service.UserToFuwuzhan(Xw.Zx.Core.Models.Model.Order)">
+            <summary>
+             一代是服务站以上级别则30%  一代是服务站以下级别10%
+             二代是服务站以上级别则10% 二代是服务站以下级别则没有
+             如果有运营商则级差15, 其余没有
+            </summary>
+            <param name="order"></param>
+        </member>
         <member name="M:Xw.Zx.Core.Service.UpDateVip1Service.FindBigVip(Xw.Zx.Core.Models.Model.Member)">
             <summary>
             查找用户链上的 运营商, 服务站, 合伙人
             </summary>
             <param name="member"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Service.UpDateVip1Service.FindBigHigherMember(Xw.Zx.Core.Models.Model.Member)">
+            <summary>
+            查找上级vip 依次: 一代 二代 创客 服务站 运营商
+            </summary>
+            <param name="member"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.ApplyForZxController.GetApplyForZxs(Sieve.Models.SieveModel)">
+            <summary>
+            TODO
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.ApplyForZxController.DeleteApplyForZx(System.Int32)">
+            <summary>
+            TODO
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="F:Xw.Zx.Core.Areas.Manager.HbzsManagerResultCode.Remote_Service_Error">
+            <summary>
+            远程服务错误
+            </summary>
+        </member>
+        <member name="F:Xw.Zx.Core.Areas.Manager.HbzsManagerResultCode.Invalid_Error">
+            <summary>
+            参数校验错误
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.HbzsManagerResult.StatusCode">
+            <summary>
+            状态码
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.HbzsManagerResult.Msg">
+            <summary>
+            消息
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.HbzsManagerResult`1.StatusCode">
+            <summary>
+            状态码
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.HbzsManagerResult`1.Msg">
+            <summary>
+            消息
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.IncomeAccountController.GetIncomeAccounts(Sieve.Models.SieveModel)">
+            <summary>
+            TODO
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMDto.ZhijieTotla">
+            <summary>
+            直接收益
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMDto.JianjieTotla">
+            <summary>
+            间接收益
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMDto.ChajiTotla">
+            <summary>
+            差级
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMDto.IncomeTotal">
+            <summary>
+            收益合计
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMDto.WithdrawDepositTotal">
+            <summary>
+            提现合计
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMDto.Balance">
+            <summary>
+            待提现
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.MemberController.GetUser">
+            <summary>
+            获取用户
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.MemberController.GetMembers(Sieve.Models.SieveModel)">
+            <summary>
+            TODO
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.MemberController.PostMember(Xw.Zx.Core.Areas.Manager.PostMemberMDto)">
+            <summary>
+            TODO
+            </summary>
+            <param name="membermdto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.MemberController.DeleteMember(System.Int32)">
+            <summary>
+            TODO
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.OrderController.GetOrders(Sieve.Models.SieveModel)">
+            <summary>
+            TODO
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.UpdateVipAuthCodeController.GetUpdateVipAuthCodes(Sieve.Models.SieveModel)">
+            <summary>
+            TODO
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.UpdateVipAuthCodeController.PostUpdateVipAuthCode(Xw.Zx.Core.Areas.Manager.PostUpdateVipAuthCodeMDto)">
+            <summary>
+            TODO
+            </summary>
+            <param name="updatevipauthcodemdto"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Xw.Zx.Core.Areas.Manager.WithdrawDepositController">
+            <summary>
+            TODO
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.WithdrawDepositController.GetWithdrawDeposits(Sieve.Models.SieveModel)">
+            <summary>
+            TODO
+            </summary>
+            <param name="sieveModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.WithdrawDepositController.AuditWithdrawDepositdetail(Xw.Zx.Core.Areas.Manager.PostAuditWithdrawDepositdetailDto)">
+            <summary>
+            通过或拒绝
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.WithdrawDepositController.GetAuditWithdrawDepositdetails(System.Int32)">
+            <summary>
+            获取明细
+            </summary>
+            <param name="memberId"></param>
             <returns></returns>
         </member>
     </members>

@@ -78,5 +78,12 @@ namespace Xw.Zx.Core.Models.Model
         {
             //optionsBuilder.UseSqlite("Data Source=blogging.db");
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Order>()
+                .Property(o => o.OrderPaymentType)
+                .HasDefaultValue(OrderPaymentType.支付宝);
+        }
     }
 }
