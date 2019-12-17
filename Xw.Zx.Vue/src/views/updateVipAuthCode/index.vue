@@ -91,7 +91,6 @@
 //TODO: 拷贝到api文件
 import {
   api_getUpdateVipAuthCodeMDtos,
-  api_delUpdateVipAuthCodeMDto
 } from "../../api/api";
 import { type } from "os";
 import edit from "./edit";

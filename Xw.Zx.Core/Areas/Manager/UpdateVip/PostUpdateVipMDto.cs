@@ -11,5 +11,7 @@ namespace Xw.Zx.Core.Areas.Manager.UpdateVip
         public int MemberId { get; set; }
 
         public MemberVipType MemberVipType { get; set; }
+
+        public decimal Amount { get; set; }
     }
 }

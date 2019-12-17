@@ -41,6 +41,10 @@ namespace Xw.Zx.Core.Areas.Manager.UpdateVip
         {
             try
             {
+                if (postUpdateVipMDto.Amount < 0m)
+                { 
+                    return new HbzsManagerResult(HbzsManagerResultCode.Invalid_Error, "金额不能为0");
+                }
                 var order = CreateOrder(postUpdateVipMDto);
 
                 _upDateVip1Service.PaymentedOrderHandle(order);
@@ -69,7 +73,7 @@ namespace Xw.Zx.Core.Areas.Manager.UpdateVip
                 MemberPhone = member.Phone,
                 ProductId = product.Id,
                 ProducName = product.Name,
-                Amount = product.Price,
+                Amount = postUpdateVipMDto.Amount,
                 AddTime = DateTime.Now,
                 OrderState = OrderState.待付款,
                 OrderPaymentType = OrderPaymentType.线下,

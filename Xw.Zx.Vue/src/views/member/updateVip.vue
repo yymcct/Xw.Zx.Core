@@ -41,9 +41,8 @@
             <el-tooltip class="item" effect="dark" content="金额" placement="top-start">
               <el-form-item label="金额" prop="amount">
                 <el-input-number
-                  v-model="postUpdateVipMDto.amount"
-                  :disabled="true"
-                  :min="198"
+                  v-model="postUpdateVipMDto.amount"   
+                  :min="0"
                   :max="200000"
                   label="描述文字"
                 ></el-input-number>
