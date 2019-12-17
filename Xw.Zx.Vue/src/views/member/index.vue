@@ -15,7 +15,11 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-input class="keyword" v-model="filters.keywords" placeholder="角色,姓名,手机号,备注,会员类型,推荐人,推荐人电话"></el-input>
+          <el-input
+            class="keyword"
+            v-model="filters.keywords"
+            placeholder="角色,姓名,手机号,备注,会员类型,推荐人,推荐人电话"
+          ></el-input>
         </el-form-item>
         <el-form-item>
           <el-date-picker
@@ -63,8 +67,13 @@
       <el-table-column prop="queryTimes" label="查询次数" width="120px" sortable></el-table-column>
       <el-table-column prop="remark" label="备注" sortable></el-table-column>
       <el-table-column prop="createDate" label="添加时间" width="100px" sortable></el-table-column>
-      <el-table-column label="操作" width="100px">
+      <el-table-column label="操作" width="140px">
         <template scope="scope">
+          <el-button
+            type="danger"
+            size="mini"
+            @click="handleUpdateVip(scope.$index, scope.row)"
+          >升级</el-button>
           <i
             class="el-icon-edit"
             style="margin: 0 5px; font-weight:bold;cursor: pointer;"
@@ -95,6 +104,7 @@
 
     <!--TODO:删减编辑界面数据-->
     <edit :action="editAction" :PostMemberMDto="editForm" @change="editChange"></edit>
+    <update-vip :action="updateVipAction" :member="updateMember" @change="updateVipChange"></update-vip>
   </section>
 </template>
 
@@ -104,10 +114,12 @@
 import { api_getMemberMDtos, api_delMemberMDto } from "../../api/api";
 import { type } from "os";
 import edit from "./edit";
+import UpdateVip from "./updateVip";
 import { MessageBox, Message } from "element-ui";
 export default {
   components: {
-    edit
+    edit,
+    UpdateVip
   },
   data() {
     return {
@@ -130,7 +142,9 @@ export default {
 
       //TODO:删减编辑界面数据
       editForm: null,
-      editAction: "none"
+      editAction: "none",
+      updateMember: null,
+      updateVipAction: "none"
     };
   },
   methods: {
@@ -199,8 +213,18 @@ export default {
       //   });
       // });
     },
+    handleUpdateVip(index, row) {
+      this.updateMember = Object.assign({}, row);
+      this.updateVipAction = "edit";
+    },
     editChange(cancel) {
       this.editAction = "none";
+      if (cancel != "cancel") {
+        this.getMemberMDtos();
+      }
+    },
+    updateVipChange(cancel) {
+      this.updateVipAction = "none";
       if (cancel != "cancel") {
         this.getMemberMDtos();
       }
