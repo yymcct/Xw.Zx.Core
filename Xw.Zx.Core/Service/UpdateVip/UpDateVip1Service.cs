@@ -86,6 +86,7 @@ namespace Xw.Zx.Core.Service
                     OrderPaymentType = OrderPaymentType.支付宝
                 };
                 _context.Add(order);
+                _context.SaveChanges();
             }
 
             return order;

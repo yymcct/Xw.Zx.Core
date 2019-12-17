@@ -37,7 +37,7 @@ namespace Xw.Zx.Core.Areas.Manager.UpdateVip
         /// </summary>
         /// <param name="postUpdateVipMDto"></param>
         [HttpPost]
-        public HbzsManagerResult UpdateVip(PostUpdateVipMDto postUpdateVipMDto)
+        public HbzsManagerResult UpdateVip([FromBody]PostUpdateVipMDto postUpdateVipMDto)
         {
             try
             {
