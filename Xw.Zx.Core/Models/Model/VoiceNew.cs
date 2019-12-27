@@ -18,5 +18,7 @@ namespace Xw.Zx.Core.Models.Model
         public string Duration { get; set; } = "";
 
         public bool NeedVip { get; set; } = false;
+
+        public DateTime AddTime { get; set; } = DateTime.Now;
     }
 }
