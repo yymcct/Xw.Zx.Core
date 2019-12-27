@@ -274,6 +274,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Xw.Zx.Core.Controllers.VoiceNewController.GetVoiceNews(Sieve.Models.SieveModel)">
+            <summary>
+            获取音频文件
+            </summary>
+            <param name="sieveModel"></param>
+            <returns></returns>
+        </member>
         <member name="M:Xw.Zx.Core.Controllers.WithdrawDepositController.PostWithdrawDeposit(Xw.Zx.Core.Models.Dto.PostWithdrawDepositDto)">
             <summary>
             提交提现申请, 生成申请单
@@ -1035,6 +1042,11 @@
         <member name="P:Xw.Zx.Core.Models.Model.XwZxContext.SmsCheck">
             <summary>
             验证码
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.XwZxContext.VoiceNews">
+            <summary>
+            语音新闻
             </summary>
         </member>
         <member name="M:Xw.Zx.Core.Service.IUpDateVip1Service.AliPayMentSucessHandle(System.Collections.Generic.Dictionary{System.String,System.String})">
