@@ -72,6 +72,11 @@ namespace Xw.Zx.Core.Models.Model
         public DbSet<SmsCheck> SmsCheck { get; set; }
 
         public DbSet<AppVersion> AppVersions { get; set; }
+
+        /// <summary>
+        /// 语音新闻
+        /// </summary>
+        public DbSet<VoiceNew> VoiceNews { get; set; }
         #endregion
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
