@@ -15,7 +15,7 @@ namespace Xw.Zx.Core.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class VoiceNewController : BaseController
     {
         private readonly ILogger<VoiceNewController> _logger;
