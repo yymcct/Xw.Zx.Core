@@ -15,6 +15,7 @@ namespace Xw.Zx.Core.Models.Model
 
         public string Source { get; set; } = "";
 
+        //标识是Mp3 还是Mp4
         public string Duration { get; set; } = "";
 
         public bool NeedVip { get; set; } = false;
