@@ -25,6 +25,9 @@ export const getUser = () => request.get('/manager/Member/GetUser');
 //获取直播列表
 export const api_GetLives = (params) => request.get('/api/hblive/HbLive/GetLives', { params: params });
 
+//获取MP3列表
+export const api_GetVoiceNews = (params) => request.get('/api/VoiceNew/GetVoiceNews', { params: params });
+
 
 
 
