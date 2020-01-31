@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sieve.Attributes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace Xw.Zx.Core.Models.Model
     }
     public class WithdrawDeposit
     {
+        [Sieve(CanFilter = true, CanSort = true)]
         public int Id { get; set; }
 
         public string Timestamp { get; set; } = DateTime.Now.ToString("yyyyMMddHHmmssffffff");
@@ -23,7 +25,7 @@ namespace Xw.Zx.Core.Models.Model
 
         [Column(TypeName = "decimal(8, 2)")]
         public decimal Amount { get; set; }
-
+        [Sieve(CanFilter = true, CanSort = true)]
         public DateTime AddTime { get; set; } = DateTime.Now;
 
         public WithdrawDepositState WithdrawDepositState { get; set; } = WithdrawDepositState.申请中;

@@ -12,6 +12,9 @@ namespace Xw.Zx.Core.Service
         // 生成支付宝订单
         AliPayOrderDto CreateAliPayOrder(Member member);
 
+        // 生成支付宝订单
+        AliPayOrderDto CreateH5AliPayOrder(Member member);
+
         /// <summary>
         /// 支付宝支付成功处理
         /// </summary>

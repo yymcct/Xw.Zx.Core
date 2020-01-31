@@ -62,6 +62,25 @@ namespace Xw.Zx.Core.Controllers
         }
 
         /// <summary>
+        /// 获取升级VIP1订单信息, 用户H5支付宝支付
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Authorize]
+        public HbzsResult<AliPayOrderDto> GetH5UpdateVip1Order()
+        {
+            try
+            {
+                return new HbzsResult<AliPayOrderDto>(_upDateVip1Service.CreateH5AliPayOrder(Member));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex.Message);
+                return new HbzsResult<AliPayOrderDto>(HbzsResultCode.Invalid_Error, ex.Message);
+            }
+
+        }
+        /// <summary>
         /// 支付宝支付成功回调地址 
         /// TODO: 校验是否是来自于支付宝的域名
         /// </summary>
@@ -107,19 +126,7 @@ namespace Xw.Zx.Core.Controllers
             }
         }
 
-        /// <summary>
-        /// 模拟支付宝
-        /// </summary>
-        [HttpPost]
-        public async void NotifyurlTest()
-        {
 
-            throw new Exception("已停用");
-            Dictionary<string, string> sArray = GetRequestPost();
-            _upDateVip1Service.AliPayMentSucessHandle(sArray);
-
-            await Response.WriteAsync("success");
-        }
 
 
         private void LogsArray(Dictionary<string, string> dict)
@@ -142,9 +149,6 @@ namespace Xw.Zx.Core.Controllers
         {
 
             AlipayFundTransToaccountTransferRequest request = new AlipayFundTransToaccountTransferRequest();
-
-     
-
             
             AlipayFundTransToaccountTransferResponse response = _alipayService.Execute(request);
 

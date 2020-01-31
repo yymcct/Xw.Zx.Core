@@ -44,7 +44,7 @@ namespace Xw.Zx.Core.Service
                 Body = order.ProducName,
                 Subject = order.ProducName,
                 TotalAmount = order.Amount.ToString("n"),
-                ProductCode = "QUICK_MSECURITY_PAY",
+                ProductCode = "QUICK_WAP_PAY",
                 OutTradeNo = order.Timestamp,
                 TimeoutExpress = "50m",
             };
@@ -54,6 +54,39 @@ namespace Xw.Zx.Core.Service
             request.SetBizModel(model);
 
             AlipayTradeAppPayResponse response = _alipayService.SdkExecute(request);
+
+            return new AliPayOrderDto()
+            {
+                ProductName = order.ProducName,
+                ProductPrice = order.Amount.ToString("n"),
+                AlipayTradeAppPayResponse = response.Body
+            };
+        }
+
+        public AliPayOrderDto CreateH5AliPayOrder(Member member)
+        {
+            if (member.MemberVipType != MemberVipType.普通)
+            {
+                throw new Exception($"异常:用户{member.Phone}已是VIP, 无法升级");
+            }
+
+            Order order = CreateOrder(member);
+
+            AlipayTradeAppPayModel model = new AlipayTradeAppPayModel()
+            {
+                Body = order.ProducName,
+                Subject = order.ProducName,
+                TotalAmount = order.Amount.ToString("n"),
+                ProductCode = "QUICK_MSECURITY_PAY",
+                OutTradeNo = order.Timestamp,
+                TimeoutExpress = "50m",
+            };
+
+            AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
+            request.SetNotifyUrl("http://139.155.8.217/api/Alipay/Notifyurl");
+            request.SetBizModel(model);
+
+            var response = _alipayService.PageExecute(request);  // _alipayService.SdkExecute(request);
 
             return new AliPayOrderDto()
             {
@@ -560,5 +593,6 @@ namespace Xw.Zx.Core.Service
             return (oneInvite, twoInvite, chuangKe, fuWuZhan, yunYinShang);
         }
 
+ 
     }
 }

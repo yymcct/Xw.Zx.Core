@@ -144,6 +144,10 @@ namespace Xw.Zx.Core.Controllers
         {
             try
             {
+                if (sieveModel.Page == null) sieveModel.Page = 1;
+
+                if (sieveModel.PageSize == null) sieveModel.PageSize = 50;
+                if (string.IsNullOrEmpty(sieveModel.Sorts)) sieveModel.Sorts = "-Id";
                 if (!AppsettingsUtility.CanCreateUpdateVipCodePhone.Any(p => p == Member.Phone))
                 {
                     return new HbzsResult<List<GetAuditWithdrawDepositDetailsDto>>(HbzsResultCode.Invalid_Error, "无权限");
@@ -154,7 +158,6 @@ namespace Xw.Zx.Core.Controllers
 
                 var details = _sieveProcessor
                         .Apply(sieveModel, db)
-                        .OrderByDescending(d => d.AddTime)
                         .ToList();
 
                 var res = details.Select(d => new GetAuditWithdrawDepositDetailsDto()
