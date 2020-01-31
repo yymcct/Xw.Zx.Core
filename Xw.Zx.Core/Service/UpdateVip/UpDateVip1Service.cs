@@ -44,7 +44,7 @@ namespace Xw.Zx.Core.Service
                 Body = order.ProducName,
                 Subject = order.ProducName,
                 TotalAmount = order.Amount.ToString("n"),
-                ProductCode = "QUICK_WAP_PAY",
+                ProductCode = "QUICK_MSECURITY_PAY",
                 OutTradeNo = order.Timestamp,
                 TimeoutExpress = "50m",
             };
@@ -77,7 +77,7 @@ namespace Xw.Zx.Core.Service
                 Body = order.ProducName,
                 Subject = order.ProducName,
                 TotalAmount = order.Amount.ToString("n"),
-                ProductCode = "QUICK_MSECURITY_PAY",
+                ProductCode = "QUICK_WAP_PAY",
                 OutTradeNo = order.Timestamp,
                 TimeoutExpress = "50m",
             };
@@ -162,7 +162,7 @@ namespace Xw.Zx.Core.Service
                 UpdateOrder(order);
 
                 //计算分润
-               
+
 
                 _context.SaveChanges();
                 transaction.Commit();
@@ -244,7 +244,7 @@ namespace Xw.Zx.Core.Service
         }
 
         /// <summary>
-        /// 普通用户升级到会员: 一代60 2代80, 创客,服务站,运营商不再分润
+        /// 普通用户升级到会员: 一代60 2代80, 创客10元,服务站20元,运营商不再分润
         /// </summary>
         /// <param name="order"></param>
         private void UserToVip(Order order)
@@ -277,6 +277,34 @@ namespace Xw.Zx.Core.Service
                     SourceOrderMemberInviteId = member.InviteId,
                     IncomeAccountType = IncomeAccountType.间接收益,
                     Remark = $"{member.Phone}升级会员产生的间接收益",
+                });
+            }
+
+            if (chuangKe != null)
+            {
+                _context.IncomeAccounts.Add(new IncomeAccount()
+                {
+                    MemberId = chuangKe.Id,
+                    Amount = 10.00m,
+                    SourceOrderId = order.Id,
+                    SourceOrderMemberId = member.Id,
+                    SourceOrderMemberInviteId = member.InviteId,
+                    IncomeAccountType = IncomeAccountType.级差收益,
+                    Remark = $"享受{member.Phone}升级会员产生的级差收益10元",
+                });
+            }
+
+            if (fuWuZhan != null)
+            {
+                _context.IncomeAccounts.Add(new IncomeAccount()
+                {
+                    MemberId = fuWuZhan.Id,
+                    Amount = 20.00m,
+                    SourceOrderId = order.Id,
+                    SourceOrderMemberId = member.Id,
+                    SourceOrderMemberInviteId = member.InviteId,
+                    IncomeAccountType = IncomeAccountType.级差收益,
+                    Remark = $"享受{member.Phone}升级会员产生的级差收益20元",
                 });
             }
         }
@@ -593,6 +621,6 @@ namespace Xw.Zx.Core.Service
             return (oneInvite, twoInvite, chuangKe, fuWuZhan, yunYinShang);
         }
 
- 
+
     }
 }
