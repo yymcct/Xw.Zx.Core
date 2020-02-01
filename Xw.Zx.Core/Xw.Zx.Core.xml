@@ -9,13 +9,13 @@
             配置mapper
             </summary>
         </member>
-        <member name="M:Xw.Zx.Core.Controllers.AlipayController.GetUpdateVip1Order">
+        <member name="M:Xw.Zx.Core.Controllers.AlipayController.GetUpdateVip1Order(Xw.Zx.Core.Models.Model.MemberVipType)">
             <summary>
             获取升级VIP1订单信息, 用户支付宝支付
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Xw.Zx.Core.Controllers.AlipayController.GetH5UpdateVip1Order">
+        <member name="M:Xw.Zx.Core.Controllers.AlipayController.GetH5UpdateVip1Order(Xw.Zx.Core.Models.Model.MemberVipType)">
             <summary>
             获取升级VIP1订单信息, 用户H5支付宝支付
             </summary>
@@ -1069,7 +1069,7 @@
         </member>
         <member name="M:Xw.Zx.Core.Service.UpDateVip1Service.UserToVip(Xw.Zx.Core.Models.Model.Order)">
             <summary>
-            普通用户升级到会员: 一代60 2代80, 创客,服务站,运营商不再分润
+            普通用户升级到会员: 一代60 2代80, 创客10元,服务站20元,运营商不再分润
             </summary>
             <param name="order"></param>
         </member>

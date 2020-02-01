@@ -47,11 +47,11 @@ namespace Xw.Zx.Core.Controllers
         /// <returns></returns>
         [HttpGet]
         [Authorize]
-        public HbzsResult<AliPayOrderDto> GetUpdateVip1Order()
+        public HbzsResult<AliPayOrderDto> GetUpdateVip1Order(MemberVipType toVipType = MemberVipType.Vip会员)
         {
             try
             {               
-                return new HbzsResult<AliPayOrderDto>(_upDateVip1Service.CreateAliPayOrder(Member));
+                return new HbzsResult<AliPayOrderDto>(_upDateVip1Service.CreateAliPayOrder(Member, toVipType));
             }
             catch (Exception ex)
             {
@@ -67,11 +67,11 @@ namespace Xw.Zx.Core.Controllers
         /// <returns></returns>
         [HttpGet]
         [Authorize]
-        public HbzsResult<AliPayOrderDto> GetH5UpdateVip1Order()
+        public HbzsResult<AliPayOrderDto> GetH5UpdateVip1Order(MemberVipType toVipType = MemberVipType.Vip会员)
         {
             try
             {
-                return new HbzsResult<AliPayOrderDto>(_upDateVip1Service.CreateH5AliPayOrder(Member));
+                return new HbzsResult<AliPayOrderDto>(_upDateVip1Service.CreateH5AliPayOrder(Member, toVipType));
             }
             catch (Exception ex)
             {

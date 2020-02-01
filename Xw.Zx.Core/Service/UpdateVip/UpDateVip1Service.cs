@@ -30,14 +30,15 @@ namespace Xw.Zx.Core.Service
             _mapper = mapper;
             _context = xwZxContext;
         }
-        public AliPayOrderDto CreateAliPayOrder(Member member)
+        public AliPayOrderDto CreateAliPayOrder(Member member, MemberVipType toVipTyp)
         {
-            if (member.MemberVipType != MemberVipType.普通)
+            var errMsg = CheckUpdateVip(member, toVipTyp);
+            if (string.IsNullOrEmpty(errMsg))
             {
-                throw new Exception($"异常:用户{member.Phone}已是VIP, 无法升级");
+                throw new Exception(errMsg);
             }
 
-            Order order = CreateOrder(member);
+            Order order = CreateOrder(member, toVipTyp);
 
             AlipayTradeAppPayModel model = new AlipayTradeAppPayModel()
             {
@@ -63,14 +64,15 @@ namespace Xw.Zx.Core.Service
             };
         }
 
-        public AliPayOrderDto CreateH5AliPayOrder(Member member)
+        public AliPayOrderDto CreateH5AliPayOrder(Member member, MemberVipType toVipTyp)
         {
-            if (member.MemberVipType != MemberVipType.普通)
+            var errMsg = CheckUpdateVip(member, toVipTyp);
+            if (string.IsNullOrEmpty(errMsg))
             {
-                throw new Exception($"异常:用户{member.Phone}已是VIP, 无法升级");
+                throw new Exception(errMsg);
             }
 
-            Order order = CreateOrder(member);
+            Order order = CreateOrder(member, toVipTyp);
 
             AlipayTradeAppPayModel model = new AlipayTradeAppPayModel()
             {
@@ -96,16 +98,27 @@ namespace Xw.Zx.Core.Service
             };
         }
 
-        private Order CreateOrder(Member member)
+        private string CheckUpdateVip(Member member, MemberVipType toVipTyp)
         {
+            string errMsg = "";
+            if (member.MemberVipType >= toVipTyp) 
+            {
+                errMsg = $"异常:用户{member.Phone}已是{member.MemberVipType.ToString()}, 无法升级";
+            }
+            return errMsg;
+        }
+
+        private Order CreateOrder(Member member, MemberVipType toVipTyp)
+        {
+            var product = GetProductByVipType(toVipTyp);
+
             var order = _context.Orders.Where(o => o.MemberId == member.Id
-                                    && o.ProducName == "升级会员"
+                                    && o.ProducName == product.Name
                                     && DateTime.Now.AddMinutes(-30) < o.AddTime
                                     && o.OrderState == OrderState.待付款).FirstOrDefault();
 
             if (order == null)
-            {
-                var product = _context.Products.First(p => p.Name == "升级会员");
+            {               
                 order = new Order()
                 {
                     MemberId = member.Id,
@@ -123,6 +136,25 @@ namespace Xw.Zx.Core.Service
             }
 
             return order;
+        }
+
+        private Models.Model.Product GetProductByVipType(MemberVipType memberVipType)
+        {
+            string producName = "";
+
+            switch (memberVipType)
+            {
+                case MemberVipType.Vip会员:
+                    producName = "升级会员"; break;
+                case MemberVipType.创客:
+                    producName = "升级创客"; break;
+                case MemberVipType.服务站:
+                    producName = "升级服务站"; break;
+                case MemberVipType.运营商:
+                    producName = "升级运营商"; break;
+            }
+
+            return _context.Products.First(p => p.Name == producName);
         }
 
         public void AliPayMentSucessHandle(Dictionary<string, string> sArray)

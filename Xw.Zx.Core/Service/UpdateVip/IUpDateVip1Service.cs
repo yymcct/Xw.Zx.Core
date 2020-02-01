@@ -9,11 +9,14 @@ namespace Xw.Zx.Core.Service
 {
     public interface IUpDateVip1Service
     {
-        // 生成支付宝订单
-        AliPayOrderDto CreateAliPayOrder(Member member);
+        // 生成支付宝订单 
+        AliPayOrderDto CreateAliPayOrder(Member member, MemberVipType toVipTyp);
 
         // 生成支付宝订单
-        AliPayOrderDto CreateH5AliPayOrder(Member member);
+        AliPayOrderDto CreateH5AliPayOrder(Member member, MemberVipType toVipTyp);
+
+
+
 
         /// <summary>
         /// 支付宝支付成功处理
