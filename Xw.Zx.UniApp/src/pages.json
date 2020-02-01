@@ -1,0 +1,208 @@
+{
+    "pages": [{
+            "path": "pages/main/main",
+            "style": {
+                "navigationBarTitleText": "送钱宝"
+            }
+        },
+        {
+            "path": "pages/user/web",
+            "style": {
+                "navigationBarTitleText": "送钱宝"
+            }
+        },
+        {
+            "path": "pages/user/myteam",
+            "style": {
+                "navigationBarTitleText": "我的团队"
+            }
+        },
+        {
+            "path": "pages/user/myteamsecond",
+            "style": {
+                "navigationBarTitleText": "我的间接团队"
+            }
+        },
+        {
+            "path": "pages/user/income",
+            "style": {
+                "navigationBarTitleText": "我的收益"
+            }
+        },
+        {
+            "path": "pages/user/incomelist",
+            "style": {
+                "navigationBarTitleText": "收益记录"
+            }
+        },
+        {
+            "path": "pages/user/code",
+            "style": {
+                "navigationBarTitleText": "我的兑换码",
+                "enablePullDownRefresh": true
+            }
+        },
+        {
+            "path": "pages/user/pay",
+            "style": {
+                "navigationBarTitleText": "支付"
+            }
+        },
+        {
+            "path": "pages/user/userUpdate",
+            "style": {
+                "navigationBarTitleText": "升级"
+            }
+        },
+        {
+            "path": "pages/login/login",
+            "style": {
+                "navigationBarTitleText": "登录"
+            }
+        },
+        {
+            "path": "pages/reg/reg",
+            "style": {
+                "navigationBarTitleText": "注册"
+            }
+        },
+        {
+            "path": "pages/reg/invitereg",
+            "style": {
+                "navigationBarTitleText": "送钱宝邀请注册",
+                "navigationStyle": "custom"
+            }
+        },
+        {
+            "path": "pages/reg/downloadapp",
+            "style": {
+                "navigationBarTitleText": "送钱宝下载"
+            }
+        },
+        {
+            "path": "pages/pwd/pwd",
+            "style": {
+                "navigationBarTitleText": "找回密码"
+            }
+        },
+        {
+            "path": "pages/user/user",
+            "style": {
+                "navigationBarTitleText": "我的"
+            }
+        },
+        {
+            "path": "pages/user/share",
+            "style": {
+                "navigationBarTitleText": "我要分享"
+            }
+        },
+        {
+            "path": "pages/user/userUpgrade",
+            "style": {
+                "navigationBarTitleText": "提示升级VIP"
+            }
+        },
+        {
+            "path": "pages/user/userUpgradeVip",
+            "style": {
+                "navigationBarTitleText": "升级VIP"
+            }
+        },
+        {
+            "path": "pages/cards/addcard",
+            "style": {
+                "navigationBarTitleText": "添加"
+            }
+        },
+        {
+            "path": "pages/cards/content",
+            "style": {
+                "navigationBarTitleText": "账单详情"
+            }
+        },
+        {
+            "path": "pages/cards/carddetail",
+            "style": {
+                "navigationBarTitleText": "消费明细"
+            }
+        },
+        {
+            "path": "pages/life/life",
+            "style": {
+                "navigationBarTitleText": "信用生活"
+            }
+        },
+        {
+            "path": "pages/user/edit",
+            "style": {
+                "navigationBarTitleText": "个人资料"
+            }
+        },
+        {
+            "path": "pages/user/withdrawDepositList",
+            "style": {
+                "navigationBarTitleText": "提现记录"
+            }
+        },
+        {
+            "path": "pages/user/withdrawDeposit",
+            "style": {
+                "navigationBarTitleText": "提现金额"
+            }
+        },
+        {
+            "path": "pages/user/incomeAudit",
+            "style": {
+                "navigationBarTitleText": "提现审核"
+            }
+        },
+        {
+            "path": "pages/user/myteamsecond1",
+            "style": {
+                "navigationBarTitleText": "收益查詢"
+            }
+        },
+        {
+            "path": "pages/user/creditsExchange",
+            "style": {
+                "navigationBarTitleText": "积分兑换"
+            }
+        },
+        {
+            "path": "pages/life/news/audioNews",
+            "style": {
+                "navigationBarTitleText": "音频教程"
+            }
+        }
+    ],
+    "tabBar": {
+        "color": "#7a7e83",
+        "selectedColor": "#0faeff",
+        "backgroundColor": "#ffffff",
+        "list": [{
+                "pagePath": "pages/main/main",
+                "text": "首页",
+                "iconPath": "static/img/home.png",
+                "selectedIconPath": "static/img/homeHL.png"
+            },
+            {
+                "pagePath": "pages/life/life",
+                "text": "信用生活",
+                "iconPath": "static/img/template.png",
+                "selectedIconPath": "static/img/templateHL.png"
+            },
+            {
+                "pagePath": "pages/user/user",
+                "text": "我的",
+                "iconPath": "static/img/user.png",
+                "selectedIconPath": "static/img/userHL.png"
+            }
+        ]
+    },
+    "globalStyle": {
+        "navigationBarTextStyle": "white",
+        "navigationBarBackgroundColor": "#f16613",
+        "backgroundColor": "#f16613"
+    }
+}
