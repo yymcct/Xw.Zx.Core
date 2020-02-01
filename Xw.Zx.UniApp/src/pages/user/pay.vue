@@ -68,42 +68,35 @@ export default {
       items: [
         {
           value: "1",
-          name: "会员"
+          name: "升级会员"
         },
         {
           value: "2",
-          name: "创客",
+          name: "升级创客",
           checked: "true"
         },
         {
           value: "3",
-          name: "服务站"
+          name: "升级服务站"
         },
         {
           value: "4",
-          name: "运营商"
+          name: "升级运营商"
         }
       ]
     };
   },
   onLoad: function(option) {
-    if (option.toViptype) {
-      this.curtoViptype = option.toViptype;
-    }
-
     this.user = this.getUser("../user/user");
 
     if (!this.user) {
       return false;
     }
-    
-    this.getMySelfInfo();
-    this.getOrderInfo();
-
+    this.getMySelfInfo(this.getOrderInfo);
     // #ifdef APP-PLUS
     uni.getProvider({
       service: "payment",
-      success: e => {      
+      success: e => {
         let providerList = [];
         e.provider.map(value => {
           switch (value) {
@@ -190,7 +183,6 @@ export default {
         },
         success: res => {
           if (res.data.statusCode == 200) {
-
             this.order = res.data.result;
           } else {
             uni.showToast({
@@ -207,7 +199,7 @@ export default {
         }
       });
     },
-    getMySelfInfo() {
+    getMySelfInfo(callback) {
       //获取个人信息
       uni.request({
         url: `${this.baseUrl}/api/Member/GetSelf`,
@@ -219,6 +211,10 @@ export default {
         success: res => {
           if (res.data.statusCode == 200) {
             this.mySelf = res.data.result;
+            this.curtoViptype = (this.mySelf.memberVipType + 1).toString();
+            if (callback){
+              callback(res.data.result);
+            }
           } else {
             uni.showToast({
               icon: "none",
@@ -233,7 +229,7 @@ export default {
           });
         }
       });
-    }
+    },
   }
 };
 </script>
@@ -260,7 +256,7 @@ button {
 
 .price {
   border-bottom: 1px solid #eee;
-  width: 200upx;
+  width: 100%;
   height: 80upx;
   padding-bottom: 4upx;
 }

@@ -22,9 +22,9 @@ Vue.prototype.getUser = function(backpage) {
     return user;
 }
 
-Vue.prototype.SqbVer = 1912311;
-//Vue.prototype.baseUrl = 'http://139.155.8.217';
-Vue.prototype.baseUrl = 'http://localhost:63836';
+Vue.prototype.SqbVer = 2002011;
+Vue.prototype.baseUrl = 'http://139.155.8.217';
+//Vue.prototype.baseUrl = 'http://localhost:63836';
 
 const app = new Vue({
     store,
