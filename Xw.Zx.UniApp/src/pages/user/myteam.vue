@@ -4,8 +4,8 @@
       <view class="selfinfo">
         <view class="phone">{{mySelf.phone}}</view>
         <view class="viptype">{{GetVipType(mySelf.memberVipType)}}</view>
-        <view v-if="mySelf.memberVipType==0">
-          <button type="warn" size="mini" @click="update">升级VIP</button>
+        <view>
+          <button type="warn" size="mini" @click="update">升级</button>
         </view>
       </view>
       <view class="invite">我的推荐人:{{mySelf.invitePhone}}</view>

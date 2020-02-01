@@ -1,5 +1,21 @@
 <template>
   <view>
+    <view class="uni-list">
+      <radio-group @change="radioChange">
+        <template v-for="item in items">
+          <label
+            class="uni-list-cell uni-list-cell-pd"
+            :key="item.value"
+            v-if="Number(item.value) > mySelf.memberVipType"
+          >
+            <view>
+              <radio :value="item.value" :checked="curtoViptype == item.value" />
+            </view>
+            <view>{{item.name}}</view>
+          </label>
+        </template>
+      </radio-group>
+    </view>
     <view class="uni-padding-wrap">
       <view style="background:#FFF; padding:50upx 0;">
         <view class="uni-hello-text uni-center">
@@ -7,7 +23,7 @@
         </view>
         <view class="uni-h1 uni-center uni-common-mt">
           <text class="rmbLogo">￥</text>
-          <input class="price" type="digit" :value="order.productPrice" disabled />
+          <input class="price" type="digit" :value="order.productPrice.replace(',','')" disabled />
         </view>
       </view>
       <view class="uni-btn-v uni-common-mt">
@@ -39,23 +55,55 @@ export default {
     return {
       user: null,
       vipcode: "",
-      order: null,
+      order: {
+        productPrice: ""
+      },
       loading: false,
       price: 0.01,
-      providerList: []
+      providerList: [],
+      mySelf: {
+        memberVipType: 2
+      },
+      curtoViptype: "1",
+      items: [
+        {
+          value: "1",
+          name: "会员"
+        },
+        {
+          value: "2",
+          name: "创客",
+          checked: "true"
+        },
+        {
+          value: "3",
+          name: "服务站"
+        },
+        {
+          value: "4",
+          name: "运营商"
+        }
+      ]
     };
   },
-  onLoad: function() {
+  onLoad: function(option) {
+    if (option.toViptype) {
+      this.curtoViptype = option.toViptype;
+    }
+
     this.user = this.getUser("../user/user");
-    console.log(this.user);
+
     if (!this.user) {
       return false;
     }
+    
+    this.getMySelfInfo();
+    this.getOrderInfo();
+
     // #ifdef APP-PLUS
     uni.getProvider({
       service: "payment",
-      success: e => {
-        console.log("payment success:" + JSON.stringify(e));
+      success: e => {      
         let providerList = [];
         e.provider.map(value => {
           switch (value) {
@@ -84,32 +132,6 @@ export default {
       }
     });
     // #endif
-    //获取订单信息
-    uni.request({
-      url: `${this.baseUrl}/api/Alipay/GetUpdateVip1Order`,
-      method: "GET",
-      header: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ` + this.user.token
-      },
-      success: res => {
-        if (res.data.statusCode == 200) {
-          console.log(res.data);
-          this.order = res.data.result;
-        } else {
-          uni.showToast({
-            icon: "none",
-            title: res.data.msg
-          });
-        }
-      },
-      fail: () => {
-        uni.showToast({
-          icon: "none",
-          title: "网络异常"
-        });
-      }
-    });
   },
   methods: {
     requestPayment(e, index) {
@@ -151,12 +173,75 @@ export default {
           this.providerList[index].loading = false;
         }
       });
+    },
+    radioChange(e) {
+      this.curtoViptype = e.detail.value;
+      this.getOrderInfo();
+    },
+
+    getOrderInfo() {
+      //获取订单信息
+      uni.request({
+        url: `${this.baseUrl}/api/Alipay/GetUpdateVip1Order?toVipType=${this.curtoViptype}`,
+        method: "GET",
+        header: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ` + this.user.token
+        },
+        success: res => {
+          if (res.data.statusCode == 200) {
+
+            this.order = res.data.result;
+          } else {
+            uni.showToast({
+              icon: "none",
+              title: res.data.msg
+            });
+          }
+        },
+        fail: () => {
+          uni.showToast({
+            icon: "none",
+            title: "网络异常"
+          });
+        }
+      });
+    },
+    getMySelfInfo() {
+      //获取个人信息
+      uni.request({
+        url: `${this.baseUrl}/api/Member/GetSelf`,
+        method: "GET",
+        header: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ` + this.user.token
+        },
+        success: res => {
+          if (res.data.statusCode == 200) {
+            this.mySelf = res.data.result;
+          } else {
+            uni.showToast({
+              icon: "none",
+              title: res.data.msg
+            });
+          }
+        },
+        fail: () => {
+          uni.showToast({
+            icon: "none",
+            title: "网络异常"
+          });
+        }
+      });
     }
   }
 };
 </script>
 
 <style>
+.uni-list-cell {
+  justify-content: flex-start;
+}
 .rmbLogo {
   font-size: 40upx;
 }

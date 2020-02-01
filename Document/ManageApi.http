@@ -104,7 +104,9 @@ Content-Type: {{contentType}}
 GET {{baseUrl}}/api/Alipay/GetUpdateVip1Order
 Authorization: Bearer {{token}}
 
-
+### 升级VIP
+GET {{baseUrl}}/api/Alipay/GetUpdateVip1Order?toVipType=2
+Authorization: Bearer {{token}}
 
 ### 获取web网页订单
 GET {{baseUrl}}/api/Alipay/GetH5UpdateVip1Order
