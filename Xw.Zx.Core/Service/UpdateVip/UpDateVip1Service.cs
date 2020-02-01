@@ -33,7 +33,7 @@ namespace Xw.Zx.Core.Service
         public AliPayOrderDto CreateAliPayOrder(Member member, MemberVipType toVipTyp)
         {
             var errMsg = CheckUpdateVip(member, toVipTyp);
-            if (string.IsNullOrEmpty(errMsg))
+            if (!string.IsNullOrEmpty(errMsg))
             {
                 throw new Exception(errMsg);
             }
@@ -67,7 +67,7 @@ namespace Xw.Zx.Core.Service
         public AliPayOrderDto CreateH5AliPayOrder(Member member, MemberVipType toVipTyp)
         {
             var errMsg = CheckUpdateVip(member, toVipTyp);
-            if (string.IsNullOrEmpty(errMsg))
+            if (!string.IsNullOrEmpty(errMsg))
             {
                 throw new Exception(errMsg);
             }
