@@ -284,6 +284,7 @@ namespace Xw.Zx.Core.Service
             var member = _context.Members.First(m => m.Id == order.MemberId);
             var (oneInvite, twoInvite, chuangKe, fuWuZhan, yunYinShang) = FindBigHigherMember(member);
 
+            if (order.Amount == 0) return;
             if (oneInvite != null)
             {
                 _context.IncomeAccounts.Add(new IncomeAccount()
@@ -357,6 +358,8 @@ namespace Xw.Zx.Core.Service
         {
             var member = _context.Members.First(m => m.Id == order.MemberId);
             var (oneInvite, twoInvite, chuangKe, fuWuZhan, yunYinShang) = FindBigHigherMember(member);
+
+            if (order.Amount == 0) return;
 
             if (oneInvite != null)
             {
@@ -452,6 +455,7 @@ namespace Xw.Zx.Core.Service
             var member = _context.Members.First(m => m.Id == order.MemberId);
             var (oneInvite, twoInvite, chuangKe, fuWuZhan, yunYinShang) = FindBigHigherMember(member);
 
+            if (order.Amount == 0) return;
             if (oneInvite != null)
             {
                 if (oneInvite.MemberVipType == MemberVipType.Vip会员

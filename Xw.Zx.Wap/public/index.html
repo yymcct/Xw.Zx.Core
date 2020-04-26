@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
+  <meta name="screen-orientation" content="portrait" />
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="full-screen" content="yes">
+  <meta name="x5-fullscreen" content="true">
+  <title>送钱宝</title>
+  <style>
+    @keyframes lds-ball {
+      0%,
+      100% {
+        animation-timing-function: cubic-bezier(0.45, 0, 0.9, 0.55);
+      }
+
+      0% {
+        -webkit-transform: translate(0, 0);
+        transform: translate(0, 0);
+      }
+
+      50% {
+        -webkit-transform: translate(0, 108px);
+        transform: translate(0, 108px);
+        animation-timing-function: cubic-bezier(0, 0.45, 0.55, 0.9);
+      }
+
+      100% {
+        -webkit-transform: translate(0, 0);
+        transform: translate(0, 0);
+      }
+    }
+    @-webkit-keyframes lds-ball {
+
+      0%,
+      100% {
+        animation-timing-function: cubic-bezier(0.45, 0, 0.9, 0.55);
+      }
+
+      0% {
+        -webkit-transform: translate(0, 0);
+        transform: translate(0, 0);
+      }
+
+      50% {
+        -webkit-transform: translate(0, 108px);
+        transform: translate(0, 108px);
+        animation-timing-function: cubic-bezier(0, 0.45, 0.55, 0.9);
+      }
+
+      100% {
+        -webkit-transform: translate(0, 0);
+        transform: translate(0, 0);
+      }
+    }
+
+    .lds-ball {
+      position: relative;
+    }
+    .lds-ball div {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: #e15b64;
+      -webkit-animation: lds-ball 1s linear infinite;
+      animation: lds-ball 1s linear infinite;
+    }
+    .lds-ball {
+      position: fixed;
+      left: 50%;
+      top: 30%;
+      transform: translateX(-50%);
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <div class="lds-ball">
+      <div></div>
+    </div>
+  </div>
+</body>
+
+</html>

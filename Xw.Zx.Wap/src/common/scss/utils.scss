@@ -1,0 +1,19 @@
+/*文本格式化，超出范围，显示省略号*/
+@mixin text-overflow($width:100%,$display:block) {
+    width: $width;
+    display: $display;
+    white-space: nowrap;
+    -ms-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+// flex 水平垂直居中
+@mixin center {
+    display: -webkit-flex;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+

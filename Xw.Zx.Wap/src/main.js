@@ -1,0 +1,80 @@
+import 'amfe-flexible';
+import Vue from 'vue'
+import App from './App.vue'
+import { router } from './router';
+import {
+  Field, Dialog, Toast, Loading, Uploader, Checkbox, CheckboxGroup,
+  Button, NavBar, Image, ImagePreview, Tab, Tabs, Picker, Popup,
+  Collapse, CollapseItem, Icon, Cell, CellGroup, Row, Col, Swipe,SwipeCell, SwipeItem, Search, NoticeBar
+} from "vant";
+import globalFun from '@/utils/globalFun'
+import categoryIteamHelp from "@/utils/categoryIteamHelp";
+import VueLazyLoad from 'vue-lazyload'
+
+Vue.config.productionTip = false
+
+Vue.use(require('vue-wechat-title'))
+
+Vue.use(VueLazyLoad, {
+  error: require('@/assets/images/expo/unimg.png'),
+  loading: require('@/assets/images/expo/lazyload.gif')
+});
+
+Vue.use(Field);
+Vue.use(Uploader);
+Vue.use(Dialog);
+Vue.use(Toast);
+Vue.use(Loading);
+Vue.use(Checkbox);
+Vue.use(CheckboxGroup);
+Vue.use(Button);
+Vue.use(NavBar);
+Vue.use(Image);
+Vue.use(ImagePreview);
+Vue.use(Tab);
+Vue.use(Tabs);
+Vue.use(Collapse);
+Vue.use(CollapseItem);
+Vue.use(Icon);
+Vue.use(Cell);
+Vue.use(CellGroup);
+Vue.use(Row);
+Vue.use(Col);
+Vue.use(Picker);
+Vue.use(Popup);
+Vue.use(Swipe);
+Vue.use(SwipeItem);
+Vue.use(Search);
+Vue.use(NoticeBar);
+Vue.use(SwipeCell);
+
+Vue.prototype.$globalFun = globalFun;
+
+
+router.beforeEach((to, from, next) => {
+  //from页面有a参数, 但是to页面没有
+  if (from.query.categoryIteam) {
+    categoryIteamHelp.addCategoryIteam(from.query.categoryIteam);
+    if (!to.query.categoryIteam) {
+      let query = to.query;
+      query.categoryIteam = from.query.categoryIteam;
+      next({
+        path: to.path,
+        query: query
+      });
+    }
+  }
+  //设置页面title
+  const title = to.meta && to.meta.title;
+  if (title) {
+    document.title = title;
+  }
+  next();
+});
+
+
+
+new Vue({
+  router,
+  render: h => h(App),
+}).$mount('#app')
