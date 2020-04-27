@@ -37,21 +37,6 @@ export const chatAnonymousLogin = () => {
     })
 };
 
-export const getUser = () => request.get('/manager/Member/GetUser');
-
-//获取直播列表
-export const api_GetLives = (params) => request.get('/api/hblive/HbLive/GetLives', { params: params });
-
-//获取直播详情
-export const api_GetLiveDetails = (params) => request.get('/api/hblive/HbLive/GetLiveDetails', { params: params });
-
-//获取直播栏目
-export const api_GetHbLiveLiveColumn = (params) => request.get('/api/hblive/HbLive/GetHbLiveLiveColumn', { params: params });
-
-//获取直播栏目下内容
-export const api_GetHbLiveLiveColumnContent = (params) => request.get('/api/hblive/HbLive/GetHbLiveLiveColumnContent', { params: params });
-
-
 
 
 `                                                                                       `

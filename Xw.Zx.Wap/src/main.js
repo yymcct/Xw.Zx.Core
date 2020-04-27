@@ -9,16 +9,16 @@ import {
 } from "vant";
 import globalFun from '@/utils/globalFun'
 import categoryIteamHelp from "@/utils/categoryIteamHelp";
-import VueLazyLoad from 'vue-lazyload'
+// import VueLazyLoad from 'vue-lazyload'
 
 Vue.config.productionTip = false
 
 Vue.use(require('vue-wechat-title'))
 
-Vue.use(VueLazyLoad, {
-  error: require('@/assets/images/expo/unimg.png'),
-  loading: require('@/assets/images/expo/lazyload.gif')
-});
+// Vue.use(VueLazyLoad, {
+//   error: require('@/assets/images/expo/unimg.png'),
+//   loading: require('@/assets/images/expo/lazyload.gif')
+// });
 
 Vue.use(Field);
 Vue.use(Uploader);

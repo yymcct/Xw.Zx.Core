@@ -1,9 +1,17 @@
 <template>
   <div class="wrapper">
-    <h1 class="head">计算器</h1>
+    <h1 class="head">贷款利息减免计算器</h1>
     <div class="content">
-      <van-field v-model="name" required label="姓名" placeholder="请输入姓名" />
-      <van-field v-model="borrowCompany" required label="贷款机构" placeholder="请输入贷款机构名" />
+      <van-field v-model="name" label="姓名" placeholder="请输入姓名" />
+      <van-field
+        v-model="phone"
+        required
+        label="手机"
+        type="tel"
+        placeholder="请输入联系人手机"
+        :error-message="option.errPhone"
+      />
+      <van-field v-model="borrowCompany" label="贷款机构" placeholder="请输入贷款机构名" />
       <van-field v-model="borrowAmount" type="digit" required label="到账总额" placeholder="请输入借款到账总额" />
       <van-field
         v-model="cycle"
@@ -12,17 +20,22 @@
         placeholder="请选择分期期数"
         @click="option.showCyclePicker = true"
       />
-      <van-field v-model="cycleAmount" type="digit" required label="每期金额" placeholder="请输入每期金额" />
+      <van-field
+        v-model="cycleAmount"
+        type="digit"
+        required
+        :error-message="option.errorMessage"
+        label="每期金额"
+        placeholder="请输入每期金额"
+      />
       <van-field
         v-model="repaymentCycle"
-        required
         label="已还期数"
         placeholder="请选择已还期数"
         @click="repaymentCycleInputClick"
       />
       <van-field
         v-model="overdueCycle"
-        required
         label="逾期期数"
         placeholder="请选择逾期期数"
         @click="option.showOverdueCyclePicker = true"
@@ -55,7 +68,12 @@
         />
       </van-popup>
       <div class="content-btn" v-show="option.btnShow">
-        <van-button type="primary" class="content-btn-btn" @click="option.btnShow=false">开始计算</van-button>
+        <van-button
+          type="primary"
+          class="content-btn-btn"
+          @click="btnClikc"
+          :disabled="borrowAmount==''|| cycle=='' || cycleAmount=='' ||  phone.length<11 "
+        >开始计算</van-button>
       </div>
     </div>
 
@@ -63,26 +81,28 @@
       <h2>计算结果</h2>
       <p>
         <span class="result-lable">应付利息:&nbsp;</span>
-        <span class="result-value">{{yflx}}</span>
+        <span class="result-value">{{yflx}}元</span>
       </p>
       <p>
         <span class="result-lable">减免利息最小:&nbsp;</span>
         <span class="result-value2">{{jmlx_min}}</span>
+        <span class="result-value">元</span>
       </p>
       <p>
         <span class="result-lable">减免利息最大:&nbsp;</span>
         <span class="result-value2">{{jmlx_max}}</span>
+        <span class="result-value">元</span>
       </p>
     </div>
 
-    <div class="contact">
-      <div class="contact-linkman" v-show="member.linkMan">立刻咨询: {{member.linkMan}}</div>
-      <div class="contact-tel" v-show="member.phone" @click="call">
+    <div class="contact" v-show="!option.btnShow">
+      <div class="contact-linkman" v-show="member.linkMan">获取精准减免金额, 立刻咨询专属客服</div>
+      <div class="contact-tel" v-show="member.phone">
         <span class="contact-tel-num">{{member.phone}}</span>
         <a class="contact-tel-btn" :href="'tel:'+member.phone">一键拨打</a>
       </div>
       <div class="contact-qrcode" v-show="member.wxQrCode">
-        <img class="contact-qrcode-code" v-lazy="member.wxQrCode" alt />
+        <img class="contact-qrcode-code" :src="member.wxQrCode" alt />
         <span>识别二维码联系我们</span>
       </div>
     </div>
@@ -90,12 +110,14 @@
 </template>
 
 <script>
+import { api_PostComputerUser } from "@/api/sqbApi";
 export default {
   name: "",
   props: [""],
   data() {
     return {
       name: "",
+      phone: "",
       borrowCompany: "",
       borrowAmount: "",
       cycle: "",
@@ -114,7 +136,9 @@ export default {
         showRepaymentCyclePicker: false,
         overdueCyclePickerColumns: [],
         showOverdueCyclePicker: false,
-        btnShow: true
+        btnShow: true,
+        errorMessage: "",
+        errPhone: ""
       }
     };
   },
@@ -125,18 +149,22 @@ export default {
       return parseInt(this.borrowAmount * 0.01 * Number(this.cycle));
     },
     jmlx_min: function() {
-      return parseInt(
+      let l = parseInt(
         Number(this.cycle) * this.cycleAmount -
           this.borrowAmount -
           this.borrowAmount * 0.01 * Number(this.cycle)
       );
+      if (l < 0) l = 0;
+      return l;
     },
     jmlx_max: function() {
-      return parseInt(
+      let l = parseInt(
         Number(this.cycle) * this.cycleAmount -
           this.borrowAmount -
           (this.borrowAmount * 0.01 * Number(this.cycle)) / 3
       );
+      if (l < 0) l = 0;
+      return l;
     }
   },
 
@@ -147,7 +175,11 @@ export default {
     }
   },
 
-  mounted() {},
+  mounted() {
+    if (this.$route.query.p) {
+      this.member.phone = this.$route.query.p;
+    }
+  },
 
   methods: {
     cyclePickerOnConfirm(value) {
@@ -171,6 +203,29 @@ export default {
       } else {
         this.$toast("请先选择分期数!");
       }
+    },
+    btnClikc() {
+      if (this.phone.length != 11) {
+        this.option.errPhone = "手机号格式错误";
+        return;
+      }
+      if (Number(this.cycle) * this.cycleAmount < this.borrowAmount) {
+        this.option.errorMessage = "期数乘每期金额应大于到账总额";
+        return;
+      }
+
+      api_PostComputerUser({
+        name: this.name,
+        phone: this.phone,
+        borrowCompany: this.borrowCompany,
+        borrowAmount: this.borrowAmount,
+        cycle: this.cycle,
+        cycleAmount: this.cycleAmount,
+        repaymentCycle: this.repaymentCycle,
+        overdueCycle: this.overdueCycle,
+        sourcePhone: this.member.phone
+      });
+      this.option.btnShow = false;
     }
   },
 
@@ -179,14 +234,20 @@ export default {
 </script>
 <style lang='scss' scoped>
 .wrapper {
-  background-color: #fff;
   padding-bottom: 30px;
   .head {
+    background-color: #ff976a;
+    color: #fff;
     text-align: center;
     padding: 20px;
+    font-size: 24px;
   }
   .content {
-    padding: 10px;
+    overflow: hidden;
+    margin: 10px;
+    border: 1px solid #ff976a;
+    border-radius: 10px;
+    background-color: #fff;
     &-btn {
       margin: 20px 0;
       width: 100%;
@@ -198,13 +259,24 @@ export default {
     }
   }
   .result {
-    padding: 20px;
+    margin: 10px;
+    border: 1px solid #ff976a;
+    padding: 20px 10px;
+    border-radius: 10px;
+    background-color: #fff;
+
     h2 {
-      margin-top: 30px;
       margin-bottom: 10px;
+      text-align: center;
+      font-weight: bold;
+
+      width: 100%;
+    }
+    p {
+      margin-top: 5px;
     }
     &-lable {
-      font-size: 16px;
+      font-size: 14px;
       line-height: 24px;
     }
     &-value {
@@ -218,10 +290,11 @@ export default {
     }
   }
   .contact {
-    margin-bottom: 20px;
-
-    margin: 0px auto;
-    width: 300px;
+    background-color: #fff;
+    margin: 10px;
+    padding-bottom: 10px;
+    border: 1px solid #ff976a;
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -230,7 +303,7 @@ export default {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      font-size: 20px;
+      font-size: 14px;
       font-weight: bold;
       margin-top: 20px;
       margin-bottom: 20px;
@@ -239,6 +312,7 @@ export default {
       margin-bottom: 10px;
       &-num {
         font-size: 16px;
+        font-weight: bold;
         color: #333;
         margin-right: 10px;
       }
