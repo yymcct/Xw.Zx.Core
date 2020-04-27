@@ -77,6 +77,11 @@ namespace Xw.Zx.Core.Models.Model
         /// 语音新闻
         /// </summary>
         public DbSet<VoiceNew> VoiceNews { get; set; }
+
+        /// <summary>
+        /// 利息计算
+        /// </summary>
+        public DbSet<LxComputer> LxComputers { get; set; }
         #endregion
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

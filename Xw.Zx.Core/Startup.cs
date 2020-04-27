@@ -9,6 +9,7 @@ using Alipay.AopSdk.AspnetCore;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.StaticFiles;
@@ -174,6 +175,21 @@ namespace Xw.Zx.Core
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Xw.Zx.Core V1");
+            });
+
+            app.Use(async (context, next) =>
+            {
+                var path = context.Request.Path.ToString();
+                if (System.Text.RegularExpressions.Regex.IsMatch(path, @"^/sqb/"))
+                {
+                    context.Response.ContentType = "text/html";
+                    await context.Response.SendFileAsync(Path.Combine(env.WebRootPath, "sqb/index.html"));
+                }
+                else
+                {
+                    await next.Invoke();
+                }
+
             });
         }
 

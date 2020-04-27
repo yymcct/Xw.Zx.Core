@@ -1050,6 +1050,11 @@
             语音新闻
             </summary>
         </member>
+        <member name="P:Xw.Zx.Core.Models.Model.XwZxContext.LxComputers">
+            <summary>
+            利息计算
+            </summary>
+        </member>
         <member name="M:Xw.Zx.Core.Service.IUpDateVip1Service.AliPayMentSucessHandle(System.Collections.Generic.Dictionary{System.String,System.String})">
             <summary>
             支付宝支付成功处理
