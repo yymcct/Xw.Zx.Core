@@ -63,11 +63,32 @@
         <span>识别二维码联系我们</span>
       </div>
     </div>
+
+    <div class="share">
+      <div class="share-title">生成专属分享二维码</div>
+      <div class="share-phone">
+        <van-field v-model="option.sharePhone" placeholder="填入手机号, 生成专属二维码" />
+        <van-button
+          type="primary"
+          round
+          icon="share"
+          class="share-phone-btn"
+          size="small"
+          :disabled="option.sharePhone.length!=11"
+          @click="option.showQrcode =true"
+        >生成</van-button>
+      </div>
+      <div class="contact-qrcode" v-if="option.showQrcode==true && option.sharePhone.length==11">
+        <vue-qr :text="'http://139.155.8.217/sqb/computer?p='+option.sharePhone" :size="200"></vue-qr>
+        <span>长按保存二维码分享</span>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import { api_PostComputerUser } from "@/api/sqbApi";
+import vueQr from "vue-qr";
 export default {
   name: "",
   props: [""],
@@ -89,12 +110,16 @@ export default {
       option: {
         btnShow: true,
         errorMessage: "",
-        errPhone: ""
+        errPhone: "",
+        sharePhone: "",
+        showQrcode: false
       }
     };
   },
 
-  components: {},
+  components: {
+    vueQr
+  },
   computed: {
     yflx: function() {
       return parseInt(this.borrowAmount * 0.01 * this.cycle);
@@ -119,12 +144,7 @@ export default {
     }
   },
 
-  beforeMount() {
-    for (let i = 1; i < 100; i++) {
-      this.option.cyclePickerColumns.push(String(i));
-      this.option.overdueCyclePickerColumns.push(String(i));
-    }
-  },
+  beforeMount() {},
 
   mounted() {
     if (this.$route.query.p) {
@@ -253,6 +273,55 @@ export default {
         margin-right: 10px;
         border-radius: 10px;
         margin-right: 10px;
+      }
+    }
+    &-qrcode {
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      img {
+        width: 220px;
+        height: 220px;
+      }
+      span {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        font-size: 16px;
+        color: #999;
+        text-align: center;
+      }
+    }
+  }
+  .share {
+    background-color: #fff;
+    margin: 10px;
+    padding-bottom: 10px;
+    border: 1px solid #ff976a;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    &-title {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: bold;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+    &-phone {
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      &-btn {
+        margin-right: 10px;
+        width: 100px;
       }
     }
     &-qrcode {
