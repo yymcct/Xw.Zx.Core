@@ -13,13 +13,7 @@
       />
       <van-field v-model="borrowCompany" label="贷款机构" placeholder="请输入贷款机构名" />
       <van-field v-model="borrowAmount" type="digit" required label="到账总额" placeholder="请输入借款到账总额" />
-      <van-field
-        v-model="cycle"
-        required
-        label="期数"
-        placeholder="请选择分期期数"
-        @click="option.showCyclePicker = true"
-      />
+      <van-field v-model="cycle" required label="期数" placeholder="请输入分期期数" type="digit" />
       <van-field
         v-model="cycleAmount"
         type="digit"
@@ -28,45 +22,8 @@
         label="每期金额"
         placeholder="请输入每期金额"
       />
-      <van-field
-        v-model="repaymentCycle"
-        label="已还期数"
-        placeholder="请选择已还期数"
-        @click="repaymentCycleInputClick"
-      />
-      <van-field
-        v-model="overdueCycle"
-        label="逾期期数"
-        placeholder="请选择逾期期数"
-        @click="option.showOverdueCyclePicker = true"
-      />
-
-      <van-popup v-model="option.showCyclePicker" position="bottom">
-        <van-picker
-          show-toolbar
-          :columns="option.cyclePickerColumns"
-          @cancel="option.showCyclePicker = false"
-          @confirm="cyclePickerOnConfirm"
-        />
-      </van-popup>
-
-      <van-popup v-model="option.showRepaymentCyclePicker" position="bottom">
-        <van-picker
-          show-toolbar
-          :columns="option.repaymentCyclePickerColumns"
-          @cancel="option.showRepaymentCyclePicker = false"
-          @confirm="repaymentCyclePickerOnConfirm"
-        />
-      </van-popup>
-
-      <van-popup v-model="option.showOverdueCyclePicker" position="bottom">
-        <van-picker
-          show-toolbar
-          :columns="option.overdueCyclePickerColumns"
-          @cancel="option.showOverdueCyclePicker = false"
-          @confirm="overdueCyclePickerOnConfirm"
-        />
-      </van-popup>
+      <van-field v-model="repaymentCycle" label="已还期数" placeholder="请输入已还期数" type="digit" />
+      <van-field v-model="overdueCycle" label="逾期期数" placeholder="请输入逾期期数" type="digit" />
       <div class="content-btn" v-show="option.btnShow">
         <van-button
           type="primary"
@@ -120,7 +77,7 @@ export default {
       phone: "",
       borrowCompany: "",
       borrowAmount: "",
-      cycle: "",
+      cycle: 36,
       cycleAmount: "",
       repaymentCycle: "",
       overdueCycle: "",
@@ -130,12 +87,6 @@ export default {
         wxQrCode: ""
       },
       option: {
-        cyclePickerColumns: [],
-        showCyclePicker: false,
-        repaymentCyclePickerColumns: [],
-        showRepaymentCyclePicker: false,
-        overdueCyclePickerColumns: [],
-        showOverdueCyclePicker: false,
         btnShow: true,
         errorMessage: "",
         errPhone: ""
@@ -146,22 +97,22 @@ export default {
   components: {},
   computed: {
     yflx: function() {
-      return parseInt(this.borrowAmount * 0.01 * Number(this.cycle));
+      return parseInt(this.borrowAmount * 0.01 * this.cycle);
     },
     jmlx_min: function() {
       let l = parseInt(
-        Number(this.cycle) * this.cycleAmount -
+        this.cycle * this.cycleAmount -
           this.borrowAmount -
-          this.borrowAmount * 0.01 * Number(this.cycle)
+          this.borrowAmount * 0.01 * this.cycle
       );
       if (l < 0) l = 0;
       return l;
     },
     jmlx_max: function() {
       let l = parseInt(
-        Number(this.cycle) * this.cycleAmount -
+        this.cycle * this.cycleAmount -
           this.borrowAmount -
-          (this.borrowAmount * 0.01 * Number(this.cycle)) / 3
+          (this.borrowAmount * 0.01 * this.cycle) / 3
       );
       if (l < 0) l = 0;
       return l;
@@ -182,34 +133,12 @@ export default {
   },
 
   methods: {
-    cyclePickerOnConfirm(value) {
-      this.cycle = value;
-      this.option.showCyclePicker = false;
-      for (let i = 0; i < Number(value) + 1; i++) {
-        this.option.repaymentCyclePickerColumns.push(String(i));
-      }
-    },
-    repaymentCyclePickerOnConfirm(value) {
-      this.repaymentCycle = value;
-      this.option.showRepaymentCyclePicker = false;
-    },
-    overdueCyclePickerOnConfirm(value) {
-      this.overdueCycle = value;
-      this.option.showOverdueCyclePicker = false;
-    },
-    repaymentCycleInputClick() {
-      if (this.cycle) {
-        this.option.showRepaymentCyclePicker = true;
-      } else {
-        this.$toast("请先选择分期数!");
-      }
-    },
     btnClikc() {
       if (this.phone.length != 11) {
         this.option.errPhone = "手机号格式错误";
         return;
       }
-      if (Number(this.cycle) * this.cycleAmount < this.borrowAmount) {
+      if (this.cycle * this.cycleAmount < this.borrowAmount) {
         this.option.errorMessage = "期数乘每期金额应大于到账总额";
         return;
       }
