@@ -79,7 +79,7 @@
         >生成</van-button>
       </div>
       <div class="contact-qrcode" v-if="option.showQrcode==true && option.sharePhone.length==11">
-        <vue-qr :text="'http://139.155.8.217/sqb/computer?p='+option.sharePhone" :size="200"></vue-qr>
+        <vue-qr  :logoSrc="require('@/assets/images/bg1.jpg')" :correctLevel="3" logoScale="0.3" logoMargin="5" :text="'http://139.155.8.217/sqb/computer?p='+option.sharePhone" :size="700"></vue-qr>
         <span>长按保存二维码分享</span>
       </div>
     </div>

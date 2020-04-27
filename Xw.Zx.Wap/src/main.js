@@ -3,9 +3,9 @@ import Vue from 'vue'
 import App from './App.vue'
 import { router } from './router';
 import {
-  Field, Dialog, Toast, Loading, Uploader, Checkbox, CheckboxGroup,
-  Button, NavBar, Image, ImagePreview, Tab, Tabs, Picker, Popup,
-  Collapse, CollapseItem, Icon, Cell, CellGroup, Row, Col, Swipe,SwipeCell, SwipeItem, Search, NoticeBar
+  Field, Toast, Loading, 
+  Button, NavBar, Image,Tab, Tabs, Picker, Popup,
+ Icon
 } from "vant";
 import globalFun from '@/utils/globalFun'
 import categoryIteamHelp from "@/utils/categoryIteamHelp";
@@ -21,32 +21,20 @@ Vue.use(require('vue-wechat-title'))
 // });
 
 Vue.use(Field);
-Vue.use(Uploader);
-Vue.use(Dialog);
 Vue.use(Toast);
 Vue.use(Loading);
-Vue.use(Checkbox);
-Vue.use(CheckboxGroup);
 Vue.use(Button);
 Vue.use(NavBar);
 Vue.use(Image);
-Vue.use(ImagePreview);
 Vue.use(Tab);
 Vue.use(Tabs);
-Vue.use(Collapse);
-Vue.use(CollapseItem);
 Vue.use(Icon);
-Vue.use(Cell);
-Vue.use(CellGroup);
-Vue.use(Row);
-Vue.use(Col);
 Vue.use(Picker);
 Vue.use(Popup);
-Vue.use(Swipe);
-Vue.use(SwipeItem);
-Vue.use(Search);
-Vue.use(NoticeBar);
-Vue.use(SwipeCell);
+
+
+
+
 
 Vue.prototype.$globalFun = globalFun;
 
