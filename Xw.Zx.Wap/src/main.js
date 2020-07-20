@@ -10,7 +10,9 @@ import {
 import globalFun from '@/utils/globalFun'
 import categoryIteamHelp from "@/utils/categoryIteamHelp";
 // import VueLazyLoad from 'vue-lazyload'
+import VueAudio from 'vue-audio-better'
 
+Vue.use(VueAudio)
 Vue.config.productionTip = false
 
 Vue.use(require('vue-wechat-title'))

@@ -14,6 +14,14 @@ const routes = [
         }
     },
     {
+        path: '/sqb/chapter',
+        component: () =>
+            import(/* webpackChunkName: "sqb" */ './view/music/chapter'),
+        meta: {
+            title: '计算器', keepAlive: false
+        }
+    },
+    {
         path: '*',
         redirect: '/sqb/computer'
     },
