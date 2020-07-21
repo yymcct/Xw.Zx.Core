@@ -88,7 +88,12 @@ export default {
 
   beforeMount() {},
 
-  mounted() {},
+  mounted() {
+      let key = localStorage.getItem('IS_VIP_KEY');
+      if(!key){
+          window.location.href="http://zjj.xtsuo.cn/app/index.php?i=1&c=entry&m=ewei_shopv2&do=mobile&r=goods.detail&id=213&mid=2214";
+      }
+  },
 
   methods: {
     play(url) {

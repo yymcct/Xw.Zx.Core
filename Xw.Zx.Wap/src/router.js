@@ -14,11 +14,19 @@ const routes = [
         }
     },
     {
+        path: '/sqb/index',
+        component: () =>
+            import(/* webpackChunkName: "sqb" */ './view/music/index'),
+        meta: {
+            title: '法律债务处理大礼包课程-债减减', keepAlive: false
+        }
+    },
+    {
         path: '/sqb/chapter',
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/music/chapter'),
         meta: {
-            title: '计算器', keepAlive: false
+            title: '法律债务处理大礼包课程-债减减', keepAlive: false
         }
     },
     {
