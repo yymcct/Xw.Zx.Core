@@ -28,6 +28,26 @@
       <div class="linkman-content">
         <div class="item">
           <div class="ercode">
+            <img src="/static/kf11.png" alt="/static/kf11.png" />
+            <p>扫码添加微信</p>
+          </div>
+          <div class="link">
+            <a class="link-tel" href="#">债减减客服1线</a>
+          </div>
+        </div>
+        <div class="item">
+          <div class="ercode">
+            <img src="/static/kf12.jpg" alt="/static/kf12.jpg" />
+            <p>扫码添加微信</p>
+          </div>
+          <div class="link">
+            <a class="link-tel" href="#">债减减客服2线</a>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="linkman-content">
+        <div class="item">
+          <div class="ercode">
             <img src="/static/linkman1.jpg" alt="/static/linkman1.jpg" />
             <p>扫码添加微信</p>
           </div>
@@ -35,7 +55,100 @@
             <a class="link-tel" href="tel:15878744581">梁经理: 15878744581</a>
           </div>
         </div>
-      </div>
+        <div class="item">
+          <div class="ercode">
+            <img src="/static/linkman1.jpg" alt="/static/kf2.png" />
+            <p>扫码添加微信</p>
+          </div>
+          <div class="link">
+            <a class="link-tel" href="tel:15878744581">赖经理: 17878688933</a>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="ercode">
+            <img src="/static/linkman1.jpg" alt="/static/kf3.png" />
+            <p>扫码添加微信</p>
+          </div>
+          <div class="link">
+            <a class="link-tel" href="tel:15878744581">赖经理: 17878688933</a>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="ercode">
+            <img src="/static/linkman1.jpg" alt="/static/kf4.png" />
+            <p>扫码添加微信</p>
+          </div>
+          <div class="link">
+            <a class="link-tel" href="tel:15878744581">覃经理: 13877116647</a>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="ercode">
+            <img src="/static/linkman1.jpg" alt="/static/kf5.png" />
+            <p>扫码添加微信</p>
+          </div>
+          <div class="link">
+            <a class="link-tel" href="tel:15878744581">韦经理: 13877116647</a>
+          </div>
+        </div>
+        <div class="item">
+          <div class="ercode">
+            <img src="/static/linkman1.jpg" alt="/static/kf6.png" />
+            <p>扫码添加微信</p>
+          </div>
+          <div class="link">
+            <a class="link-tel" href="tel:15878744581">龙经理: 15289689676</a>
+          </div>
+        </div>
+        <div class="item">
+          <div class="ercode">
+            <img src="/static/linkman1.jpg" alt="/static/kf7.png" />
+            <p>扫码添加微信</p>
+          </div>
+          <div class="link">
+            <a class="link-tel" href="tel:15878744581">潘经理: 13627716084</a>
+          </div>
+        </div>
+         <div class="item">
+          <div class="ercode">
+            <img src="/static/linkman1.jpg" alt="/static/kf8.png" />
+            <p>扫码添加微信</p>
+          </div>
+          <div class="link">
+            <a class="link-tel" href="tel:15878744581">胡经理: 767157763</a>
+          </div>
+        </div>
+         <div class="item">
+          <div class="ercode">
+            <img src="/static/linkman1.jpg" alt="/static/linkman1.jpg" />
+            <p>扫码添加微信</p>
+          </div>
+          <div class="link">
+            <a class="link-tel" href="tel:15878744581">冯经理: 13788695064</a>
+          </div>
+        </div>
+         <div class="item">
+          <div class="ercode">
+            <img src="/static/linkman1.jpg" alt="/static/kf9.png" />
+            <p>扫码添加微信</p>
+          </div>
+          <div class="link">
+            <a class="link-tel" href="tel:15878744581">谢经理: 19175521131</a>
+          </div>
+        </div>
+         <div class="item">
+          <div class="ercode">
+            <img src="/static/linkman1.jpg" alt="/static/kf10.png" />
+            <p>扫码添加微信</p>
+          </div>
+          <div class="link">
+            <a class="link-tel" href="tel:15878744581">罗经理: 13517719317</a>
+          </div>
+        </div>
+      </div>-->
     </div>
   </div>
 </template>
@@ -78,6 +191,20 @@ export default {
           url: "/static/6.mp3"
           //"http://139.155.8.217:8081/mp3/6%E5%BE%81%E4%BF%A1%E5%92%8C%E5%A4%B1%E4%BF%A1.mp3"
         }
+      ],
+      kefus: [
+        {
+          categoryIteam: 5,
+          name: "李经理",
+          sequence: 0,
+          phone1: "17329336031",
+          phone2: "",
+          photo:
+            "https://app.huobaowang.com/UpLoad/jpg/2020-03-16/20200316172040216386.jpg", // require('@/assets/images/kf1.png'),
+          qq: "",
+          wxQrCode:
+            "https://app.huobaowang.com/UpLoad/jpg/2020-03-16/20200316172040217669.jpg"
+        }
       ]
     };
   },
@@ -89,10 +216,11 @@ export default {
   beforeMount() {},
 
   mounted() {
-      let key = localStorage.getItem('IS_VIP_KEY');
-      if(!key){
-          window.location.href="http://zjj.xtsuo.cn/app/index.php?i=1&c=entry&m=ewei_shopv2&do=mobile&r=goods.detail&id=213&mid=2214";
-      }
+    let key = localStorage.getItem("IS_VIP_KEY");
+    if (!key) {
+      window.location.href =
+        "http://zjj.xtsuo.cn/app/index.php?i=1&c=entry&m=ewei_shopv2&do=mobile&r=goods.detail&id=213&mid=2214";
+    }
   },
 
   methods: {
@@ -185,6 +313,7 @@ export default {
       padding: 30px 20px;
       .item {
         width: 100%;
+        padding-bottom: 50px;
         .ercode {
           padding: 0px 40px;
           img {
@@ -199,15 +328,15 @@ export default {
         }
 
         .link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           .link-tel {
-              color:#000;
-              text-align: center;
-              font-size: 18px;
-              font-weight: bold;
-              padding-top: 10px;
+            color: #000;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            padding-top: 10px;
           }
         }
       }
@@ -216,6 +345,6 @@ export default {
 }
 .active {
   font-weight: bold;
-  color:#ff5000 ;
+  color: #ff5000;
 }
 </style>
