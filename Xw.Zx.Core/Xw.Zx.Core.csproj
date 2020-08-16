@@ -30,6 +30,8 @@
     <Compile Include="Areas\Manager\Base\ManagerBaseController.cs" />
     <Compile Include="Areas\Manager\Income\IncomeAccountController.cs" />
     <Compile Include="Areas\Manager\Income\IncomeAccountMDto.cs" />
+    <Compile Include="Areas\Manager\LxComputerController\Dtos\LxComputerMDto.cs" />
+    <Compile Include="Areas\Manager\LxComputerController\LxComputerController.cs" />
     <Compile Include="Areas\Manager\Member\Dtos\ManagerMemberDto.cs" />
     <Compile Include="Areas\Manager\Member\Dtos\MemberMDto.cs" />
     <Compile Include="Areas\Manager\Member\Dtos\PostMemberMDto.cs" />
