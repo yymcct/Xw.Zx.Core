@@ -51,8 +51,12 @@
         <span class="result-value">元</span>
       </p>
     </div>
-
-    <div class="contact" v-show="!option.btnShow">
+    <div class="footer">
+      <img :src="require('@/assets/images/log.png')" alt="">
+      <span>Copy Right 2020 成都债减减企业管理服务有限公司</span>
+      
+    </div>
+    <!-- <div class="contact" v-show="!option.btnShow">
       <div class="contact-linkman" v-show="member.linkMan">获取精准减免金额, 立刻咨询专属客服</div>
       <div class="contact-tel" v-show="member.phone">
         <span class="contact-tel-num">{{member.phone}}</span>
@@ -62,9 +66,9 @@
         <img class="contact-qrcode-code" :src="member.wxQrCode" alt />
         <span>识别二维码联系我们</span>
       </div>
-    </div>
+    </div> -->
 
-    <div class="share">
+    <!-- <div class="share">
       <div class="share-title">生成专属分享二维码</div>
       <div class="share-phone">
         <van-field v-model="option.sharePhone" placeholder="填入手机号, 生成专属二维码" />
@@ -82,13 +86,13 @@
         <vue-qr  :logoSrc="require('@/assets/images/bg1.jpg')" :correctLevel="3" logoScale="0.3" logoMargin="5" :text="'http://139.155.8.217/sqb/computer?p='+option.sharePhone" :size="700"></vue-qr>
         <span>长按保存二维码分享</span>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
 import { api_PostComputerUser } from "@/api/sqbApi";
-import vueQr from "vue-qr";
+// import vueQr from "vue-qr";
 export default {
   name: "",
   props: [""],
@@ -118,7 +122,7 @@ export default {
   },
 
   components: {
-    vueQr
+    // vueQr
   },
   computed: {
     yflx: function() {
@@ -172,7 +176,9 @@ export default {
         cycleAmount: this.cycleAmount,
         repaymentCycle: this.repaymentCycle,
         overdueCycle: this.overdueCycle,
-        sourcePhone: this.member.phone
+        sourcePhone: this.member.phone,
+        MinReduce: this.jmlx_min,
+        MaxReduce:this.jmlx_max
       });
       this.option.btnShow = false;
     }
@@ -183,6 +189,7 @@ export default {
 </script>
 <style lang='scss' scoped>
 .wrapper {
+  background-color: #fff;
   padding-bottom: 30px;
   .head {
     background-color: #ff976a;
@@ -340,6 +347,23 @@ export default {
         color: #999;
         text-align: center;
       }
+    }
+  }
+  .footer{
+    display: flex;
+    flex-direction:column;
+    background-color: #fff;
+    justify-content:center;
+    align-items:center;
+    margin-top: 20px;
+    padding: 10px 0;
+    img{
+      width: 150px;
+    }
+    span{
+      font-size: 15px;
+      color:#666;
+      margin-top: 10px;
     }
   }
 }

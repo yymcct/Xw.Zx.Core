@@ -69,6 +69,19 @@ export default new Router({
                     name: '申请追息管理'
                 },
             ]
+        },
+        {
+            path: '/',
+            name: '利息计算器',
+            component: Home,
+            iconCls: 'el-icon-tickets',
+            children: [{
+                    path: '/lxcomputer',
+                    component: () =>
+                        import ('./views/lxComputer/index'),
+                    name: '利息计算器'
+                }
+            ]
         }
     ]
 })
