@@ -14,6 +14,14 @@ const routes = [
         }
     },
     {
+        path: '/sqb/computer1',
+        component: () =>
+            import(/* webpackChunkName: "sqb" */ './view/computer/index'),
+        meta: {
+            title: '计算器', keepAlive: false
+        }
+    },
+    {
         path: '/sqb/index',
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/music/index'),

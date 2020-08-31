@@ -53,7 +53,7 @@
     </div>
     <div class="footer">
       <img :src="require('@/assets/images/log.png')" alt="">
-      <span>Copy Right 2020 成都债减减企业管理服务有限公司</span>
+      <span>Copy Right 2020 成都再减减企业管理服务有限公司</span>
       
     </div>
     <!-- <div class="contact" v-show="!option.btnShow">
@@ -126,13 +126,13 @@ export default {
   },
   computed: {
     yflx: function() {
-      return parseInt(this.borrowAmount * 0.01 * this.cycle);
+      return parseInt(this.borrowAmount * 0.007 * this.cycle);
     },
     jmlx_min: function() {
       let l = parseInt(
         this.cycle * this.cycleAmount -
           this.borrowAmount -
-          this.borrowAmount * 0.01 * this.cycle
+          this.borrowAmount * 0.007 * this.cycle
       );
       if (l < 0) l = 0;
       return l;
@@ -141,7 +141,7 @@ export default {
       let l = parseInt(
         this.cycle * this.cycleAmount -
           this.borrowAmount -
-          (this.borrowAmount * 0.01 * this.cycle) / 3
+          (this.borrowAmount * 0.007 * this.cycle) / 3
       );
       if (l < 0) l = 0;
       return l;
