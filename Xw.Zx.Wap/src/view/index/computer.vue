@@ -53,8 +53,7 @@
     </div>
     <div class="footer">
       <img :src="require('@/assets/images/log.png')" alt="">
-      <span>Copy Right 2020 成都再减减企业管理服务有限公司</span>
-      
+      <span>Copy Right 2020 成都再减减企业管理服务有限公司</span>      
     </div>
     <!-- <div class="contact" v-show="!option.btnShow">
       <div class="contact-linkman" v-show="member.linkMan">获取精准减免金额, 立刻咨询专属客服</div>

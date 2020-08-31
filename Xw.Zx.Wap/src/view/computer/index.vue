@@ -36,8 +36,8 @@
               如果只还法律支持的利息，你
               <span>可以少还多少？</span>
             </p>
-            <p>请进入网贷利息减免计算器</p>
-            <p>
+            <p @click="goComputer">请进入网贷利息减免计算器</p>
+            <p @click="goComputer">
               算一下你的利息可以
               <span>节省多少钱？</span>
             </p>
@@ -64,6 +64,10 @@
           </div>
         </div>
       </div>
+
+      <div class="cesuan" @click="goComputer">
+        <img class="cesuan-btn" :src="require('../../assets/images/computer/cesuan.png')" alt="">
+      </div>
     </div>
   </div>
   <!-- <div class="wrapper"> -->
@@ -87,7 +91,11 @@ export default {
 
   mounted() {},
 
-  methods: {},
+  methods: {
+    goComputer(){
+      this.$router.push({ path: `/sqb/computer/computer` })
+    }
+  },
 
   watch: {},
 };
@@ -214,6 +222,12 @@ export default {
                 }
             }
         }
+      }
+    }
+    .cesuan{
+      margin: 20px 20px 0px 20px;
+      &-btn{
+        width: 100%;
       }
     }
   }
