@@ -16,7 +16,7 @@ const routes = [
     {
         path: '/sqb/computer1',
         component: () =>
-            import(/* webpackChunkName: "sqb" */ './view/computer/index'),
+            import(/* webpackChunkName: "sqb" */ './view/computer/computer'),
         meta: {
             title: '计算器', keepAlive: false
         }
