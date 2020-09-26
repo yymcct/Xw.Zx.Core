@@ -28,7 +28,7 @@
       <div class="linkman-content">
         <div class="item">
           <div class="ercode">
-            <img src="/static/kf11.png" alt="/static/kf11.png" />
+            <img :src="require('../../assets/images/kf11.jpg')" alt="/static/kf11.png" />
             <p>扫码添加微信</p>
           </div>
           <div class="link">

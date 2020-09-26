@@ -8,6 +8,14 @@ const routes = [
     {
         path: '/sqb/computer',
         component: () =>
+            import(/* webpackChunkName: "sqb" */ './view/index/computer'),
+        meta: {
+            title: '计算器', keepAlive: false
+        }
+    },
+    {
+        path: '/sqb/computer2',
+        component: () =>
             import(/* webpackChunkName: "sqb" */ './view/computer/index'),
         meta: {
             title: '计算器', keepAlive: false

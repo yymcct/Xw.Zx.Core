@@ -22,12 +22,10 @@
             <p class="block-content-2-head">你是否有过以下顾虑?</p>
             <p>
               你
-              <span>是否借过</span>网贷或者小贷?
-            </p>
-            <p>
-              如果有，那你的
+              <span>是否借过</span>网贷或者小贷? 如果有，那你的
               <span>福音</span>来了！
             </p>
+
             <p>
               如果按照司法保护上限，你
               <span>应该还多少？</span>
@@ -44,29 +42,42 @@
           </div>
         </div>
       </div>
+      <div class="cesuan" @click="goComputer">
+        <img class="cesuan-btn" :src="require('../../assets/images/computer/cesuan.png')" alt />
+        <img class="cesuan-dj" :src="require('../../assets/images/computer/dj.gif')" alt />
+      </div>
       <div class="block">
         <div class="block-head"></div>
         <div class="block-content">
           <div class="block-content-3">
-            <p>8月20日，<span>最高人民法院</span>召开新闻发布会，正式发布新修订的《<span>最高人民法院关于审理民间借贷案件适用法律若干问题的规定</span>》</p>
-            <p>将<span>第二十六条修改</span>为:</p>
-            <p style="text-indent: 2em;padding-top:0px">“出借人请求借款人按照合同约定利率支付利息的，人民法院应予支持，但是双方约定的利率超过合同成立时一年期贷款市场报价利率四倍的除外。</p>
+            <p>
+              8月20日，
+              <span>最高人民法院</span>召开新闻发布会，正式发布新修订的《
+              <span>最高人民法院关于审理民间借贷案件适用法律若干问题的规定</span>》
+            </p>
+            <p>
+              将
+              <span>第二十六条修改</span>为:
+            </p>
+            <p
+              style="text-indent: 2em;padding-top:0px"
+            >“出借人请求借款人按照合同约定利率支付利息的，人民法院应予支持，但是双方约定的利率超过合同成立时一年期贷款市场报价利率四倍的除外。</p>
             <div class="block-content-3-b">
-                <p >前款所称‘一年期贷款市场报价利率’，是指中国人民银行授权全国银行间同业拆借中心自2019年8月20日起每月发布的一年期贷款市场报价利率。”</p>
+              <p>前款所称‘一年期贷款市场报价利率’，是指中国人民银行授权全国银行间同业拆借中心自2019年8月20日起每月发布的一年期贷款市场报价利率。”</p>
             </div>
             <div class="block-content-3-f">
-                <p></p>
-    
+              <p></p>
             </div>
             <div class="block-content-3-b2">
-                <p>4倍LPR=15.4%</p>
+              <p>4倍LPR=15.4%</p>
             </div>
           </div>
         </div>
       </div>
 
       <div class="cesuan" @click="goComputer">
-        <img class="cesuan-btn" :src="require('../../assets/images/computer/cesuan.png')" alt="">
+        <img class="cesuan-btn" :src="require('../../assets/images/computer/cesuan.png')" alt />
+        <img class="cesuan-dj" :src="require('../../assets/images/computer/dj.gif')" alt />
       </div>
     </div>
   </div>
@@ -92,9 +103,9 @@ export default {
   mounted() {},
 
   methods: {
-    goComputer(){
-      this.$router.push({ path: `/sqb/computer/computer` })
-    }
+    goComputer() {
+      this.$router.push({ path: `/sqb/computer/computer` });
+    },
   },
 
   watch: {},
@@ -113,7 +124,7 @@ export default {
     min-height: 100vh;
     background-size: 100%;
     background-repeat: no-repeat;
-    padding-top: 140px;
+    padding-top: 120px;
     padding-bottom: 20px;
     .block {
       &-head {
@@ -175,59 +186,65 @@ export default {
           }
         }
         &-3 {
-
           font-size: 13px;
           span {
             color: red;
           }
           p {
-            background-color: #fff; 
+            background-color: #fff;
             padding: 5px 5px;
             line-height: 22px;
           }
-            &-b{
-                background-color: #fff; 
-                padding: 5px;
-                padding-bottom: 0px;
-                box-sizing: border-box;
-                
-                p{
-                        border:2px solid red;
-                }
+          &-b {
+            background-color: #fff;
+            padding: 5px;
+            padding-bottom: 0px;
+            box-sizing: border-box;
+
+            p {
+              border: 2px solid red;
             }
-            &-f{
-                display: flex;
-                background-color: #fff; 
-                width: 100%;
-                box-sizing: border-box;
-                p{
-                    width:156px ;
-                    height: 10px;
-                    border-right: 2px solid red;
-                }
+          }
+          &-f {
+            display: flex;
+            background-color: #fff;
+            width: 100%;
+            box-sizing: border-box;
+            p {
+              width: 156px;
+              height: 10px;
+              border-right: 2px solid red;
             }
-             &-b2{
-                background-color: #fff; 
-                padding: 5px;
-                 padding-top: 0px;
-                 padding-bottom: 20px;
-                box-sizing: border-box;
-               
-                p{
-                    margin: 0px 100px;
-                    font-weight: bold;
-                    text-align: center;
-                    color: red;
-                        border:2px solid red;
-                }
+          }
+          &-b2 {
+            background-color: #fff;
+            padding: 5px;
+            padding-top: 0px;
+            padding-bottom: 20px;
+            box-sizing: border-box;
+
+            p {
+              margin: 0px 100px;
+              font-weight: bold;
+              text-align: center;
+              color: red;
+              border: 2px solid red;
             }
+          }
         }
       }
     }
-    .cesuan{
-      margin: 20px 20px 0px 20px;
-      &-btn{
+    .cesuan {
+      margin: 20px 20px 30px 20px;
+      position: relative;
+      &-btn {
         width: 100%;
+      }
+      &-dj {
+        position: absolute;
+        width: 100px;
+        top: 20px;
+        right: 0px;
       }
     }
   }

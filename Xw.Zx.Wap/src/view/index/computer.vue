@@ -125,13 +125,13 @@ export default {
   },
   computed: {
     yflx: function() {
-      return parseInt(this.borrowAmount * 0.007 * this.cycle);
+      return parseInt(this.borrowAmount * 0.008 * this.cycle);
     },
     jmlx_min: function() {
       let l = parseInt(
         this.cycle * this.cycleAmount -
           this.borrowAmount -
-          this.borrowAmount * 0.007 * this.cycle
+          this.borrowAmount * 0.008 * this.cycle
       );
       if (l < 0) l = 0;
       return l;
@@ -140,7 +140,7 @@ export default {
       let l = parseInt(
         this.cycle * this.cycleAmount -
           this.borrowAmount -
-          (this.borrowAmount * 0.007 * this.cycle) / 3
+          (this.borrowAmount * 0.008 * this.cycle) / 3
       );
       if (l < 0) l = 0;
       return l;
