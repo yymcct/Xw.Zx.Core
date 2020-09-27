@@ -162,34 +162,32 @@ export default {
       curPlayUrl: "/static/1.mp3",
       music: [
         {
-          name: "第一讲: 催收的四大套路",
+          name: "第一课 民间借贷法律法规",
           url: "/static/1.mp3"
-          //"http://139.155.8.217:8081/mp3/1%E5%82%AC%E6%94%B6%E7%9A%84%E5%9B%9B%E5%A4%A7%E5%A5%97%E8%B7%AF.mp3"
         },
         {
-          name: "第二讲: 如何应对电话骚扰",
+          name: "第二课 催收的四大套路",
           url: "/static/2.mp3"
-          //"http://139.155.8.217:8081/mp3/2%E5%A6%82%E4%BD%95%E5%BA%94%E5%AF%B9%E7%94%B5%E8%AF%9D%E9%AA%9A%E6%89%B0.mp3"
         },
         {
-          name: "第三讲: 如何应对上门催收",
+          name: "第三课 如何因对电话骚扰",
           url: "/static/3.mp3"
-          // "http://139.155.8.217:8081/mp3/3%E5%A6%82%E4%BD%95%E5%BA%94%E5%AF%B9%E4%B8%8A%E9%97%A8%E5%82%AC%E6%94%B6.mp3"
         },
         {
-          name: "第四讲: 如何应对高额违约金",
+          name: "第四课 如何应对上门催收",
           url: "/static/4.mp3"
-          // "http://139.155.8.217:8081/mp3/4%E5%A6%82%E4%BD%95%E5%BA%94%E5%AF%B9%E9%AB%98%E9%A2%9D%E8%BF%9D%E7%BA%A6%E9%87%91.mp3"
         },
         {
-          name: "第五讲: 如何应对诉讼",
+          name: "第五课 如何应对高额违约金",
           url: "/static/5.mp3"
-          // "http://139.155.8.217:8081/mp3/5%E5%A6%82%E4%BD%95%E5%BA%94%E5%AF%B9%E8%AF%89%E8%AE%BC.mp3"
         },
         {
-          name: "第六讲: 征信和失信",
+          name: "第六课 征信和失信的区别",
           url: "/static/6.mp3"
-          //"http://139.155.8.217:8081/mp3/6%E5%BE%81%E4%BF%A1%E5%92%8C%E5%A4%B1%E4%BF%A1.mp3"
+        },
+        {
+          name: "第七课 是否构成刑事责任",
+          url: "/static/7.mp3"
         }
       ],
       kefus: [
