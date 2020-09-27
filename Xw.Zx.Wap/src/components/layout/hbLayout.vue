@@ -3,50 +3,32 @@
     <div>
       <slot></slot>
     </div>
-    <van-tabbar v-model="activeNum" active-color="#07c160" route>
-      <van-tabbar-item :to="`/meeting/expo/${meetingId}/company`">
-        <span>展商</span>
+    <van-tabbar v-model="activeNum" active-color="#ff5000" route>
+      <van-tabbar-item :to="`/sqb/home`">
+        <span>首页</span>
         <img
           class="tabbar-img"
           slot="icon"
           slot-scope="props"
-          :src="!props.active ? require('@/assets/images/expo/home.png') : require('@/assets/images/expo/home2.png')"
+          :src="
+            !props.active
+              ? require('@/assets/images/home.png')
+              : require('@/assets/images/home2.png')
+          "
         />
       </van-tabbar-item>
-      <van-tabbar-item :to="`/meeting/expo/${meetingId}/product`">
-        <span>展品</span>
-        <img
-          class="tabbar-img"
-          slot="icon"
-          slot-scope="props"
-          :src="!props.active ? require('@/assets/images/expo/zhanpin.png') : require('@/assets/images/expo/zhanpin2.png')"
-        />
-      </van-tabbar-item>
-      <van-tabbar-item :to="`/meeting/expo/${meetingId}/shortmsg`">
-        <span>动态</span>
-        <img
-          class="tabbar-img"
-          slot="icon"
-          slot-scope="props"
-          :src="!props.active ? require('@/assets/images/expo/dongtai.png') : require('@/assets/images/expo/dongtai1.png')"
-        />
-      </van-tabbar-item>
-      <van-tabbar-item :to="`/meeting/expo/${meetingId}/live`">
-        <span>直播</span>
-        <img
-          class="tabbar-img"
-          slot="icon"
-          slot-scope="props"
-          :src="!props.active ? require('@/assets/images/expo/zhibo.png') : require('@/assets/images/expo/zhibo2.png')"
-        />
-      </van-tabbar-item>
-      <van-tabbar-item :to="`/meeting/expo/${meetingId}/user`">
+
+      <van-tabbar-item :to="`/sqb/user`">
         <span>我的</span>
         <img
           class="tabbar-img"
           slot="icon"
           slot-scope="props"
-          :src="!props.active ? require('@/assets/images/expo/my.png') : require('@/assets/images/expo/my2.png')"
+          :src="
+            !props.active
+              ? require('@/assets/images/user.png')
+              : require('@/assets/images/user2.png')
+          "
         />
       </van-tabbar-item>
     </van-tabbar>
@@ -60,19 +42,19 @@ export default {
   name: "cnLayout",
   components: {
     [Tabbar.name]: Tabbar,
-    [TabbarItem.name]: TabbarItem
+    [TabbarItem.name]: TabbarItem,
   },
   computed: {
     ...mapGetters("meeting", {
-      meetingId: "meetingId"
-    })
+      meetingId: "meetingId",
+    }),
   },
   props: {
-    active: null
+    active: null,
   },
   data() {
     return {
-      activeNum: "0"
+      activeNum: "0",
     };
   },
   activated() {
@@ -87,8 +69,8 @@ export default {
       if (!window.location.href.endsWith(url)) {
         this.$router.push(url);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

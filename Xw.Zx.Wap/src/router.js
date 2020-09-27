@@ -46,8 +46,24 @@ const routes = [
         }
     },
     {
+        path: '/sqb/home',
+        component: () =>
+            import(/* webpackChunkName: "sqb" */ './view/app/home/index'),
+        meta: {
+            title: '首页', keepAlive: true
+        }
+    },
+    {
+        path: '/sqb/user',
+        component: () =>
+            import(/* webpackChunkName: "sqb" */ './view/app/user/index'),
+        meta: {
+            title: '我的', keepAlive: true
+        }
+    },
+    {
         path: '*',
-        redirect: '/sqb/computer'
+        redirect: '/home'
     },
 
 ];
@@ -65,7 +81,7 @@ const router = new Router({
             return savedPosition
         } else {
             if (from.meta.keepAlive) {
- 
+
                 let p = document.documentElement.scrollTop + document.body.scrollTop;
                 if (p != 0)
                     from.meta.savedPosition = p;
