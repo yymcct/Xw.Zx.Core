@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Sieve.Models;
@@ -30,7 +31,7 @@ using Xw.Zx.Core.Utility;
 namespace Xw.Zx.Core
 {
     public class Startup
-    {   
+    {
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -57,8 +58,8 @@ namespace Xw.Zx.Core
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(options => { options.SerializerSettings.DateFormatString = "yyyy-MM-dd"; });
-            
-          
+
+
 
             #region 跨域
             services.AddCors(options =>
@@ -163,6 +164,13 @@ namespace Xw.Zx.Core
             app.UseDefaultFiles();
 
             app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                     Path.Combine(Directory.GetCurrentDirectory(), "UpLoad")),
+                RequestPath = "/UpLoad",
+                ServeUnknownFileTypes = true
+            });
             var provider = new FileExtensionContentTypeProvider();
             //新增一些新的映射
             provider.Mappings[".apk"] = "application/vnd.android.package-archive";
@@ -194,10 +202,10 @@ namespace Xw.Zx.Core
         }
 
 
-        public  void AddAssembly( IServiceCollection service, string assemblyName
+        public void AddAssembly(IServiceCollection service, string assemblyName
             , ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
         {
-            var assembly =  AssemblyLoadContext.Default.LoadFromAssemblyPath(AppContext.BaseDirectory + $"{assemblyName}.dll");
+            var assembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(AppContext.BaseDirectory + $"{assemblyName}.dll");
 
             var types = assembly.GetTypes();
             var list = types.Where(u => u.IsClass && !u.IsAbstract && !u.IsGenericType && u.Namespace == "Xw.Zx.Core.Service").ToList();

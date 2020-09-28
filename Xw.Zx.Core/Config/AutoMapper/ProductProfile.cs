@@ -12,7 +12,9 @@ namespace Xw.Zx.Core.Config.AutoMapper
     {
         public ProductProfile()
         {
-            CreateMap<Product, ProductListDto>().ReverseMap();          
+            CreateMap<Product, ProductListDto>().ReverseMap();
+            CreateMap<Product, ProductDto>().ReverseMap();
+            
         }
     }
 }

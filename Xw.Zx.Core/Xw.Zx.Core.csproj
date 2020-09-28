@@ -82,6 +82,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\" />
+    <Folder Include="UpLoad\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>

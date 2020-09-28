@@ -772,6 +772,11 @@
             销量
             </summary>
         </member>
+        <member name="P:Xw.Zx.Core.Models.Dto.ProductDto.SalesVolume">
+            <summary>
+            销量
+            </summary>
+        </member>
         <member name="P:Xw.Zx.Core.Models.Dto.UpdaeVipAuthCodeDto.SourceOwinId">
             <summary>
             赠送人ID

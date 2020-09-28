@@ -30,6 +30,7 @@ namespace Xw.Zx.Core.Controllers
             _logger = logger;
 
         }
+
         [HttpGet]
         public HbzsResult<List<ProductListDto>> Gets([FromQuery] SieveModel sieveModel)
         {
@@ -53,6 +54,23 @@ namespace Xw.Zx.Core.Controllers
             {
                 _logger.LogError(ex.Message);
                 return new HbzsResult<List<ProductListDto>>(HbzsResultCode.Invalid_Error, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        public HbzsResult<ProductDto> Get([FromQuery] int id)
+        {
+            try
+            {
+                var product = _mapper.Map<ProductDto>(_context.Products.First(p => p.Id == id && p.Check == true));
+
+
+                return new HbzsResult<ProductDto>(product);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new HbzsResult<ProductDto>(HbzsResultCode.Invalid_Error, ex.Message);
             }
         }
 
