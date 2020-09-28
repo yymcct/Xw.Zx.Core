@@ -90,16 +90,6 @@
             参数校验错误
             </summary>
         </member>
-        <member name="P:Xw.Zx.Core.Controllers.HbzsResult.StatusCode">
-            <summary>
-            状态码
-            </summary>
-        </member>
-        <member name="P:Xw.Zx.Core.Controllers.HbzsResult.Msg">
-            <summary>
-            消息
-            </summary>
-        </member>
         <member name="P:Xw.Zx.Core.Controllers.HbzsResult`1.StatusCode">
             <summary>
             状态码
@@ -309,42 +299,9 @@
             <param name="dto"></param>
             <returns></returns>
         </member>
-        <member name="M:Xw.Zx.Core.Helper.CommonHelper.GetWebAdress">
-            <summary>
-            所上传的图片加域名
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Xw.Zx.Core.Helper.CommonHelper.GetShareImg">
-            <summary>
-            新闻 公司 产品分享默认图片
-            </summary>
-            <returns></returns>
-        </member>
         <member name="M:Xw.Zx.Core.Helper.CommonHelper.GetShareDescLength">
             <summary>
             新闻 公司 产品分享字数
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Xw.Zx.Core.Helper.CommonHelper.GetAppId">
-            <summary>
-            腾讯云账号的appid
-            测试 8月29过期
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Xw.Zx.Core.Helper.CommonHelper.GetApiSecretId">
-            <summary>
-            腾讯云apiId 用来生成上传短视频的密钥
-            测试 8月29过期
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Xw.Zx.Core.Helper.CommonHelper.GetApiSecretKey">
-            <summary>
-            腾讯云apiKey 用来生成上传短视频的密钥
-            测试 8月29过期
             </summary>
             <returns></returns>
         </member>
@@ -810,6 +767,11 @@
             收益时间
             </summary>
         </member>
+        <member name="P:Xw.Zx.Core.Models.Dto.ProductListDto.SalesVolume">
+            <summary>
+            销量
+            </summary>
+        </member>
         <member name="P:Xw.Zx.Core.Models.Dto.UpdaeVipAuthCodeDto.SourceOwinId">
             <summary>
             赠送人ID
@@ -933,6 +895,11 @@
         <member name="T:Xw.Zx.Core.Models.Model.Payment">
             <summary>
             付款表
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.Product.SalesVolume">
+            <summary>
+            销量
             </summary>
         </member>
         <member name="T:Xw.Zx.Core.Models.Model.Receivable">

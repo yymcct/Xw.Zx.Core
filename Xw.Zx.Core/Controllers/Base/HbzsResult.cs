@@ -19,30 +19,22 @@ namespace Xw.Zx.Core.Controllers
         Invalid_Error = 10001,
     }
 
-    public class HbzsResult
+    public class HbzsResult<T>
     {
-        public HbzsResult(HbzsResultCode statusCode, string errMsg="")
-        {
-            StatusCode = statusCode;
-            Msg = errMsg;
-        }
-
         /// <summary>
         /// 状态码
         /// </summary>
-        public HbzsResultCode StatusCode { get; set; } = HbzsResultCode.Sucess;
+        public HbzsResultCode StatusCode { get; set; }
 
         /// <summary>
         /// 消息
         /// </summary>
         public string Msg { get; set; } = "";
 
-        public string Result { get; set; } = "";
+        public T Result { get; set; }
 
-    }
+        public int Total { get; set; }
 
-    public class HbzsResult<T>
-    {
         public HbzsResult()
         {
             StatusCode = HbzsResultCode.Sucess;
@@ -55,23 +47,38 @@ namespace Xw.Zx.Core.Controllers
             Result = result;
         }
 
+        public HbzsResult(T result, int total)
+        {
+            StatusCode = HbzsResultCode.Sucess;
+            Result = result;
+            Total = total;
+        }
+
+        public HbzsResult(HbzsResultCode statusCode)
+        {
+            StatusCode = statusCode;
+        }
+
         public HbzsResult(HbzsResultCode statusCode, string errMsg)
         {
             StatusCode = statusCode;
             Msg = errMsg;
         }
+    }
 
+    public class HbzsResult : HbzsResult<string>
+    {
+       
 
-        /// <summary>
-        /// 状态码
-        /// </summary>
-        public HbzsResultCode StatusCode { get; set; }
+        public HbzsResult(string result) : base(result)
+        { }
 
-        /// <summary>
-        /// 消息
-        /// </summary>
-        public string Msg { get; set; } = "";
+        public HbzsResult(HbzsResultCode statusCode) : base(statusCode)
+        { }
 
-        public T Result { get; set; }
+        public HbzsResult(HbzsResultCode statusCode, string errMsg) : base(statusCode, errMsg)
+        {
+
+        }
     }
 }

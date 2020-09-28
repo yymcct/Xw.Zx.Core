@@ -15,7 +15,7 @@ namespace Xw.Zx.Core.Service
         public int Member { set { _memberId = value; } }
         private readonly ILogger<GuangDaParseService> _logger;
         public GuangDaParseService(ILogger<GuangDaParseService> logger
-            , XwZxContext xwZxContext):base(xwZxContext, BankCardType.光大银行)//TODO
+            , XwZxContext xwZxContext) : base(xwZxContext, BankCardType.光大银行)//TODO
         {
             _logger = logger;
         }
@@ -30,11 +30,11 @@ namespace Xw.Zx.Core.Service
                     var mail = mails[i];
                     var details = ToBillDetail(mail);
                     if (details != null && details.Count > 0)
-                    {                        
+                    {
                         SaveBankBillDetail(details);
                     }
                     UpdateMailIsPrased(mail);
-                    
+
                 }
                 catch (Exception ex)
                 {
@@ -87,7 +87,7 @@ namespace Xw.Zx.Core.Service
                         Amount = decimal.Parse(m.Groups[2].Value)
                     };
                     details.Add(detail);
-                }              
+                }
                 return details;
             }
             catch (Exception ex)

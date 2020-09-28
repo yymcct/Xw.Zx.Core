@@ -62,7 +62,6 @@ namespace Xw.Zx.Core.Controllers
                     InviteId = InviteUser.Id,
                     Email = "",
                     QueryTimes = 0,
-                    Photo = CommonHelper.GetMemberPhoto()
                 };
 
                 var member = _context.Members.Add(model);

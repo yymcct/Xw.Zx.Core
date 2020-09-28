@@ -39,7 +39,7 @@ namespace Xw.Zx.Core.Helper
                 }
                 else
                 {
-                    sUrlList[i++] = CommonHelper.GetDomian(CategoryIteamID) + match.Groups["imgUrl"].Value;
+                    sUrlList[i++] =  match.Groups["imgUrl"].Value;
                 }
 
             }
@@ -113,7 +113,7 @@ namespace Xw.Zx.Core.Helper
         public static string ReplaceWebSiteImg(int CategoryIteamID, string htmlText)
         {
             htmlText = ReplacACss(htmlText.ToLower());
-            return htmlText.Replace("src=\"/", "src=\"" + CommonHelper.GetDomian((int)CategoryIteamID) + "/");
+            return htmlText.Replace("src=\"/", "src=\"" +  "/");
         }
         #endregion
         #region 替换新闻中a标签的样式
