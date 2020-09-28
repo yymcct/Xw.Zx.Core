@@ -1,16 +1,16 @@
 <template>
-  <div class="product">
-    <img class="product-image" :src="product.images" alt="" />
-    <!-- <van-image width="172.5" height="172.5"  /> -->
-    <h2 class="product-name">{{ product.name }}</h2>
-    <p class="product-sales">销量{{ product.salesVolume }}</p>
-    <div class="product-foot">
-      <div class="product-foot-price">
-        <p>￥{{ product.price }}</p>
+  <div>
+    <router-link class="product" :to="`/sqb/product/${product.id}`">
+      <img class="product-image" :src="product.images" alt="" />
+      <h2 class="product-name">{{ product.name }}</h2>
+      <p class="product-sales">销量{{ product.salesVolume }}</p>
+      <div class="product-foot">
+        <div class="product-foot-price">
+          <p>￥{{ product.price }}</p>
+        </div>
+        <van-icon name="add-o" size="20" />       
       </div>
-
-      <van-icon name="add-o" size="20" />
-    </div>
+    </router-link>
   </div>
 </template>
 

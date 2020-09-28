@@ -52,6 +52,14 @@ const routes = [
         meta: {
             title: '首页', keepAlive: true
         }
+    }, 
+    {
+        path: '/sqb/product/:id',
+        component: () =>
+            import(/* webpackChunkName: "sqb" */ './view/app/product/index'),
+        meta: {
+            title: '产品', keepAlive: false
+        }
     },
     {
         path: '/sqb/user',

@@ -12,7 +12,7 @@
           <img :src="require('@/assets/images/home/fire.png')" alt="" />
           <h2>推荐服务</h2>
         </div>
-        <div class="product-content">
+        <div class="product-content">          
           <product
             class="product-content-product"
             v-for="(item, index) in products"
