@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import { api_PostComputerUser } from "@/api/sqbApi";
+import api from "@/api/sqbApi";
 export default {
   name: "",
   props: [""],
@@ -148,7 +148,7 @@ export default {
         return;
       }
 
-      api_PostComputerUser({
+      api.computer.postComputerUser({
         name: this.name,
         phone: this.phone,
         borrowCompany: this.borrowCompany,

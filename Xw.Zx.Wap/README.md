@@ -114,5 +114,21 @@ this.$store.getters['meeting/meetingId']
 const isWeixin = () =>
       /micromessenger/.test(navigator.userAgent.toLowerCase());
 
+字体
+标准 16px
+小号 14px
+小小号 13px
+
+标题
+#333333
+描述
+#999999;
+
 #8a8a8a
 #ff5000
+
+```
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+```

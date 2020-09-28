@@ -1,0 +1,1226 @@
+<!DOCTYPE html><html style="font-size: 102.08px;"><head>
+    <style type="text/css">.amap-logo{display:block!important;pointer-events:none;}</style><style type="text/css" class="AMap.style">.vml{behavior:url(#default#VML);display:inline-block;position:absolute}.amap-custom{top:0;left:0;position:absolute}.amap-container img{max-width:none!important;max-height:none!important}.amap-container{touch-action:none;position:relative;overflow:hidden;background:#fcf9f2 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfQAAAH0AgMAAAC2uDcZAAAADFBMVEX////////////////1pQ5zAAAABHRSTlMAgP/AWuZC2AAAAVhJREFUeAFiYGAQYGDEQjAB2rcDC4BiGIqiU7abdKlO2QkeIClyPsDHweMKtOPHIJ1Op6/w7Y4fdqfT6VpndzqdrnV2p9PpWmd3Oj3qWndSoKp+2J1Op7vr7E6n07XO7nQ6XevsTqfTtc7udPo4/f787E6n0911dqfT6VpndzqdrnV2p9PpWmd3Ot27Ce8m6HS6u85dR6fTtU7r6HS61mkdnU7XOrvT6XTvJuxOp9PddXan0+laZ3c6na51dDpd67SOTqd7N+HdBJ1Od9e56+h0utZpHZ1O1zq70+l0rbM7nU73bsLudDrdXWd3Ol3rtI5Op2ud1tHpdK3TOjqd7t2EdxN0Ot1dZ3c6na51dqfT6VpndzqdrnV2p9Pp3k3Q6XR3nbuOTqdrndbR6XSt0zo6na51Wken072bsDudTnfX2Z1Op2ud3el0utbZnU7XOq2j0+t0uncTD1gO4zoT5doZAAAAAElFTkSuQmCC);-ms-touch-action:none}.amap-drags,.amap-layers{width:100%;height:100%;position:absolute;overflow:hidden}.amap-layers canvas{-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.amap-layer img{pointer-events:none}.amap-e,.amap-maps{width:100%;height:100%}.amap-maps,.amap-e,.amap-layers,.amap-tile,.amap-tile-container{position:absolute;left:0;top:0;overflow:hidden}.amap-context{position:absolute;left:0;top:0}.amap-overlays,.amap-markers,.amap-marker{position:absolute;left:0;top:0}.amap-layers{z-index:0}.amap-overlays{z-index:110;cursor:default}.amap-markers{z-index:120}.amap-controls{z-index:150}.amap-copyright{position:absolute;display:block!important;left:77px;height:16px;bottom:0;padding-bottom:3px;font-size:11px;font-family:Arial,sans-serif;z-index:160}.amap-logo{position:absolute;bottom:1px;left:1px;z-index:160;height:20px}.amap-logo img{width:73px!important;height:20px!important;border:0;vertical-align:baseline!important}.amap-icon{position:relative;z-index:1}.amap-icon img{position:absolute;z-index:-1}.amap-marker-label{position:absolute;z-index:2;border:1px solid blue;background-color:white;white-space:nowrap;cursor:default;padding:3px;font-size:12px;line-height:14px}.amap-info{position:absolute;left:0;z-index:140;width:320px}.amap-menu{position:absolute;z-index:140;_width:100px}.amap-info-close{position:absolute;right:5px;_right:12px;+right:11px;top:5px;_top:2px;+top:2px;color:#c3c3c3;text-decoration:none;font:bold 16px/14px Tahoma,Verdana,sans-serif;width:14px;height:14px}.amap-info-outer,.amap-menu-outer{box-shadow:0 1px 2px rgba(0,0,0,0.1);background:none repeat scroll 0 0 white;border-radius:2px;padding:1px;text-align:left}.amap-menu-outer:hover{box-shadow:0 1px 2px rgba(0,0,0,0.3)}.amap-info-contentContainer:hover .amap-info-outer{box-shadow:0 1px 2px rgba(0,0,0,0.3)}.amap-info-content{position:relative;background:#fff;padding:10px 18px 10px 10px;line-height:1.4;overflow:auto}.amap-marker-content{position:relative}.amap-info{_width:320px}.amap-menu{_width:100px}.amap-info-sharp-old{overflow:hidden;position:absolute;background-image:url(http://webapi.amap.com/images/arrows.png)}.bottom-center .amap-info-sharp-old{height:12px;margin:0 auto;width:20px;background-position:center 12px;top:100%;margin-top:-9px;left:50%;margin-left:-10px}.bottom-left .amap-info-sharp-old{height:12px;width:13px;background-position:-16px -46px;top:100%;margin-top:-9px}.bottom-right .amap-info-sharp-old{height:12px;width:13px;top:-1px;background-position:-56px -46px;left:100%;margin-left:-13px;top:100%;margin-top:-9px}.middle-left .amap-info-sharp-old{height:20px;width:12px;background-position:left;top:50%;margin-top:-10px;margin-left:-11px}.center .amap-info-sharp-old{display:none}.middle-right .amap-info-sharp-old{height:20px;margin-right:0;width:12px;background-position:right;left:100%;margin-left:-9px;top:50%;margin-top:-10px}.top-center .amap-info-sharp-old{height:12px;margin:0 auto;width:20px;background-position:top;top:0;margin-top:-3px;left:50%;margin-left:-10px}.top-left .amap-info-sharp-old{height:12px;width:13px;background-position:-16px -3px;top:0;margin-top:-3px}.top-right .amap-info-sharp-old{height:12px;width:13px;background-position:-56px -3px;left:100%;margin-left:-13px;top:0;margin-top:-3px}.amap-info-sharp{position:absolute}.bottom-center .amap-info-sharp{bottom:0;left:50%;margin-left:-8px;border-left:8px solid transparent;border-right:8px solid transparent;border-top:8px solid #fff}.bottom-center .amap-info-sharp:after{position:absolute;content:"";margin-left:-8px;margin-top:-7px;border-left:8px solid transparent;border-right:8px solid transparent;border-top:8px solid rgba(0,0,0,0.3);filter:blur(2px);z-index:-1}.amap-info-contentContainer:hover.bottom-center .amap-info-sharp:after{border-top:8px solid rgba(0,0,0,0.5)}.bottom-left .amap-info-sharp{border-color:transparent #fff;border-width:0 0 10px 10px;border-style:solid}.bottom-left .amap-info-sharp:after{position:absolute;content:"";margin-left:-10px;border-color:transparent rgba(0,0,0,0.3);border-width:0 0 10px 10px;border-style:solid;filter:blur(1px);z-index:-1}.amap-info-contentContainer:hover.bottom-left .amap-info-sharp:after{border-color:transparent rgba(0,0,0,0.5)}.bottom-left .amap-info-content{border-radius:2px 2px 2px 0}.bottom-right .amap-info-sharp{right:0;border-top:10px solid #fff;border-left:10px solid transparent}.bottom-right .amap-info-sharp:after{position:absolute;margin-top:-9px;margin-left:-10px;content:"";border-top:10px solid rgba(0,0,0,0.3);border-left:10px solid transparent;filter:blur(1px);z-index:-1}.amap-info-contentContainer:hover.bottom-right .amap-info-sharp:after{border-top:10px solid rgba(0,0,0,0.5)}.bottom-right .amap-info-content{border-radius:2px 2px 0 2px}.top-center .amap-info-sharp{top:0;left:50%;margin-left:-8px;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:8px solid #fff}.top-center .amap-info-sharp:after{position:absolute;content:"";margin-top:0;margin-left:-8px;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:8px solid rgba(0,0,0,0.3);filter:blur(1px);z-index:-1}.top-left .amap-info-sharp{left:0;top:0;border-bottom:10px solid #fff;border-right:10px solid transparent}.top-left .amap-info-sharp:after{position:absolute;content:"";margin-top:0;margin-left:0;border-bottom:10px solid rgba(0,0,0,0.3);border-right:10px solid transparent;filter:blur(1px);z-index:-1}.top-right .amap-info-sharp{right:0;top:0;border-bottom:10px solid #fff;border-left:10px solid transparent}.top-right .amap-info-sharp:after{position:absolute;content:"";margin-top:0;margin-left:-10px;border-bottom:10px solid rgba(0,0,0,0.3);border-left:10px solid transparent;filter:blur(1px);z-index:-1}.middle-right .amap-info-sharp{right:0;top:50%;margin-top:-8px;border-top:8px solid transparent;border-left:8px solid #fff;border-bottom:8px solid transparent}.middle-right .amap-info-sharp:after{position:absolute;content:"";margin-top:-8px;margin-left:-8px;border-top:8px solid transparent;border-left:8px solid rgba(0,0,0,0.3);border-bottom:8px solid transparent;filter:blur(1px);z-index:-1}.amap-info-contentContainer:hover.middle-right .amap-info-sharp:after{border-left:8px solid rgba(0,0,0,0.5)}.middle-left .amap-info-sharp{left:0;top:50%;margin-top:-8px;border-top:8px solid transparent;border-right:8px solid #fff;border-bottom:8px solid transparent}.middle-left .amap-info-sharp:after{position:absolute;content:"";margin-top:-8px;margin-left:0;border-top:8px solid transparent;border-right:8px solid rgba(0,0,0,0.3);border-bottom:8px solid transparent;filter:blur(1px);z-index:-1}.amap-info-contentContainer:hover.middle-left .amap-info-sharp:after{border-right:8px solid rgba(0,0,0,0.5)}.amap-info-contentContainer.top-left,.amap-info-contentContainer.top-center,.amap-info-contentContainer.top-right{padding-top:8px}.amap-info-contentContainer.bottom-left,.amap-info-contentContainer.bottom-center,.amap-info-contentContainer.bottom-right{padding-bottom:8px}.amap-info-contentContainer.middle-right{padding-right:8px}.amap-info-contentContainer.middle-left{padding-left:8px}.amap-menu-outer{margin:0;padding:0;list-style-type:none}ul.amap-menu-outer li{cursor:pointer;height:35px;line-height:35px;word-break:break-all;padding:0 10px;font-size:12px;white-space:nowrap}ul.amap-menu-outer li a{text-decoration:none;font-size:13px;margin:0 5px;color:#000;padding:5px 5px}ul.amap-menu-outer li:hover{background-color:#f3f3ee}.amap-overlay-text-container{display:block;width:auto;word-break:keep-all;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#fff;padding:2px 3px;border:1px solid #ccc;border-radius:3px}.amap-overlay-text-container.amap-overlay-text-empty{display:none}.amap-info-content-ie8{border:1px solid #9c9c9c}</style><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
+    <script> document.documentElement.style.fontSize =document.documentElement.clientWidth/750*40 +"px";</script>
+    <meta name="format-detection" content="telephone=no">
+    <title>WECHAT_EMPTY_TITLE</title>
+
+    <link rel="stylesheet" type="text/css" href="http://zjj.xtsuo.cn/addons/ewei_shopv2/static/js/dist/foxui/css/foxui.min.css?v=0.2">
+    <link rel="stylesheet" type="text/css" href="style.css?v=1601215224">
+    
+    <link rel="stylesheet" type="text/css" href="http://zjj.xtsuo.cn/addons/ewei_shopv2/static/fonts/iconfont.css?v=2017070719">
+    <!--<link rel="stylesheet" href="//at.alicdn.com/t/font_82607_e93d131lklr6n7b9.css">-->
+    <script src="./resource/js/lib/jquery-1.11.1.min.js"></script><style id="__WXWORK_INNER_SCROLLBAR_CSS">::-webkit-scrollbar { width: 12px !important; height: 12px !important; }::-webkit-scrollbar-track:vertical {  }::-webkit-scrollbar-thumb:vertical { background-color: rgba(136, 141, 152, 0.5) !important; border-radius: 10px !important; background-clip: content-box !important; border:2px solid transparent !important; } ::-webkit-scrollbar-track:horizontal {  }::-webkit-scrollbar-thumb:horizontal { background-color: rgba(136, 141, 152, 0.5) !important; border-radius: 10px !important; background-clip: content-box !important; border:2px solid transparent !important; } ::-webkit-resizer { display: none !important; }</style>
+    <script src="//res.wx.qq.com/open/js/jweixin-1.3.0.js"></script>
+    <!--   <script src="../addons/ewei_shopv2/static/js/dist/foxui/js/foxui.min.js"></script>-->
+    <script src="../addons/ewei_shopv2/static/js/require.js"></script>
+    <script src="../addons/ewei_shopv2/static/js/myconfig-app.js"></script>
+    <script language="javascript">
+        require(['core'],function(modal){modal.init({siteUrl: "http://zjj.xtsuo.cn/",baseUrl: "./index.php?i=1&c=entry&m=ewei_shopv2&do=mobile&r=ROUTES&mid=2593"})});
+        $(function () {
+            $('img').on('error', function () {
+                console.log($(this));
+                $(this).css({
+                    'background-image': '../addons/ewei_shopv2/static/'
+                })
+            })
+        })
+    </script>
+
+
+
+
+    
+    
+    
+    <style>.danmu {display: none;opacity: 0;}</style>
+<script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="core" src="../addons/ewei_shopv2/static/js/app/core.js?v=1601215221956"></script><style type="text/css">.amap-container{cursor:url(https://webapi.amap.com/theme/v1.3/openhand.cur),default;}.amap-drag{cursor:url(https://webapi.amap.com/theme/v1.3/closedhand.cur),default;}</style><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="../addons/ewei_shopv2/plugin/diypage/static/js/mobile.js" src="../addons/ewei_shopv2/plugin/diypage/static/js/mobile.js?v=1601215221956"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="init" src="../addons/ewei_shopv2/static/js/app/init.js?v=1601215221956"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="jquery" src="../addons/ewei_shopv2/static/js/app/../dist/jquery/jquery-1.11.1.min.js?v=1601215221956"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="tpl" src="../addons/ewei_shopv2/static/js/app/../dist/tmodjs.js?v=1601215221956"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="foxui" src="../addons/ewei_shopv2/static/js/app/../dist/foxui/js/foxui.min.js?v=1601215221956"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="jquery.gcjs" src="../addons/ewei_shopv2/static/js/app/../dist/jquery/jquery.gcjs.js?v=1601215221956"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="jquery.qrcode" src="../addons/ewei_shopv2/static/js/app/../dist/jquery/jquery.qrcode.min.js?v=1601215221956"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="biz/goods/picker" src="../addons/ewei_shopv2/static/js/app/biz/goods/picker.js?v=1601215221956"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="biz/goods/wholesalePicker" src="../addons/ewei_shopv2/static/js/app/biz/goods/wholesalePicker.js?v=1601215221956"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="biz/member/cart" src="../addons/ewei_shopv2/static/js/app/biz/member/cart.js?v=1601215221956"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="biz/plugin/diyform" src="../addons/ewei_shopv2/static/js/app/biz/plugin/diyform.js?v=1601215221956"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="swiper" src="../addons/ewei_shopv2/static/js/app/../dist/swiper/swiper.min.js?v=1601215221956"></script></head>
+
+<body ontouchstart="">
+
+<div class="fui-page-group ">
+    <script>document.title = "债减减服务平台"; </script>
+<link rel="stylesheet" href="../addons/ewei_shopv2/static/js/dist/swiper/swiper.min.css">
+<link href="../addons/ewei_shopv2/plugin/diypage/static/css/foxui.diy.css?v=201705261648" rel="stylesheet" type="text/css">
+<style type="text/css">
+    </style>
+<div class="fui-page  shop-index-page fui-page-current" style="top: 0px; background-color: rgb(250, 250, 250); height: 949px;" id="fui-page-1601215223401">
+
+
+<div id="amap-container" style="display: none;"></div>
+<div class="fui-content navbar" id="container" style="background-color: #fafafa; padding-bottom: 0; ">
+        <div class="default-items">
+                            <div class="fui-swipe">
+        <div class="fui-swipe-wrapper">
+                            <a class="fui-swipe-item" href="" data-nocache="true"><img src="http://zjj.xtsuo.cn/attachment/images/1/2020/07/mf1wQwEqYXI1n3v1EQy6yYwWpxwPdX.jpg" style="display: block; width: 100%; height: auto;"></a>
+                    </div>
+        <style>
+            .fui-swipe-page .fui-swipe-bullet {background: #ffffff; opacity: 0.8;}
+            .fui-swipe-page .fui-swipe-bullet.active {opacity: 1;}
+        </style>
+        <div class="fui-swipe-page left round" style="padding: 0 5px; bottom: 10px; "></div>
+    </div>
+                    <div class="fui-notice" style="background: #ffffff; border-color: ;" data-speed="4">
+                <div class="image"><img src="http://zjj.xtsuo.cn/addons/ewei_shopv2/static/images/hotdot.jpg" onerror="this.src='../addons/ewei_shopv2/static/images/hotdot.jpg'"></div>
+                <div class="icon"><i class="icon icon-notification1" style="font-size: 0.7rem; color: #fd5454;"></i></div>
+        <div class="text" style="color: #666666;">
+            <ul>
+                                                            <li><a href="" style="color: #666666;" data-nocache="true">债减减服务平台上线了……</a></li>
+                                                </ul>
+        </div>
+    </div>
+                    <div class="fui-picture" style="padding-bottom: 0px; background: ;">
+                <a href="javascript:;" style="display: block; padding: 0px 0px;" data-nocache="true">
+            <img src="http://zjj.xtsuo.cn/attachment/images/1/2020/06/IQfYamG4q479f4DdlUlAUaGfzGM9f9.png">
+        </a>
+            </div>
+                    <div class="fui-cell-group fui-cell-click" style="margin-top: 0px; background-color: #ffffff;">
+                    <a class="fui-cell external" href="http://zjj.xtsuo.cn/app/index.php?i=1&amp;c=entry&amp;m=ewei_shopv2&amp;do=mobile&amp;r=goods.detail&amp;id=202&amp;mid=2593" data-nocache="true">
+                                    <div class="fui-cell-icon" style="color: #ff0000;"><i class="icon icon-heilongjiangtubiao11" style="color: #ff0000;"></i></div>
+                                <div class="fui-cell-text" style="color: #ff0000;">运营中心代理权</div>
+                <div class="fui-cell-remark" style="color: #888888;">
+                                            点击加入                                    </div>
+            </a>
+            </div>
+                                    <div class="fui-goods-group " style="background: ;">
+            
+                <a class="fui-goods-item" data-goodsid="202" href="./index.php?i=1&amp;c=entry&amp;m=ewei_shopv2&amp;do=mobile&amp;r=goods.detail&amp;id=202&amp;mid=2593" data-type="2" data-nocache="true" style="position: relative;">
+                    <div class="image   " data-text="
+                                                        热销                                                                                                                                        " data-lazyloaded="true" style="background-image: url(&quot;http://zjj.xtsuo.cn/attachment/images/1/2020/07/UyjL0caUY7YC2j2U7fpgjqB2O0a0pU.png&quot;);">
+                                                                                                    <!--分销佣金-->
+                                            </div>
+                                            <div class="detail">
+                                                            <div class="name" style="color: #262626;">
+                                                                        
+                                    
+                                    运营中心代理权                                </div>
+                                                                                    <p class="productprice ">
+
+                                                                                                            <span style="color: ;">销量: 63</span>
+                                    
+                            </p>
+                                <div class="price buy">
+
+                                    <span class="text" style="color: #ed2822;">
+                                                                                    <p class="minprice">¥49800</p>
+                                        
+                                    </span>
+                                                                                                                        <span class="buy buybtn-5" style="border-color: #fe5455;"><i class="icon icon-add" style="color:  #fe5455"></i></span>
+                                                                                                            </div>
+                                                    </div>
+                    
+                </a>
+                    </div>
+                        <div class="fui-cell-group fui-cell-click" style="margin-top: 0px; background-color: #ffffff;">
+                    <a class="fui-cell external" href="http://zjj.xtsuo.cn/app/index.php?i=1&amp;c=entry&amp;m=ewei_shopv2&amp;do=mobile&amp;r=goods.detail&amp;id=203&amp;mid=2593" data-nocache="true">
+                                    <div class="fui-cell-icon" style="color: #ff0000;"><i class="icon icon-heilongjiangtubiao11" style="color: #ff0000;"></i></div>
+                                <div class="fui-cell-text" style="color: #ff0000;">拼团债务包</div>
+                <div class="fui-cell-remark" style="color: #888888;">
+                                            点击加入                                    </div>
+            </a>
+            </div>
+                                    <div class="fui-goods-group " style="background: ;">
+            
+                <a class="fui-goods-item" data-goodsid="203" href="./index.php?i=1&amp;c=entry&amp;m=ewei_shopv2&amp;do=mobile&amp;r=goods.detail&amp;id=203&amp;mid=2593" data-type="2" data-nocache="true" style="position: relative;">
+                    <div class="image   " data-text="
+                            推荐                                                                                                                                                                    " data-lazyloaded="true" style="background-image: url(&quot;http://zjj.xtsuo.cn/attachment/images/1/2020/07/Qpi6ufpxIaLpXwgldiDWVvfgTfhLLh.png&quot;);">
+                                                                                                    <!--分销佣金-->
+                                            </div>
+                                            <div class="detail">
+                                                            <div class="name" style="color: #262626;">
+                                                                        
+                                    
+                                    拼团债务包                                </div>
+                                                                                    <p class="productprice ">
+
+                                                                                                            <span style="color: ;">销量: 88</span>
+                                    
+                            </p>
+                                <div class="price buy">
+
+                                    <span class="text" style="color: #ed2822;">
+                                                                                    <p class="minprice">¥19800</p>
+                                        
+                                    </span>
+                                                                                                                        <span class="buy buybtn-5" style="border-color: #fe5455;"><i class="icon icon-add" style="color:  #fe5455"></i></span>
+                                                                                                            </div>
+                                                    </div>
+                    
+                </a>
+                    </div>
+                        <div class="fui-cell-group fui-cell-click" style="margin-top: 0px; background-color: #ffffff;">
+                    <a class="fui-cell external" href="./index.php?i=1&amp;c=entry&amp;m=ewei_shopv2&amp;do=mobile&amp;r=goods&amp;isrecommand=1&amp;mid=2593" data-nocache="true">
+                                    <div class="fui-cell-icon" style="color: #ff0000;"><i class="icon icon-hotfill" style="color: #ff0000;"></i></div>
+                                <div class="fui-cell-text" style="color: #ff0000;">推荐服务</div>
+                <div class="fui-cell-remark" style="color: #888888;">
+                                            点击购买                                    </div>
+            </a>
+            </div>
+                                    <div class="fui-goods-group block" style="background: #f3f3f3;">
+            
+                <a class="fui-goods-item" data-goodsid="214" href="./index.php?i=1&amp;c=entry&amp;m=ewei_shopv2&amp;do=mobile&amp;r=goods.detail&amp;id=214&amp;mid=2593" data-type="2" data-nocache="true" style="position: relative;">
+                    <div class="image   triangle" data-text="
+                            推荐                                                                                                                                                                    " data-lazyloaded="true" style="background-image: url(&quot;http://zjj.xtsuo.cn/attachment/images/1/2020/09/QwdtnuglliTtdqIL9LqRQLww5u1ilP.png&quot;);">
+                                                                                                    <!--分销佣金-->
+                                            </div>
+                                            <div class="detail">
+                                                            <div class="name" style="color: #000000;">
+                                                                        
+                                    
+                                    补差价拍此处                                </div>
+                                                                                    <p class="productprice ">
+
+                                                                                                            <span style="color: #999999;">销量: 324</span>
+                                    
+                            </p>
+                                <div class="price buy">
+
+                                    <span class="text" style="color: #ff5555;">
+                                                                                    <p class="minprice">¥100</p>
+                                        
+                                    </span>
+                                                                                                                        <span class="buy buybtn-1" style="border-color: #ff5555;color:  #ff5555">购买</span>
+                                                                                                            </div>
+                                                    </div>
+                    
+                </a>
+            
+                <a class="fui-goods-item" data-goodsid="213" href="./index.php?i=1&amp;c=entry&amp;m=ewei_shopv2&amp;do=mobile&amp;r=goods.detail&amp;id=213&amp;mid=2593" data-type="2" data-nocache="true" style="position: relative;">
+                    <div class="image   triangle" data-text="
+                            推荐                                                                                                                                                                    " data-lazyloaded="true" style="background-image: url(&quot;http://zjj.xtsuo.cn/attachment/images/1/2020/07/tnBQnp0tXD6dtQQlnv6dwvZBDGMqnv.png&quot;);">
+                                                                                                    <!--分销佣金-->
+                                            </div>
+                                            <div class="detail">
+                                                            <div class="name" style="color: #000000;">
+                                                                        
+                                    
+                                    原价999元  限时三天9.9元 法律援助大礼包                                </div>
+                                                                                    <p class="productprice ">
+
+                                                                                                            <span style="color: #999999;">销量: 7487</span>
+                                    
+                            </p>
+                                <div class="price buy">
+
+                                    <span class="text" style="color: #ff5555;">
+                                                                                    <p class="minprice">¥9.9</p>
+                                        
+                                    </span>
+                                                                                                                        <span class="buy buybtn-1" style="border-color: #ff5555;color:  #ff5555">购买</span>
+                                                                                                            </div>
+                                                    </div>
+                    
+                </a>
+            
+                <a class="fui-goods-item" data-goodsid="212" href="./index.php?i=1&amp;c=entry&amp;m=ewei_shopv2&amp;do=mobile&amp;r=goods.detail&amp;id=212&amp;mid=2593" data-type="2" data-nocache="true" style="position: relative;">
+                    <div class="image   triangle" data-text="
+                            推荐                                                                                                                                                                    " data-lazy-background="http://zjj.xtsuo.cn/attachment/images/1/2020/07/XEu3Wd6kE196kqS6YEMDP66EkDDeko.png">
+                                                                                                    <!--分销佣金-->
+                                            </div>
+                                            <div class="detail">
+                                                            <div class="name" style="color: #000000;">
+                                                                        
+                                    
+                                    5000元VIP会员                                </div>
+                                                                                    <p class="productprice ">
+
+                                                                                                            <span style="color: #999999;">销量: 1721</span>
+                                    
+                            </p>
+                                <div class="price buy">
+
+                                    <span class="text" style="color: #ff5555;">
+                                                                                    <p class="minprice">¥5000</p>
+                                        
+                                    </span>
+                                                                                                                        <span class="buy buybtn-1" style="border-color: #ff5555;color:  #ff5555">购买</span>
+                                                                                                            </div>
+                                                    </div>
+                    
+                </a>
+            
+                <a class="fui-goods-item" data-goodsid="211" href="./index.php?i=1&amp;c=entry&amp;m=ewei_shopv2&amp;do=mobile&amp;r=goods.detail&amp;id=211&amp;mid=2593" data-type="2" data-nocache="true" style="position: relative;">
+                    <div class="image   triangle" data-text="
+                            推荐                                                                                                                                                                    " data-lazy-background="http://zjj.xtsuo.cn/attachment/images/1/2020/07/dNhN6N0Z7rVR74N3rl9h7N04h90h7n.png">
+                                                                                                    <!--分销佣金-->
+                                            </div>
+                                            <div class="detail">
+                                                            <div class="name" style="color: #000000;">
+                                                                        
+                                    
+                                    8000元VIP会员                                </div>
+                                                                                    <p class="productprice ">
+
+                                                                                                            <span style="color: #999999;">销量: 926</span>
+                                    
+                            </p>
+                                <div class="price buy">
+
+                                    <span class="text" style="color: #ff5555;">
+                                                                                    <p class="minprice">¥8000</p>
+                                        
+                                    </span>
+                                                                                                                        <span class="buy buybtn-1" style="border-color: #ff5555;color:  #ff5555">购买</span>
+                                                                                                            </div>
+                                                    </div>
+                    
+                </a>
+                    </div>
+                    <div class="fui-blank" style="height: 20px; background: #ffffff;"></div>
+                            </div>
+    <div class="custom-items"></div>
+
+    <style>
+    .option-picker .member-price{
+        background: #000;
+        color: #fece67;
+        border-radius:0.1rem;
+        height: 0.65rem;
+        line-height: 0.65rem ;
+        font-size: 0.45rem;
+        padding: 0 0.2rem;
+        display: inline-block;
+        position: relative;
+        margin-left:0.25rem;
+        vertical-align:middle;
+    }
+    .option-picker .member-price span{
+        position: absolute;
+        left: -0.2rem;
+        top: 0;
+        width: 0.25rem;
+        height: 0.25rem;
+        border: 0.25rem solid #000;
+        border-color:  #000 transparent transparent transparent;
+        display: inline-block;
+    }
+</style>
+<script type="text/html" id="option-picker">
+    <div class="option-picker ">
+        <div class="option-picker-inner">
+            <div class="option-picker-cell goodinfo">
+                <div class="closebtn"><i class="icon icon-guanbi1"></i></div>
+                <div class="img"><img class='thumb' src="<%goods.thumb%>" /></div>
+                <div class="info info-price text-danger">
+                    			<span>
+				￥
+				<span class='price'>
+								<%if goods.ispresell>0 && (goods.preselltimeend == 0 || goods.preselltimeend > goods.thistime)%>
+				<%goods.presellprice%>
+				<%else%>
+				<%if goods.maxprice == goods.minprice%><%goods.minprice%><%else%><%goods.minprice%>~<%goods.maxprice%><%/if%>
+				<%/if%>
+									</span>
+			</span>
+
+						                </div>
+                <div class="info info-total" style="    margin-left: 0.15rem;">
+                    <%if seckillinfo==false || ( seckillinfo && seckillinfo.status==1) %>
+                        <%if goods.member_discount >0 && goods.show==0%>
+                            <!--非多规格的展示-->
+                    <span class=' text-danger' style='color:#c8952a'> ¥ <% goods.member_discount%></span>
+                    <span class='member-price'>会员价 <span></span></span>
+                    <!--<span class='member_discount' style="border: red 1px solid;color: red;margin-right: 5px;"> 会员价￥ <% goods.member_discount%></span>-->
+                        <%/if%>
+                   <%if goods.show==1%>
+                    <!--多规格的展示-->
+                    <div class="member_discount"  style="display: none;">
+                        <span class=' text-danger' style='color:#c8952a;'> ¥ <% goods.member_discount%></span>
+                        <span class='member-price' >会员价 <span></span></span>
+                    </div>
+                    <%/if%>
+                    <span>
+                    <%if goods.showtotal != 0%>
+                        <%if goods.unite_total != 0%>总<%/if%>库存 <span class='total'><%goods.total%></span> 件<%/if%>
+                    <%/if%>
+                    </span>
+                </div>
+                <div class="info info-titles"><%if specs.length>0%>请选择规格<%/if%></div>
+            </div>
+            <div class="option-picker-options">
+                <%each specs as spec%>
+                <div class="option-picker-cell option spec">
+                    <div class="title"><%spec.title%></div>
+                    <div class="select">
+                        <%each spec.items as item%>
+                        <a href="javascript:;" class="btn btn-default btn-sm nav spec-item spec-item<%item.id%>" data-id="<%item.id%>" data-thumb="<%item.thumb%>"> <%item.title%> </a>
+                        <%/each%>
+                    </div>
+                </div>
+                <%/each%>
+                <%=diyformhtml%>
+
+                <%if seckillinfo==false || ( seckillinfo && seckillinfo.status==1) %>
+                <div class="fui-cell-group" style="margin-top:0">
+                    <div class="fui-cell">
+                        <div class="fui-cell-label">数量</div>
+                        <div class="fui-cell-info"></div>
+                        <div class="fui-cell-mask noremark">
+                                                        <div class="fui-number">
+                                <div class="minus">-</div>
+                                <input class="num" type="tel" name="" value="<%if goods.minbuy>0%><%goods.minbuy%><%else%>1<%/if%>"/>
+                                <div class="plus ">+</div>
+                            </div>
+                                                    </div>
+                    </div>
+                    <%else%>
+                    <input class="num" type="hidden" name="" value="1"/>
+                    <%/if%>
+                </div>
+
+                <%if  goods['cangift'] ==true && goods['giftinfo']%>
+                <div class="fui-cell-group" style="margin-top:0">
+                    <div class="fui-cell">
+                        <div class="fui-cell-label">请选择赠品</div>
+                        <div class="fui-cell-text dispatching">
+                            <%if  goods.gifttotal ==1%>
+                            <div class="dispatching-info" style="max-height:12rem;overflow-y: auto ">
+                                <%each goods.giftinfo as item%>
+                                <div class="fui-list goods-item align-start" data-giftid="<%item.id%>">
+                                    <div class="fui-list-media">
+                                        <input type="radio" name="checkbox" class="fui-radio fui-radio-danger gift-item" checked value="<%item.id%>" style="display: list-item;">
+                                    </div>
+                                    <div class="fui-list-inner">
+                                        <%each item.gift as gift%>
+                                        <div class="fui-list">
+                                            <div class="fui-list-media image-media" style="position: initial;">
+                                                <a href="javascript:void(0);">
+                                                    <img class="round" src="<%gift.thumb%>" data-lazyloaded="true">
+                                                </a>
+                                            </div>
+                                            <div class="fui-list-inner">
+                                                <a href="javascript:void(0);">
+                                                    <div class="text">
+                                                        <%gift.title%>
+                                                    </div>
+                                                </a>
+                                                <%if gift.total <=0%>
+                                                <span style="color:red;">售罄</span>
+                                                <%/if%>
+                                            </div>
+                                            <div class='fui-list-angle'>
+                                                <span class="price">&yen;<del class='marketprice'><%gift.marketprice%></del></span>
+                                            </div>
+                                        </div>
+                                        <%/each%>
+                                    </div>
+                                </div>
+                                <%/each%>
+                            </div>
+                            <%else%>
+                            <div class="dispatching-info" style="max-height:12rem;overflow-y: auto ">
+                                <%each goods.giftinfo as item%>
+                                <div class="fui-list goods-item align-start" data-giftid="<%item.id%>">
+                                    <div class="fui-list-media">
+                                        <input type="radio" name="checkbox" class="fui-radio fui-radio-danger gift-item" value="<%item.id%>" style="display: list-item;">
+                                    </div>
+                                    <div class="fui-list-inner">
+                                        <%each item.gift as gift%>
+                                        <div class="fui-list">
+                                            <div class="fui-list-media image-media" style="position: initial;">
+                                                <a href="javascript:void(0);">
+                                                    <img class="round" src="<%gift.thumb%>" data-lazyloaded="true">
+                                                </a>
+                                            </div>
+                                            <div class="fui-list-inner">
+                                                <a href="javascript:void(0);">
+                                                    <div class="text">
+                                                        <%gift.title%>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class='fui-list-angle'>
+                                                <span class="price">&yen;<del class='marketprice'><%gift.marketprice%></del></span>
+                                            </div>
+                                        </div>
+                                        <%/each%>
+                                    </div>
+                                </div>
+                                <%/each%>
+                            </div>
+                            <%/if%>
+                        </div>
+                    </div>
+                </div>
+                <%/if%>
+            </div>
+            <!-- <%if height == 2436 && width == 1125%>iphonex<%/if%>-->
+            <div style="z-index: 2;"  class="fui-navbar " >
+                    <a href="javascript:;" class="nav-item btn cartbtn" style='display:none'>加入购物车</a>
+                    <a href="javascript:;" class="nav-item btn buybtn"  style='display:none' >立刻购买</a>
+                    <a href="javascript:;" class="nav-item btn confirmbtn"  style='display:none'>确定</a>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/html" id="followqrcode">
+    <div class="follow_hidden">
+        <div id="alert-mask"></div>
+        <div class="verify-pop">
+            <div class="close"><i class="icon icon-roundclose"></i></div>
+            <div class="qrcode" style="height: 250px;">
+                <img class="qrimg" src="" />
+            </div>
+            <div class="tip">
+                <p class="text-white">长按识别二维码关注</p>
+                <p class="text-warning" style="color: ;">债减减</p>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script language="javascript">
+    var width = window.screen.width *  window.devicePixelRatio;
+    var height = window.screen.height *  window.devicePixelRatio;
+    var h = document.body.offsetHeight *  window.devicePixelRatio;
+
+    if(height==2436 && width==1125){
+        $(".fui-navbar,.cart-list,.fui-footer,.fui-content.navbar").addClass('iphonex')
+    }
+    if(h == 1923){
+        $(".fui-navbar,.cart-list,.fui-footer,.fui-content.navbar").removeClass('iphonex');
+    }
+    $(function(){
+        $(document).on("blur", '.option-picker input,.option-picker select, .option-picker textarea',function (e) {
+            $('.option-picker .btn').trigger('focus');
+        });
+    })
+</script>
+<script type="text/html" id="account-layer">
+    <div class="account-layer">
+                    <div class="account-logo">
+                <img src="http://zjj.xtsuo.cn/attachment/images/1/2020/07/BMRH5GKDGS6m6R417shJJMi7jMzjZ0.jpg" />
+            </div>
+                <div class="account-main">
+            <div class="account-back"><i class="icon icon-back"></i></div>
+            <div class="account-title"></div>
+            <input class="account-input input-mobile" type="tel" maxlength="11" placeholder="请输入手机号" />
+            <input class="account-input input-password" type="password" placeholder="请输入密码" />
+            <input class="account-input input-password2" type="password" placeholder="请重复输入密码" />
+
+            <input class="account-input input-bindrealname" type="text" placeholder="请输入真实姓名" />
+            <input class="account-input input-bindbirthday" type="text" placeholder="请输入出生日期" />
+            <input class="account-input input-bindidnumber" type="text" placeholder="请输入身份证号" />
+            <input class="account-input input-bindwechat" type="text" placeholder="请输入微信号" />
+
+            <div class="account-image">
+                <input class="account-input input-image" type="tel" maxlength="4" placeholder="请输入图形验证码" />
+                <img class="btn-image" src="../web/index.php?c=utility&a=code&r=1601215224">
+            </div>
+            <div class="account-verify">
+                <input class="account-input input-verify" type="tel" maxlength="5" placeholder="请输入短信验证码" />
+                <div class="btn-send disabled" id="btnCode">发送验证码</div>
+            </div>
+            <div class="account-tip"><span>还没账号？立即注册</span></div>
+        </div>
+        <div class="account-next">下一步</div>
+        <div class="account-btn">登录</div>
+        <div class="account-close">
+            <i class="icon icon-guanbi1"></i>
+        </div>
+    </div>
+</script>    
+<style type="text/css">
+	.option-picker{
+		padding-bottom:2.25rem
+	}
+	.picker-bulk{
+		display: flex;
+		flex-direction: column;
+	}
+	.picker-bulk .header {
+		height: 4.5rem;
+		padding: 0 0.6rem 0.3rem 0.6rem;
+	}
+	.picker-bulk .header .thumb {
+		height: 5rem;
+		width: 5rem;
+		background: #eee;
+		border-radius: 0.2rem;
+		position: absolute;
+		top: -0.8rem;
+		left: 0.7rem;
+	}
+	.picker-bulk .header .thumb img {
+		height: 5rem;
+		width: 5rem;
+		border-radius: 0.2rem;
+	}
+	.picker-bulk .header .inner {
+		height: inherit;
+		padding: 0.8rem 1.7rem 0 5.5rem;
+	}
+	.picker-bulk .header .inner .title {
+		height: 1.8rem;
+		font-size: 0.75rem;
+		line-height: 0.9rem;
+		text-overflow: -o-ellipsis-lastline;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+	}
+	.picker-bulk .header .inner .price {
+		height: 1.5rem;
+		line-height: 2rem;
+		font-size: 0.9rem;
+		color: #ff5555;
+	}
+	.picker-bulk .header .inner .price small {
+		font-size: 0.5rem;
+	}
+	.picker-bulk .header .icon-guanbi1 {
+		color: #5d5d5d;
+		font-size: 1.4rem;
+		position: absolute;
+		top: 0.1rem;
+		right: 0.5rem;
+	}
+	.picker-bulk .header .icon-guanbi1:before {
+		font-weight: 100;
+	}
+	.picker-bulk .specs {
+		height: 2.35rem;
+		padding: 0 0.3rem;
+		font-size: 0.75rem;
+		color: #333;
+		border-top: 1px solid #f5f5f5;
+		border-bottom: 1px solid #f2f2f2;
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: -ms-flexbox;
+		display: flex;
+	}
+	.picker-bulk .specs .go-left,
+	.picker-bulk .specs .go-right {
+		height: 2.35rem;
+		line-height: 2.35rem;
+		color: #9e9e9e;
+	}
+	.picker-bulk .specs .inner {
+		padding: 0.6rem 0;
+		-webkit-box-flex: 1;
+		-webkit-flex: 1;
+		-ms-flex: 1;
+		flex: 1;
+	}
+	.picker-bulk .specs .inner .item {
+		width: 33.33%;
+		text-align: center;
+		float: left;
+		position: relative;
+	}
+	.picker-bulk .specs .inner .item:before {
+		content: "";
+		border-left: 2px solid #f3f3f3;
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+	}
+	.picker-bulk .specs .inner .item:first-child:before {
+		border: 0;
+	}
+	.picker-bulk .specs .inner .item.active:after {
+		content: "";
+		position: absolute;
+		border-bottom: 2px solid #ff5555;
+		width: 2rem;
+		left: 50%;
+		margin-left: -1rem;
+		bottom: -0.55rem;
+	}
+	.picker-bulk .specs .inner .item .dot {
+		position: absolute;
+		right: 0.25rem;
+		top: -0.25rem;
+		font-size: 0.5rem;
+		color: #fff;
+		background: #ff4444;
+		height: 0.8rem;
+		line-height: 0.8rem;
+		border-radius: 0.8rem;
+		padding: 0 0.15rem;
+	}
+	.picker-bulk .body {
+		max-height: 11.45rem;
+		flex: 1;
+		overflow-y: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+	.picker-bulk .body .item {
+		height: 3.3rem;
+		padding: 0 0.6rem;
+		position: relative;
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-align: center;
+		-webkit-align-items: center;
+		-ms-flex-align: center;
+		align-items: center;
+	}
+	.picker-bulk .body .item:before {
+		content: "";
+		position: absolute;
+		border-top: 1px solid #e3e3e3;
+		top: 0;
+		left: 0.6rem;
+		right: 0.6rem;
+		-webkit-transform-origin: 0 0;
+		-ms-transform-origin: 0 0;
+		transform-origin: 0 0;
+		-webkit-transform: scaleY(0.5);
+		-ms-transform: scaleY(0.5);
+		transform: scaleY(0.5);
+	}
+	.picker-bulk .body .item:first-child:before {
+		border: 0;
+	}
+	.picker-bulk .body .item .left {
+		width: 1%;
+		-webkit-box-flex: 1;
+		-webkit-flex: 1;
+		-ms-flex: 1;
+		flex: 1;
+		line-height: 1rem;
+		font-size: 0.75rem;
+	}
+	.picker-bulk .body .item .left .title {
+		height: 1rem;
+		padding-right: 0.2rem;
+		display: block;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	.picker-bulk .body .item .left .price {
+		color: #999;
+		font-size: 0.65rem;
+		line-height: 0.65rem;
+		padding-bottom: 0.2rem;
+	}
+	.picker-bulk .body .item .right {
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-align: center;
+		-webkit-align-items: center;
+		-ms-flex-align: center;
+		align-items: center;
+	}
+	.picker-bulk .body .item .right .total {
+		color: #666;
+		font-size: 0.55rem;
+		padding-right: 0.4rem;
+	}
+	.picker-bulk .counts {
+		height: 2.2rem;
+		padding: 0.2rem 0.6rem;
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-align: center;
+		-webkit-align-items: center;
+		-ms-flex-align: center;
+		align-items: center;
+		position: relative;
+	}
+	.picker-bulk .counts:before {
+		content: "";
+		border-top: 1px solid #e6e6e6;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		-webkit-transform-origin: 0 0;
+		-ms-transform-origin: 0 0;
+		transform-origin: 0 0;
+		-webkit-transform: scaleY(0.5);
+		-ms-transform: scaleY(0.5);
+		transform: scaleY(0.5);
+	}
+	.picker-bulk .counts .tip {
+		padding: 0.1rem 0.35rem;
+		border: 1px solid #ff5555;
+		color: #ff5555;
+		font-size: 0.55rem;
+		border-radius: 1rem;
+	}
+	.picker-bulk .counts .tip.size1 {
+		font-size: 0.5rem;
+	}
+	.picker-bulk .counts .tip.size2 {
+		font-size: 0.45rem;
+	}
+	.picker-bulk .counts .inner {
+		text-align: right;
+		font-size: 0.65rem;
+		line-height: 0.9rem;
+		color: #737373;
+		-webkit-box-flex: 1;
+		-webkit-flex: 1;
+		-ms-flex: 1;
+		flex: 1;
+		vertical-align: bottom;
+	}
+	.picker-bulk .counts .inner .countprice {
+		color: #ff5555;
+		font-size: 0.8rem;
+		vertical-align: bottom;
+	}
+	.picker-bulk .counts .inner .countprice span {
+		font-size: 0.5rem;
+	}
+	.option-picker .fui-navbar .btn {
+		font-size: 0.85rem;
+	}
+	.fui-number {
+		height: 1.6rem;
+		width: 5.95rem;
+	}
+	.fui-number .minus,
+	.fui-number .plus {
+		width: 1.6rem;
+		font-weight: 300;
+		font-size: 1.2rem;
+		line-height: 1.3rem;
+	}
+</style>
+
+<script type="text/html" id="option-wholesalepicker">
+	<div class="option-picker">
+		<div class="option-picker-inner picker-bulk">
+			<div class="header">
+				<div class="thumb">
+					<img src="<%goods.thumb%>" />
+				</div>
+				<div class="inner">
+					<div class="title"><%goods.title%></div>
+					<div class="price"><%if goods.minprice>0%><small>￥</small><%goods.minprice%>-<%/if%><small>￥</small><%goods.maxprice%></div>
+				</div>
+				<i class="icon icon-guanbi1"></i>
+			</div>
+			<%if hasoption==2%>
+				<div class="specs ">
+					<div class="go-left" style="width: 13px;display: block;"></div>
+					<div class="inner swiper-container">
+						<div class="swiper-wrapper">
+							<%each spec1items as item%>
+								<div class="swiper-slide item  btnitem1"  id="item1_<%item.id%>"  data-id="<%item.id%>" ><%item.title%><span class="dot" style="display: none;"></span></div>
+							<%/each%>
+						</div>
+					</div>
+					<div class="go-right"><i class="icon icon-right"></i></div>
+				</div>
+
+				<%each spec1items as item%>
+				<div class="body" id="body_<%item.id%>" data-id="<%item.id%>"  style="display: none;">
+
+					<%each spec2items as item2%>
+					<div class="item optiondata" data-optionid="<%if  item.id < item2.id%><%options[item.id+'_'+item2.id].id%><%else%><%options[item2.id+'_'+item.id].id%><%/if%>"  data-total="0">
+
+						<div class="left">
+							<p class="title"><%item2.title%></p>
+							<p class="price"></p>
+						</div>
+						<div class="right">
+							<div class="total">库存:<span class="stock">	<%if  item.id < item2.id%><%options[item.id+"_"+item2.id].stock%><%else%><%options[item2.id+"_"+item.id].stock%><%/if%></span></div>
+							<div class="fui-number">
+								<div class="minus disabled">-</div>
+								<input class="num" type="tel" name="" value="0">
+								<div class="plus">+</div>
+							</div>
+						</div>
+					</div>
+					<%/each%>
+				</div>
+				<%/each%>
+			<%/if%>
+
+			<%if hasoption==1%>
+				<div class="body">
+					<%each spec1items as item%>
+					<div class="item optiondata" data-optionid="<%options[item.id].id%>"  data-total="0">
+						<div class="left">
+							<p class="title"><%item.title%></p>
+							<p class="price"></p>
+						</div>
+						<div class="right">
+							<div class="total">库存:<span class="stock"><%options[item.id].stock%></span></div>
+							<div class="fui-number">
+								<div class="minus disabled">-</div>
+								<input class="num" type="tel" name="" value="0">
+								<div class="plus">+</div>
+							</div>
+						</div>
+					</div>
+					<%/each%>
+				</div>
+			<%/if%>
+
+			<%if hasoption==0%>
+				<div class="body">
+					<div class="item optiondata" data-optionid="0"  data-total="0">
+						<div class="left">
+							<p class="title"><%goods.title%></p>
+							<p class="price"></p>
+						</div>
+						<div class="right">
+							<div class="total">库存:<span class="stock"><%goods.total%></span></div>
+							<div class="fui-number">
+								<div class="minus disabled">-</div>
+								<input class="num" type="tel" name="" value="0">
+								<div class="plus">+</div>
+							</div>
+						</div>
+					</div>
+					<div class="counts">
+						<div class="tip size2" id="again"></div>
+						<div class="inner">
+							<p  id="UnitPrice"></p>
+							<p class="countprice">总价: ￥<span id='totalprice'></span></p>
+						</div>
+					</div>
+					<%=diyformhtml%>
+
+				</div>
+			<%/if%>
+
+
+		</div>
+		<div class="fui-navbar">
+			<a href="javascript:;" class="nav-item btn cartbtn" style='display:none'>加入购物车</a>
+			<a href="javascript:;" class="nav-item btn buybtn"  style='display:none' >立刻购买</a>
+			<a href="javascript:;" class="nav-item btn confirmbtn"  style='display:none'>确定</a>
+		</div>
+	</div>
+</script>
+
+<script type="text/html" id="followqrcode">
+	<div class="follow_hidden">
+		<div id="alert-mask"></div>
+		<div class="verify-pop">
+			<div class="close"><i class="icon icon-roundclose"></i></div>
+			<div class="qrcode" style="height: 250px;">
+				<img class="qrimg" src="" />
+			</div>
+			<div class="tip">
+				<p class="text-white">长按识别二维码关注</p>
+				<p class="text-warning" style="color: ;">债减减</p>
+			</div>
+		</div>
+	</div>
+</script>
+<script type="text/html" id="account-layer">
+    <div class="account-layer">
+                    <div class="account-logo">
+                <img src="http://zjj.xtsuo.cn/attachment/images/1/2020/07/BMRH5GKDGS6m6R417shJJMi7jMzjZ0.jpg" />
+            </div>
+                <div class="account-main">
+            <div class="account-back"><i class="icon icon-back"></i></div>
+            <div class="account-title"></div>
+            <input class="account-input input-mobile" type="tel" maxlength="11" placeholder="请输入手机号" />
+            <input class="account-input input-password" type="password" placeholder="请输入密码" />
+            <input class="account-input input-password2" type="password" placeholder="请重复输入密码" />
+
+            <input class="account-input input-bindrealname" type="text" placeholder="请输入真实姓名" />
+            <input class="account-input input-bindbirthday" type="text" placeholder="请输入出生日期" />
+            <input class="account-input input-bindidnumber" type="text" placeholder="请输入身份证号" />
+            <input class="account-input input-bindwechat" type="text" placeholder="请输入微信号" />
+
+            <div class="account-image">
+                <input class="account-input input-image" type="tel" maxlength="4" placeholder="请输入图形验证码" />
+                <img class="btn-image" src="../web/index.php?c=utility&a=code&r=1601215224">
+            </div>
+            <div class="account-verify">
+                <input class="account-input input-verify" type="tel" maxlength="5" placeholder="请输入短信验证码" />
+                <div class="btn-send disabled" id="btnCode">发送验证码</div>
+            </div>
+            <div class="account-tip"><span>还没账号？立即注册</span></div>
+        </div>
+        <div class="account-next">下一步</div>
+        <div class="account-btn">登录</div>
+        <div class="account-close">
+            <i class="icon icon-guanbi1"></i>
+        </div>
+    </div>
+</script></div>
+
+<link href="../addons/ewei_shopv2/plugin/diypage/static/css/foxui.diy.css?v=201705261600" rel="stylesheet" type="text/css">
+<style type="text/css">
+    .diymenu .item .inner {background: #ffffff;}
+    .diymenu .item .inner:before,
+    .diymenu .item .inner:after {border-color: #ffffff;}
+    .diymenu .item .inner .text {color: #666666;}
+    .diymenu .item .inner .icon {color: #999999 !important;}
+    .diymenu .item.on .inner {background: #ffffff;}
+    .diymenu .item.on .inner .text {color: #ff0000;}
+    .diymenu .item.on .inner .icon {color: #ff0000!important;}
+    .diymenu .item .child {border-color: #eeeeee; background-color: #f4f4f4;}
+    .diymenu .item .child a {color: #666666;}
+    .diymenu .item .child a:after {border-color: #eeeeee; color: #666666;}
+    .diymenu .item .child .arrow:before {background: #eeeeee;}
+    .diymenu .item .child .arrow:after {background: #f4f4f4;}
+    .diymenu .item .inner .badge {background: ;}
+    /*.diymenu{box-shadow:none;}*/
+</style>
+<div class="diymenu" style=" position: absolute;max-width: 750px;">
+            <div class="item item-col-4 on" onclick="location.href = './index.php?i=1&amp;c=entry&amp;m=ewei_shopv2&amp;do=mobile&amp;v=160121'">
+            <div class="inner  top">
+                                
+                                            <span class="icon icon-home top"></span>
+                                        <span class="text top">首页</span>
+                            </div>
+                    </div>
+            <div class="item item-col-4 " onclick="location.href = './index.php?i=1&amp;c=entry&amp;m=ewei_shopv2&amp;do=mobile&amp;r=goods&amp;v=160121'">
+            <div class="inner  top">
+                                
+                                            <span class="icon icon-list top"></span>
+                                        <span class="text top">全部分类</span>
+                            </div>
+                    </div>
+            <div class="item item-col-4 " onclick="location.href = './index.php?i=1&amp;c=entry&amp;m=ewei_shopv2&amp;do=mobile&amp;r=member.cart&amp;v=160121'" id="menucart">
+            <div class="inner  top">
+                                
+                                            <span class="icon icon-cart top"></span>
+                                        <span class="text top">购物车</span>
+                            </div>
+                    </div>
+            <div class="item item-col-4 " onclick="location.href = './index.php?i=1&amp;c=entry&amp;m=ewei_shopv2&amp;do=mobile&amp;r=member&amp;v=160121'">
+            <div class="inner  top">
+                                
+                                            <span class="icon icon-person2 top"></span>
+                                        <span class="text top">个人中心</span>
+                            </div>
+                    </div>
+    </div>
+    <script>
+        function showSubMenu(obj) {
+            $(obj).toggleClass('on').siblings().removeClass('on');
+            $(obj).find('.child').toggleClass('in');
+            $(obj).siblings().find('.child').removeClass('in')
+        }
+        $(function () {
+
+            var len = $(".diymenu .child").length;
+            setTimeout(function () {
+                $(".diymenu .child").each(function (i) {
+                    var width = $(this).outerWidth();
+                    var margin = -(width / 2);
+                    var left = '50%';
+                    var pleft = $(this).position().left - width / 2;
+                    console.log($(this).position().left)
+                    if(i==0 && pleft<2){
+                        left = 2;
+                        margin = 0;
+                        var pwidth = $(this).closest('.item').width();
+                        console.log(pwidth)
+                        var arrowleft = pwidth / 2;
+                        console.log(arrowleft)
+                        var oldleft = parseFloat( $(this).find('.arrow').css('left').replace('px','') );
+                        console.log(oldleft)
+                        $(this).find('.arrow').css({'left': arrowleft-10, 'margin-left': 0});
+                    }
+                    if(i+1  ==len) {
+                        var thisleft = parseFloat( $(this).offset().left.toString().replace('px',''));
+                        console.log(thisleft)
+                        if((thisleft+width)>$(document).width()){
+                            var pleft = $(this).closest('.item').offset().left;
+                            console.log(thisleft)
+                            left =  $(document).width() - width - 2 - pleft;
+                            console.log(left)
+                            margin = 0;
+                            var pwidth = $(this).closest('.item').width();
+                            console.log(pwidth)
+                            var itemleft = (pwidth / 2) + pleft;
+                            console.log(itemleft)
+                            var childleft = $(document).width() - width - 2;
+                            console.log(childleft)
+                            var arrowleft = itemleft - childleft;
+                            console.log(arrowleft)
+                            $(this).find('.arrow').css({'left': arrowleft-10, 'margin-left': 0});
+                        }
+                    }
+                    $(this).css({'position': 'absolute', 'left': left, 'margin-left': margin, 'z-index': 0});
+                })
+            }, 800);
+        })
+    </script>
+
+
+
+<a class="diy-gotop external" style="position: fixed; overflow: hidden; z-index: 999; bottom: 40px; right: 10px; text-align: left;" id="gotop">
+            <div style="background: #00ffff; opacity: 0.5; line-height: 32px; text-align: center; border-radius: 30px; height: 30px; width: 30px;">
+            <i class="icon icon-top1" style="color: #ff0000; font-size: 20px;"></i>
+        </div>
+    </a>
+
+<script>
+    $(function () {
+                $(".fui-content").bind('scroll resize', function () {
+            var scrolltop = $(".fui-content").scrollTop();
+                        if (scrolltop > "300") {
+                $("#gotop").fadeIn(100)
+            } else {
+                $("#gotop").fadeOut(100)
+            }
+        });
+                $("#gotop").unbind('click').click(function () {
+            $(".fui-content").animate({scrollTop: "0px"}, 1000)
+        });
+    });
+</script>
+
+
+
+
+
+
+
+<script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&amp;ak=ZQiFErjQB7inrGpx27M1GR5w3TxZ64k7&amp;s=1601215224"></script><script type="text/javascript" src="https://api.map.baidu.com/getscript?v=2.0&amp;ak=ZQiFErjQB7inrGpx27M1GR5w3TxZ64k7&amp;services=&amp;t=20200824135534"></script>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.12&amp;key=1fb308f0707e5ff11db5997d42660396&amp;s=1601215224"></script>
+<script language="javascript">
+    require(['../addons/ewei_shopv2/plugin/diypage/static/js/mobile.js'], function(modal){
+        modal.init();
+    });
+</script>
+
+</div>
+
+<script language="javascript">
+	$(function(){
+		$.getJSON("./index.php?i=1&c=entry&m=ewei_shopv2&do=mobile&r=util.task&mid=2593");
+        
+                    	})
+</script>
+
+<script language="javascript">
+	require(['init']);
+	setTimeout(function () {
+		if($(".danmu").length>0){
+			$(".danmu").remove();
+		}
+	}, 500);
+</script>
+
+<script language="javascript">
+	var width = window.screen.width *  window.devicePixelRatio;
+	var height = window.screen.height *  window.devicePixelRatio;
+	var h = document.body.offsetHeight *  window.devicePixelRatio;
+
+	if(height==2436 && width==1125){
+		$(".fui-navbar,.cart-list,.fui-footer,.fui-content.navbar").addClass('iphonex')
+	}
+	if(h == 1923){
+        $(".fui-navbar,.cart-list,.fui-footer,.fui-content.navbar").removeClass('iphonex');
+	}
+</script>
+
+<div class="wap-qrcode-container">
+    <p class="example1">债减减</p>
+    <div class="wap-qrcode-image" id="wap-qrcode"><canvas width="256" height="256"></canvas></div>
+    <p class="example1">微信“扫一扫”浏览</p>
+</div>
+<script language="javascript">
+    $(function(){
+     setTimeout(function(){
+         require(['jquery.qrcode'],function(q){
+             $('#wap-qrcode').html('');
+             $('#wap-qrcode').qrcode("http://zjj.xtsuo.cn/app/index.php?i=1&c=entry&m=ewei_shopv2&do=mobile&mid=2593");
+         });
+     },500);
+
+    })
+</script>
+<script language="javascript">
+    // 以下代码用来解决文章详情的分享问题，强制加external
+    $(function () {
+        var a_collections = $('a');
+        $.each(a_collections,function (index,val) {
+            var that = $(val);
+            var href = that.attr('href') ||'';
+            var bool = href.indexOf('r=article');
+            if (bool>0){
+                that.addClass('external');
+            }
+        });
+    });
+
+    window.shareData = {"title":"\u503a\u51cf\u51cf\u670d\u52a1\u5e73\u53f0","imgUrl":"http:\/\/zjj.xtsuo.cn\/attachment\/images\/1\/2020\/07\/mxApPfx6pPp5fXNAaL6xBCnZ774bW5.png","desc":"\u503a\u51cf\u51cf\uff0c\u4e3a\u4e09\u4ebf\u8d1f\u503a\u4eba\u7684\u6743\u76ca\u4fdd\u62a4\u800c\u52aa\u529b\u2026\u2026","link":"http:\/\/zjj.xtsuo.cn\/app\/index.php?i=1&c=entry&m=ewei_shopv2&do=mobile&r=diypage&id=19&mid=2593"};
+    setTimeout(function(){
+
+        var verify_url = window.location.href.toString();
+        $.ajax({
+            type: "GET",
+            url:'http://zjj.xtsuo.cn/app/index.php?i=1&c=entry&m=ewei_shopv2&do=mobile&r=index.share_url&mid=2593',
+            data:{url:verify_url},
+            dataType: "json",
+            success: function(data){
+            jssdkconfig = data.result || { jsApiList:[] };
+            jssdkconfig.debug = false;
+            jssdkconfig.jsApiList = ['checkJsApi','onMenuShareTimeline','onMenuShareAppMessage','onMenuShareQQ','onMenuShareWeibo','showOptionMenu', 'hideMenuItems', 'onMenuShareQZone', 'scanQRCode','openLocation','openAddress','addCard','chooseCard','openCard'];
+            wx.config(jssdkconfig);
+            wx.ready(function () {
+                wx.showOptionMenu();
+
+                                        window.shareData.success = "";
+                    if(window.shareData.success){
+                        var success = window.shareData.success;
+                        window.shareData.success = function(){
+                            eval(success)
+                        };
+                    }
+                    wx.onMenuShareAppMessage(window.shareData);
+
+                    wx.onMenuShareTimeline(window.shareData);
+
+                    var qqShareData = {
+                        title: shareData.title || "", // 分享标题
+                        desc: shareData.desc || " ", // 分享描述
+                        link: shareData.link || "", // 分享链接
+                        imgUrl: shareData.imgUrl || "", // 分享图标
+                        success: shareData.success || "",
+                        cancel: shareData.cancel || "",
+                    };
+                    wx.onMenuShareQQ(qqShareData);
+                    wx.onMenuShareWeibo(window.shareData);
+                    wx.onMenuShareQZone(window.shareData);
+                });
+            },
+            error:function(e){
+                console.log(JSON.stringify(e));
+            }
+        });
+    },700);
+
+    
+        //判断设备系统
+        function  isIOS() {
+            var ua = navigator.userAgent;
+            var ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
+            var ipod = ua.match(/(iPod)(.*OS\s([\d_]+))?/);
+            var iphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/);
+            if (ipad || iphone || ipod) {
+                return true;
+            }
+            return false;
+        }
+
+</script>
+
+	
+	
+
+	
+<span style="display:none"></span>
+
+
+
+
+
+</div></body></html>

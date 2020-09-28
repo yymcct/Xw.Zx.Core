@@ -90,7 +90,7 @@
 </template>
 
 <script>
-import { api_PostComputerUser } from "@/api/sqbApi";
+import api  from "@/api/sqbApi";
 // import vueQr from "vue-qr";
 export default {
   name: "",
@@ -166,7 +166,7 @@ export default {
         return;
       }
 
-      api_PostComputerUser({
+      api.computer.postComputerUser({
         name: this.name,
         phone: this.phone,
         borrowCompany: this.borrowCompany,

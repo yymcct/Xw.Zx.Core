@@ -1,4 +1,14 @@
 import request from '@/utils/request'
 
 //投票
-export const api_PostComputerUser = (params) => request.post('/api/LxComputer/PostUser', params);
+
+
+export default {
+    computer: {
+        postComputerUser: (params) => request.post('/api/LxComputer/PostUser', params)
+    },
+    product: {
+        gets : (params) => request.get('/api/Product/Gets', { params: params }),
+        get : (params) => request.get('/api/Product/Get', { params: params })
+    },
+}

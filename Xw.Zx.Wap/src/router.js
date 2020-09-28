@@ -63,7 +63,7 @@ const routes = [
     },
     {
         path: '*',
-        redirect: '/home'
+        redirect: '/sqb/home'
     },
 
 ];
