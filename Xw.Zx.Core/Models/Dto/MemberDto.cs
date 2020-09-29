@@ -6,6 +6,23 @@ using Xw.Zx.Core.Models.Model;
 
 namespace Xw.Zx.Core.Models.Dto
 {
+    public class LoginDto 
+    {
+        public string Account { get; set; }
+
+        public string Password { get; set; }
+    }
+
+    public class LoginResponeDto
+    {
+        public string access_token { get; set; }
+        public int expires_in { get; set; }
+        public string token_type { get; set; }
+        public int statusCode { get; set; }
+        public string msg { get; set; }
+        public MemberDto Member { get; set; }
+    }
+
     public class MemberDto
     {
         public int Id { get; set; }

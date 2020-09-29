@@ -5,7 +5,10 @@ using Microsoft.Extensions.Logging;
 using Sieve.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Xw.Zx.Core.Helper;
@@ -38,7 +41,7 @@ namespace Xw.Zx.Core.Controllers
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpPost]
-        public HbzsResult PostRegisterUser([FromBody]RegisterUserDto user)
+        public HbzsResult PostRegisterUser([FromBody] RegisterUserDto user)
         {
             try
             {
@@ -75,6 +78,61 @@ namespace Xw.Zx.Core.Controllers
                 return new HbzsResult(HbzsResultCode.Invalid_Error, ex.Message);
             }
         }
+        /// <summary>
+        /// 登录
+        /// </summary>
+        /// <param name="loginDto"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public HbzsResult<LoginResponeDto> H5([FromBody] LoginDto loginDto)
+        {
+            try
+            {
+                //此处先验证验证码, 再验证是否存在用户
+                if (string.IsNullOrEmpty(loginDto.Account) || string.IsNullOrEmpty(loginDto.Password))
+                {
+                    throw new Exception("验证码过期，请重新获取");
+                }
+
+                var result = SimulationLogin(loginDto);
+                if (result.statusCode == 200)
+                {
+                    var member = _context.Members.FirstOrDefault(m => m.UserName == loginDto.Account);
+                    result.Member = _mapper.Map<MemberDto>(member);
+                }
+                else {
+                    result.msg = "账号或密码错误";
+                }
+
+                return new HbzsResult<LoginResponeDto>(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("账号或密码错误"+ex.Message);
+                return new HbzsResult<LoginResponeDto>(HbzsResultCode.Invalid_Error, "账号或密码错误");
+            }
+
+            LoginResponeDto SimulationLogin(LoginDto dto)
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"{AppsettingsUtility.AppHost}/connect/token");
+                request.Method = "POST";
+                request.ContentType = "application/x-www-form-urlencoded";
+                string strContent = $"username={dto.Account}&password={dto.Password}&grant_type=password&client_id=App.Manager.Ro&client_secret=DEsjpJFtokIOhMKuE6BVMczYUEEyPGTOLrur3PXw26VMLNwKOfAKFZZgR2vVJDKG";
+                using (StreamWriter dataStream = new StreamWriter(request.GetRequestStream()))
+                {
+                    dataStream.Write(strContent);
+                    dataStream.Close();
+                }
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                string encoding = response.ContentEncoding;
+                if (encoding == null || encoding.Length < 1)
+                {
+                    encoding = "UTF-8"; //默认编码  
+                }
+                StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding(encoding));
+                return Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponeDto>(reader.ReadToEnd());
+            }
+        }
 
         /// <summary>
         /// 获取邀请人电话
@@ -82,7 +140,7 @@ namespace Xw.Zx.Core.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
-        public HbzsResult<string> GetInviteUserPhone([FromQuery]int id)
+        public HbzsResult<string> GetInviteUserPhone([FromQuery] int id)
         {
             try
             {
@@ -257,7 +315,7 @@ namespace Xw.Zx.Core.Controllers
         /// <returns></returns>
         [HttpPost]
         [Authorize]
-        public HbzsResult<MemberDto> PostMember([FromBody]PostUserDto postUserDto)
+        public HbzsResult<MemberDto> PostMember([FromBody] PostUserDto postUserDto)
         {
             try
             {
@@ -274,11 +332,11 @@ namespace Xw.Zx.Core.Controllers
                             member.AliPayAccount = postUserDto.AliAccount.Trim();
                         }
 
-                _context.Entry(member).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                        _context.Entry(member).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 
-                _context.SaveChanges();
+                        _context.SaveChanges();
 
-                var res = _mapper.Map<MemberDto>(member);
+                        var res = _mapper.Map<MemberDto>(member);
 
                         return new HbzsResult<MemberDto>(res);
                     }
@@ -321,7 +379,7 @@ namespace Xw.Zx.Core.Controllers
         /// <param name="phone"></param>
         /// <returns></returns>
         [HttpGet]
-        public HbzsResult GetSmsCode([FromQuery]string phone)
+        public HbzsResult GetSmsCode([FromQuery] string phone)
         {
             try
             {
@@ -367,7 +425,7 @@ namespace Xw.Zx.Core.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public HbzsResult PostChangePasswordBySmsCode([FromBody]ChangePassWordDto pass)
+        public HbzsResult PostChangePasswordBySmsCode([FromBody] ChangePassWordDto pass)
         {
             try
             { //TODO 重构
