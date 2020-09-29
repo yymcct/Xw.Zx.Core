@@ -152,6 +152,13 @@
             <param name="user"></param>
             <returns></returns>
         </member>
+        <member name="M:Xw.Zx.Core.Controllers.MemberController.H5(Xw.Zx.Core.Models.Dto.LoginDto)">
+            <summary>
+            登录
+            </summary>
+            <param name="loginDto"></param>
+            <returns></returns>
+        </member>
         <member name="M:Xw.Zx.Core.Controllers.MemberController.GetInviteUserPhone(System.Int32)">
             <summary>
             获取邀请人电话

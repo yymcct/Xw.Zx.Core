@@ -14,7 +14,8 @@ namespace Xw.Zx.Core.Config.AutoMapper
         {
             CreateMap<Product, ProductListDto>().ReverseMap();
             CreateMap<Product, ProductDto>().ReverseMap();
-            
+            CreateMap<Order, OrderListDto>();
+            CreateMap<Order, OrderDto>();
         }
     }
 }
