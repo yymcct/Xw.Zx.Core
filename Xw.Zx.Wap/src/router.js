@@ -70,6 +70,14 @@ const routes = [
         }
     },
     {
+        path: '/sqb/login',
+        component: () =>
+            import(/* webpackChunkName: "sqb" */ './view/app/login/login'),
+        meta: {
+            title: '我的', keepAlive: true
+        }
+    },
+    {
         path: '*',
         redirect: '/sqb/home'
     },

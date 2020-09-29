@@ -128,7 +128,13 @@ const isWeixin = () =>
 #ff5000
 
 ```
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
 ```
+
+ <van-button type="primary" color="linear-gradient(to right, #ff7a00, #ff5000)">主要按钮</van-button>
+
+ ### 提示
+  this.$toast("账号最短为 5 个字符");

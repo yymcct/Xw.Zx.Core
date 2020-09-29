@@ -8,6 +8,7 @@ import {
  Icon
 } from "vant";
 import globalFun from '@/utils/globalFun'
+import store from './store'
 import categoryIteamHelp from "@/utils/categoryIteamHelp";
 // import VueLazyLoad from 'vue-lazyload'
 import VueAudio from 'vue-audio-better'
@@ -66,5 +67,6 @@ router.beforeEach((to, from, next) => {
 
 new Vue({
   router,
+  store,
   render: h => h(App),
 }).$mount('#app')

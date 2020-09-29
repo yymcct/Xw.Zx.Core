@@ -20,14 +20,15 @@
         <img class="product-title-image" :src="product.images" alt="" />
       </div>
     </div>
-    <div class="foot">立即购买</div>
+    <div class="foot" @click="buy">立即购买</div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import api from "@/api/sqbApi";
 export default {
-  name: "",
+  name: "Product",
   props: [""],
   data() {
     return {
@@ -37,7 +38,11 @@ export default {
 
   components: {},
 
-  computed: {},
+  computed: {
+    ...mapGetters({
+      user: "user/user",
+    }),
+  },
 
   beforeMount() {
     api.product
@@ -51,7 +56,13 @@ export default {
 
   mounted() {},
 
-  methods: {},
+  methods: {
+    buy() {
+      if(!this.user){
+        this.$router.push(`/sqb/login`)
+      }
+    },
+  },
 
   watch: {},
 };

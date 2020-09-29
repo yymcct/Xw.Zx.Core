@@ -19,9 +19,12 @@ export default {
   name: "app",
   components: {},
   created() {
-  
+    const user = this.$globalFun.userInfoAPI.get();
+    if (user) {
+      this.$store.commit("user/setUser", user.member);
+    }
   },
-  mounted() {}
+  mounted() {},
 };
 </script>
 

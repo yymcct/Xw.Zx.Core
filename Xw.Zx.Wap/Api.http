@@ -1,0 +1,35 @@
+# REST Client
+@baseUrl = http://localhost:63836
+#@baseUrl = http://localhost:52878
+#@baseUrl = http://192.168.0.214:5000
+#@baseUrl = http://122.114.157.240:8822
+@token = eyJhbGciOiJSUzI1NiIsImtpZCI6ImJiYTlkZGEyNGJmY2QxNDE1ODYxMGIyMTE4YWJlMTQ5IiwidHlwIjoiSldUIn0.eyJuYmYiOjE2MDEzOTA1MTgsImV4cCI6MTYxMDAzMDUxOCwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo2MzgzNiIsImF1ZCI6WyJodHRwOi8vbG9jYWxob3N0OjYzODM2L3Jlc291cmNlcyIsIkFwcEFwaSJdLCJjbGllbnRfaWQiOiJBcHAuTWFuYWdlci5SbyIsInN1YiI6IjQ3IiwiYXV0aF90aW1lIjoxNjAxMzkwNTE4LCJpZHAiOiIiLCJyb2xlIjoiQWRtaW4iLCJzY29wZSI6WyJBcHBBcGkiXSwiYW1yIjpbImN1c3RvbSJdfQ.Df65iDPnLLSdDhQjplqL3AeMJHyoONfhFbAUAnssiA7OmfwXq3c8aV-ITV0DuI2HJZJUWzo9dOS6l6CUikKNMdJtFfHkspokVkRAB9C17zZPidI1pJPaWT4VpYrDDXl4zuycEUAXQxPxRgpCf0WnKOH3sh63fLw3I8zkwYEV5_azgcphJtKJtNQgEyvUE06OJuiE4VZR5C4qx8wQFwuUgWoGBtqWGKHeP7YQGikKSUwH3tPDHms-4ib7w0kPFi4lGdONrZ3dJOlHwrqFH1G7v8W2g3ZkKrQGR-Gm2KJ9U4AaEWBVJCvSAsHtG7H1aVWk9sf7RbflxnUlVWs4bYZcsA
+@contentType = application/json
+
+# 获取公用token 
+POST {{baseUrl}}/connect/token HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password&client_id=App.Manager.Ro&client_secret=DEsjpJFtokIOhMKuE6BVMczYUEEyPGTOLrur3PXw26VMLNwKOfAKFZZgR2vVJDKG&username=wengkui&password=wengkui3456
+
+###############################################AutoSendMessages###############################################
+### 获取已审核信息
+GET {{baseUrl}}/api/Values/Get
+#Authorization: Bearer {{token}}
+###
+###
+GET {{baseUrl}}/api/Alipay/GetH5UpdateVip1Order?toVipType=2
+Authorization: Bearer {{token}}
+
+
+### Order
+GET {{baseUrl}}/api/Order/1762
+Authorization: Bearer {{token}}
+
+###
+GET {{baseUrl}}/api/Order
+Authorization: Bearer {{token}}
+
+###
+Post {{baseUrl}}/api/Order/12
+Authorization: Bearer {{token}}

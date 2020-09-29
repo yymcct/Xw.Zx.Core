@@ -1,47 +1,39 @@
 <template>
-  <div class="view-content">
-    <div class="view-content-body">
-      <div class="login-view border">
-        <div class="input-title">账号：</div>
-        <m-input
-          type="text"
-          class="login-input"
-          clearable
-          focus
-          v-model="account"
-          placeholder="请输入账号"
-        ></m-input>
-      </div>
-      <div class="login-view border">
-        <div class="input-title">密码：</div>
-        <m-input
-          type="password"
-          class="login-input"
-          displayable
-          v-model="password"
-          placeholder="请输入密码"
-        ></m-input>
-      </div>
-      <div class="btn-row">
-        <button
-          type="primary"
-          hover-class="none"
-          class="primary"
-          @tap="bindLogin"
-        >
-          登录
-        </button>
-      </div>
-      <div class="action-row">
-        <navigator url="../reg/reg">注册账号</navigator>
-        <text>|</text>
-        <navigator url="../pwd/pwd">忘记密码</navigator>
+  <div class="wrapper">
+    <div class="log">
+      <img :src="require('@/assets/images/log.png')" alt />
+    </div>
+
+    <div class="login">
+      <van-field v-model="account" label="账号" placeholder="请输入账号" />
+      <van-field
+        v-model="password"
+        type="password"
+        label="密码"
+        placeholder="请输入密码"
+      />
+
+      <van-button
+        class="login-btn"
+        type="primary"
+        round
+        color="linear-gradient(to right, #ff7a00, #ff5000)"
+        @click="bindLogin"
+        >登录</van-button
+      >
+      <div class="login-foot">
+        <router-link :to="`/sqb/login/reg`"> 免费注册 </router-link>
+
+        |
+        <router-link :to="`/sqb/login/pwd`"> 忘记密码 </router-link>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { userInfoAPI } from "@/utils/auth";
+import api from "@/api/sqbApi";
 export default {
   name: "",
   props: [""],
@@ -49,8 +41,6 @@ export default {
     return {
       account: "",
       password: "",
-      positionTop: 0,
-      backpage: "../main/main",
     };
   },
 
@@ -65,65 +55,64 @@ export default {
   methods: {
     bindLogin() {
       if (this.account.length < 5) {
-        uni.showToast({
-          icon: "none",
-          title: "账号最短为 5 个字符",
-        });
+        this.$toast("账号最短为 5 个字符");
         return;
       }
       if (this.password.length < 6) {
-        uni.showToast({
-          icon: "none",
-          title: "密码最短为 6 个字符",
-        });
+        this.$toast("密码最短为 6 个字符");
         return;
       }
-      uni.request({
-        url: `${this.baseUrl}/connect/token`, //仅为示例，并非真实接口地址。
-        data:
-          "grant_type=password&client_id=App.Manager.Ro&client_secret=DEsjpJFtokIOhMKuE6BVMczYUEEyPGTOLrur3PXw26VMLNwKOfAKFZZgR2vVJDKG&username=" +
-          this.account +
-          "&password=" +
-          this.password,
-        method: "POST",
-        header: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        success: (res) => {
-          if (res.data.access_token) {
-            uni.setStorageSync(
-              "USERS_KEY",
-              JSON.stringify({
-                id: res.data.id,
-                account: this.account,
-                password: this.password,
-                token: res.data.access_token,
-              })
-            );
-
-            uni.reLaunch({
-              url: this.backpage,
-            });
-          } else {
-            uni.showToast({
-              icon: "none",
-              title: "用户账号或密码不正确",
-            });
-          }
-          this.text = "request success";
-        },
-        fail: () => {
-          uni.showToast({
-            icon: "none",
-            title: "网络异常",
-          });
-        },
-      });
+      api.member
+        .login({
+          account: this.account,
+          password: this.password,
+        })
+        .then((res) => {
+          userInfoAPI.set(res.result);
+           this.$store.commit("user/setUser", res.result.member);
+          this.$router.push(`/sqb/home`);
+        });
     },
   },
 
   watch: {},
 };
 </script>
-<style lang='' scoped>
+<style lang='scss' scoped>
+.wrapper {
+  background-color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  .log {
+    img {
+      margin-top: 100px;
+      width: 200px;
+    }
+  }
+  .login {
+    width: 90%;
+    margin-top: 30px;
+    //box-shadow: 0.02667rem 0.02667rem 0.21333rem #666;
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 30px 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    &-btn {
+      width: 80%;
+      margin: 20px 0;
+    }
+    &-foot {
+      font-size: 14px;
+      a {
+        color: #ff5000;
+      }
+    }
+  }
+}
 </style>
