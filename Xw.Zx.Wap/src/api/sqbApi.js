@@ -5,8 +5,8 @@ import request from '@/utils/request'
 
 export default {
     member: {
-        login: (params) => request.post('/api/member/H5', params)
-
+        login: (params) => request.post('/api/member/H5', params),
+        reg: (params) => request.post('/api/member/PostRegisterUser', params),
     },
     computer: {
         postComputerUser: (params) => request.post('/api/LxComputer/PostUser', params)

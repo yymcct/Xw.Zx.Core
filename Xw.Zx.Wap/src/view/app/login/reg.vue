@@ -5,25 +5,38 @@
     </div>
 
     <div class="login">
-      <van-field v-model="account" label="手机" placeholder="请输入手机号" />
       <van-field
-        v-model="password"
+        v-model="user.account"
+        label="手机"
+        placeholder="请输入手机号"
+      />
+      <van-field
+        v-model="user.password"
         type="password"
         label="密码"
         placeholder="请输入密码"
       />
-
+      <van-field
+        v-model="user.password2"
+        type="password"
+        label="密码"
+        placeholder="请重复输入密码"
+      />
+      <van-field
+        v-model="user.invitePhone"
+        label="邀请人"
+        placeholder="请输入邀请人手机号"
+      />
       <van-button
         class="login-btn"
         type="primary"
         round
         color="linear-gradient(to right, #ff7a00, #ff5000)"
         @click="bindLogin"
-        >登录</van-button
+        >注册</van-button
       >
       <div class="login-foot">
-        <router-link :to="`/sqb/login/reg`"> 免费注册 </router-link>
-
+        <router-link :to="`/sqb/login`"> 登录 </router-link>
         |
         <router-link :to="`/sqb/login/pwd`"> 忘记密码 </router-link>
       </div>
@@ -39,8 +52,11 @@ export default {
   props: [""],
   data() {
     return {
-      account: "",
-      password: "",
+      user: {
+        account: "",
+        password: "",
+        invitePhone: "",
+      },
     };
   },
 
@@ -54,24 +70,31 @@ export default {
 
   methods: {
     bindLogin() {
-      if (this.account.length != 11) {
+      const _this = this;
+      if (this.user.account.length != 11) {
         this.$toast("手机号不正确");
         return;
       }
-      if (this.password.length < 6) {
+      if (this.user.password.length < 6) {
         this.$toast("密码最短为 6 个字符");
         return;
       }
-      api.member
-        .login({
-          account: this.account,
-          password: this.password,
-        })
-        .then((res) => {
-          userInfoAPI.set(res.result);
-           this.$store.commit("user/setUser", res.result.member);
-          this.$router.push(`/sqb/home`);
-        });
+      if (this.user.invitePhone.length != 11) {
+        this.$toast("邀请人电话不正确");
+        return;
+      }
+      if (this.user.password != this.user.password2) {
+        this.$toast("两次输入密码不一样");
+        return;
+      }
+      api.member.reg(_this.user).then((res) => {
+        if (res.statusCode == 200) {
+          _this.$toast("注册成功!请去登录");
+          setTimeout(() => {
+            _this.$router.push(`/sqb/login`);
+          }, 2000);
+        }
+      });
     },
   },
 

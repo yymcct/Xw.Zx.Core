@@ -74,7 +74,15 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/login/login'),
         meta: {
-            title: '我的', keepAlive: true
+            title: '登录', keepAlive: true
+        }
+    },
+    {
+        path: '/sqb/login/reg',
+        component: () =>
+            import(/* webpackChunkName: "sqb" */ './view/app/login/reg'),
+        meta: {
+            title: '注册', keepAlive: true
         }
     },
     {
