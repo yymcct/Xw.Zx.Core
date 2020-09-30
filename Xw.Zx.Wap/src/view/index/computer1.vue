@@ -1,6 +1,7 @@
 <template>
+  <!-- 利息计算方式修订 -->
   <div class="wrapper">
-    <h1 class="head">贷款利息减免计算器</h1>
+    <h1 class="head">贷款利息减免计算器 <span>V1.1测试版</span></h1>
     <div class="content">
       <van-field v-model="name" label="姓名" placeholder="请输入姓名" />
       <van-field
@@ -41,6 +42,7 @@
       <van-field
         v-model="repaymentCycle"
         label="已还期数"
+        required
         placeholder="请输入已还期数"
         type="digit"
       />
@@ -59,13 +61,14 @@
             borrowAmount == '' ||
             cycle == '' ||
             cycleAmount == '' ||
-            phone.length < 11
+            phone.length < 11 ||
+            repaymentCycle.length==0
           "
           >开始计算</van-button
         >
       </div>
     </div>
-
+    <!--  -->
     <div class="result" v-show="!option.btnShow">
       <h2>计算结果</h2>
       <p>
@@ -87,42 +90,11 @@
       <img :src="require('@/assets/images/log.png')" alt="" />
       <span>Copy Right 2020 成都再减减企业管理服务有限公司</span>
     </div>
-    <!-- <div class="contact" v-show="!option.btnShow">
-      <div class="contact-linkman" v-show="member.linkMan">获取精准减免金额, 立刻咨询专属客服</div>
-      <div class="contact-tel" v-show="member.phone">
-        <span class="contact-tel-num">{{member.phone}}</span>
-        <a class="contact-tel-btn" :href="'tel:'+member.phone">一键拨打</a>
-      </div>
-      <div class="contact-qrcode" v-show="member.wxQrCode">
-        <img class="contact-qrcode-code" :src="member.wxQrCode" alt />
-        <span>识别二维码联系我们</span>
-      </div>
-    </div> -->
-
-    <!-- <div class="share">
-      <div class="share-title">生成专属分享二维码</div>
-      <div class="share-phone">
-        <van-field v-model="option.sharePhone" placeholder="填入手机号, 生成专属二维码" />
-        <van-button
-          type="primary"
-          round
-          icon="share"
-          class="share-phone-btn"
-          size="small"
-          :disabled="option.sharePhone.length!=11"
-          @click="option.showQrcode =true"
-        >生成</van-button>
-      </div>
-      <div class="contact-qrcode" v-if="option.showQrcode==true && option.sharePhone.length==11">
-        <vue-qr  :logoSrc="require('@/assets/images/bg1.jpg')" :correctLevel="3" logoScale="0.3" logoMargin="5" :text="'http://139.155.8.217/sqb/computer?p='+option.sharePhone" :size="700"></vue-qr>
-        <span>长按保存二维码分享</span>
-      </div>
-    </div> -->
   </div>
 </template>
 
 <script>
-import api from "@/api/sqbApi";
+//import api from "@/api/sqbApi";
 // import vueQr from "vue-qr";
 export default {
   name: "",
@@ -137,6 +109,11 @@ export default {
       cycleAmount: "",
       repaymentCycle: "",
       overdueCycle: "",
+
+      yflx: 0,
+      jmlx_min: 0,
+      jmlx_max: 0,
+
       member: {
         linkMan: "xians",
         phone: "1876666666",
@@ -156,27 +133,27 @@ export default {
     // vueQr
   },
   computed: {
-    yflx: function () {
-      return parseInt(this.borrowAmount * 0.008 * this.cycle);
-    },
-    jmlx_min: function () {
-      let l = parseInt(
-        this.cycle * this.cycleAmount -
-          this.borrowAmount -
-          this.borrowAmount * 0.008 * this.cycle
-      );
-      if (l < 0) l = 0;
-      return l;
-    },
-    jmlx_max: function () {
-      let l = parseInt(
-        this.cycle * this.cycleAmount -
-          this.borrowAmount -
-          (this.borrowAmount * 0.008 * this.cycle) / 3
-      );
-      if (l < 0) l = 0;
-      return l;
-    },
+    // yflx: function () {
+    //   return parseInt(this.borrowAmount * 0.008 * this.cycle);
+    // },
+    // jmlx_min: function () {
+    //   let l = parseInt(
+    //     this.cycle * this.cycleAmount -
+    //       this.borrowAmount -
+    //       this.borrowAmount * 0.008 * this.cycle
+    //   );
+    //   if (l < 0) l = 0;
+    //   return l;
+    // },
+    // jmlx_max: function () {
+    //   let l = parseInt(
+    //     this.cycle * this.cycleAmount -
+    //       this.borrowAmount -
+    //       (this.borrowAmount * 0.008 * this.cycle) / 3
+    //   );
+    //   if (l < 0) l = 0;
+    //   return l;
+    // },
   },
 
   beforeMount() {},
@@ -188,17 +165,49 @@ export default {
   },
 
   methods: {
-    jsq(jixibenjin, qishu, meiyuehuankuan) {
+    jsq_yflx(jixibenjin, qishu, meiyuehuankuan) {
       let yinhuanlixiTotal = 0;
       for (var i = 0; i < qishu; i++) {
         let yinhuanlixi = (jixibenjin * 15.4) / 100 / 12;
-        let yindibenji = meiyuehuankuan - yinhuanlixi;
-        console.log(jixibenjin, i + 1, yinhuanlixi, meiyuehuankuan, yindibenji);
+        let yindibenji = meiyuehuankuan - yinhuanlixi;  
 
         jixibenjin = jixibenjin - yindibenji;
         yinhuanlixiTotal += yinhuanlixi;
       }
       return Math.round(yinhuanlixiTotal);
+    },
+    jsq_minjmlx(jixibenjin, qishu, meiyuehuankuan, yihuanqishu) {
+      let hetongjine = qishu * meiyuehuankuan; //合同金额
+      let yflx = this.jsq_yflx(jixibenjin, qishu, meiyuehuankuan);
+      let minjmlx = hetongjine - jixibenjin - yflx;
+
+      let getshengyujixibenjin = (jixibenjin, meiyuehuankuan, yihuanqishu) => {
+        for (var i = 0; i < yihuanqishu; i++) {
+          let yinhuanlixi = (jixibenjin * 15.4) / 100 / 12;
+          let yindibenji = meiyuehuankuan - yinhuanlixi;
+          jixibenjin = jixibenjin - yindibenji;
+        }
+        return jixibenjin;
+      };
+
+      let shengyujixibenjin = getshengyujixibenjin(
+        jixibenjin,
+        meiyuehuankuan,
+        yihuanqishu
+      );
+      if (minjmlx > shengyujixibenjin) {
+        minjmlx = shengyujixibenjin - 5000;
+      }
+      if (minjmlx < 0) minjmlx = 0;
+
+      return Math.round(minjmlx);
+    },
+    jsq_maxjmlx(jixibenjin, qishu, meiyuehuankuan, yihuanqishu) {
+      let hetongjine = qishu * meiyuehuankuan; //合同金额
+      let yifulix = this.jsq_yflx(jixibenjin, yihuanqishu, meiyuehuankuan);
+
+      let maxjmlx = hetongjine-jixibenjin-yifulix;
+       return Math.round(maxjmlx);
     },
     btnClikc() {
       if (this.phone.length != 11) {
@@ -210,20 +219,37 @@ export default {
         return;
       }
 
-      api.computer.postComputerUser({
-        name: this.name,
-        phone: this.phone,
-        borrowCompany: this.borrowCompany,
-        borrowAmount: this.borrowAmount,
-        cycle: this.cycle,
-        cycleAmount: this.cycleAmount,
-        repaymentCycle: this.repaymentCycle,
-        overdueCycle: this.overdueCycle,
-        sourcePhone: this.member.phone,
-        MinReduce: this.jmlx_min,
-        MaxReduce: this.jmlx_max,
-      });
-      this.option.btnShow = false;
+      this.yflx = this.jsq_yflx(
+        this.borrowAmount,
+        this.cycle,
+        this.cycleAmount
+      );
+      this.jmlx_min = this.jsq_minjmlx(
+        this.borrowAmount,
+        this.cycle,
+        this.cycleAmount
+      );
+      this.jmlx_max =this.jsq_maxjmlx(
+        this.borrowAmount,
+        this.cycle,
+        this.cycleAmount,
+        this.repaymentCycle
+      );
+
+      // api.computer.postComputerUser({
+      //   name: this.name,
+      //   phone: this.phone,
+      //   borrowCompany: this.borrowCompany,
+      //   borrowAmount: this.borrowAmount,
+      //   cycle: this.cycle,
+      //   cycleAmount: this.cycleAmount,
+      //   repaymentCycle: this.repaymentCycle,
+      //   overdueCycle: this.overdueCycle,
+      //   sourcePhone: this.member.phone,
+      //   MinReduce: this.jmlx_min,
+      //   MaxReduce: this.jmlx_max,
+      // });
+       this.option.btnShow = false;
     },
   },
 
@@ -240,6 +266,9 @@ export default {
     text-align: center;
     padding: 20px;
     font-size: 24px;
+    span {
+      font-size: 14px;
+    }
   }
   .content {
     overflow: hidden;
