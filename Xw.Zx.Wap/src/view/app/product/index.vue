@@ -20,7 +20,7 @@
         <img class="product-title-image" :src="product.images" alt="" />
       </div>
     </div>
-    <div class="foot" @click="buy">立即购买</div>
+    <div class="foot" loading:=loading @click="buy">立即购买</div>
   </div>
 </template>
 
@@ -33,6 +33,7 @@ export default {
   data() {
     return {
       product: null,
+      loading: false,
     };
   },
 
@@ -58,10 +59,12 @@ export default {
 
   methods: {
     async buy() {
+      const _this = this;
       if (!this.user) {
         this.$router.push(`/sqb/login`);
       }
       //检查是否有未处理的订单
+      _this.loading = true;
       let unbalanceOrder = await api.order.gets({
         Filters: "OrderState==0",
         Sorts: "-id",
@@ -71,12 +74,24 @@ export default {
         unbalanceOrder.statusCode == 200 &&
         unbalanceOrder.result.length > 0
       ) {
-        this.$toast("您有未完成的订单, 请处理和再操作");
+        this.$toast("您有未完成的订单, 请处理后再操作");
         setTimeout(() => {
+          _this.loading = false;
           this.$router.push(`/sqb/order/${unbalanceOrder.result[0].id}`);
         }, 2000);
+      } else {
+        //添加订单
+        api.order
+          .post(_this.product.id)
+          .then((res) => {
+            _this.loading = false;
+            _this.$router.push(`/sqb/order/${res.result.id}`);
+          })
+          .catch(() => {
+            _this.loading = false;
+            this.$toast("添加订单失败!");
+          });
       }
-      console.log(unbalanceOrder);
     },
   },
 
