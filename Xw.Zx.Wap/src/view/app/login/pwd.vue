@@ -5,11 +5,7 @@
     </div>
 
     <div class="login">
-      <van-field
-        v-model="user.phone"
-        label="手机"
-        placeholder="请输入手机号"
-      />
+      <van-field v-model="user.phone" label="手机" placeholder="请输入手机号" />
       <van-field
         v-model="user.password"
         type="password"
@@ -23,29 +19,38 @@
         placeholder="请再次输入密码"
       />
       <van-field
-        v-model="user.invitePhone"
-        label="邀请人"
-        placeholder="请输入邀请人手机号"
-      />
+        v-model="user.smsCheck"
+        label="验证码"
+        placeholder="请输入验证码"
+      >
+        <template #button>
+          <van-button
+            size="small"
+            type="primary"
+            color="linear-gradient(to right, #ff7a00, #ff5000)"
+            @click="sendSms"
+            >发送验证码</van-button
+          >
+        </template>
+      </van-field>
       <van-button
         class="login-btn"
         type="primary"
         round
         color="linear-gradient(to right, #ff7a00, #ff5000)"
         @click="bindLogin"
-        >注册</van-button
+        >提交</van-button
       >
       <div class="login-foot">
-        <router-link :to="`/sqb/login`"> 立即登录 </router-link>
+        <router-link :to="`/sqb/login/reg`"> 免费注册 </router-link>
         |
-        <router-link :to="`/sqb/login/pwd`"> 忘记密码 </router-link>
+        <router-link :to="`/sqb/login`"> 立即登录  </router-link>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-
 import api from "@/api/sqbApi";
 export default {
   name: "",
@@ -55,7 +60,7 @@ export default {
       user: {
         phone: "",
         password: "",
-        invitePhone: "",
+        smsCheck: "",
       },
     };
   },
@@ -69,6 +74,16 @@ export default {
   mounted() {},
 
   methods: {
+    sendSms() {
+      const _this = this;
+      api.member
+        .smscode({
+          phone: _this.user.phone,
+        })
+        .then(() => {
+          this.$toast("验证码已发送");
+        });
+    },
     bindLogin() {
       const _this = this;
       if (this.user.phone.length != 11) {
@@ -79,22 +94,28 @@ export default {
         this.$toast("密码最短为 6 个字符");
         return;
       }
-      if (this.user.invitePhone.length != 11) {
-        this.$toast("邀请人电话不正确");
+      if (this.user.smsCheck.length != 4) {
+        this.$toast("验证码不正确");
         return;
       }
       if (this.user.password != this.user.password2) {
         this.$toast("两次输入密码不一样");
         return;
       }
-      api.member.reg(_this.user).then((res) => {
-        if (res.statusCode == 200) {
-          _this.$toast("注册成功!请去登录");
-          setTimeout(() => {
-            _this.$router.push(`/sqb/login`);
-          }, 2000);
-        }
-      });
+      api.member
+        .pwd({
+          phone: this.user.phone,
+          NewPassword: this.user.password,
+          smsCheck: this.user.smsCheck,
+        })
+        .then((res) => {
+          if (res.statusCode == 200) {
+            _this.$toast("修改成功! 请去登录");
+            setTimeout(() => {
+              _this.$router.push(`/sqb/login`);
+            }, 2000);
+          }
+        });
     },
   },
 

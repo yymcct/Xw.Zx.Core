@@ -62,14 +62,14 @@
             cycle == '' ||
             cycleAmount == '' ||
             phone.length < 11 ||
-            repaymentCycle.length==0
+            repaymentCycle.length == 0
           "
           >开始计算</van-button
         >
       </div>
     </div>
-    <!--  -->
-    <div class="result" v-show="!option.btnShow">
+    <!--  v-show="!option.btnShow"-->
+    <div class="result">
       <h2>计算结果</h2>
       <p>
         <span class="result-lable">应付利息:&nbsp;</span>
@@ -102,12 +102,12 @@ export default {
   data() {
     return {
       name: "",
-      phone: "",
+      phone: "18777777777",
       borrowCompany: "",
-      borrowAmount: "",
+      borrowAmount: "100000",
       cycle: 36,
-      cycleAmount: "",
-      repaymentCycle: "",
+      cycleAmount: "5000",
+      repaymentCycle: "20",
       overdueCycle: "",
 
       yflx: 0,
@@ -169,7 +169,7 @@ export default {
       let yinhuanlixiTotal = 0;
       for (var i = 0; i < qishu; i++) {
         let yinhuanlixi = (jixibenjin * 15.4) / 100 / 12;
-        let yindibenji = meiyuehuankuan - yinhuanlixi;  
+        let yindibenji = meiyuehuankuan - yinhuanlixi;
 
         jixibenjin = jixibenjin - yindibenji;
         yinhuanlixiTotal += yinhuanlixi;
@@ -181,20 +181,25 @@ export default {
       let yflx = this.jsq_yflx(jixibenjin, qishu, meiyuehuankuan);
       let minjmlx = hetongjine - jixibenjin - yflx;
 
-      let getshengyujixibenjin = (jixibenjin, meiyuehuankuan, yihuanqishu) => {
-        for (var i = 0; i < yihuanqishu; i++) {
-          let yinhuanlixi = (jixibenjin * 15.4) / 100 / 12;
-          let yindibenji = meiyuehuankuan - yinhuanlixi;
-          jixibenjin = jixibenjin - yindibenji;
-        }
-        return jixibenjin;
+      // let getshengyujixibenjin = (jixibenjin, meiyuehuankuan, yihuanqishu) => {
+      //   for (var i = 0; i < yihuanqishu; i++) {
+      //     let yinhuanlixi = (jixibenjin * 15.4) / 100 / 12;
+      //     let yindibenji = meiyuehuankuan - yinhuanlixi;
+      //     jixibenjin = jixibenjin - yindibenji;
+      //   }
+      //   return jixibenjin;
+      // };
+      let getshengyuhetongjine = (meiyuehuankuan, qishu, yihuanqishu) => {
+        let shengyuhetongjine = (qishu - yihuanqishu) * meiyuehuankuan;
+        return shengyuhetongjine;
       };
 
-      let shengyujixibenjin = getshengyujixibenjin(
-        jixibenjin,
+      let shengyujixibenjin = getshengyuhetongjine(
         meiyuehuankuan,
+        qishu,
         yihuanqishu
       );
+      console.log(shengyujixibenjin);
       if (minjmlx > shengyujixibenjin) {
         minjmlx = shengyujixibenjin - 5000;
       }
@@ -206,8 +211,8 @@ export default {
       let hetongjine = qishu * meiyuehuankuan; //合同金额
       let yifulix = this.jsq_yflx(jixibenjin, yihuanqishu, meiyuehuankuan);
 
-      let maxjmlx = hetongjine-jixibenjin-yifulix;
-       return Math.round(maxjmlx);
+      let maxjmlx = hetongjine - jixibenjin - yifulix;
+      return Math.round(maxjmlx);
     },
     btnClikc() {
       if (this.phone.length != 11) {
@@ -227,9 +232,10 @@ export default {
       this.jmlx_min = this.jsq_minjmlx(
         this.borrowAmount,
         this.cycle,
-        this.cycleAmount
+        this.cycleAmount,
+        this.repaymentCycle
       );
-      this.jmlx_max =this.jsq_maxjmlx(
+      this.jmlx_max = this.jsq_maxjmlx(
         this.borrowAmount,
         this.cycle,
         this.cycleAmount,
@@ -249,7 +255,7 @@ export default {
       //   MinReduce: this.jmlx_min,
       //   MaxReduce: this.jmlx_max,
       // });
-       this.option.btnShow = false;
+      //   this.option.btnShow = false;
     },
   },
 

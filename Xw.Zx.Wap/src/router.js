@@ -12,6 +12,14 @@ const routes = [
         meta: {
             title: '计算器', keepAlive: false
         }
+    }, 
+    {
+        path: '/sqb/computer1',
+        component: () =>
+            import(/* webpackChunkName: "sqb" */ './view/index/computer1'),
+        meta: {
+            title: '计算器', keepAlive: false
+        }
     },
     {
         path: '/sqb/computer2',
@@ -52,13 +60,21 @@ const routes = [
         meta: {
             title: '首页', keepAlive: true
         }
-    }, 
+    },
     {
         path: '/sqb/product/:id',
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/product/index'),
         meta: {
             title: '产品', keepAlive: false
+        }
+    },
+    {
+        path: '/sqb/order/:id',
+        component: () =>
+            import(/* webpackChunkName: "sqb" */ './view/app/order/index'),
+        meta: {
+            title: '订单', keepAlive: false
         }
     },
     {
@@ -83,6 +99,14 @@ const routes = [
             import(/* webpackChunkName: "sqb" */ './view/app/login/reg'),
         meta: {
             title: '注册', keepAlive: true
+        }
+    },
+    {
+        path: '/sqb/login/pwd',
+        component: () =>
+            import(/* webpackChunkName: "sqb" */ './view/app/login/pwd'),
+        meta: {
+            title: '重置密码', keepAlive: true
         }
     },
     {

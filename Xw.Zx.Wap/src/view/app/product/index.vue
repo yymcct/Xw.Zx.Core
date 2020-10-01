@@ -7,7 +7,7 @@
         @click-left="$router.go(-1)"
       />
     </div>
-    <div class="product">
+    <div class="product" v-if="product">
       <div class="product-title">
         <img class="product-title-image" :src="product.images" alt="" />
         <h1 class="product-title-name">{{ product.name }}</h1>
@@ -57,10 +57,26 @@ export default {
   mounted() {},
 
   methods: {
-    buy() {
-      if(!this.user){
-        this.$router.push(`/sqb/login`)
+    async buy() {
+      if (!this.user) {
+        this.$router.push(`/sqb/login`);
       }
+      //检查是否有未处理的订单
+      let unbalanceOrder = await api.order.gets({
+        Filters: "OrderState==0",
+        Sorts: "-id",
+        PageSize: "1",
+      });
+      if (
+        unbalanceOrder.statusCode == 200 &&
+        unbalanceOrder.result.length > 0
+      ) {
+        this.$toast("您有未完成的订单, 请处理和再操作");
+        setTimeout(() => {
+          this.$router.push(`/sqb/order/${unbalanceOrder.result[0].id}`);
+        }, 2000);
+      }
+      console.log(unbalanceOrder);
     },
   },
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sieve.Attributes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -25,6 +26,7 @@ namespace Xw.Zx.Core.Models.Model
     /// </summary>
     public class Order
     {
+        [Sieve(CanFilter = true, CanSort = true)]
         public int Id { get; set; }
 
         public string Timestamp { get; set; }
@@ -41,6 +43,7 @@ namespace Xw.Zx.Core.Models.Model
 
         public DateTime AddTime { get; set; } = DateTime.Now;
 
+        [Sieve(CanFilter = true, CanSort = true)]
         public OrderState OrderState { get; set; } = OrderState.待付款;
 
         public OrderPaymentType OrderPaymentType { get; set; } = OrderPaymentType.支付宝;
