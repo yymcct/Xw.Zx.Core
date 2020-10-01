@@ -20,6 +20,7 @@ export default {
     order: {
         post: (params) => request.post(`/api/Order/${params}`),
         get: (params) => request.get(`/api/Order/${params}`),
+        delete: (params) => request.delete(`/api/Order/${params}`),
         gets: (params) => request.get('/api/Order', { params: params }),
     }
 }

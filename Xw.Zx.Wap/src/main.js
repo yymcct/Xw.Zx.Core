@@ -4,7 +4,7 @@ import App from './App.vue'
 import { router } from './router';
 import {
   Field, Toast, Loading, 
-  Button, NavBar, Image,Tab, Tabs, Picker, Popup,
+  Button, NavBar, Image,Tab, Tabs, Picker, Popup,Dialog,
  Icon
 } from "vant";
 import globalFun from '@/utils/globalFun'
@@ -34,6 +34,7 @@ Vue.use(Tabs);
 Vue.use(Icon);
 Vue.use(Picker);
 Vue.use(Popup);
+Vue.use(Dialog);
 
 
 

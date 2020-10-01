@@ -74,7 +74,7 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/order/index'),
         meta: {
-            title: '订单', keepAlive: false
+            title: '订单详情', keepAlive: false
         }
     },
     {

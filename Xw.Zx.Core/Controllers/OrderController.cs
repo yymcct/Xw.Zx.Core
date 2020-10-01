@@ -62,11 +62,11 @@ namespace Xw.Zx.Core.Controllers
             {
                 var order = _context.Orders.FirstOrDefault(o => o.Id == id && o.MemberId == Member.Id);
 
-              //  OrderDto dto = null;
-              //  if (order != null)
-              //  {
-               //     dto = _mapper.Map<OrderDto>(order);
-               // }
+                //  OrderDto dto = null;
+                //  if (order != null)
+                //  {
+                //     dto = _mapper.Map<OrderDto>(order);
+                // }
                 var dto = _mapper.Map<OrderDto>(order);
 
                 return new HbzsResult<OrderDto>(dto);
@@ -110,6 +110,26 @@ namespace Xw.Zx.Core.Controllers
                 _logger.LogError(ex.Message);
                 return new HbzsResult<OrderDto>(HbzsResultCode.Invalid_Error, "产品不存在");
             }
+        }
+
+        [HttpDelete("{id}")]
+        public HbzsResult<bool> Delete(int id)
+        {
+            try
+            {
+                var order = _context.Orders
+                            .Where(o => o.OrderState == OrderState.待付款 && Member.Id == o.MemberId && o.Id==id)
+                            .First();
+                _context.Orders.Remove(order);
+                _context.SaveChanges();
+                return new HbzsResult<bool>(true);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new HbzsResult<bool>(HbzsResultCode.Invalid_Error, "订单删除失败");
+            }
+
         }
 
 
