@@ -15,12 +15,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Xw.Zx.Core.Controllers.AlipayController.GetH5UpdateVip1Order(Xw.Zx.Core.Models.Model.MemberVipType)">
-            <summary>
-            获取升级VIP1订单信息, 用户H5支付宝支付
-            </summary>
-            <returns></returns>
-        </member>
         <member name="M:Xw.Zx.Core.Controllers.AlipayController.Notifyurl">
             <summary>
             支付宝支付成功回调地址 

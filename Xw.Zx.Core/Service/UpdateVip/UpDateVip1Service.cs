@@ -64,39 +64,7 @@ namespace Xw.Zx.Core.Service
             };
         }
 
-        public AliPayOrderDto CreateH5AliPayOrder(Member member, MemberVipType toVipTyp)
-        {
-            var errMsg = CheckUpdateVip(member, toVipTyp);
-            if (!string.IsNullOrEmpty(errMsg))
-            {
-                throw new Exception(errMsg);
-            }
 
-            Order order = CreateOrder(member, toVipTyp);
-
-            AlipayTradeAppPayModel model = new AlipayTradeAppPayModel()
-            {
-                Body = order.ProducName,
-                Subject = order.ProducName,
-                TotalAmount = order.Amount.ToString("n"),
-                ProductCode = "QUICK_WAP_PAY",
-                OutTradeNo = order.Timestamp,
-                TimeoutExpress = "50m",
-            };
-
-            AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
-            request.SetNotifyUrl("http://139.155.8.217/api/Alipay/Notifyurl");
-            request.SetBizModel(model);
-
-            var response = _alipayService.PageExecute(request);  // _alipayService.SdkExecute(request);
-
-            return new AliPayOrderDto()
-            {
-                ProductName = order.ProducName,
-                ProductPrice = order.Amount.ToString("n"),
-                AlipayTradeAppPayResponse = response.Body
-            };
-        }
 
         private string CheckUpdateVip(Member member, MemberVipType toVipTyp)
         {

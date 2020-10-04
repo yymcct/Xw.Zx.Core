@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,7 @@ namespace Xw.Zx.Core.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class OrderController : BaseController
     {
         private readonly ILogger<OrderController> _logger;
@@ -131,7 +133,5 @@ namespace Xw.Zx.Core.Controllers
             }
 
         }
-
-
     }
 }
