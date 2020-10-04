@@ -39,7 +39,7 @@
         round
         size="small"
         color="linear-gradient(to right, #ff7a00, #ff5000)"
-        @click="delOrder"
+        @click="payOrder"
       >
         付款
       </van-button>
@@ -86,18 +86,32 @@ export default {
         message: "确定删除该订单?",
         beforeClose: (action, done) => {
           if (action === "confirm") {
-            api.order.delete(_this.order.id).then(() => {
-              this.$toast("订单已删除");
-               this.$router.push(`/sqb/home`);
-              done();
-            }).catch(()=>{
+            api.order
+              .delete(_this.order.id)
+              .then(() => {
+                this.$toast("订单已删除");
+                this.$router.push(`/sqb/home`);
+                done();
+              })
+              .catch(() => {
                 this.$toast("异常:订单未能删除");
                 done();
-            });
+              });
           } else {
             done();
           }
         },
+      });
+    },
+    payOrder() {
+      const _this = this;
+      api.alipay.wapPay(_this.order.id).then((res) => {
+        console.log(res);
+        const div = document.createElement("div");
+        /* 此处form就是后台返回接收到的数据 */
+        div.innerHTML = res.result.alipayTradeAppPayResponse;
+        document.body.appendChild(div);
+        document.forms[0].submit();
       });
     },
   },

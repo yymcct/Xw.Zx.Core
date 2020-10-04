@@ -22,5 +22,8 @@ export default {
         get: (params) => request.get(`/api/Order/${params}`),
         delete: (params) => request.delete(`/api/Order/${params}`),
         gets: (params) => request.get('/api/Order', { params: params }),
+    },
+    alipay:{
+        wapPay:(params) => request.post(`/api/Alipay/WapPay/${params}`)
     }
 }

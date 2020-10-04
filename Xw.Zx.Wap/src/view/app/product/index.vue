@@ -62,6 +62,7 @@ export default {
       const _this = this;
       if (!this.user) {
         this.$router.push(`/sqb/login`);
+        return;
       }
       //检查是否有未处理的订单
       _this.loading = true;
@@ -108,6 +109,7 @@ export default {
     font-size: 16px;
     background-color: #fff;
     padding-bottom: 10px;
+    box-sizing: border-box;
     &-image {
       width: 100%;
     }
