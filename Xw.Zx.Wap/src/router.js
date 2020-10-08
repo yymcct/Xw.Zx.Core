@@ -86,11 +86,51 @@ const routes = [
         }
     },
     {
+        path: '/sqb/user/myteam',
+        component: () =>
+            import(/* webpackChunkName: "sqb" */ './view/app/user/myteam'),
+        meta: {
+            title: '我的团队', keepAlive: false
+        }
+    },
+    {
+        path: '/sqb/user/income',
+        component: () =>
+            import(/* webpackChunkName: "sqb" */ './view/app/user/income'),
+        meta: {
+            title: '我的收益', keepAlive: false
+        }
+    },
+    {
+        path: '/sqb/user/incomeaudit',
+        component: () =>
+            import(/* webpackChunkName: "sqb" */ './view/app/user/incomeAudit'),
+        meta: {
+            title: '收益审核', keepAlive: false
+        }
+    },
+    {
+        path: '/sqb/user/code',
+        component: () =>
+            import(/* webpackChunkName: "sqb" */ './view/app/user/code'),
+        meta: {
+            title: '兑换码', keepAlive: false
+        }
+    },
+    {
+        path: '/sqb/user/user',
+        component: () =>
+            import(/* webpackChunkName: "sqb" */ './view/app/user/user'),
+        meta: {
+            title: '个人信息', keepAlive: false
+        }
+    },
+    {
         path: '/sqb/login',
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/login/login'),
         meta: {
-            title: '登录', keepAlive: true
+            title: '登录', keepAlive: false
         }
     },
     {
@@ -98,7 +138,7 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/login/reg'),
         meta: {
-            title: '注册', keepAlive: true
+            title: '注册', keepAlive: false
         }
     },
     {
@@ -106,7 +146,7 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/login/pwd'),
         meta: {
-            title: '重置密码', keepAlive: true
+            title: '重置密码', keepAlive: false
         }
     },
     {
