@@ -23,10 +23,13 @@ export default {
         delete: (params) => request.delete(`/api/Order/${params}`),
         gets: (params) => request.get('/api/Order', { params: params }),
     },
-    alipay:{
-        wapPay:(params) => request.post(`/api/Alipay/WapPay/${params}`)
+    alipay: {
+        wapPay: (params) => request.post(`/api/Alipay/WapPay/${params}`)
     },
-    income:{
+    income: {
         getIncomeInfo: () => request.get('/api/Income/GetIncomeInfo'),
+    },
+    withdrawDeposit: {
+        withdrawDeposit: (params) => request.post('/api/WithdrawDeposit/PostWithdrawDeposit', params),
     }
 }

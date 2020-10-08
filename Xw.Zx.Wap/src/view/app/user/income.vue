@@ -72,7 +72,7 @@ export default {
       }
 
       this.$router.push(
-        `/user/withdrawDeposit?canget=${this.incomeInfo.canGet}`
+        `/user/withdrawdeposit?canget=${this.incomeInfo.canGet}`
       );
     },
   },
