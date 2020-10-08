@@ -56,6 +56,7 @@ export default {
     return {
       product: null,
       order: null,
+      loading:false
     };
   },
 
