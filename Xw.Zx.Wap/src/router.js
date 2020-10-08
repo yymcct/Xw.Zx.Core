@@ -110,6 +110,22 @@ const routes = [
         }
     },
     {
+        path: '/sqb/user/withdrawdepositlist',
+        component: () =>
+            import(/* webpackChunkName: "sqb" */ './view/app/user/withdrawDepositList'),
+        meta: {
+            title: '提现详情', keepAlive: false
+        }
+    },
+    {
+        path: '/sqb/user/incomelist',
+        component: () =>
+            import(/* webpackChunkName: "sqb" */ './view/app/user/incomelist'),
+        meta: {
+            title: '收益详情', keepAlive: false
+        }
+    },
+    {
         path: '/sqb/user/code',
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/user/code'),

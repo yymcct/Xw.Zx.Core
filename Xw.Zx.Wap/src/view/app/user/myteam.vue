@@ -1,36 +1,35 @@
 <template>
-  <div>
-    
-    
+  <div class="wrapper">
+    <div class="bar">
+      <van-nav-bar
+        :title="$route.meta.title"
+        left-arrow
+        @click-left="$router.go(-1)"
+      />
+    </div>
   </div>
 </template>
 
 <script>
+export default {
+  name: "",
+  props: [""],
+  data() {
+    return {};
+  },
 
-  export default {
-    name:'',
-    props:[''],
-    data () {
-      return {
+  components: {},
 
-      };
-    },
+  computed: {},
 
-    components: {},
+  beforeMount() {},
 
-    computed: {},
+  mounted() {},
 
-    beforeMount() {},
+  methods: {},
 
-    mounted() {},
-
-    methods: {},
-
-    watch: {}
-
-  }
-
+  watch: {},
+};
 </script>
 <style lang='' scoped>
-
 </style>
