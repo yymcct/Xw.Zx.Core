@@ -10,9 +10,9 @@
     <div class="product" v-if="product">
       <div class="product-title">
         <img class="product-title-image" :src="product.images" alt="" />
-        <h1 class="product-title-name">{{ product.name }}</h1>
+         <h1 class="product-title-name">{{ product.name }}</h1>
         <p class="product-title-price">￥{{ product.price }}</p>
-        <p class="product-title-sales">销量{{ product.salesVolume }}</p>
+       <p class="product-title-sales">销量{{ product.salesVolume }}</p>
       </div>
 
       <div class="product-content">
@@ -119,19 +119,21 @@ export default {
       line-height: 20px;
       color: #333333;
       overflow: hidden;
+       box-sizing: border-box;
     }
     &-sales {
       margin: 0px 10px;
       font-size: 13px;
       line-height: 20px;
       color: #999999;
+       box-sizing: border-box;
     }
     &-price {
       margin: 8px 10px;
       font-size: 18px;
       color: #ff5000;
-      width: 100%;
 
+    
       box-sizing: border-box;
     }
   }
