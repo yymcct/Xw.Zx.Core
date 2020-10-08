@@ -39,12 +39,12 @@
         round
         color="linear-gradient(to right, #ff7a00, #ff5000)"
         @click="bindLogin"
-        >提交</van-button
-      >
+        >提交
+      </van-button>
       <div class="login-foot">
         <router-link :to="`/sqb/login/reg`"> 免费注册 </router-link>
         |
-        <router-link :to="`/sqb/login`"> 立即登录  </router-link>
+        <router-link :to="`/sqb/login`"> 立即登录 </router-link>
       </div>
     </div>
   </div>

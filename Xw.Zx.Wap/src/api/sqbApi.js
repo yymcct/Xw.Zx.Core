@@ -9,6 +9,8 @@ export default {
         reg: (params) => request.post('/api/member/PostRegisterUser', params),
         pwd: (params) => request.post('/api/member/PostChangePasswordBySmsCode', params),
         smscode: (params) => request.get('/api/member/GetSmsCode', { params: params }),
+        edit: (params) => request.post('/api/member/PostMember', params),
+        getSelf: (params) => request.get('/api/member/GetSelf', { params: params }),
     },
     computer: {
         postComputerUser: (params) => request.post('/api/LxComputer/PostUser', params)

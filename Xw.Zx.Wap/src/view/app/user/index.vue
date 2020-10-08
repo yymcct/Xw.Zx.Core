@@ -9,9 +9,9 @@
       </div>
       <van-cell-group>
         <van-cell title="我的收益" is-link to="/sqb/user/income" />
-        <van-cell title="收益审核" is-link to="/sqb/user/incomeaudit" />
+        <van-cell title="提现审核" is-link to="/sqb/user/incomeaudit" />
         <van-cell title="我的兑换码" is-link to="/sqb/user/code" />
-        <van-cell title="个人信息" is-link to="/sqb/user/user`" />
+        <van-cell title="个人信息" is-link to="/sqb/user/user" />
       </van-cell-group>
       <div class="foot">
         <van-button

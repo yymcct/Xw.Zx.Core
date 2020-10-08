@@ -49,4 +49,7 @@ body {
 .router-fade-leave-active {
   opacity: 0;
 }
+.van-nav-bar__left .van-icon-arrow-left {
+  color: #ff5000;
+}
 </style>
