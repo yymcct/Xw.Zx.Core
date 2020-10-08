@@ -58,7 +58,7 @@ export default {
           if (action === "confirm") {
             userInfoAPI.clear();
             this.$router.push(`/sqb/login`);
-             done();
+            done();
           } else {
             done();
           }

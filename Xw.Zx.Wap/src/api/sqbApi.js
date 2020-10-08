@@ -34,4 +34,4 @@ export default {
         withdrawDeposit: (params) => request.post('/api/WithdrawDeposit/PostWithdrawDeposit', params),
         getDetails: () => request.get('/api/WithdrawDeposit/GetWithdrawDepositdetails'),
     }
-},
+}
