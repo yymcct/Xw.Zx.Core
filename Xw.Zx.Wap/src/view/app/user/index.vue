@@ -1,14 +1,29 @@
 <template>
   <div>
     <hb-layout :active="1">
-      <ul>
-        <!-- <li><router-link :to="`/sqb/user/myteam`">我的团队</router-link></li> -->
-        <li><router-link :to="`/sqb/user/income`">我的收益</router-link></li>
-        <li><router-link :to="`/sqb/user/incomeaudit`">收益审核</router-link></li>
-        <li><router-link :to="`/sqb/user/code`">我的兑换码</router-link></li>
-        <li><router-link :to="`/sqb/user/user`">个人信息</router-link></li>
-        <li @click="logout">退出登录</li>
-      </ul>
+      <div class="banner">
+        <img
+          :src="require('@/assets/images/home/banner.jpg')"
+          style="display: block; width: 100%; height: auto"
+        />
+      </div>
+      <van-cell-group>
+        <van-cell title="我的收益" is-link to="/sqb/user/income" />
+        <van-cell title="收益审核" is-link to="/sqb/user/incomeaudit" />
+        <van-cell title="我的兑换码" is-link to="/sqb/user/code" />
+        <van-cell title="个人信息" is-link to="/sqb/user/user`" />
+      </van-cell-group>
+      <div class="foot">
+        <van-button
+          class="foot-btn"
+          type="primary"
+          round
+          color="linear-gradient(to right, #ff7a00, #ff5000)"
+          @click="logout"
+        >
+          退出登录
+        </van-button>
+      </div>
     </hb-layout>
   </div>
 </template>
@@ -30,9 +45,7 @@ export default {
 
   computed: {},
 
-  beforeMount() {
-
-  },
+  beforeMount() {},
 
   mounted() {},
 
@@ -45,6 +58,7 @@ export default {
           if (action === "confirm") {
             userInfoAPI.clear();
             this.$router.push(`/sqb/login`);
+             done();
           } else {
             done();
           }
@@ -57,4 +71,11 @@ export default {
 };
 </script>
 <style lang='scss' scoped>
+.foot {
+  text-align: center;
+  &-btn {
+    margin-top: 20px;
+    width: 80%;
+  }
+}
 </style>

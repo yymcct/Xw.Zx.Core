@@ -28,8 +28,10 @@ export default {
     },
     income: {
         getIncomeInfo: () => request.get('/api/Income/GetIncomeInfo'),
+        getDetails: () => request.get('/api/Income/GetDetails'),
     },
     withdrawDeposit: {
         withdrawDeposit: (params) => request.post('/api/WithdrawDeposit/PostWithdrawDeposit', params),
+        getDetails: () => request.get('/api/WithdrawDeposit/GetWithdrawDepositdetails'),
     }
-}
+},
