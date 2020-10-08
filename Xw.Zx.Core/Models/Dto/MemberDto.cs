@@ -81,17 +81,14 @@ namespace Xw.Zx.Core.Models.Dto
     {
         public string RealName { get; set; }
 
-        public string CityCode { get; set; }
 
-        public string Address { get; set; }
 
         public string AliAccount { get; set; }
 
-        public string Email { get; set; }
+
 
         public int SmsCheck { get; set; }
 
-        public string Phone { get; set; }
     }
 
     public class ChangePassWordDto

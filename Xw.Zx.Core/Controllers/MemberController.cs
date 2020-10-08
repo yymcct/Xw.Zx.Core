@@ -319,12 +319,12 @@ namespace Xw.Zx.Core.Controllers
         {
             try
             {
-                if (_context.SmsCheck.Where(p => p.Phone == postUserDto.Phone && p.CheckState == SmsCheckState.已发送).FirstOrDefault()?.LastSendCode == postUserDto.SmsCheck)
+                if (_context.SmsCheck.Where(p => p.Phone == Member.Phone && p.CheckState == SmsCheckState.已发送).FirstOrDefault()?.LastSendCode == postUserDto.SmsCheck)
                 {
-                    var smsCheck = _context.SmsCheck.Find(_context.SmsCheck.Where(p => p.Phone == postUserDto.Phone).FirstOrDefault()?.Id);
+                    var smsCheck = _context.SmsCheck.Find(_context.SmsCheck.Where(p => p.Phone == Member.Phone).FirstOrDefault()?.Id);
                     smsCheck.CheckState = SmsCheckState.已验证;
 
-                    if (_context.Members.Any(m => m.Phone == postUserDto.Phone))
+                    if (_context.Members.Any(m => m.Phone == Member.Phone))
                     {
                         var member = _mapper.Map(postUserDto, Member);
                         if (string.IsNullOrEmpty(member.AliPayAccount))
