@@ -17,7 +17,9 @@ namespace Xw.Zx.Core.Models.Model
         创客 = 2,
         服务站 = 3,
         运营商 = 4,
-
+        会员 = 10,
+        合伙人 = 20,
+        运营中心=30
     }
     public class Member
     {

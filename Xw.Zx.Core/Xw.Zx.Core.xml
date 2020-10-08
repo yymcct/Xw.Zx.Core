@@ -1089,6 +1089,13 @@
             <param name="member"></param>
             <returns></returns>
         </member>
+        <member name="M:Xw.Zx.Core.Service.WapOrderService.FindBigHigherMember(Xw.Zx.Core.Models.Model.Member)">
+            <summary>
+            查找上级vip 依次: 一代 二代  运营中心
+            </summary>
+            <param name="member"></param>
+            <returns></returns>
+        </member>
         <member name="M:Xw.Zx.Core.Areas.Manager.ApplyForZxController.GetApplyForZxs(Sieve.Models.SieveModel)">
             <summary>
             TODO

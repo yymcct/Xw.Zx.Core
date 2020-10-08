@@ -19,6 +19,7 @@ using Xw.Zx.Core.Models.Model;
 using Xw.Zx.Core.Service;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace Xw.Zx.Core.Controllers
 {
@@ -155,7 +156,7 @@ namespace Xw.Zx.Core.Controllers
                4、验证app_id是否为该商户本身。
                */
             try
-            {                
+            {
                 Dictionary<string, string> sArray = GetRequestPost();
                 LogsArray(sArray);
                 if (sArray.Count != 0)
@@ -175,8 +176,12 @@ namespace Xw.Zx.Core.Controllers
 
                         if (sArray["trade_status"] == "TRADE_SUCCESS")
                         {
-                            var order = _context.Orders.Where(o => o.Timestamp == sArray["out_trade_no"]).FirstOrDefault();
-                   
+                            using (var transaction = _context.Database.BeginTransaction())
+                            {
+                                var order = _context.Orders.Where(o => o.Timestamp == sArray["out_trade_no"]).First();
+                                order.OrderState = OrderState.已付款;
+                                _context.Entry(order).State = EntityState.Modified;
+                            }
                         }
                     }
 
