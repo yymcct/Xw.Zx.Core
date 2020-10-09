@@ -31,7 +31,7 @@
           <text class="amount">{{ iteam.amount }}</text>
         </div>
       </div>
-       <div v-if="incomeDetail.length == 0">您还没有提现</div>
+       <div class="none" v-if="incomeDetail.length == 0">--您还没有提现--</div>
     </div>
   </div>
 </template>
@@ -114,5 +114,11 @@ export default {
   margin-left: 5px;
   margin-right: 5px;
   color: coral;
+}
+.none{
+  font-size: 14px;
+  text-align: center;
+  color: #999999;
+  margin-top: 20px;
 }
 </style>

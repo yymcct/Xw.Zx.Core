@@ -8,22 +8,18 @@
       />
     </div>
     <div class="container">
-      <div
-        class="uni-triplex-row crd card"
-        v-for="iteam in incomeDetail"
-        v-bind:key="iteam.id"
-      >
-        <div class="uni-triplex-left">
-          <div class="uni-title uni-ellipsis">
-            {{ iteam.addTime }} {{ iteam.incomeAccountTypeName }}
+      <div class="card" v-for="iteam in incomeDetail" v-bind:key="iteam.id">
+        <div class="card-left">
+          <div class="card-left-title">
+            {{ iteam.addTime }}
           </div>
-          <span class="uni-text">备注:{{ iteam.remark }}</span>
+          <p class="card-left-content">备注:{{ iteam.remark }}</p>
         </div>
-        <div class="uni-triplex-right">
+        <div class="card-right">
           <span class="amount">{{ iteam.amount }}</span>
         </div>
       </div>
-      <div v-if="incomeDetail.length == 0">您还没有收益</div>
+      <div class="none" v-if="incomeDetail.length == 0">--您还没有收益--</div>
     </div>
   </div>
 </template>
@@ -45,7 +41,7 @@ export default {
 
   beforeMount() {
     api.income.getDetails().then((res) => {
-      this.incomeDetail = res.data.result;
+      this.incomeDetail = res.result;
     });
   },
 
@@ -57,54 +53,47 @@ export default {
 };
 </script>
 <style lang='scss' scoped>
-.heard {
-  height: 200px;
-  background-color: white;
-  border-radius: 10px;
-  margin: 10px;
-  display: -webkit-flex;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 10px;
-}
 .card {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   background-color: white;
-}
-.btn {
-  height: 150px;
-  padding-left: 20px;
-  padding-right: 20px;
-}
-.tbn button {
-  width: 80%;
-}
-.title {
-  font-weight: bold;
-  font-size: 20px;
-}
-.total {
-  font-weight: bold;
-  font-size: 50px;
-  margin-left: 50px;
-  color: rgb(250, 81, 2);
-}
-.zhuixi {
+  padding: 10px;
+  font-size: 16px;
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
   justify-content: flex-start;
+  align-items: flex-start;
+  height: 80px;
+  &-left {
+    &-title {
+      font-weight: bold;
+    }
+    &-content {
+      margin-top: 10px;
+      color: #666;
+      line-height: 22px;
+    }
+  }
+  &-right {
+    width: 100px;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    span {
+      font-size: 30px;
+      font-weight: bolder;
+      margin-left: 5px;
+      margin-right: 5px;
+      color: #ff5000;
+    }
+  }
 }
-.zhuixi button {
-  margin-top: 10px;
-  display: block;
-  margin: 0px;
-}
-.amount {
-  font-size: 30px;
-  font-weight: bolder;
-  margin-left: 5px;
-  margin-right: 5px;
-  color: coral;
+
+.none {
+  font-size: 14px;
+  text-align: center;
+  color: #999999;
+  margin-top: 20px;
 }
 </style>
