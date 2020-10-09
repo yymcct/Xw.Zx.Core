@@ -8,31 +8,26 @@
       />
     </div>
     <div class="content">
-      <div class="input-group">
-        <div class="input-row border">
-          <van-field
-            v-model="getamount"
-            label="金额"
-            placeholder="请输入提现金额,最小2.1元"
-          />
-        </div>
-      </div>
+      <van-field
+        v-model="getamount"
+        label="提现金额"
+        placeholder="请输入提现金额,最小2.1元"
+      />
       <div class="border">
         <span class="sxf">提现手续费: 2元/笔</span>
       </div>
-      <div class="btn-row">
-        <van-button
-          class="foot-btn"
-          type="primary"
-          round
-          size="small"
-          color="linear-gradient(to right, #ff7a00, #ff5000)"
-          @click="edit"
-          :loading="loading"
-        >
-          我要提现
-        </van-button>
-      </div>
+    </div>
+    <div class="foot">
+      <van-button
+        class="foot-btn"
+        type="primary"
+        round
+        color="linear-gradient(to right, #ff7a00, #ff5000)"
+        @click="edit"
+        :loading="loading"
+      >
+        我要提现
+      </van-button>
     </div>
   </div>
 </template>
@@ -46,6 +41,7 @@ export default {
     return {
       canget: 0,
       getamount: 0,
+      loading: false,
     };
   },
 
@@ -75,11 +71,11 @@ export default {
         .withdrawDeposit({
           Amount: _this.getamount,
         })
-        .then(() => {
+        .then((res) => {
           _this.loading = false;
           _this.$dialog
             .alert({
-              message: "我们已收到您的申请,请在提现记录中查看提现进度",
+              message: res.msg,
             })
             .then(() => {
               _this.$router.go(-1);
@@ -94,5 +90,19 @@ export default {
   watch: {},
 };
 </script>
-<style lang='' scoped>
+<style lang='scss' scoped>
+.border {
+  span {
+    font-size: 14px;
+    color: #999;
+    margin: 0 15px;
+  }
+}
+.foot {
+  text-align: center;
+  &-btn {
+    margin-top: 20px;
+    width: 80%;
+  }
+}
 </style>

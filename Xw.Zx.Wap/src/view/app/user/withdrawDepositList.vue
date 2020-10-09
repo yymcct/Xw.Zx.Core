@@ -8,18 +8,13 @@
       />
     </div>
     <div class="container">
-      <div
-        class="uni-triplex-row crd card"
-        v-for="iteam in incomeDetail"
-        v-bind:key="iteam.id"
-      >
-        <div class="uni-triplex-left">
-          <div class="uni-title uni-ellipsis">
-            {{ iteam.addTime }} {{ iteam.incomeAccountTypeName }}
-          </div>
-          <text class="uni-text"
-            >状态:{{ iteam.withdrawDepositStateName }}</text
-          >
+      <div class="card" v-for="(iteam, index) in incomeDetail" :key="index">
+        <div class="card-left">
+          <p class="card-left-title">{{ iteam.addTime }}</p>
+           <p class="card-left-content">单号: {{ iteam.timestamp }}</p>
+          <p class="card-left-content">
+            状态:{{ iteam.withdrawDepositStateName }}
+          </p>
           <div
             v-if="iteam.withdrawDepositState == 3"
             class="uni-title uni-ellipsis"
@@ -27,11 +22,11 @@
             <text>备注: {{ iteam.remark }}</text>
           </div>
         </div>
-        <div class="uni-triplex-right">
-          <text class="amount">{{ iteam.amount }}</text>
+        <div class="card-right">
+          <span class="amount">{{ iteam.amount }}</span>
         </div>
       </div>
-       <div class="none" v-if="incomeDetail.length == 0">--您还没有提现--</div>
+      <div class="none" v-if="incomeDetail.length == 0">--您还没有提现--</div>
     </div>
   </div>
 </template>
@@ -39,7 +34,7 @@
 <script>
 import api from "@/api/sqbApi";
 export default {
-  name: "",
+  name: "ddd",
   props: [""],
   data() {
     return {
@@ -53,7 +48,7 @@ export default {
 
   beforeMount() {
     api.withdrawDeposit.getDetails().then((res) => {
-      this.incomeDetail = res.data.result;
+      this.incomeDetail = res.result;
     });
   },
 
@@ -65,57 +60,45 @@ export default {
 };
 </script>
 <style lang='scss' scoped>
-.heard {
-  height: 200px;
-  background-color: white;
-  border-radius: 10px;
-  margin: 10px;
-  display: -webkit-flex;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 10px;
-}
 .card {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   background-color: white;
-}
-.btn {
-  height: 150px;
-  padding-left: 20px;
-  padding-right: 20px;
-}
-.tbn button {
-  width: 80%;
-}
-.title {
-  font-weight: bold;
-  font-size: 20px;
-}
-.total {
-  font-weight: bold;
-  font-size: 50px;
-  margin-left: 50px;
-  color: rgb(250, 81, 2);
-}
-.zhuixi {
+  padding: 10px;
+  font-size: 16px;
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
   justify-content: flex-start;
+  align-items: flex-start;
+  height: 80px;
+  &-left {
+    width: calc(100% - 100px);
+    &-title {
+      font-weight: bold;
+    }
+    &-content {
+      margin-top: 10px;
+      color: #666;
+      line-height: 22px;
+    }
+  }
+  &-right {
+    width: 100px;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    span {
+      font-size: 30px;
+      font-weight: bolder;
+      margin-left: 5px;
+      margin-right: 5px;
+      color: #ff5000;
+    }
+  }
 }
-.zhuixi button {
-  margin-top: 10px;
-  display: block;
-  margin: 0px;
-}
-.amount {
-  font-size: 30px;
-  font-weight: bolder;
-  margin-left: 5px;
-  margin-right: 5px;
-  color: coral;
-}
-.none{
+
+.none {
   font-size: 14px;
   text-align: center;
   color: #999999;

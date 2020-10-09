@@ -71,7 +71,7 @@ export default {
       }
 
       this.$router.push(
-        `/user/withdrawdeposit?canget=${this.incomeInfo.canGet}`
+        `/sqb/user/withdrawdeposit?canget=${this.incomeInfo.canGet}`
       );
     },
   },

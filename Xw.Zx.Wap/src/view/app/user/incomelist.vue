@@ -64,6 +64,7 @@ export default {
   align-items: flex-start;
   height: 80px;
   &-left {
+    width: calc(100% - 100px);
     &-title {
       font-weight: bold;
     }
