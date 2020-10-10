@@ -3,13 +3,13 @@ import Vue from 'vue'
 import App from './App.vue'
 import { router } from './router';
 import {
-  Field, Toast, Loading, 
-  Button, NavBar, Image,Tab, Tabs, Picker, Popup,Dialog,
- Icon, Cell, CellGroup
+  Field, Toast, Loading,
+  Button, NavBar, Image, Tab, Tabs, Picker, Popup, Dialog,
+  Icon, Cell, CellGroup
 } from "vant";
 import globalFun from '@/utils/globalFun'
 import store from './store'
-import categoryIteamHelp from "@/utils/categoryIteamHelp";
+
 // import VueLazyLoad from 'vue-lazyload'
 import VueAudio from 'vue-audio-better'
 
@@ -47,17 +47,16 @@ Vue.prototype.$globalFun = globalFun;
 
 router.beforeEach((to, from, next) => {
   //from页面有a参数, 但是to页面没有
-  if (from.query.categoryIteam) {
-    categoryIteamHelp.addCategoryIteam(from.query.categoryIteam);
-    if (!to.query.categoryIteam) {
-      let query = to.query;
-      query.categoryIteam = from.query.categoryIteam;
+  if (to.meta && to.meta.private) {
+    const user = globalFun.userInfoAPI.get();
+    console.log(user)
+    if (!user) {
       next({
-        path: to.path,
-        query: query
+        path: '/sqb/login'
       });
     }
   }
+
   //设置页面title
   const title = to.meta && to.meta.title;
   if (title) {
