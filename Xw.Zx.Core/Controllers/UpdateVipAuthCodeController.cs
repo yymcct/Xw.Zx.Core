@@ -37,7 +37,7 @@ namespace Xw.Zx.Core.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public HbzsResult<List<UpdaeVipAuthCodeDto>> Get([FromQuery]SieveModel sieveModel)
+        public HbzsResult<List<UpdaeVipAuthCodeDto>> Get([FromQuery] SieveModel sieveModel)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace Xw.Zx.Core.Controllers
         /// <param name="cnt"></param>
         /// <returns></returns>
         [HttpGet]
-        public HbzsResult Create([FromQuery]int memberid, int cnt)
+        public HbzsResult Create([FromQuery] int memberid, int cnt)
         {
             try
             {
@@ -84,7 +84,8 @@ namespace Xw.Zx.Core.Controllers
                 {
                     var codeNum = random.Next(100000, 999999).ToString();
 
-                    var code = new UpdateVipAuthCode() { 
+                    var code = new UpdateVipAuthCode()
+                    {
                         OwinId = memberid,
                         Code = codeNum,
                     };
@@ -121,52 +122,40 @@ namespace Xw.Zx.Core.Controllers
         /// </summary>
         /// <param name="code"></param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpPost]
         public HbzsResult<MemberDto> Use(string code)
         {
             try
             {
                 var vipUpdateCode = _context
                                         .UpdateVipAuthCodes
-                                        .Where(v => v.Code == code && v.ExpiesTime > DateTime.Now &&v.UPdateVipAuthCodeState== UpdateVipAuthCodeState.待使用)
+                                        .Where(v => v.Code == code && v.ExpiesTime > DateTime.Now && v.UPdateVipAuthCodeState == UpdateVipAuthCodeState.待使用)
                                         .FirstOrDefault();
 
                 //检查升级码 状态
                 if (vipUpdateCode == null)
                 {
-                    throw new Exception("升级码不存在, 或已过期!");
+                    throw new Exception("兑换卷不存在, 或已过期!");
                 }
 
                 //检查自身状态
-                if (Member.MemberVipType != MemberVipType.普通)
+                if (!(vipUpdateCode.MemberVipType > Member.MemberVipType))
                 {
-                    throw new Exception("已经是VIP! 使用无效");
+                    throw new Exception("兑换卷对您的级别不适用");
                 }
-
-                //检查我是否是升级码所有者的团队成员
-                //var InviteId = Member.InviteId;
-                //var InviteInviteId = _context.Members.First(m => m.Id == InviteId).InviteId;
-                //if (!(vipUpdateCode.OwinId == Member.Id
-                //    || vipUpdateCode.OwinId == InviteId
-                //    || vipUpdateCode.OwinId == InviteInviteId))
-                //{
-                //    throw new Exception("您不是赠送人团队成员,无法使用!");
-                //}
 
                 using (TransactionScope scope = new TransactionScope())
                 {
-                    Member.MemberVipType = MemberVipType.Vip会员;
+                    Member.MemberVipType = vipUpdateCode.MemberVipType;
                     Member.Remark = $"{DateTime.Now}通过升级码:{vipUpdateCode.Id}升级";
                     _context.Entry(Member).State = EntityState.Modified;
 
                     vipUpdateCode.UPdateVipAuthCodeState = UpdateVipAuthCodeState.已使用;
                     vipUpdateCode.UsedMemberId = Member.Id;
                     vipUpdateCode.UsedTime = DateTime.Now;
-                    vipUpdateCode.Remark = $"用户ID{Member.Id}, 电话{Member.Phone} 使用的";
-                    //Save and discard changes
-                    _context.SaveChanges();
+                    vipUpdateCode.Remark = $"用户ID{Member.Id}, 电话{Member.Phone} 使用";
 
-                    //if we get here things are looking good.
+                    _context.SaveChanges();
                     scope.Complete();
                 }
                 var selef = _mapper.Map<MemberDto>(Member);
@@ -187,7 +176,6 @@ namespace Xw.Zx.Core.Controllers
                 _logger.LogError(ex.Message);
                 return new HbzsResult<MemberDto>(HbzsResultCode.Invalid_Error, ex.Message);
             }
-
         }
 
         /// <summary>

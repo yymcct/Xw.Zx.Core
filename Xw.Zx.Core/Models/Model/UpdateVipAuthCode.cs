@@ -65,6 +65,8 @@ namespace Xw.Zx.Core.Models.Model
         /// </summary>
         public string Code { get; set; }
 
+        public MemberVipType MemberVipType { get; set; }
+
         /// <summary>
         /// 失效时间
         /// </summary>

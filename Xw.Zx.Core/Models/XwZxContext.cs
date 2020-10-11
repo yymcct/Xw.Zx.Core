@@ -94,6 +94,10 @@ namespace Xw.Zx.Core.Models.Model
             modelBuilder.Entity<Order>()
                 .Property(o => o.OrderPaymentType)
                 .HasDefaultValue(OrderPaymentType.支付宝);
+
+            modelBuilder.Entity<UpdateVipAuthCode>()
+                  .Property(o => o.MemberVipType)
+                  .HasDefaultValue(MemberVipType.会员);
         }
     }
 }
