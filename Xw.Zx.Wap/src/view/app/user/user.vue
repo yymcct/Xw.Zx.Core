@@ -10,6 +10,12 @@
     <div class="content">
       <div class="input-group">
         <van-field
+          v-model="user.phone"
+          label="手机"
+          placeholder="手机号"
+          disabled
+        />
+        <van-field
           v-model="dto.realName"
           label="姓名"
           placeholder="请输入真实姓名"
@@ -19,6 +25,12 @@
           label="支付宝"
           :disabled="aliAccountReadonly"
           placeholder="提现账户,设置后不能修改"
+        />
+        <van-field
+          v-model="memberVipType"
+          label="级别"
+          placeholder="级别"
+          disabled
         />
         <van-field
           v-model="dto.smsCheck"
@@ -35,6 +47,27 @@
             >
           </template>
         </van-field>
+      </div>
+      <div
+        class="coupon-use"
+        v-if="!userCouponCode"
+        @click="userCouponCode = true"
+      >
+        使用兑换卷
+      </div>
+      <div class="coupon" v-if="userCouponCode">
+        <van-field v-model="couponCode" placeholder="请输入兑换卷" />
+        <van-button
+          class="coupon-btn"
+          color="#ff5000"
+          round
+          plain
+          size="mini"
+          @click="couponCodeHandle"
+          :disabled="couponCode.length < 2"
+        >
+          使用
+        </van-button>
       </div>
       <div class="foot">
         <van-button
@@ -54,6 +87,7 @@
 <script>
 import api from "@/api/sqbApi";
 import { mapGetters } from "vuex";
+import { userInfoAPI } from "@/utils/auth";
 export default {
   name: "",
   props: [""],
@@ -65,6 +99,8 @@ export default {
         smsCheck: "",
       },
       aliAccountReadonly: false,
+      couponCode: "",
+      userCouponCode: false,
     };
   },
 
@@ -74,6 +110,20 @@ export default {
     ...mapGetters({
       user: "user/user",
     }),
+    memberVipType: function () {
+      switch (this.user.memberVipType) {
+        case 0:
+          return "普通";
+        case 10:
+          return "会员";
+        case 20:
+          return "合伙人";
+        case 30:
+          return "运营中心";
+        default:
+          return "";
+      }
+    },
   },
 
   beforeMount() {
@@ -117,12 +167,39 @@ export default {
         this.$toast("修改成功!");
       });
     },
+    couponCodeHandle() {
+      api.updateVipAuthCode.use(this.couponCode).then((res) => {
+        userInfoAPI.updateMember(res.result);
+        this.$store.commit("user/setUser", res.result);
+        this.$toast("兑换成功! 您的级别已更新");
+        this.userCouponCode = false;
+      });
+    },
   },
 
   watch: {},
 };
 </script>
 <style lang='scss' scoped>
+.coupon {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  background-color: #fff;
+  padding: 10px;
+  &-use {
+    margin: 10px;
+    font-size: 14px;
+    color: #cdcdcd;
+    text-align: right;
+  }
+  &-btn {
+    width: 80px;
+    margin-left: 10px;
+  }
+}
 .foot {
   text-align: center;
   &-btn {
