@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +10,22 @@ using Xw.Zx.Core.Models.Model;
 
 namespace Xw.Zx.Core.Service
 {
-    public class WapOrderService : IWapOrderService
+    public class WapOrderPayService : IWapOrderPayService
     {
-        private readonly ILogger<AlipayController> _logger;
+        private readonly ILogger<WapOrderPayService> _logger;
         public readonly XwZxContext _context;
+
+        public WapOrderPayService(ILogger<WapOrderPayService> logger
+            , XwZxContext xwZxContext)
+        {
+            _logger = logger;
+            _context = xwZxContext;
+        }
+
         public void SucessHandle(Dictionary<string, string> sArray)
         {
             var order = _context.Orders.Where(o => o.Timestamp == sArray["out_trade_no"]).FirstOrDefault();
+
             if (order.Amount != decimal.Parse(sArray["total_amount"]))
             {
                 throw new Exception($"Notifyurl:异常订单, 金额不符 {sArray.ToString()}");

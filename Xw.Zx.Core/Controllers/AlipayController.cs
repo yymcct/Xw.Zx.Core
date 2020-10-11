@@ -30,16 +30,19 @@ namespace Xw.Zx.Core.Controllers
         private readonly ILogger<AlipayController> _logger;
         private readonly AlipayService _alipayService;
         private readonly IUpDateVip1Service _upDateVip1Service;
+        private readonly IWapOrderPayService _wapOrderPayService;
         public AlipayController(ILogger<AlipayController> logger
             , XwZxContext xwZxContext
             , IMapper mapper
             , ISieveProcessor sieveProcessor
             , AlipayService alipayService
-            , IUpDateVip1Service upDateVip1Service) : base(xwZxContext, mapper, sieveProcessor)
+            , IUpDateVip1Service upDateVip1Service
+            , IWapOrderPayService wapOrderPayService) : base(xwZxContext, mapper, sieveProcessor)
         {
             _logger = logger;
             _alipayService = alipayService;
             _upDateVip1Service = upDateVip1Service;
+            _wapOrderPayService = wapOrderPayService;
         }
 
         /// <summary>
@@ -64,7 +67,7 @@ namespace Xw.Zx.Core.Controllers
 
         [HttpPost("{orderId}")]
         [Authorize]
-        public HbzsResult<AliPayOrderDto> WapPay(int orderId)
+        public HbzsResult<AliPayOrderDto> WapPay(int orderId, [FromQuery]string returnUrl)
         {
             try
             {
@@ -78,11 +81,12 @@ namespace Xw.Zx.Core.Controllers
                     TotalAmount = order.Amount.ToString("n"),
                     ProductCode = "QUICK_WAP_PAY",
                     OutTradeNo = order.Timestamp,
-                    TimeoutExpress = "50m",
+                    TimeoutExpress = "50m",       
                 };
 
                 AlipayTradeWapPayRequest request = new AlipayTradeWapPayRequest();
                 request.SetNotifyUrl("http://139.155.8.217/api/Alipay/WapNotifyurl");
+                request.SetReturnUrl(returnUrl);
                 request.SetBizModel(model);
 
                 var response = _alipayService.PageExecute(request);  // _alipayService.SdkExecute(request);
@@ -158,7 +162,7 @@ namespace Xw.Zx.Core.Controllers
             try
             {
                 Dictionary<string, string> sArray = GetRequestPost();
-                LogsArray(sArray);
+                //LogsArray(sArray);
                 if (sArray.Count != 0)
                 {
                     bool flag = _alipayService.RSACheckV1(sArray);
@@ -172,16 +176,10 @@ namespace Xw.Zx.Core.Controllers
 
                         //注意：
                         //退款日期超过可退款期限后（如三个月可退款），支付宝系统发送该交易状态通知
-                        Console.WriteLine(Request.Form["trade_status"]);
-
                         if (sArray["trade_status"] == "TRADE_SUCCESS")
                         {
-                            using (var transaction = _context.Database.BeginTransaction())
-                            {
-                                var order = _context.Orders.Where(o => o.Timestamp == sArray["out_trade_no"]).First();
-                                order.OrderState = OrderState.已付款;
-                                _context.Entry(order).State = EntityState.Modified;
-                            }
+                            
+                            _wapOrderPayService.SucessHandle(sArray);
                         }
                     }
 

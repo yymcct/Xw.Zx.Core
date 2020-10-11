@@ -175,6 +175,7 @@ namespace Xw.Zx.Core.Service
 
             //订单状态修正为已付款            
             order.OrderState = OrderState.已付款;
+            order.OrderPaymentType = OrderPaymentType.支付宝;
             _context.Entry(order).State = EntityState.Modified;
 
             //变更会员状态

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Xw.Zx.Core.Service
 {
-    public interface IWapOrderService
+    public interface IWapOrderPayService
     {
         void SucessHandle(Dictionary<string, string> sArray);
     }
