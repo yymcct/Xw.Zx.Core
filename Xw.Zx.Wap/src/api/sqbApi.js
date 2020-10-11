@@ -11,6 +11,7 @@ export default {
         smscode: (params) => request.get('/api/member/GetSmsCode', { params: params }),
         edit: (params) => request.post('/api/member/PostMember', params),
         getSelf: (params) => request.get('/api/member/GetSelf', { params: params }),
+        isWhite: () => request.get('/api/member/IsWhite'),
     },
     computer: {
         postComputerUser: (params) => request.post('/api/LxComputer/PostUser', params)

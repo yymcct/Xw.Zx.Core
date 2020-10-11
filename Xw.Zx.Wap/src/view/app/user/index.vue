@@ -16,7 +16,7 @@
             round
             plain
             size="mini"
-            @click="$router.push({ path: `/sqb/user/user`})"
+            @click="$router.push({ path: `/sqb/user/user` })"
           >
             编辑
           </van-button>
@@ -28,8 +28,8 @@
       </div>
       <van-cell-group>
         <van-cell title="我的收益" is-link to="/sqb/user/income" />
-        <van-cell title="提现审核" is-link to="/sqb/user/incomeaudit" />
-        <van-cell title="我的兑换码" is-link to="/sqb/user/code" />
+        <van-cell v-if="isWhite" title="审核提现" is-link to="/sqb/user/incomeaudit" />
+        <!-- <van-cell title="我的兑换码" is-link to="/sqb/user/code" /> -->
         <!-- <van-cell title="个人信息" is-link to="/sqb/user/user" /> -->
       </van-cell-group>
       <div class="foot">
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-//import api from "@/api/sqbApi";
+import api from "@/api/sqbApi";
 import { mapGetters } from "vuex";
 import { userInfoAPI } from "@/utils/auth";
 import HbLayout from "@/components/layout/hbLayout";
@@ -56,7 +56,9 @@ export default {
   name: "user",
   props: [""],
   data() {
-    return {};
+    return {
+      isWhite: false,
+    };
   },
 
   components: {
@@ -83,7 +85,11 @@ export default {
     },
   },
 
-  beforeMount() {},
+  beforeMount() {
+    api.member.isWhite().then((res) => {
+      this.isWhite = res.result;
+    });
+  },
 
   mounted() {},
 
