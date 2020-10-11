@@ -65,7 +65,7 @@
           </div>
         </div>
         <div class="card-right">
-          <span>{{ iteam.detailsDto.amount }}</span>
+          <span>{{ iteam.detailsDto.amount }}元</span>
         </div>
       </div>
     </div>

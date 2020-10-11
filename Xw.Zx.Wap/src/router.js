@@ -150,7 +150,7 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/user/incomeAudit'),
         meta: {
-            title: '收益审核', 
+            title: '审核提现', 
             keepAlive: false,
             private:true
         }
