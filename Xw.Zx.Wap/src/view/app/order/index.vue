@@ -8,7 +8,11 @@
       />
     </div>
     <div class="product">
-      <h2>订单编号: {{ order.timestamp }}</h2>
+      <div class="product-title">
+        <h2>订单编号: {{ order.timestamp }}</h2>
+        <p v-if="order.orderState == 1">交易成功</p>
+      </div>
+
       <div class="product-content">
         <div class="product-content-img">
           <img :src="product.images" alt="" />
@@ -30,6 +34,7 @@
         plain
         size="small"
         @click="delOrder"
+        :disabled="order.orderState == 1"
       >
         删除订单
       </van-button>
@@ -40,6 +45,7 @@
         size="small"
         color="linear-gradient(to right, #ff7a00, #ff5000)"
         @click="payOrder"
+        :disabled="order.orderState == 1"
       >
         付款
       </van-button>
@@ -56,7 +62,7 @@ export default {
     return {
       product: null,
       order: null,
-      loading:false
+      loading: false,
     };
   },
 
@@ -106,14 +112,20 @@ export default {
     },
     payOrder() {
       const _this = this;
-      api.alipay.wapPay(_this.order.id).then((res) => {
-        console.log(res);
-        const div = document.createElement("div");
-        /* 此处form就是后台返回接收到的数据 */
-        div.innerHTML = res.result.alipayTradeAppPayResponse;
-        document.body.appendChild(div);
-        document.forms[0].submit();
-      });
+      let returnUrl = window.location.href;
+      api.alipay
+        .wapPay({
+          id: _this.order.id,
+          returnUrl: returnUrl,
+        })
+        .then((res) => {
+          console.log(res);
+          const div = document.createElement("div");
+          /* 此处form就是后台返回接收到的数据 */
+          div.innerHTML = res.result.alipayTradeAppPayResponse;
+          document.body.appendChild(div);
+          document.forms[0].submit();
+        });
     },
   },
 
@@ -129,11 +141,24 @@ export default {
     padding: 10px;
     border-radius: 10px;
     // box-shadow: 0.02667rem 0.02667rem 0.21333rem #999;
-    h2 {
-      margin-top: 5px;
-      font-size: 14px;
-      font-weight: bold;
+    &-title {
+          margin-top: 5px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items:center;
+      h2 {
+    
+        font-size: 15px;
+        font-weight: bold;
+      }
+      p {
+        font-size: 14px;
+        color: #ff5000;
+        font-weight: bold;
+      }
     }
+
     &-content {
       margin-top: 15px;
       display: flex;
