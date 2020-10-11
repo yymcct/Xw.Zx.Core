@@ -116,6 +116,16 @@ const routes = [
         }
     },
     {
+        path: '/sqb/user/kefu',
+        component: () =>
+            import(/* webpackChunkName: "sqb" */ './view/app/user/kefu'),
+        meta: {
+            title: '我的', 
+            keepAlive: true,
+            private:false
+        }
+    },
+    {
         path: '/sqb/user/myteam',
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/user/myteam'),

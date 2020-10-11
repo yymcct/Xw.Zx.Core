@@ -42,38 +42,13 @@
         >
       </div>
     </div>
-
-    <div class="linkman">
-      <div class="linkman-title">债减减专属客服</div>
-      <div class="linkman-content">
-        <div class="item">
-          <div class="ercode">
-            <img
-              :src="require('../../../../assets/images/kf11.jpg')"
-              alt="/static/kf11.png"
-            />
-            <p>扫码添加微信</p>
-          </div>
-          <div class="link">
-            <a class="link-tel" href="#">债减减客服1线</a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="ercode">
-            <img src="/static/kf12.jpg" alt="/static/kf12.jpg" />
-            <p>扫码添加微信</p>
-          </div>
-          <div class="link">
-            <a class="link-tel" href="#">债减减客服2线</a>
-          </div>
-        </div>
-      </div>
-    </div>
+    <kefu />
   </div>
 </template>
 
 <script>
 import api from "@/api/sqbApi";
+import kefu from "@/components/kefu";
 export default {
   name: "chapter",
   props: [""],
@@ -114,7 +89,7 @@ export default {
     };
   },
 
-  components: {},
+  components: { kefu },
 
   computed: {},
 
@@ -208,48 +183,6 @@ export default {
       padding: 30px 20px;
       &-btn {
         width: 100%;
-      }
-    }
-  }
-
-  .linkman {
-    margin-top: 20px;
-    background-color: #fff;
-    &-title {
-      padding-top: 20px;
-      margin-left: 10px;
-      font-weight: bold;
-    }
-    &-content {
-      padding: 30px 20px;
-      .item {
-        width: 100%;
-        padding-bottom: 50px;
-        .ercode {
-          padding: 0px 40px;
-          img {
-            width: 100%;
-          }
-          p {
-            text-align: center;
-            color: #777;
-            font-size: 16px;
-            padding-top: 10px;
-          }
-        }
-
-        .link {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          .link-tel {
-            color: #000;
-            text-align: center;
-            font-size: 18px;
-            font-weight: bold;
-            padding-top: 10px;
-          }
-        }
       }
     }
   }
