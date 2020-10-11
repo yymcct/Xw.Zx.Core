@@ -86,6 +86,16 @@ const routes = [
         }
     },
     {
+        path: '/sqb/product/content/chapter',
+        component: () =>
+            import(/* webpackChunkName: "sqb" */ './view/app/product/content/chapter'),
+        meta: {
+            title: '法律债务处理大礼包课程-债减减', 
+            keepAlive: false,
+            private:false
+        }
+    },
+    {
         path: '/sqb/order/:id',
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/order/index'),
@@ -181,6 +191,16 @@ const routes = [
             import(/* webpackChunkName: "sqb" */ './view/app/user/user'),
         meta: {
             title: '编辑个人信息', 
+            keepAlive: false,
+            private:true
+        }
+    },
+    {
+        path: '/sqb/user/order',
+        component: () =>
+            import(/* webpackChunkName: "sqb" */ './view/app/user/order'),
+        meta: {
+            title: '我的订单', 
             keepAlive: false,
             private:true
         }

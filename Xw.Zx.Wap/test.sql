@@ -16,3 +16,9 @@ select top 10 * from UpdateVipAuthCodes order by id desc
 UPDATE UpdateVipAuthCodes 
     set ExpiesTime='2020-10-24', UPdateVipAuthCodeState='0', MemberVipType='20'  
     where id = 864
+
+select * from Products
+
+select * from orders  order by id desc
+
+update orders set ProductId =10 , ProducName ='原价999元  限时三天9.9元 法律援助大礼包' where id =1770
