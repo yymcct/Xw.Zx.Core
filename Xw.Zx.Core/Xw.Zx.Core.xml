@@ -237,12 +237,13 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Xw.Zx.Core.Controllers.UpdateVipAuthCodeController.Create(System.Int32,System.Int32)">
+        <member name="M:Xw.Zx.Core.Controllers.UpdateVipAuthCodeController.Create(System.Int32,System.Int32,Xw.Zx.Core.Models.Model.MemberVipType)">
             <summary>
             生成指定数量的优惠券到指定用户的账号下, 内部使用,
             </summary>
             <param name="memberid"></param>
             <param name="cnt"></param>
+            <param name="memberVipType"></param>
             <returns></returns>
         </member>
         <member name="M:Xw.Zx.Core.Controllers.UpdateVipAuthCodeController.Send(System.String,System.Int32)">

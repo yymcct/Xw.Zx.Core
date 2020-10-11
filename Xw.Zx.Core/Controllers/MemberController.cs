@@ -100,7 +100,8 @@ namespace Xw.Zx.Core.Controllers
                     var member = _context.Members.FirstOrDefault(m => m.UserName == loginDto.Account);
                     result.Member = _mapper.Map<MemberDto>(member);
                 }
-                else {
+                else
+                {
                     result.msg = "账号或密码错误";
                 }
 
@@ -108,7 +109,7 @@ namespace Xw.Zx.Core.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError("账号或密码错误"+ex.Message);
+                _logger.LogError("账号或密码错误" + ex.Message);
                 return new HbzsResult<LoginResponeDto>(HbzsResultCode.Invalid_Error, "账号或密码错误");
             }
 
@@ -362,14 +363,22 @@ namespace Xw.Zx.Core.Controllers
         /// <returns></returns>
         [HttpGet]
         [Authorize]
-        public HbzsResult IsWhite()
+        public HbzsResult<bool> IsWhite()
         {
-            if (AppsettingsUtility.CanCreateUpdateVipCodePhone.Any(p => p == Member.Phone))
+            try
             {
-                return new HbzsResult(HbzsResultCode.Sucess);
+                if (AppsettingsUtility.CanCreateUpdateVipCodePhone.Any(p => p == Member.Phone))
+                {
+                    return new HbzsResult<bool>(true);
+                }
+
+                return new HbzsResult<bool>(false);
+            }
+            catch (Exception ex)
+            {
+                return new HbzsResult<bool>(HbzsResultCode.Invalid_Error, ex.Message);
             }
 
-            return new HbzsResult(HbzsResultCode.Invalid_Error);
         }
 
 

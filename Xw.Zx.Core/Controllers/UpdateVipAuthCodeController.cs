@@ -65,9 +65,10 @@ namespace Xw.Zx.Core.Controllers
         /// </summary>
         /// <param name="memberid"></param>
         /// <param name="cnt"></param>
+        /// <param name="memberVipType"></param>
         /// <returns></returns>
         [HttpGet]
-        public HbzsResult Create([FromQuery] int memberid, int cnt)
+        public HbzsResult Create([FromQuery] int memberid, int cnt, MemberVipType memberVipType = MemberVipType.会员)
         {
             try
             {
@@ -88,6 +89,7 @@ namespace Xw.Zx.Core.Controllers
                     {
                         OwinId = memberid,
                         Code = codeNum,
+                        MemberVipType = memberVipType
                     };
                     _context.UpdateVipAuthCodes.Add(code);
                 }
