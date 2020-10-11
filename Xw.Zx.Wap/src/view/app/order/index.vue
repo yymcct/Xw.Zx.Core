@@ -11,6 +11,7 @@
       <div class="product-title">
         <h2>订单编号: {{ order.timestamp }}</h2>
         <p v-if="order.orderState == 1">交易成功</p>
+        <!-- <span v-if="order.orderState == 0" @click="userCouponCode=true">兑换卷</span> -->
       </div>
 
       <div class="product-content">
@@ -23,8 +24,22 @@
           </h1>
           <p class="product-content-info-price">￥{{ order.amount }}</p>
           <p class="product-content-info-time">{{ order.addTime }}</p>
+          
         </div>
       </div>
+    </div>
+    <div class="coupon" v-if="userCouponCode">
+      <van-field v-model="couponCode" placeholder="请输入兑换卷" />
+      <van-button
+        class="foot-btn"
+        color="#ff5000"
+        round
+        plain
+        size="mini"
+        @click="couponCodeHandle"
+      >
+        使用
+      </van-button>
     </div>
     <div class="foot">
       <van-button
@@ -63,6 +78,8 @@ export default {
       product: null,
       order: null,
       loading: false,
+      couponCode: "",
+      userCouponCode:false
     };
   },
 
@@ -127,6 +144,9 @@ export default {
           document.forms[0].submit();
         });
     },
+    couponCodeHandle(){
+
+    }
   },
 
   watch: {},
@@ -139,16 +159,15 @@ export default {
     //margin: 10px;
     background-color: #fff;
     padding: 10px;
-    border-radius: 10px;
+    // border-radius: 10px;
     // box-shadow: 0.02667rem 0.02667rem 0.21333rem #999;
     &-title {
-          margin-top: 5px;
+      margin-top: 5px;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      align-items:center;
+      align-items: center;
       h2 {
-    
         font-size: 15px;
         font-weight: bold;
       }
@@ -156,6 +175,10 @@ export default {
         font-size: 14px;
         color: #ff5000;
         font-weight: bold;
+      }
+      span{
+        font-size: 11px;
+        color:#e6e6e6;
       }
     }
 
@@ -165,6 +188,7 @@ export default {
       flex-direction: row;
       justify-content: flex-start;
       align-items: flex-start;
+
       &-img {
         img {
           width: 100px;
@@ -194,6 +218,15 @@ export default {
         }
       }
     }
+  }
+  .coupon {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    background-color: #fff;
+    padding: 10px;
   }
   .foot {
     position: fixed;

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="wrapper">
     <hb-layout :active="1">
       <div class="banner">
         <img
@@ -7,11 +7,30 @@
           style="display: block; width: 100%; height: auto"
         />
       </div>
+      <div class="user">
+        <div class="user-title">
+          <p class="user-title-title">个人信息</p>
+          <van-button
+            class="user-title-edit"
+            color="#8a8a8a"
+            round
+            plain
+            size="mini"
+            @click="$router.push({ path: `/sqb/user/user`})"
+          >
+            编辑
+          </van-button>
+        </div>
+        <van-cell title="手机" :value="user.phone" />
+        <van-cell title="姓名" :value="user.realName" />
+        <van-cell title="支付宝" :value="user.aliPayAccount" />
+        <van-cell title="级别" :value="memberVipType" />
+      </div>
       <van-cell-group>
         <van-cell title="我的收益" is-link to="/sqb/user/income" />
         <van-cell title="提现审核" is-link to="/sqb/user/incomeaudit" />
         <van-cell title="我的兑换码" is-link to="/sqb/user/code" />
-        <van-cell title="个人信息" is-link to="/sqb/user/user" />
+        <!-- <van-cell title="个人信息" is-link to="/sqb/user/user" /> -->
       </van-cell-group>
       <div class="foot">
         <van-button
@@ -30,10 +49,11 @@
 
 <script>
 //import api from "@/api/sqbApi";
+import { mapGetters } from "vuex";
 import { userInfoAPI } from "@/utils/auth";
 import HbLayout from "@/components/layout/hbLayout";
 export default {
-  name: "",
+  name: "user",
   props: [""],
   data() {
     return {};
@@ -43,7 +63,25 @@ export default {
     HbLayout,
   },
 
-  computed: {},
+  computed: {
+    ...mapGetters({
+      user: "user/user",
+    }),
+    memberVipType: function () {
+      switch (this.user.memberVipType) {
+        case 0:
+          return "普通";
+        case 10:
+          return "会员";
+        case 20:
+          return "合伙人";
+        case 30:
+          return "运营中心";
+        default:
+          return "";
+      }
+    },
+  },
 
   beforeMount() {},
 
@@ -71,11 +109,37 @@ export default {
 };
 </script>
 <style lang='scss' scoped>
-.foot {
-  text-align: center;
-  &-btn {
-    margin-top: 20px;
-    width: 80%;
+.wrapper {
+  padding-bottom: 80px;
+  .user {
+    background-color: #fff;
+    margin-bottom: 20px;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    &-title {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      &-title {
+        font-size: 16px;
+        font-weight: bold;
+        color: #323233;
+        margin: 10px;
+        line-height: 20px;
+      }
+      &-edit {
+        margin-right: 10px;
+      }
+    }
+  }
+  .foot {
+    text-align: center;
+    &-btn {
+      margin-top: 20px;
+      width: 80%;
+    }
   }
 }
 </style>

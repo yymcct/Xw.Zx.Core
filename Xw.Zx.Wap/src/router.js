@@ -180,7 +180,7 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/user/user'),
         meta: {
-            title: '个人信息', 
+            title: '编辑个人信息', 
             keepAlive: false,
             private:true
         }
