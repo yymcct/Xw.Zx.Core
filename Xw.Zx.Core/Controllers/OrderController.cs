@@ -45,6 +45,11 @@ namespace Xw.Zx.Core.Controllers
                     .ProjectTo<OrderListDto>(_mapper.ConfigurationProvider)
                     .ToList();
 
+                for (var i = 0; i < res.Count; i++)
+                {
+                    res[i].ProductDto = _mapper.Map<ProductDto>(_context.Products.FirstOrDefault(p => p.Id == res[i].ProductId));
+                }
+
                 var total = _sieveProcessor
                     .Apply(sieveModel, db, applyPagination: false)
                     .Count();
@@ -120,7 +125,7 @@ namespace Xw.Zx.Core.Controllers
             try
             {
                 var order = _context.Orders
-                            .Where(o => o.OrderState == OrderState.待付款 && Member.Id == o.MemberId && o.Id==id)
+                            .Where(o => o.OrderState == OrderState.待付款 && Member.Id == o.MemberId && o.Id == id)
                             .First();
                 _context.Orders.Remove(order);
                 _context.SaveChanges();

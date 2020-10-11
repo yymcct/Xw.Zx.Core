@@ -26,6 +26,9 @@ namespace Xw.Zx.Core.Models.Dto
         public OrderState OrderState { get; set; }
 
         public OrderPaymentType OrderPaymentType { get; set; }
+
+        public ProductDto ProductDto { get; set; }
+
     }
     public class OrderDto
     {

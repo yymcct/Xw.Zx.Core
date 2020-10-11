@@ -35,6 +35,7 @@ namespace Xw.Zx.Core.Models.Model
 
         public string MemberPhone { get; set; }
 
+        [Sieve(CanFilter = true, CanSort = true)]
         public int ProductId { get; set; }
 
         public string ProducName { get; set; }
