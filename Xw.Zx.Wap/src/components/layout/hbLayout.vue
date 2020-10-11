@@ -17,7 +17,19 @@
           "
         />
       </van-tabbar-item>
-
+      <van-tabbar-item :to="`/sqb/computer`">
+        <span>计算器</span>
+        <img
+          class="tabbar-img"
+          slot="icon"
+          slot-scope="props"
+          :src="
+            !props.active
+              ? require('@/assets/images/computer.png')
+              : require('@/assets/images/computer2.png')
+          "
+        />
+      </van-tabbar-item>
       <van-tabbar-item :to="`/sqb/user`">
         <span>我的</span>
         <img
