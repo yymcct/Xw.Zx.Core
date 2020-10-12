@@ -61,6 +61,7 @@ export default {
 <style lang='scss' scoped>
 .wrapper {
   height: 100vh;
+  overflow: hidden;
   .title {
     padding-top: 50px;
     display: flex;

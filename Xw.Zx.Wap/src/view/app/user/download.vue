@@ -15,7 +15,7 @@
       <a
         href="http://139.155.8.217:8081/zzz20201012.apk"
         download="zzz.apk"
-        @click="ckdownload"
+   
         >点我下载债减减APP</a
       >
     </div>
@@ -29,20 +29,23 @@
         <li>由此带来的结果是大量的贷款机构的利率超过了司法保护上限</li>
       </ul>
     </div>
+      <share :show="isWeiXin" />
   </div>
 </template>
 
 <script>
+import share from "@/components/share";
 export default {
   name: "",
   props: [""],
   data() {
     return {
       isWeiXin: false,
+      
     };
   },
 
-  components: {},
+  components: {share},
 
   computed: {},
 
@@ -63,6 +66,7 @@ export default {
 <style lang='scss' scoped>
 .wrapper {
   height: 100vh;
+  overflow: hidden;
   .title {
     padding-top: 50px;
     display: flex;

@@ -130,7 +130,7 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/user/share'),
         meta: {
-            title: '我的', 
+            title: '分享债减减', 
             keepAlive: false,
             private:false
         }
@@ -140,7 +140,7 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/user/download'),
         meta: {
-            title: '我的', 
+            title: '下载债减减', 
             keepAlive: false,
             private:false
         }
