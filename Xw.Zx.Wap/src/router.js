@@ -76,6 +76,16 @@ const routes = [
         }
     },
     {
+        path: '/sqb/app/computer',
+        component: () =>
+            import(/* webpackChunkName: "sqb" */ './view/app/computer/index'),
+        meta: {
+            title: '利息减免计算器', 
+            keepAlive: true,
+            private:false
+        }
+    },
+    {
         path: '/sqb/product/:id',
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/product/index'),

@@ -17,7 +17,7 @@
           "
         />
       </van-tabbar-item>
-      <van-tabbar-item :to="`/sqb/computer`">
+      <van-tabbar-item :to="`/sqb/app/computer`">
         <span>计算器</span>
         <img
           class="tabbar-img"

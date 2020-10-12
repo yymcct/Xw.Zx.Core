@@ -1,11 +1,14 @@
 <template>
   <div>
-    <computer />
+    <hb-layout :active="1">
+      <computer />
+    </hb-layout>
   </div>
 </template>
 
 <script>
 import computer from "@/components/computer";
+import HbLayout from "@/components/layout/hbLayout";
 export default {
   name: "",
   props: [""],
@@ -13,7 +16,7 @@ export default {
     return {};
   },
 
-  components: { computer },
+  components: { computer, HbLayout },
 
   computed: {},
 
