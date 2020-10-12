@@ -3,7 +3,7 @@
     <hb-layout :active="0">
       <div class="banner">
         <img
-          :src="require('@/assets/images/home/banner.jpg')"
+          :src="require('@/assets/images/home/banner.png')"
           style="display: block; width: 100%; height: auto"
         />
       </div>

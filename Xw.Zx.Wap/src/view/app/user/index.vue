@@ -3,7 +3,7 @@
     <hb-layout :active="1">
       <div class="banner">
         <img
-          :src="require('@/assets/images/home/banner.jpg')"
+          :src="require('@/assets/images/home/banner.png')"
           style="display: block; width: 100%; height: auto"
         />
       </div>
@@ -27,11 +27,17 @@
         <van-cell title="级别" :value="memberVipType" />
       </div>
       <van-cell-group>
-        <van-cell title="我的收益" is-link to="/sqb/user/income" />       
+        <van-cell title="我的收益" is-link to="/sqb/user/income" />
         <van-cell title="我的订单" is-link to="/sqb/user/order" />
-            <van-cell title="联系客服" is-link to="/sqb/user/kefu" />
+        <van-cell title="联系客服" is-link to="/sqb/user/kefu" />
+        <van-cell title="立刻分享" is-link to="/sqb/user/share" />
         <!-- <van-cell title="个人信息" is-link to="/sqb/user/user" /> -->
-         <van-cell v-if="isWhite" title="审核提现" is-link to="/sqb/user/incomeaudit" />
+        <van-cell
+          v-if="isWhite"
+          title="审核提现"
+          is-link
+          to="/sqb/user/incomeaudit"
+        />
       </van-cell-group>
       <div class="foot">
         <van-button
