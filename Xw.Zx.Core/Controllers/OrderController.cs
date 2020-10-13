@@ -119,7 +119,7 @@ namespace Xw.Zx.Core.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpPost("[action]")]
         public HbzsResult<bool> Delete(int id)
         {
             try
