@@ -78,10 +78,12 @@ namespace Xw.Zx.Core.Controllers
                 {
                     Body = order.ProducName,
                     Subject = order.ProducName,
-                    TotalAmount = order.Amount.ToString("n"),
+                    TotalAmount = order.Amount.ToString("F2"),
                     ProductCode = "QUICK_WAP_PAY",
                     OutTradeNo = order.Timestamp,
-                    TimeoutExpress = "50m",       
+                    TimeoutExpress = "50m",
+                    GoodsType="0"
+
                 };
 
                 AlipayTradeWapPayRequest request = new AlipayTradeWapPayRequest();
