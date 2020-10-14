@@ -104,10 +104,10 @@ export default {
       name: "",
       phone: "18777777777",
       borrowCompany: "",
-      borrowAmount: "100000",
+      borrowAmount: "260000",
       cycle: 36,
-      cycleAmount: "5000",
-      repaymentCycle: "20",
+      cycleAmount: "11050.25",
+      repaymentCycle: "7",
       overdueCycle: "",
 
       yflx: 0,
@@ -168,11 +168,15 @@ export default {
     jsq_yflx(jixibenjin, qishu, meiyuehuankuan) {
       let yinhuanlixiTotal = 0;
       for (var i = 0; i < qishu; i++) {
-        let yinhuanlixi = (jixibenjin * 15.4) / 100 / 12;
+        let yinhuanlixi = (jixibenjin * 17) / 100 / 12;
         let yindibenji = meiyuehuankuan - yinhuanlixi;
 
         jixibenjin = jixibenjin - yindibenji;
-        yinhuanlixiTotal += yinhuanlixi;
+
+        //console.log(i + 1, jixibenjin, yinhuanlixi);
+        if (yinhuanlixi > 0) {
+          yinhuanlixiTotal += yinhuanlixi;
+        }
       }
       return Math.round(yinhuanlixiTotal);
     },
@@ -180,7 +184,6 @@ export default {
       let hetongjine = qishu * meiyuehuankuan; //合同金额
       let yflx = this.jsq_yflx(jixibenjin, qishu, meiyuehuankuan);
       let minjmlx = hetongjine - jixibenjin - yflx;
-
       // let getshengyujixibenjin = (jixibenjin, meiyuehuankuan, yihuanqishu) => {
       //   for (var i = 0; i < yihuanqishu; i++) {
       //     let yinhuanlixi = (jixibenjin * 15.4) / 100 / 12;
@@ -208,10 +211,19 @@ export default {
       return Math.round(minjmlx);
     },
     jsq_maxjmlx(jixibenjin, qishu, meiyuehuankuan, yihuanqishu) {
-      let hetongjine = qishu * meiyuehuankuan; //合同金额
-      let yifulix = this.jsq_yflx(jixibenjin, yihuanqishu, meiyuehuankuan);
+      let hetongyinhuan = (qishu - yihuanqishu) * meiyuehuankuan; //合同金额
+      let getshengyuhetongjine = (meiyuehuankuan, qishu, yihuanqishu) => {
+        let shengyuhetongjine = (qishu - yihuanqishu) * meiyuehuankuan;
+        return shengyuhetongjine;
+      };
+      let shengyujixibenjin = getshengyuhetongjine(
+        meiyuehuankuan,
+        qishu,
+        yihuanqishu
+      );
 
-      let maxjmlx = hetongjine - jixibenjin - yifulix;
+      console.log(hetongyinhuan, shengyujixibenjin);
+      let maxjmlx = hetongyinhuan - shengyujixibenjin;
       return Math.round(maxjmlx);
     },
     btnClikc() {
