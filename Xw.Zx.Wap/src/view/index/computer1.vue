@@ -106,9 +106,9 @@ export default {
       borrowCompany: "",
       borrowAmount: "260000",
       cycle: 36,
-      cycleAmount: "11050.25",
+      cycleAmount: "11050",
       repaymentCycle: "7",
-      overdueCycle: "",
+      overdueCycle: "0",
 
       yflx: 0,
       jmlx_min: 0,
@@ -212,18 +212,30 @@ export default {
     },
     jsq_maxjmlx(jixibenjin, qishu, meiyuehuankuan, yihuanqishu) {
       let hetongyinhuan = (qishu - yihuanqishu) * meiyuehuankuan; //合同金额
-      let getshengyuhetongjine = (meiyuehuankuan, qishu, yihuanqishu) => {
-        let shengyuhetongjine = (qishu - yihuanqishu) * meiyuehuankuan;
-        return shengyuhetongjine;
+      let getshengyujixibenjin = (jixibenjin, meiyuehuankuan, yihuanqishu) => {
+        for (var i = 0; i < yihuanqishu; i++) {
+          let yinhuanlixi = (jixibenjin * 17) / 100 / 12;
+          let yindibenji = meiyuehuankuan - yinhuanlixi;
+          jixibenjin = jixibenjin - yindibenji;
+        }
+        return jixibenjin;
       };
-      let shengyujixibenjin = getshengyuhetongjine(
+      let shengyujixibenjin = getshengyujixibenjin(
+        jixibenjin,
         meiyuehuankuan,
-        qishu,
         yihuanqishu
       );
 
-      console.log(hetongyinhuan, shengyujixibenjin);
-      let maxjmlx = hetongyinhuan - shengyujixibenjin;
+      let getyuqilixi = (shengyujixibenjin, yuqiqishu) => {
+        if (yuqiqishu == 0) {
+          return 0;
+        } else {
+          return (shengyujixibenjin * 17) / 100 / (12 * yuqiqishu);
+        }
+      };
+      let yuqilixi = getyuqilixi(shengyujixibenjin, this.overdueCycle);
+      console.log(hetongyinhuan, shengyujixibenjin, yuqilixi);
+      let maxjmlx = hetongyinhuan - shengyujixibenjin - yuqilixi;
       return Math.round(maxjmlx);
     },
     btnClikc() {
