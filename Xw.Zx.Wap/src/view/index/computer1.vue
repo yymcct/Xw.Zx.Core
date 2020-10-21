@@ -102,12 +102,12 @@ export default {
   data() {
     return {
       name: "",
-      phone: "18777777777",
+      phone: "",
       borrowCompany: "",
-      borrowAmount: "260000",
+      borrowAmount: "",
       cycle: 36,
-      cycleAmount: "11050",
-      repaymentCycle: "7",
+      cycleAmount: "",
+      repaymentCycle: "",
       overdueCycle: "0",
 
       yflx: 0,
@@ -130,30 +130,10 @@ export default {
   },
 
   components: {
-    // vueQr
+
   },
   computed: {
-    // yflx: function () {
-    //   return parseInt(this.borrowAmount * 0.008 * this.cycle);
-    // },
-    // jmlx_min: function () {
-    //   let l = parseInt(
-    //     this.cycle * this.cycleAmount -
-    //       this.borrowAmount -
-    //       this.borrowAmount * 0.008 * this.cycle
-    //   );
-    //   if (l < 0) l = 0;
-    //   return l;
-    // },
-    // jmlx_max: function () {
-    //   let l = parseInt(
-    //     this.cycle * this.cycleAmount -
-    //       this.borrowAmount -
-    //       (this.borrowAmount * 0.008 * this.cycle) / 3
-    //   );
-    //   if (l < 0) l = 0;
-    //   return l;
-    // },
+
   },
 
   beforeMount() {},
@@ -265,21 +245,6 @@ export default {
         this.cycleAmount,
         this.repaymentCycle
       );
-
-      // api.computer.postComputerUser({
-      //   name: this.name,
-      //   phone: this.phone,
-      //   borrowCompany: this.borrowCompany,
-      //   borrowAmount: this.borrowAmount,
-      //   cycle: this.cycle,
-      //   cycleAmount: this.cycleAmount,
-      //   repaymentCycle: this.repaymentCycle,
-      //   overdueCycle: this.overdueCycle,
-      //   sourcePhone: this.member.phone,
-      //   MinReduce: this.jmlx_min,
-      //   MaxReduce: this.jmlx_max,
-      // });
-      //   this.option.btnShow = false;
     },
   },
 

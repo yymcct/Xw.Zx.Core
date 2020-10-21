@@ -24,7 +24,6 @@
           </h1>
           <p class="product-content-info-price">￥{{ order.amount }}</p>
           <p class="product-content-info-time">{{ order.addTime }}</p>
-          
         </div>
       </div>
     </div>
@@ -56,20 +55,39 @@
       <van-button
         class="foot-btn"
         type="primary"
+        plain
+        round
+        size="small"
+        color="#ff5000"
+        @click="showQrcodePay = true"
+        :disabled="order.orderState == 1"
+      >
+        扫码付款
+      </van-button>
+      <van-button
+        class="foot-btn"
+        type="primary"
         round
         size="small"
         color="linear-gradient(to right, #ff7a00, #ff5000)"
         @click="payOrder"
         :disabled="order.orderState == 1"
       >
-        付款
+        立即付款
       </van-button>
     </div>
+    <qrcode-pay
+      v-if="order.orderState == 0"
+      v-model="showQrcodePay"
+      :order="order"
+      @paystateChange="paystateChange"
+    />
   </div>
 </template>
 
 <script>
 import api from "@/api/sqbApi";
+import qrcodePay from "./components/qrcodePay";
 export default {
   name: "Order",
   props: [""],
@@ -79,22 +97,25 @@ export default {
       order: null,
       loading: false,
       couponCode: "",
-      userCouponCode:false
+      userCouponCode: false,
+      showQrcodePay: false,
     };
   },
 
-  components: {},
+  components: {
+    qrcodePay,
+  },
 
   computed: {},
 
   beforeMount() {
-    this.await();
+    this.init();
   },
 
   mounted() {},
 
   methods: {
-    async await() {
+    async init() {
       const _this = this;
       _this.order = (await api.order.get(this.$route.params.id)).result;
       _this.product = (
@@ -136,7 +157,6 @@ export default {
           returnUrl: returnUrl,
         })
         .then((res) => {
-          console.log(res);
           const div = document.createElement("div");
           /* 此处form就是后台返回接收到的数据 */
           div.innerHTML = res.result.alipayTradeAppPayResponse;
@@ -144,9 +164,13 @@ export default {
           document.forms[0].submit();
         });
     },
-    couponCodeHandle(){
 
-    }
+    paystateChange(val) {
+      if (val) {
+        this.init();
+      }
+    },
+    couponCodeHandle() {},
   },
 
   watch: {},
@@ -176,9 +200,9 @@ export default {
         color: #ff5000;
         font-weight: bold;
       }
-      span{
+      span {
         font-size: 11px;
-        color:#e6e6e6;
+        color: #e6e6e6;
       }
     }
 

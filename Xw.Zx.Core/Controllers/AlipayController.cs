@@ -20,6 +20,9 @@ using Xw.Zx.Core.Service;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Microsoft.EntityFrameworkCore;
+using Alipay.AopSdk.F2FPay.Domain;
+using Alipay.AopSdk.F2FPay.Business;
+using Alipay.AopSdk.F2FPay.Model;
 
 namespace Xw.Zx.Core.Controllers
 {
@@ -29,6 +32,7 @@ namespace Xw.Zx.Core.Controllers
     {
         private readonly ILogger<AlipayController> _logger;
         private readonly AlipayService _alipayService;
+        private readonly AlipayF2FService _alipayF2FService;
         private readonly IUpDateVip1Service _upDateVip1Service;
         private readonly IWapOrderPayService _wapOrderPayService;
         public AlipayController(ILogger<AlipayController> logger
@@ -36,11 +40,13 @@ namespace Xw.Zx.Core.Controllers
             , IMapper mapper
             , ISieveProcessor sieveProcessor
             , AlipayService alipayService
+            , AlipayF2FService alipayF2FService
             , IUpDateVip1Service upDateVip1Service
             , IWapOrderPayService wapOrderPayService) : base(xwZxContext, mapper, sieveProcessor)
         {
             _logger = logger;
             _alipayService = alipayService;
+            _alipayF2FService = alipayF2FService;
             _upDateVip1Service = upDateVip1Service;
             _wapOrderPayService = wapOrderPayService;
         }
@@ -67,7 +73,7 @@ namespace Xw.Zx.Core.Controllers
 
         [HttpPost("{orderId}")]
         [Authorize]
-        public HbzsResult<AliPayOrderDto> WapPay(int orderId, [FromQuery]string returnUrl)
+        public HbzsResult<AliPayOrderDto> WapPay(int orderId, [FromQuery] string returnUrl)
         {
             try
             {
@@ -82,7 +88,7 @@ namespace Xw.Zx.Core.Controllers
                     ProductCode = "QUICK_WAP_PAY",
                     OutTradeNo = order.Timestamp,
                     TimeoutExpress = "50m",
-                    GoodsType="0"
+                    GoodsType = "0"
 
                 };
 
@@ -180,7 +186,7 @@ namespace Xw.Zx.Core.Controllers
                         //退款日期超过可退款期限后（如三个月可退款），支付宝系统发送该交易状态通知
                         if (sArray["trade_status"] == "TRADE_SUCCESS")
                         {
-                            
+
                             _wapOrderPayService.SucessHandle(sArray);
                         }
                     }
@@ -261,5 +267,79 @@ namespace Xw.Zx.Core.Controllers
 
         #endregion
 
+        #region 当面付
+        [HttpPost("{orderId}")]
+        [Authorize]
+        public async Task<HbzsResult<string>> ScanCodeGen(int orderId)
+        {
+
+            AlipayTradePrecreateContentBuilder builder = BuildPrecreateContent();
+
+            //如果需要接收扫码支付异步通知，那么请把下面两行注释代替本行。
+            //推荐使用轮询撤销机制，不推荐使用异步通知,避免单边账问题发生。
+            //AlipayF2FPrecreateResult precreateResult = await _alipayF2FService.TradePrecreateAsync(builder);
+            string notify_url = "http://139.155.8.217/api/Alipay/WapNotifyurl";  //商户接收异步通知的地址
+            AlipayF2FPrecreateResult precreateResult = await _alipayF2FService.TradePrecreateAsync(builder, notify_url);
+
+            //以下返回结果的处理供参考。
+            //payResponse.QrCode即二维码对于的链接
+            //将链接用二维码工具生成二维码打印出来，顾客可以用支付宝钱包扫码支付。
+
+            switch (precreateResult.Status)
+            {
+                case ResultEnum.SUCCESS:
+
+                    return new HbzsResult<string>(precreateResult.response.QrCode);
+
+                case ResultEnum.FAILED:
+                    return new HbzsResult<string>(HbzsResultCode.Invalid_Error, precreateResult.response.Body);
+
+                case ResultEnum.UNKNOWN:
+                default:
+                    return new HbzsResult<string>(HbzsResultCode.Invalid_Error, "生成二维码失败：" +
+                        (precreateResult.response == null ? "配置或网络异常，请检查后重试" : "系统异常，请更新外部订单后重新发起请求"));
+            }
+
+            AlipayTradePrecreateContentBuilder BuildPrecreateContent()
+            {
+                var order = _context.Orders.First(o => o.MemberId == Member.Id
+                                                                && o.OrderState == OrderState.待付款
+                                                                && o.Id == orderId);
+
+                var alipayTradePrecreateContentBuilder = new AlipayTradePrecreateContentBuilder();
+                //收款账号
+                alipayTradePrecreateContentBuilder.seller_id = _alipayService.Options.Uid;
+                //订单编号
+                alipayTradePrecreateContentBuilder.out_trade_no = order.Timestamp;
+                //订单总金额
+                alipayTradePrecreateContentBuilder.total_amount = order.Amount.ToString("F2");
+                //参与优惠计算的金额
+                //builder.discountable_amount = "";
+                //不参与优惠计算的金额
+                //builder.undiscountable_amount = "";
+                //订单名称
+                alipayTradePrecreateContentBuilder.subject = order.ProducName;
+                //自定义超时时间
+                alipayTradePrecreateContentBuilder.timeout_express = "90m";
+                //订单描述
+                alipayTradePrecreateContentBuilder.body = order.ProducName;
+                //门店编号，很重要的参数，可以用作之后的营销
+                alipayTradePrecreateContentBuilder.store_id = "test store id";
+                //操作员编号，很重要的参数，可以用作之后的营销
+                alipayTradePrecreateContentBuilder.operator_id = Member.Id.ToString();
+
+                //系统商接入可以填此参数用作返佣
+                //ExtendParams exParam = new ExtendParams();
+                //exParam.sysServiceProviderId = "20880000000000";
+                //builder.extendParams = exParam;
+
+                return alipayTradePrecreateContentBuilder;
+
+            }
+
+        }
+
+
+        #endregion
     }
 }

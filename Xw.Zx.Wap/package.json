@@ -18,7 +18,7 @@
     "qs": "^6.9.1",
     "sass-loader": "^8.0.0",
     "save": "^2.4.0",
-    "vant": "^2.6.3",
+    "vant": "^2.10.10",
     "videojs-contrib-hls": "^5.15.0",
     "vue": "^2.6.10",
     "vue-audio-better": "^3.0.1",

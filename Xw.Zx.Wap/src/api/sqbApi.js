@@ -27,7 +27,8 @@ export default {
         gets: (params) => request.get('/api/Order', { params: params }),
     },
     alipay: {
-        wapPay: (params) => request.post(`/api/Alipay/WapPay/${params.id}?returnurl=${params.returnUrl}`)
+        wapPay: (params) => request.post(`/api/Alipay/WapPay/${params.id}?returnurl=${params.returnUrl}`),
+        scanCodeGen: (params) => request.post(`/api/Alipay/ScanCodeGen/${params}`)
     },
     income: {
         getIncomeInfo: () => request.get('/api/Income/GetIncomeInfo'),
