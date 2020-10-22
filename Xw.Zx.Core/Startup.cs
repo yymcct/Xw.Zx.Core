@@ -55,6 +55,8 @@ namespace Xw.Zx.Core
             });
             #endregion
 
+            services.Configure<BiqilinOption>(Configuration.GetSection("Biqilin"));
+
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(options => { options.SerializerSettings.DateFormatString = "yyyy-MM-dd"; });

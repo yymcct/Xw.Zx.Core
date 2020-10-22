@@ -62,3 +62,45 @@ Post {{baseUrl}}/api/Alipay/ScanCodeGen/1783
 Authorization: Bearer {{token}}
 Content-Type: {{contentType}}
 
+
+#### 测试支付
+Post {{baseUrl}}/api/Biqilin/CreateQrcodePayUrl?orderId=1783
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+
+
+
+
+
+
+
+
+
+
+
+### 获取token # merchant_account=1100000522&merchant_pwd=123456&partner_code=taiyangniao&key=eb7KG4mZIhFmDnGG
+Post  https://pay.biqilin.com/api/user/partner/key_download.do
+Content-Type: application/x-www-form-urlencoded
+
+merchant_account=1100000522&merchant_pwd=123456&partner_code=taiyangniao&sign=FE30C00A7823EEE67F7E57474BC7B9B2
+### 应答的信息
+{
+  "detail": {
+    "merchantName": "河南多宝格信息科技有限公司",
+    "serviceMerchantName": "太阳鸟",
+    "serviceMerchantAccount": "8100000004",
+    "merchantAccount": "1100000522",
+    "serviceMerchantPhone": "13598403073",
+    "sign": "B59045C664C1197590C081AE876E6CE4",
+    "token": "326b5d06397c08c379b447f1917d6ce38db006d43c31da324b4358eda54911f8"
+  },
+  "errorCode": "",
+  "errorMsg": "",
+  "flag": 1
+}
+### amount=0.10&fee_type=CNY&local_time=1603361351508&merchant_account=1100000522&notify_url=http://www.baidu.com&out_cashier_name=测试1&out_goods_name=测试商品&out_store_name=admin&out_trade_no=20200223&partner_code=taiyangniao&pay_type=WEIXIN_PAY&terminal_type=3&token=326b5d06397c08c379b447f1917d6ce38db006d43c31da324b4358eda54911f8&
+POST https://pay.biqilin.com/api/pay/partner/qrcode_pay2.do
+Content-Type: application/x-www-form-urlencoded
+
+amount=0.10&fee_type=CNY&local_time=1603361351508&merchant_account=1100000522&notify_url=http://www.baidu.com&out_cashier_name=测试1&out_goods_name=测试商品&out_store_name=admin&out_trade_no=20200223&partner_code=taiyangniao&pay_type=WEIXIN_PAY&terminal_type=3&token=326b5d06397c08c379b447f1917d6ce38db006d43c31da324b4358eda54911f8&sign=ED92FA537925C22333834BD1E7CFFFEA

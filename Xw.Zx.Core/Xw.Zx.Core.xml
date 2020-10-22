@@ -94,6 +94,16 @@
             消息
             </summary>
         </member>
+        <member name="T:Xw.Zx.Core.Controllers.BiqilinController">
+            <summary>
+            碧麒麟支付
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.BiqilinController.CreateQrcodePayUrl(System.Int32)">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="M:Xw.Zx.Core.Controllers.IncomeController.GetDetails(Sieve.Models.SieveModel)">
             <summary>
             获取自己名下收益明细, 可检索, 排序, 分页      
