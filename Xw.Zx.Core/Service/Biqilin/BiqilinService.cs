@@ -25,7 +25,7 @@ namespace Xw.Zx.Core.Service
         }
         public string CreateQrcodePayUrl(Biqilin_Product biqilin_Product)
         {
-            const string url = "https://pay.biqilin.com/api/pay/partner/qrcode_pay2.do";
+            const string url = "https://pay.biqilin.com/api/pay/partner/qrcode_pay.do";
             var key = GetToken();
 
             var dto = new Biqilinrequest.QrcodePay(_biqilinOption);
@@ -45,7 +45,7 @@ namespace Xw.Zx.Core.Service
             dto.token = key.token;
 
             var res=  Post<BiqilinRespone.QrcodePay>(url, dto.ToDic());
-            throw new NotImplementedException();
+            return res.codeUrl;
         }
 
         public string CreateWeixinJsApi(Biqilin_Product biqilin_Product)
