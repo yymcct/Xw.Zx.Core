@@ -9,7 +9,35 @@
       @close="close"
       :style="{ height: '75%' }"
     >
-      <div class="content" v-if="payUrl">
+      <div class="change" v-if="payType == null">
+        <h1>请选择支付方式</h1>
+        <van-cell @click="selectChanl(1)">
+          <template #title>
+            <div class="change-cell">
+              <img
+                class="change-cell-aiplaylog"
+                :src="require('@/assets/images/alpay.png')"
+                alt=""
+              />
+              <span class="change-cell-aiplaytext">支付宝</span>
+            </div>
+          </template>
+        </van-cell>
+        <van-cell @click="selectChanl(0)">
+          <!-- 使用 title 插槽来自定义标题 -->
+          <template #title>
+            <div class="change-cell">
+              <img
+                class="change-cell-weixinlog"
+                :src="require('@/assets/images/weixin.jpg')"
+                alt=""
+              />
+              <span class="change-cell-weixintext">微信</span>
+            </div>
+          </template>
+        </van-cell>
+      </div>
+      <div class="content" v-if="payType != null && payUrl">
         <h1>{{ order.producName }}</h1>
         <vue-qr
           :logoSrc="require('@/assets/logo.png')"
@@ -21,7 +49,7 @@
           金额<span>{{ order.amount }}</span
           >元
         </p>
-        <p class="content-desc">请用<span>支付宝扫码</span>支付</p>
+        <p class="content-desc">请用<span>{{payType==1?"支付宝":"微信"}}扫码</span>支付</p>
         <van-button
           class="content-btn"
           type="primary"
@@ -53,9 +81,10 @@ export default {
   },
   data() {
     return {
-      show: false,
+      show: true,
       payUrl: "",
       loading: false,
+      payType: null,
     };
   },
 
@@ -66,20 +95,38 @@ export default {
   beforeMount() {},
 
   mounted() {
-    const _this = this;
-
-    api.alipay.scanCodeGen(_this.order.id).then((res) => {
-      _this.payUrl = res.result;
-    });
+    //const _this = this;
+    // api.alipay.scanCodeGen(_this.order.id).then((res) => {
+    //   _this.payUrl = res.result;
+    // });
   },
 
   methods: {
+    selectChanl(val) {
+      this.payType = val;
+      this.refPayUrl();
+    },
     refPayUrl() {
       const _this = this;
 
-      api.alipay.scanCodeGen(_this.order.id).then((res) => {
-        _this.payUrl = res.result;
-      });
+      api.biqilin
+        .scanCodeGen({
+          Biqilin_PayType: _this.payType,
+          OrderId: _this.order.id,
+        })
+        .then((res) => {
+          _this.payUrl = res.result;
+        })
+        .catch(() => {
+          api.biqilin
+            .scanCodeGen({
+              Biqilin_PayType: _this.payType,
+              OrderId: _this.order.id,
+            })
+            .then((res) => {
+              _this.payUrl = res.result;
+            });
+        });
     },
     payOrderBack() {
       const _this = this;
@@ -98,7 +145,8 @@ export default {
               confirmButtonText: "继续付款",
               cancelButtonText: "放弃",
             })
-            .then(() => {})
+            .then(() => {              
+            })
             .catch(() => {
               _this.show = false;
               _this.$emit("paystateChange", false);
@@ -107,6 +155,7 @@ export default {
       });
     },
     close() {
+      this.payType = null;
       this.payUrl = "";
       this.$emit("input", false);
     },
@@ -115,7 +164,7 @@ export default {
   watch: {
     value: {
       handler(val) {
-        this.refPayUrl();
+        //this.refPayUrl();
         this.show = val;
       },
     },
@@ -123,6 +172,37 @@ export default {
 };
 </script>
 <style lang='scss' scoped>
+.change {
+  padding: 20px;
+  h1 {
+    text-align: center;
+    margin-top: 80px;
+    margin-bottom: 30px;
+  }
+  &-cell {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 16px;
+
+    &-aiplaylog {
+      width: 40px;
+      margin-left: 5px;
+    }
+    &-weixinlog {
+      width: 50px;
+    }
+    &-aiplaytext {
+      font-weight: bold;
+      margin-left: 10px;
+    }
+    &-weixintext {
+      font-weight: bold;
+      margin-left: 5px;
+    }
+  }
+}
 .content {
   margin-top: 15px;
   text-align: center;

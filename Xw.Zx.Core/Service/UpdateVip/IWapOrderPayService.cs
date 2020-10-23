@@ -7,6 +7,6 @@ namespace Xw.Zx.Core.Service
 {
     public interface IWapOrderPayService
     {
-        void SucessHandle(Dictionary<string, string> sArray);
+        void SucessHandle(string timestamp);
     }
 }

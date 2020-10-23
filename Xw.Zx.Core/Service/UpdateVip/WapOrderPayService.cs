@@ -22,14 +22,9 @@ namespace Xw.Zx.Core.Service
             _context = xwZxContext;
         }
 
-        public void SucessHandle(Dictionary<string, string> sArray)
+        public void SucessHandle(string timestamp)
         {
-            var order = _context.Orders.Where(o => o.Timestamp == sArray["out_trade_no"]).FirstOrDefault();
-
-            if (order.Amount != decimal.Parse(sArray["total_amount"]))
-            {
-                throw new Exception($"Notifyurl:异常订单, 金额不符 {sArray.ToString()}");
-            }
+            var order = _context.Orders.Where(o => o.Timestamp == timestamp).FirstOrDefault();            
 
             using (var transaction = _context.Database.BeginTransaction())
             {

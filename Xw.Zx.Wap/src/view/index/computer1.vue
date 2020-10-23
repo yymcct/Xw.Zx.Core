@@ -164,14 +164,6 @@ export default {
       let hetongjine = qishu * meiyuehuankuan; //合同金额
       let yflx = this.jsq_yflx(jixibenjin, qishu, meiyuehuankuan);
       let minjmlx = hetongjine - jixibenjin - yflx;
-      // let getshengyujixibenjin = (jixibenjin, meiyuehuankuan, yihuanqishu) => {
-      //   for (var i = 0; i < yihuanqishu; i++) {
-      //     let yinhuanlixi = (jixibenjin * 15.4) / 100 / 12;
-      //     let yindibenji = meiyuehuankuan - yinhuanlixi;
-      //     jixibenjin = jixibenjin - yindibenji;
-      //   }
-      //   return jixibenjin;
-      // };
       let getshengyuhetongjine = (meiyuehuankuan, qishu, yihuanqishu) => {
         let shengyuhetongjine = (qishu - yihuanqishu) * meiyuehuankuan;
         return shengyuhetongjine;

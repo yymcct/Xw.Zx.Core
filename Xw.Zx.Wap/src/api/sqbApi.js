@@ -30,6 +30,9 @@ export default {
         wapPay: (params) => request.post(`/api/Alipay/WapPay/${params.id}?returnurl=${params.returnUrl}`),
         scanCodeGen: (params) => request.post(`/api/Alipay/ScanCodeGen/${params}`)
     },
+    biqilin: {
+        scanCodeGen: (params) => request.post(`/api/Biqilin/ScanCodeGen`, params)
+    },
     income: {
         getIncomeInfo: () => request.get('/api/Income/GetIncomeInfo'),
         getDetails: () => request.get('/api/Income/GetDetails'),

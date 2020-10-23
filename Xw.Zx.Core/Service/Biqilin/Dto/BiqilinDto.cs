@@ -148,4 +148,14 @@ namespace Xw.Zx.Core.Service
             public string sign { get; set; }
         }
     }
+
+    public class BiqilinNotifyDto
+    {
+        public string merchant_account { get; set; }
+        public string orderNo { get; set; }
+        public string outOrderNo { get; set; }
+        public string orderStatus { get; set; }
+        public string orderStatusMsg { get; set; }
+        public string sign { get; set; }
+    }
 }

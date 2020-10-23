@@ -186,8 +186,9 @@ namespace Xw.Zx.Core.Controllers
                         //退款日期超过可退款期限后（如三个月可退款），支付宝系统发送该交易状态通知
                         if (sArray["trade_status"] == "TRADE_SUCCESS")
                         {
+                            var timestamp = sArray["out_trade_no"];
 
-                            _wapOrderPayService.SucessHandle(sArray);
+                            _wapOrderPayService.SucessHandle(timestamp);
                         }
                     }
 

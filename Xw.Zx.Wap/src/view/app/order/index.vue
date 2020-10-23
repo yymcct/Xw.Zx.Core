@@ -87,7 +87,7 @@
 
 <script>
 import api from "@/api/sqbApi";
-import qrcodePay from "./components/qrcodePay";
+import qrcodePay from "./components/biqilinQrcodePay";
 export default {
   name: "Order",
   props: [""],

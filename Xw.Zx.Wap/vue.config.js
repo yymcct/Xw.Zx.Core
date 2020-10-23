@@ -8,7 +8,7 @@ module.exports = {
     devServer: {
         port: 80,
         disableHostCheck: true,
-        proxy:'http://139.155.8.217'//'http://localhost:63836'// 
+        proxy:'http://139.155.8.217'// 'http://localhost:63836'//
     },
     css: {
         loaderOptions: {

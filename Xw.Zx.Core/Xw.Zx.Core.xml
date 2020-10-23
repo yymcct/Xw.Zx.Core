@@ -99,9 +99,15 @@
             碧麒麟支付
             </summary>
         </member>
-        <member name="M:Xw.Zx.Core.Controllers.BiqilinController.CreateQrcodePayUrl(System.Int32)">
+        <member name="M:Xw.Zx.Core.Controllers.BiqilinController.ScanCodeGen(Xw.Zx.Core.Models.BiqilinDto)">
             <summary>
             
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.BiqilinController.Notifyurl(Xw.Zx.Core.Service.BiqilinNotifyDto)">
+            <summary>
+            支付宝支付成功回调地址 
+            TODO: 校验是否是来自于支付宝的域名
             </summary>
         </member>
         <member name="M:Xw.Zx.Core.Controllers.IncomeController.GetDetails(Sieve.Models.SieveModel)">
