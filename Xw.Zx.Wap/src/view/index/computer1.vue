@@ -129,12 +129,8 @@ export default {
     };
   },
 
-  components: {
-
-  },
-  computed: {
-
-  },
+  components: {},
+  computed: {},
 
   beforeMount() {},
 
@@ -160,54 +156,69 @@ export default {
       }
       return Math.round(yinhuanlixiTotal);
     },
-    jsq_minjmlx(jixibenjin, qishu, meiyuehuankuan, yihuanqishu) {
-      let hetongjine = qishu * meiyuehuankuan; //合同金额
-      let yflx = this.jsq_yflx(jixibenjin, qishu, meiyuehuankuan);
-      let minjmlx = hetongjine - jixibenjin - yflx;
-      let getshengyuhetongjine = (meiyuehuankuan, qishu, yihuanqishu) => {
-        let shengyuhetongjine = (qishu - yihuanqishu) * meiyuehuankuan;
-        return shengyuhetongjine;
-      };
+    jsq_minjmlx(jixibenjin, qishu, meiyuehuankuan, yihuanqishu, overdueCycle) {
+      // let hetongjine = qishu * meiyuehuankuan; //合同金额
+      // let yflx = this.jsq_yflx(jixibenjin, qishu, meiyuehuankuan);
+      // let minjmlx = hetongjine - jixibenjin - yflx;
+      // let getshengyuhetongjine = (meiyuehuankuan, qishu, yihuanqishu) => {
+      //   let shengyuhetongjine = (qishu - yihuanqishu) * meiyuehuankuan;
+      //   return shengyuhetongjine;
+      // };
 
-      let shengyujixibenjin = getshengyuhetongjine(
-        meiyuehuankuan,
-        qishu,
-        yihuanqishu
-      );
-      console.log(shengyujixibenjin);
-      if (minjmlx > shengyujixibenjin) {
-        minjmlx = shengyujixibenjin - 5000;
-      }
-      if (minjmlx < 0) minjmlx = 0;
+      // let shengyujixibenjin = getshengyuhetongjine(
+      //   meiyuehuankuan,
+      //   qishu,
+      //   yihuanqishu
+      // );
+      // console.log(shengyujixibenjin);
+      // if (minjmlx > shengyujixibenjin) {
+      //   minjmlx = shengyujixibenjin - 5000;
+      // }
+      // if (minjmlx < 0) minjmlx = 0;
+      console.log(yihuanqishu);
+      console.log(overdueCycle);
 
+      let hetongjine = meiyuehuankuan * qishu;
+      let shijidaozhang = jixibenjin;
+      let yingfulixi = ((jixibenjin * 17) / 100) * 3;
+
+      let minjmlx = hetongjine - shijidaozhang - yingfulixi;
       return Math.round(minjmlx);
     },
-    jsq_maxjmlx(jixibenjin, qishu, meiyuehuankuan, yihuanqishu) {
-      let hetongyinhuan = (qishu - yihuanqishu) * meiyuehuankuan; //合同金额
-      let getshengyujixibenjin = (jixibenjin, meiyuehuankuan, yihuanqishu) => {
-        for (var i = 0; i < yihuanqishu; i++) {
-          let yinhuanlixi = (jixibenjin * 17) / 100 / 12;
-          let yindibenji = meiyuehuankuan - yinhuanlixi;
-          jixibenjin = jixibenjin - yindibenji;
-        }
-        return jixibenjin;
-      };
-      let shengyujixibenjin = getshengyujixibenjin(
-        jixibenjin,
-        meiyuehuankuan,
-        yihuanqishu
-      );
+    jsq_maxjmlx(jixibenjin, qishu, meiyuehuankuan, yihuanqishu, overdueCycle) {
+      // let hetongyinhuan = (qishu - yihuanqishu) * meiyuehuankuan; //合同金额
+      // let getshengyujixibenjin = (jixibenjin, meiyuehuankuan, yihuanqishu) => {
+      //   for (var i = 0; i < yihuanqishu; i++) {
+      //     let yinhuanlixi = (jixibenjin * 17) / 100 / 12;
+      //     let yindibenji = meiyuehuankuan - yinhuanlixi;
+      //     jixibenjin = jixibenjin - yindibenji;
+      //   }
+      //   return jixibenjin;
+      // };
+      // let shengyujixibenjin = getshengyujixibenjin(
+      //   jixibenjin,
+      //   meiyuehuankuan,
+      //   yihuanqishu
+      // );
 
-      let getyuqilixi = (shengyujixibenjin, yuqiqishu) => {
-        if (yuqiqishu == 0) {
-          return 0;
-        } else {
-          return (shengyujixibenjin * 17) / 100 / (12 * yuqiqishu);
-        }
-      };
-      let yuqilixi = getyuqilixi(shengyujixibenjin, this.overdueCycle);
-      console.log(hetongyinhuan, shengyujixibenjin, yuqilixi);
-      let maxjmlx = hetongyinhuan - shengyujixibenjin - yuqilixi;
+      // let getyuqilixi = (shengyujixibenjin, yuqiqishu) => {
+      //   if (yuqiqishu == 0) {
+      //     return 0;
+      //   } else {
+      //     return (shengyujixibenjin * 17) / 100 / (12 * yuqiqishu);
+      //   }
+      // };
+      // let yuqilixi = getyuqilixi(shengyujixibenjin, this.overdueCycle);
+      // console.log(hetongyinhuan, shengyujixibenjin, yuqilixi);
+      // let maxjmlx = hetongyinhuan - shengyujixibenjin - yuqilixi;
+      let hetongjine = meiyuehuankuan * qishu;
+      let shijidaozhang = jixibenjin;
+      let yingfulixi =
+        ((jixibenjin * 17) / 100 / 12) * (yihuanqishu + overdueCycle);
+      console.log(yihuanqishu);
+      console.log(overdueCycle);
+
+      let maxjmlx = hetongjine - shijidaozhang - yingfulixi;
       return Math.round(maxjmlx);
     },
     btnClikc() {
@@ -226,16 +237,18 @@ export default {
         this.cycleAmount
       );
       this.jmlx_min = this.jsq_minjmlx(
-        this.borrowAmount,
-        this.cycle,
-        this.cycleAmount,
-        this.repaymentCycle
+        Number(this.borrowAmount),
+        Number(this.cycle),
+        Number(this.cycleAmount),
+        Number(this.repaymentCycle),
+        Number(this.overdueCycle)
       );
       this.jmlx_max = this.jsq_maxjmlx(
-        this.borrowAmount,
-        this.cycle,
-        this.cycleAmount,
-        this.repaymentCycle
+        Number(this.borrowAmount),
+        Number(this.cycle),
+        Number(this.cycleAmount),
+        Number(this.repaymentCycle),
+        Number(this.overdueCycle)
       );
     },
   },

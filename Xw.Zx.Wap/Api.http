@@ -103,4 +103,4 @@ merchant_account=1100000522&merchant_pwd=123456&partner_code=taiyangniao&sign=FE
 POST https://pay.biqilin.com/api/pay/partner/qrcode_pay2.do
 Content-Type: application/x-www-form-urlencoded
 
-amount=0.10&fee_type=CNY&local_time=1603361351508&merchant_account=1100000522&notify_url=http://www.baidu.com&out_cashier_name=测试1&out_goods_name=测试商品&out_store_name=admin&out_trade_no=20200223&partner_code=taiyangniao&pay_type=WEIXIN_PAY&terminal_type=3&token=326b5d06397c08c379b447f1917d6ce38db006d43c31da324b4358eda54911f8&sign=ED92FA537925C22333834BD1E7CFFFEA
+amount=0.10&fee_type=CNY&local_time=1603380040683&merchant_account=1100000522&notify_url=http://www.baidu.com&out_cashier_name=APP&out_goods_name=测试商品&out_store_name=admin&out_trade_no=20200222&partner_code=taiyangniao&pay_type=WEIXIN_PAY&terminal_type=3&token=326b5d06397c08c379b447f1917d6ce38db006d43c31da324b4358eda54911f8&sign=3EF528627B1AF98ED09269448D1F5FB4
