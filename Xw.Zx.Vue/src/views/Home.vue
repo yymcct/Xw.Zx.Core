@@ -77,7 +77,7 @@
 export default {
   data() {
     return {
-      sysName: "送钱宝",
+      sysName: "债减减",
       collapsed: false,
       sysUserName: "",
       sysUserAvatar: "",

@@ -9,7 +9,7 @@
       label-width="0px"
       class="demo-ruleForm login-page"
     >
-      <h3 class="title">送钱宝APP管理后台</h3>
+      <h3 class="title">债减减APP管理后台</h3>
       <el-form-item prop="username">
         <el-input type="text" v-model="logininfo.username" auto-complete="off" placeholder="用户名"></el-input>
       </el-form-item>

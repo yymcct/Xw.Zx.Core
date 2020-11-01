@@ -41,6 +41,7 @@
     <Compile Include="Areas\Manager\Order\Dtos\OrderTotalMDto.cs" />
     <Compile Include="Areas\Manager\Order\OrderController.cs" />
     <Compile Include="Areas\Manager\Receivables\Dtos\ReceivablesMDto.cs" />
+    <Compile Include="Areas\Manager\SysParam\SysParamController.cs" />
     <Compile Include="Areas\Manager\UpdateVipAuthCode\Dtos\PostUpdateVipAuthCodeMDto.cs" />
     <Compile Include="Areas\Manager\UpdateVipAuthCode\Dtos\UpdateVipAuthCodeMDto.cs" />
     <Compile Include="Areas\Manager\UpdateVipAuthCode\UpdateVipAuthCodeController.cs" />

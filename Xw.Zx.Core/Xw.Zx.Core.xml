@@ -1010,6 +1010,11 @@
             失效时间
             </summary>
         </member>
+        <member name="P:Xw.Zx.Core.Models.Model.XwZxContext.SysParams">
+            <summary>
+            系统参数表
+            </summary>
+        </member>
         <member name="P:Xw.Zx.Core.Models.Model.XwZxContext.BankCards">
             <summary>
             信用卡
@@ -1222,6 +1227,14 @@
             <summary>
             TODO
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.SysParamController.SetValue(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <param name="val"></param>
             <returns></returns>
         </member>
         <member name="M:Xw.Zx.Core.Areas.Manager.UpdateVipAuthCodeController.GetUpdateVipAuthCodes(Sieve.Models.SieveModel)">

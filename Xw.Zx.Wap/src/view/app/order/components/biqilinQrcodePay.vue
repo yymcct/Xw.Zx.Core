@@ -66,7 +66,7 @@
 
 <script>
 /*
-  支付宝原生支付
+  碧麒麟通道支付
 */
 import vueQr from "vue-qr";
 import api from "@/api/sqbApi";
@@ -81,7 +81,7 @@ export default {
   },
   data() {
     return {
-      show: true,
+      show: false,
       payUrl: "",
       loading: false,
       payType: null,

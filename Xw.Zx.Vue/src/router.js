@@ -24,6 +24,18 @@ export default new Router({
         // },
         {
             path: '/',
+            name: '系统设置',
+            component: Home,
+            iconCls: 'el-icon-cpu',
+            children: [{
+                path: '/sys/paychange',
+                component: () =>
+                    import ('./views/sys/payChage/index'),
+                name: '支付通道'
+            }, ]
+        },
+        {
+            path: '/',
             name: '用户管理',
             component: Home,
             iconCls: 'el-icon-menu',

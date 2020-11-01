@@ -13,6 +13,11 @@ namespace Xw.Zx.Core.Models.Model
           : base(options)
         { }
 
+        /// <summary>
+        /// 系统参数表
+        /// </summary>
+        public DbSet<SysParam> SysParams { get; set; }
+
         public DbSet<Member> Members { get; set; }
 
         public DbSet<ApplyForZxMDto> ApplyForZxs { get; set; }

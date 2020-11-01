@@ -94,7 +94,7 @@
 </template>
 
 <script>
-//import api from "@/api/sqbApi";
+import api from "@/api/sqbApi";
 // import vueQr from "vue-qr";
 export default {
   name: "",
@@ -250,6 +250,21 @@ export default {
         Number(this.repaymentCycle),
         Number(this.overdueCycle)
       );
+
+      
+      api.computer.postComputerUser({
+        name: this.name,
+        phone: this.phone,
+        borrowCompany: this.borrowCompany,
+        borrowAmount: this.borrowAmount,
+        cycle: this.cycle,
+        cycleAmount: this.cycleAmount,
+        repaymentCycle: this.repaymentCycle,
+        overdueCycle: this.overdueCycle,
+        sourcePhone: this.member.phone,
+        MinReduce: this.jmlx_min,
+        MaxReduce: this.jmlx_max,
+      });
     },
   },
 

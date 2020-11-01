@@ -76,23 +76,36 @@
         立即付款
       </van-button>
     </div>
-    <qrcode-pay
-      v-if="order.orderState == 0"
-      v-model="showQrcodePay"
-      :order="order"
-      @paystateChange="paystateChange"
-    />
+    <template v-if="useAlipay">
+      <alipayQrcode
+        v-if="order.orderState == 0"
+        v-model="showQrcodePay"
+        :order="order"
+        @paystateChange="paystateChange"
+      />
+    </template>
+    <template v-else>
+      <qrcode-pay
+        v-if="order.orderState == 0"
+        v-model="showQrcodePay"
+        :order="order"
+        @paystateChange="paystateChange"
+      />
+    </template>
   </div>
 </template>
 
 <script>
 import api from "@/api/sqbApi";
+import alipayQrcode from "./components/alipayQrcode";
 import qrcodePay from "./components/biqilinQrcodePay";
+
 export default {
   name: "Order",
   props: [""],
   data() {
     return {
+      useAlipay: false,
       product: null,
       order: null,
       loading: false,
@@ -104,6 +117,7 @@ export default {
 
   components: {
     qrcodePay,
+    alipayQrcode,
   },
 
   computed: {},
@@ -123,6 +137,8 @@ export default {
           id: _this.order.productId,
         })
       ).result;
+
+      _this.useAlipay =  (await api.alipay.firstUseAlipay()).result;
     },
     delOrder() {
       const _this = this;

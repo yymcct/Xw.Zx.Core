@@ -341,6 +341,13 @@ namespace Xw.Zx.Core.Controllers
         }
 
 
+        public HbzsResult<bool> FirstUseAlipay()
+        {
+            var res = _context.SysParams.Any(s => s.Name == "FirstUseAlipay" && s.Value == "1");
+
+            return new HbzsResult<bool>(res);
+        }
+
         #endregion
     }
 }
