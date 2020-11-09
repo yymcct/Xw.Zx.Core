@@ -44,9 +44,30 @@ namespace Xw.Zx.Core.Service
             return res.codeUrl;
         }
 
-        public string CreateWeixinJsApi(Biqilin_Product biqilin_Product)
+        public BiqilinRespone.JsapiPay CreateWeixinJsApi(Biqilin_Product biqilin_Product)
         {
-            throw new NotImplementedException();
+            const string url = "https://pay.biqilin.com/api/pay/partner/jsapi_pay2.do";
+            //var key = GetToken(); 获取一次就不再改变           
+            var token = "326b5d06397c08c379b447f1917d6ce38db006d43c31da324b4358eda54911f8";
+            var dto = new Biqilinrequest.JsapiPay(_biqilinOption);
+            dto.pay_type = biqilin_Product.Biqilin_PayType == Biqilin_PayType.微信 ? "WEIXIN_PAY" : "ALI_PAY";
+            dto.out_goods_name = biqilin_Product.Name;
+            dto.out_trade_no = biqilin_Product.Timestamp;
+            dto.amount = biqilin_Product.Amount.ToString("F2");
+
+            dto.merchant_account = _biqilinOption.MerchantAccount;
+            dto.out_store_name = "债减减";
+            dto.out_cashier_name = "APP";
+            dto.terminal_type = "3";
+            dto.fee_type = "CNY";
+            dto.partner_code = _biqilinOption.PartnerCode;
+            dto.out_sub_appid = "wx87734a5a656fc8cb";
+            dto.out_sub_openid = biqilin_Product.OpenId;
+            dto.notify_url = "http://139.155.8.217/api/Biqilin/Notifyurl";
+            dto.token = token; //key.token;
+
+            var res = Post<BiqilinRespone.JsapiPay>(url, dto.ToDic());
+            return res;
         }
 
         public BiqilinRespone.KeyDownLoad GetToken()

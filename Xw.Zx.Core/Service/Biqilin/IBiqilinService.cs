@@ -10,6 +10,7 @@ namespace Xw.Zx.Core.Service
     {    
         string CreateQrcodePayUrl(Biqilin_Product biqilin_Product);
 
-        string CreateWeixinJsApi(Biqilin_Product biqilin_Product);
+        BiqilinRespone.JsapiPay CreateWeixinJsApi(Biqilin_Product biqilin_Product);
+
     }
 }

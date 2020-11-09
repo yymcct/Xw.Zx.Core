@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xw.Zx.Core.Models;
+using Xw.Zx.Core.Models.Dto;
 using Xw.Zx.Core.Models.Model;
 using Xw.Zx.Core.Service;
 
@@ -67,6 +68,36 @@ namespace Xw.Zx.Core.Controllers
                 return new HbzsResult<string>(HbzsResultCode.Invalid_Error, ex.Message);
             }
         }
+
+        [HttpPost]
+        [Authorize]
+        public HbzsResult<JsapiPayResponeDto.JsapiPay> JsapiPay([FromQuery] int orderId, string openId)
+        {
+            try
+            {
+                var order = _context.Orders.First(o => o.MemberId == Member.Id
+                                                && o.OrderState == OrderState.待付款
+                                                && o.Id == orderId);
+
+                var wxRespone = _biqilinService.CreateWeixinJsApi(new Biqilin_Product()
+                {
+                    Name = order.ProducName,
+                    Timestamp = order.Timestamp,
+                    Amount = order.Amount,
+                    Biqilin_PayType = Biqilin_PayType.微信,
+                    OpenId = openId
+                });
+
+                return new HbzsResult<JsapiPayResponeDto.JsapiPay>(_mapper.Map<JsapiPayResponeDto.JsapiPay>(wxRespone));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex.Message);
+                return new HbzsResult<JsapiPayResponeDto.JsapiPay>(HbzsResultCode.Invalid_Error, ex.Message);
+            }
+        }
+
+
 
         /// <summary>
         /// 支付宝支付成功回调地址 

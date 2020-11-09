@@ -105,6 +105,37 @@ namespace Xw.Zx.Core.Service
             public string notify_url { get; set; }
             public string token { get; set; }
         }
+
+        public class JsapiPay : RequestBase
+        {
+            public JsapiPay(BiqilinOption biqilinOption) : base(biqilinOption)
+            {
+
+            }
+            public string merchant_account { get; set; }
+            public string out_store_name { get; set; }
+            public string out_cashier_name { get; set; }
+            public string local_time
+            {
+                get
+                {
+                    TimeSpan ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+                    return Convert.ToInt64(ts.TotalMilliseconds).ToString();
+                }
+            }
+            public string out_goods_name { get; set; }
+            public string out_trade_no { get; set; }
+            public string terminal_type { get; set; }
+            public string amount { get; set; }
+            public string pay_type { get; set; }
+            public string fee_type { get; set; }
+            public string partner_code { get; set; }
+            public string out_sub_appid { get; set; }
+            public string out_sub_openid { get; set; }
+            public string notify_url { get; set; }
+            public string token { get; set; }
+        }
+
     }
 
 
@@ -146,6 +177,31 @@ namespace Xw.Zx.Core.Service
             public string rateAfterAmount { get; set; }
             public string orderStatusMsg { get; set; }
             public string sign { get; set; }
+        }
+
+        public class JsapiPay
+        {
+            public string merchantAccount { get; set; }
+            public string outStoreName { get; set; }
+            public string outCashierName { get; set; }
+            public string outGoodsName { get; set; }
+            public string outOrderNo { get; set; }
+            public string outSubAppId { get; set; }
+            public string outSubOpenId { get; set; }
+            public string orderNo { get; set; }
+            public string orderStatus { get; set; }
+            public string orderTime { get; set; }
+            public string payType { get; set; }
+            public string amount { get; set; }
+            public string rateAfterAmount { get; set; }
+            public string orderStatusMsg { get; set; }
+            public string sign { get; set; }
+            public string jsAppId { get; set; }
+            public string jsTimeStamp { get; set; }
+            public string jsSignType { get; set; }
+            public string jsPackages { get; set; }
+            public string jsNonceStr { get; set; }
+            public string jsPaySign { get; set; }
         }
     }
 

@@ -16,5 +16,6 @@ namespace Xw.Zx.Core.Service
         public string Timestamp { get; set; }
         public decimal Amount { get; set; }
         public Biqilin_PayType Biqilin_PayType { get; set; }
+        public string OpenId { get; set; }
     }
 }
