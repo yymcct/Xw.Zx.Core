@@ -61,7 +61,7 @@ namespace Xw.Zx.Core.Service
             dto.terminal_type = "3";
             dto.fee_type = "CNY";
             dto.partner_code = _biqilinOption.PartnerCode;
-            dto.out_sub_appid = "wx87734a5a656fc8cb";
+            dto.out_sub_appid = "wx87734a5a656fc8cb";//	43e89dc6518e9247a6e6cdc607de78af
             dto.out_sub_openid = biqilin_Product.OpenId;
             dto.notify_url = "http://139.155.8.217/api/Biqilin/Notifyurl";
             dto.token = token; //key.token;

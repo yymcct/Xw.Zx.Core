@@ -169,6 +169,27 @@
             <param name="loginDto"></param>
             <returns></returns>
         </member>
+        <member name="M:Xw.Zx.Core.Controllers.MemberController.AnyUserName(System.String)">
+            <summary>
+            检查用户是否已存在
+            </summary>
+            <param name="phone"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.MemberController.WeixinBind(Xw.Zx.Core.Models.Dto.WeixinBindDto)">
+            <summary>
+            绑定微信
+            </summary>
+            <param name="weixinBindDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.MemberController.WeixinLogin(System.String)">
+            <summary>
+            微信通过code登录
+            </summary>
+            <param name="code"></param>
+            <returns></returns>
+        </member>
         <member name="M:Xw.Zx.Core.Controllers.MemberController.GetInviteUserPhone(System.Int32)">
             <summary>
             获取邀请人电话
@@ -206,7 +227,6 @@
             <summary>
             检查是否是白名单用户
             </summary>
-            <param name="phone"></param>
             <returns></returns>
         </member>
         <member name="M:Xw.Zx.Core.Controllers.MemberController.GetSmsCode(System.String)">
@@ -724,6 +744,78 @@
             <summary>
             是否是数值(包括整数和小数)
             </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.WxHelper.GetWxShareWxAccessToken">
+            <summary>
+            获取微信公众平台accesstoken，无则添加，有则判断是否过期
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.WxHelper.GetWxShareWxJsApiTictket(System.String)">
+            <summary>
+            获取微信公众平台ticket，无则添加，有则判断是否过期
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.WxHelper.Code2Accesstoken(System.String)">
+            <summary>
+            公众号网页获取用户信息的token
+            </summary>
+            <param name="code"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.WxHelper.PostMsgSecCheck(System.String)">
+            <summary>
+            检查小程序发布动态敏感词
+            </summary>
+            <param name="content"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.WxHelper.PostImgSecCheck(System.IO.FileStream,System.String,System.String)">
+            <summary>
+            检查小程序发布违规图片
+            </summary>
+            <param name="content"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.WxHelper.GetHbMeetingWxAccessToken">
+            <summary>
+            获取小程序的accesstoken
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.WxHelper.SaveWxUserPic(System.String,System.String)">
+            <summary>
+            通过图片url和App代码绝对路径  保存图片到App中
+            </summary>
+            <param name="url">图片Url</param>
+            <param name="path">代码绝对路径</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.WxHelper.GetWxLoginUserInfoByToken(System.String,System.String)">
+            <summary>
+            微信一键登录 通过accesstoken跟openid获取用户信息
+            </summary>
+            <param name="code"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.WxHelper.GetMiniProgram(System.Int32,System.Int32,System.Int32,System.String,System.String)">
+            <summary>
+            获取公司微信小程序码
+            </summary>
+            <param name="Companyid"></param>
+            <param name="Meetingid"></param>
+            <param name="width"></param>
+            <param name="fileName"></param>
+            <param name="filePath"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.WxHelper.CheckAccessToken(System.String)">
+            <summary>
+            验证token是否有效
+            </summary>
+            <param name="accessToken"></param>
+            <returns></returns>
         </member>
         <member name="P:Xw.Zx.Core.Models.Dto.ApplyDto.ApplyMember">
             <summary>

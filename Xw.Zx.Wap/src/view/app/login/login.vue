@@ -48,7 +48,14 @@ export default {
 
   computed: {},
 
-  beforeMount() {},
+  beforeMount() {
+    const isWeixin = () =>
+      /micromessenger/.test(navigator.userAgent.toLowerCase());
+
+    if (isWeixin()) {
+      this.$router.push("/sqb/login/weixin");
+    }
+  },
 
   mounted() {},
 
@@ -69,7 +76,7 @@ export default {
         })
         .then((res) => {
           userInfoAPI.set(res.result);
-           this.$store.commit("user/setUser", res.result.member);
+          this.$store.commit("user/setUser", res.result.member);
           this.$router.push(`/sqb/home`);
         });
     },

@@ -2,10 +2,12 @@ import request from '@/utils/request'
 
 //投票
 
-
 export default {
     member: {
         login: (params) => request.post('/api/member/H5', params),
+        weixinLogin: (code) => request.post(`/api/member/WeixinLogin?code=${code}`),
+        anyUserName: (phone) => request.get(`/api/member/AnyUserName?phone=${phone}`),
+        weixinBind: (params) => request.post(`/api/member/WeixinBind`, params),
         reg: (params) => request.post('/api/member/PostRegisterUser', params),
         pwd: (params) => request.post('/api/member/PostChangePasswordBySmsCode', params),
         smscode: (params) => request.get('/api/member/GetSmsCode', { params: params }),
@@ -32,7 +34,8 @@ export default {
         firstUseAlipay: () => request.get(`/api/Alipay/firstUseAlipay`)
     },
     biqilin: {
-        scanCodeGen: (params) => request.post(`/api/Biqilin/ScanCodeGen`, params)
+        scanCodeGen: (params) => request.post(`/api/Biqilin/ScanCodeGen`, params),
+        jsapiPay: (params) => request.post(`/api/Biqilin/JsapiPay`, params),
     },
     income: {
         getIncomeInfo: () => request.get('/api/Income/GetIncomeInfo'),

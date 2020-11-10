@@ -74,6 +74,8 @@ namespace Xw.Zx.Core.Models.Dto
         public string Mail { get; set; }
         public int InviteId { get; set; } = 0;
         public string InvitePhone { get; set; }
+
+        public string OpenId { get; set; }
     }
 
 

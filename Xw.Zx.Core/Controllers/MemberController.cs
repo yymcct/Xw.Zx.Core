@@ -65,6 +65,7 @@ namespace Xw.Zx.Core.Controllers
                     InviteId = InviteUser.Id,
                     Email = "",
                     QueryTimes = 0,
+                    WxOpenId= user.OpenId
                 };
 
                 var member = _context.Members.Add(model);
@@ -88,10 +89,9 @@ namespace Xw.Zx.Core.Controllers
         {
             try
             {
-                //此处先验证验证码, 再验证是否存在用户
                 if (string.IsNullOrEmpty(loginDto.Account) || string.IsNullOrEmpty(loginDto.Password))
                 {
-                    throw new Exception("验证码过期，请重新获取");
+                    throw new Exception("账号或密码为空");
                 }
 
                 var result = SimulationLogin(loginDto);
@@ -112,28 +112,160 @@ namespace Xw.Zx.Core.Controllers
                 _logger.LogError("账号或密码错误" + ex.Message);
                 return new HbzsResult<LoginResponeDto>(HbzsResultCode.Invalid_Error, "账号或密码错误");
             }
+        }
 
-            LoginResponeDto SimulationLogin(LoginDto dto)
+        /// <summary>
+        /// 检查用户是否已存在
+        /// </summary>
+        /// <param name="phone"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public HbzsResult<bool> AnyUserName([FromQuery] string phone)
+        {
+            try
             {
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"{AppsettingsUtility.AppHost}/connect/token");
-                request.Method = "POST";
-                request.ContentType = "application/x-www-form-urlencoded";
-                string strContent = $"username={dto.Account}&password={dto.Password}&grant_type=password&client_id=App.Manager.Ro&client_secret=DEsjpJFtokIOhMKuE6BVMczYUEEyPGTOLrur3PXw26VMLNwKOfAKFZZgR2vVJDKG";
-                using (StreamWriter dataStream = new StreamWriter(request.GetRequestStream()))
-                {
-                    dataStream.Write(strContent);
-                    dataStream.Close();
-                }
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                string encoding = response.ContentEncoding;
-                if (encoding == null || encoding.Length < 1)
-                {
-                    encoding = "UTF-8"; //默认编码  
-                }
-                StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding(encoding));
-                return Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponeDto>(reader.ReadToEnd());
+                var memberany = _context.Members.Any(m => m.UserName == phone && m.Disabled == false);
+
+                return new HbzsResult<bool>(memberany);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new HbzsResult<bool>(HbzsResultCode.Invalid_Error, ex.Message);
             }
         }
+        /// <summary>
+        /// 绑定微信
+        /// </summary>
+        /// <param name="weixinBindDto"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public HbzsResult<LoginResponeDto> WeixinBind([FromBody] WeixinBindDto weixinBindDto)
+        {
+            try
+            {
+                var memberDb = _context.Members.Where(m => m.Disabled == false);
+
+                if (!CheckSms(weixinBindDto.Phone, weixinBindDto.SmsCheck))
+                {
+                    throw new Exception($"验证码错误!");
+                }
+
+                var member = memberDb.FirstOrDefault(s => s.Phone == weixinBindDto.Phone || s.WxOpenId == weixinBindDto.OpenId);
+                if (member != null)
+                {
+                    CheckBind(member);
+                    //绑定
+                    member.WxOpenId = weixinBindDto.OpenId;
+                    _context.SaveChanges();
+                }
+
+                var result = SimulationLogin(new LoginDto()
+                {
+                    Account = member.UserName,
+                    Password = member.Password
+                });
+
+                if (result.statusCode != 200)
+                {
+                    return new HbzsResult<LoginResponeDto>(HbzsResultCode.Invalid_Error, "账号或密码错误");
+                }
+
+                result.Member = _mapper.Map<MemberDto>(member);
+                return new HbzsResult<LoginResponeDto>(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new HbzsResult<LoginResponeDto>(HbzsResultCode.Invalid_Error, ex.Message);
+            }
+
+            void CheckBind(Member member)
+            {
+                if (member.WxOpenId == weixinBindDto.OpenId)
+                {
+                    throw new Exception($"该微信{weixinBindDto.OpenId}已绑定有用户，请先解绑. ");
+                }
+                else if ((!string.IsNullOrEmpty(member.WxOpenId)) &&member.WxOpenId != weixinBindDto.OpenId && member.Phone == weixinBindDto.Phone)
+                {
+                    throw new Exception($"该手机{weixinBindDto.Phone}已绑定有用户，请先解绑.");
+                }
+            }
+        }
+
+        /// <summary>
+        /// 微信通过code登录
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public HbzsResult<LoginResponeDto> WeixinLogin([FromQuery] string code)
+        {
+            try
+            {
+                Member member = null;
+                string appId = "wx87734a5a656fc8cb";//TODO重构放在配置文件中
+                string secret = "43e89dc6518e9247a6e6cdc607de78af";
+                var wxhelper = new WxHelper(appId, secret);
+                var openId = wxhelper.Code2Accesstoken(code).openid;
+                if (openId == null)
+                    throw new Exception("无法找到该微信用户,请联系管理员");
+
+                member = _context.Members.FirstOrDefault(m => m.WxOpenId == openId && m.Disabled == false);
+                if (member == null)
+                {
+                    return new HbzsResult<LoginResponeDto>(HbzsResultCode.Sucess, openId);//把openID返回去
+                }
+
+                var result = SimulationLogin(new LoginDto()
+                {
+                    Account = member.UserName,
+                    Password = member.Password
+                });
+
+                if (result.statusCode != 200)
+                {
+                    return new HbzsResult<LoginResponeDto>(HbzsResultCode.Invalid_Error, "账号或密码错误");
+                }
+
+                result.Member = _mapper.Map<MemberDto>(member);
+                return new HbzsResult<LoginResponeDto>(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("账号或密码错误" + ex.Message);
+                return new HbzsResult<LoginResponeDto>(HbzsResultCode.Invalid_Error, "账号或密码错误");
+            }
+        }
+
+        private LoginResponeDto SimulationLogin(LoginDto dto)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"{AppsettingsUtility.AppHost}/connect/token");
+            request.Method = "POST";
+            request.ContentType = "application/x-www-form-urlencoded";
+            string strContent = $"username={dto.Account}&password={dto.Password}&grant_type=password&client_id=App.Manager.Ro&client_secret=DEsjpJFtokIOhMKuE6BVMczYUEEyPGTOLrur3PXw26VMLNwKOfAKFZZgR2vVJDKG";
+            using (StreamWriter dataStream = new StreamWriter(request.GetRequestStream()))
+            {
+                dataStream.Write(strContent);
+                dataStream.Close();
+            }
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            string encoding = response.ContentEncoding;
+            if (encoding == null || encoding.Length < 1)
+            {
+                encoding = "UTF-8"; //默认编码  
+            }
+            StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding(encoding));
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponeDto>(reader.ReadToEnd());
+        }
+
+
+
+
+
+
+
+
 
         /// <summary>
         /// 获取邀请人电话
@@ -359,7 +491,6 @@ namespace Xw.Zx.Core.Controllers
         /// <summary>
         /// 检查是否是白名单用户
         /// </summary>
-        /// <param name="phone"></param>
         /// <returns></returns>
         [HttpGet]
         [Authorize]
@@ -474,6 +605,21 @@ namespace Xw.Zx.Core.Controllers
             }
         }
 
+        private bool CheckSms(string phone, int code)
+        {
+            var smscheckInfo = _context
+                .SmsCheck
+                .Where(p => p.Phone == phone && p.CheckState == SmsCheckState.已发送 && p.LastSendCode == code)
+                .FirstOrDefault();
+            if (smscheckInfo != null)
+            {
+                smscheckInfo.CheckState = SmsCheckState.已验证;
+                _context.SaveChanges();
+                return true;
+            }
+
+            return false;
+        }
     }
 
 

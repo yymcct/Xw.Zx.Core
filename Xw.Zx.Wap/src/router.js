@@ -276,6 +276,26 @@ const routes = [
         }
     },
     {
+        path: '/sqb/login/weixin',
+        component: () =>
+            import(/* webpackChunkName: "sqb" */ './view/app/login/weixin'),
+        meta: {
+            title: '微信登录', 
+            keepAlive: false,
+            private:false
+        }
+    },
+    {
+        path: '/sqb/login/bind',
+        component: () =>
+            import(/* webpackChunkName: "sqb" */ './view/app/login/bind'),
+        meta: {
+            title: '绑定', 
+            keepAlive: false,
+            private:false
+        }
+    },
+    {
         path: '*',
         redirect: '/sqb/home'
     },

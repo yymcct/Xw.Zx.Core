@@ -138,7 +138,7 @@ export default {
         })
       ).result;
 
-      _this.useAlipay =  (await api.alipay.firstUseAlipay()).result;
+      _this.useAlipay = (await api.alipay.firstUseAlipay()).result;
     },
     delOrder() {
       const _this = this;
@@ -165,20 +165,31 @@ export default {
       });
     },
     payOrder() {
-      const _this = this;
-      let returnUrl = window.location.href;
-      api.alipay
-        .wapPay({
-          id: _this.order.id,
-          returnUrl: returnUrl,
-        })
-        .then((res) => {
-          const div = document.createElement("div");
-          /* 此处form就是后台返回接收到的数据 */
-          div.innerHTML = res.result.alipayTradeAppPayResponse;
-          document.body.appendChild(div);
-          document.forms[0].submit();
-        });
+      const isWeixin = () =>
+        /micromessenger/.test(navigator.userAgent.toLowerCase());
+
+      const aliPay = () => {
+        const _this = this;
+        let returnUrl = window.location.href;
+        api.alipay
+          .wapPay({
+            id: _this.order.id,
+            returnUrl: returnUrl,
+          })
+          .then((res) => {
+            const div = document.createElement("div");
+            /* 此处form就是后台返回接收到的数据 */
+            div.innerHTML = res.result.alipayTradeAppPayResponse;
+            document.body.appendChild(div);
+            document.forms[0].submit();
+          });
+      };
+
+      if (isWeixin()) {
+        //微信支付
+      } else {
+        aliPay();
+      }
     },
 
     paystateChange(val) {
