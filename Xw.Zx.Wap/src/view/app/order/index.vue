@@ -97,6 +97,7 @@
 
 <script>
 import api from "@/api/sqbApi";
+import { mapGetters } from "vuex";
 import alipayQrcode from "./components/alipayQrcode";
 import qrcodePay from "./components/biqilinQrcodePay";
 
@@ -112,6 +113,7 @@ export default {
       couponCode: "",
       userCouponCode: false,
       showQrcodePay: false,
+      weixinjsApi: null,
     };
   },
 
@@ -120,7 +122,11 @@ export default {
     alipayQrcode,
   },
 
-  computed: {},
+  computed: {
+    ...mapGetters({
+      user: "user/user",
+    }),
+  },
 
   beforeMount() {
     this.init();
@@ -184,9 +190,63 @@ export default {
             document.forms[0].submit();
           });
       };
-
+      const weixinPay = () => {
+        const _this = this;
+        if (!_this.user.wxOpenId) {
+          this.$toast("没有OpenId,无法使用微信支付");
+          return;
+        }
+        const onBridgeReady = function () {
+          window.WeixinJSBridge.invoke(
+            "getBrandWCPayRequest",
+            {
+              appId: _this.weixinjsApi.jsAppId, //公众号名称，由商户传入
+              timeStamp: _this.weixinjsApi.jsTimeStamp, //时间戳，自1970年以来的秒数
+              nonceStr: _this.weixinjsApi.jsNonceStr, //随机串
+              package: _this.weixinjsApi.jsPackages,
+              signType: _this.weixinjsApi.jsSignType, //微信签名方式：
+              paySign: _this.weixinjsApi.jsPaySign, //微信签名
+            },
+            function (res) {     
+              //使用以下方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
+              if (res.err_msg == "get_brand_wcpay_request:ok") {
+                //支付成功
+                console.log("支付成功")
+                //onSuccessMsg();
+              } else {
+                //弹出之后，苹果手机会卡死
+                //alert(res.err_desc);
+              }
+            }
+          );
+        };
+        const doPay = () => {
+          if (typeof window.WeixinJSBridge == "undefined") {
+            if (document.addEventListener) {
+              document.addEventListener(
+                "WeixinJSBridgeReady",
+                onBridgeReady,
+                false
+              );
+            } else if (document.attachEvent) {
+              document.attachEvent("WeixinJSBridgeReady", onBridgeReady);
+              document.attachEvent("onWeixinJSBridgeReady", onBridgeReady);
+            }
+          } else {
+            onBridgeReady();
+          }
+        };
+        api.biqilin
+          .jsapiPay(_this.order.id, _this.user.wxOpenId)
+          .then((res) => {
+            console.log(res);
+            _this.weixinjsApi = res.result;
+            doPay();
+          });
+      };
       if (isWeixin()) {
         //微信支付
+        weixinPay();
       } else {
         aliPay();
       }

@@ -340,7 +340,7 @@ namespace Xw.Zx.Core.Controllers
 
         }
 
-
+        //使用通道
         public HbzsResult<bool> FirstUseAlipay()
         {
             var res = _context.SysParams.Any(s => s.Name == "FirstUseAlipay" && s.Value == "1");

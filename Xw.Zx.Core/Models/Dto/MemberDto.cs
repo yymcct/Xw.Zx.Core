@@ -45,7 +45,9 @@ namespace Xw.Zx.Core.Models.Dto
 
         public string Email { get; set; }
 
-        public int? QueryTimes { get; set; } 
+        public int? QueryTimes { get; set; }
+
+        public string WxOpenId { get; set; }
 
     }
     public class MyTeamDto

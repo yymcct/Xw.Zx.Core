@@ -31,11 +31,12 @@ export default {
     alipay: {
         wapPay: (params) => request.post(`/api/Alipay/WapPay/${params.id}?returnurl=${params.returnUrl}`),
         scanCodeGen: (params) => request.post(`/api/Alipay/ScanCodeGen/${params}`),
-        firstUseAlipay: () => request.get(`/api/Alipay/firstUseAlipay`)
+        //使用通道
+        firstUseAlipay: () => request.get(`/api/Alipay/firstUseAlipay`),
     },
     biqilin: {
         scanCodeGen: (params) => request.post(`/api/Biqilin/ScanCodeGen`, params),
-        jsapiPay: (params) => request.post(`/api/Biqilin/JsapiPay`, params),
+        jsapiPay: (orderId,openid) => request.post(`/api/Biqilin/JsapiPay?orderId=${orderId}&openId=${openid}`),
     },
     income: {
         getIncomeInfo: () => request.get('/api/Income/GetIncomeInfo'),

@@ -1,5 +1,11 @@
 select top 10 * from Members where phone='18624938007'
 
+update Members set WxOpenId='' WHERE Phone='18624938007'
+
+select top 10 * from Members where phone='18824938007'
+
+delete Members where phone='18824938007'
+
 update members set MemberVipType=0 where phone='18624938007'
 
 select top 10 * from Members where phone='18688448080'
@@ -24,4 +30,8 @@ update products set Price='0.1' where id = 10
 select * from orders  order by id desc
 
 update orders set Amount='0.1', [Timestamp]='20201017134251806513' where id =1786
+
+
+select * from SmsCheck where Phone='18624938007'
+
 
