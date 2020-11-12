@@ -33,5 +33,7 @@ namespace Xw.Zx.Core.Areas.Manager
         public OrderPaymentType OrderPaymentType { get; set; }
 
         public string OrderPaymentTypeName { get; set; }
+        [Sieve(CanFilter = true)]
+        public string Timestamp { get; set; }
     }
 }

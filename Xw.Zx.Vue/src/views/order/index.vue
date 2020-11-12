@@ -3,10 +3,13 @@
   <section>
     <!--TODO:配置查询条件-->
     <el-row>
-      <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
+      <el-col :span="24" class="toolbar" style="padding-bottom: 0px">
         <el-form :inline="true" :model="filters">
           <el-form-item>
-            <el-input v-model.trim="filters.keyword" placeholder="姓名,电话"></el-input>
+            <el-input
+              v-model.trim="filters.keyword"
+              placeholder="单号,姓名,电话"
+            ></el-input>
           </el-form-item>
           <el-form-item>
             <el-date-picker
@@ -32,12 +35,14 @@
         </el-form>
       </el-col>
     </el-row>
-    <el-row class="toolbar" style="padding-top: 20px;padding-bottom: 20px;">
+    <el-row class="toolbar" style="padding-top: 20px; padding-bottom: 20px">
       <el-col :span="24">
-        <el-tag type="danger">当查询条件下合计:{{orderMDtos.queryTotal}}</el-tag>
-        <el-tag>全部毛收入合计:{{orderMDtos.allOrderTotal}}</el-tag>
-        <el-tag>全部提现合计:{{orderMDtos.withdrawDepositsTotal}}</el-tag>
-        <el-tag>(全部毛收入-全部提现)合计:{{orderMDtos.balance}}</el-tag>
+        <el-tag type="danger"
+          >当查询条件下合计:{{ orderMDtos.queryTotal }}</el-tag
+        >
+        <el-tag>全部毛收入合计:{{ orderMDtos.allOrderTotal }}</el-tag>
+        <el-tag>全部提现合计:{{ orderMDtos.withdrawDepositsTotal }}</el-tag>
+        <el-tag>(全部毛收入-全部提现)合计:{{ orderMDtos.balance }}</el-tag>
       </el-col>
     </el-row>
     <!--列表-->
@@ -45,18 +50,23 @@
       :data="orderMDtos.orderMDtos"
       highlight-current-row
       v-loading="listLoading"
-      style="width: 100%;"
+      style="width: 100%"
       :header-cell-style="{
-                          'background-color': '#eef1f6',
-                          'color': '#1f2d3d',
-                      }"
+        'background-color': '#eef1f6',
+        color: '#1f2d3d',
+      }"
     >
-      <el-table-column prop="id" label="Id" width="100px" sortable></el-table-column>
-      <el-table-column prop="realName" label="姓名" sortable></el-table-column>
-      <el-table-column prop="memberPhone" label="电话" sortable></el-table-column>
-      <el-table-column prop="producName" label="订单名" sortable></el-table-column>
-      <el-table-column prop="amount" label="金额" sortable></el-table-column>
-      <el-table-column prop="addTime" label="时间" sortable></el-table-column>
+      <el-table-column prop="id" label="Id" width="100px"></el-table-column>
+      <el-table-column prop="timestamp" label="单号"></el-table-column>
+      <el-table-column prop="realName" label="姓名"></el-table-column>
+      <el-table-column prop="memberPhone" label="电话"></el-table-column>
+      <el-table-column prop="producName" label="订单名"></el-table-column>
+      <el-table-column prop="amount" label="金额">
+        <template slot-scope="scope">
+          <span style="color: #ff5000;font-weight: bold;">{{ scope.row.amount }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="addTime" label="时间"></el-table-column>
     </el-table>
 
     <!--工具条align='center'-->
@@ -79,7 +89,6 @@
 //TODO: 拷贝到api文件
 
 import { api_getOrderMDtos, api_delOrderMDto } from "../../api/api";
-import { type } from "os";
 export default {
   components: {},
   data() {
@@ -88,17 +97,17 @@ export default {
         page: 1,
         pageSize: 10,
         filters: "",
-        sorts: "-id"
+        sorts: "-id",
       },
       //TODO:删减查询条件
       filters: {
         keyword: null,
         addTimeStart: null,
-        addTimeEnd: null
+        addTimeEnd: null,
       },
       orderMDtos: null,
       total: 0,
-      listLoading: false
+      listLoading: false,
     };
   },
   methods: {
@@ -118,24 +127,24 @@ export default {
       //TODO:删减查询条件
 
       if (this.filters.keyword)
-        this.requestParams.filters += `(RealName|MemberPhone)@=${this.filters.keyword},`;
+        this.requestParams.filters += `(Timestamp|RealName|MemberPhone)@=${this.filters.keyword},`;
 
       if (this.filters.addTimeStart)
         this.requestParams.filters += `AddTime>=${this.filters.addTimeStart},`;
       if (this.filters.addTimeEnd)
         this.requestParams.filters += `AddTime<=${this.filters.addTimeEnd},`;
 
-      api_getOrderMDtos(this.requestParams).then(respone => {
+      api_getOrderMDtos(this.requestParams).then((respone) => {
         this.listLoading = false;
         this.orderMDtos = respone.result;
         this.total = respone.total;
       });
-    }
+    },
   },
 
   mounted() {
     this.getOrderMDtos();
-  }
+  },
 };
 </script>
 
