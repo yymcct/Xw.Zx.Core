@@ -52,4 +52,13 @@ namespace Xw.Zx.Core.Models.Dto
 
         public OrderPaymentType OrderPaymentType { get; set; }
     }
+
+    public class PostOrderDto
+    {
+        public int productId { get; set; }
+
+        public string CustomerName { get; set; }
+
+        public string CustomerPhone { get; set; }
+    }
 }

@@ -18,7 +18,8 @@ namespace Xw.Zx.Core.Models.Model
     {
         支付宝 = 0,
         微信 = 1,
-        线下 = 2
+        线下 = 2,
+        碧麒麟=3
     }
 
     /// <summary>
@@ -41,6 +42,12 @@ namespace Xw.Zx.Core.Models.Model
         public string ProducName { get; set; }
         [Column(TypeName = "decimal(8, 2)")]
         public decimal Amount { get; set; }
+
+        [Column(TypeName = "nvarchar(50)")]
+        public string CustomerName { get; set; }
+
+        [Column(TypeName = "nvarchar(50)")]
+        public string CustomerPhone { get; set; }
 
         public DateTime AddTime { get; set; } = DateTime.Now;
 

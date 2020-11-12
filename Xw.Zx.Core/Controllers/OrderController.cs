@@ -87,11 +87,11 @@ namespace Xw.Zx.Core.Controllers
 
 
         [HttpPost("{productId}")]
-        public HbzsResult<OrderDto> Post(int productId)
+        public HbzsResult<OrderDto> Post(PostOrderDto postOrderDto)
         {
             try
             {
-                var product = _context.Products.First(p => p.Check == true && p.Id == productId);
+                var product = _context.Products.First(p => p.Check == true && p.Id == postOrderDto.ProductId);
                 var order = new Order()
                 {
                     MemberId = Member.Id,
@@ -99,6 +99,8 @@ namespace Xw.Zx.Core.Controllers
                     MemberPhone = Member.Phone,
                     ProductId = product.Id,
                     ProducName = product.Name,
+                    CustomerName = postOrderDto.CustomerName,
+                    CustomerPhone = postOrderDto.CustomerPhone,
                     Amount = product.Price,
                     AddTime = DateTime.Now,
                     OrderState = OrderState.待付款,
