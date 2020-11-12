@@ -23,7 +23,7 @@ export default {
         get: (params) => request.get('/api/Product/Get', { params: params })
     },
     order: {
-        post: (params) => request.post(`/api/Order/${params}`),
+        post: (params) => request.post(`/api/Order`, params),
         get: (params) => request.get(`/api/Order/${params}`),
         delete: (params) => request.post(`/api/Order/Delete?id=${params}`),
         gets: (params) => request.get('/api/Order', { params: params }),
@@ -36,7 +36,7 @@ export default {
     },
     biqilin: {
         scanCodeGen: (params) => request.post(`/api/Biqilin/ScanCodeGen`, params),
-        jsapiPay: (orderId,openid) => request.post(`/api/Biqilin/JsapiPay?orderId=${orderId}&openId=${openid}`),
+        jsapiPay: (orderId, openid) => request.post(`/api/Biqilin/JsapiPay?orderId=${orderId}&openId=${openid}`),
     },
     income: {
         getIncomeInfo: () => request.get('/api/Income/GetIncomeInfo'),

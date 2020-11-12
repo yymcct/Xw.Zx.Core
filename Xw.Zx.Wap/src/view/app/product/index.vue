@@ -21,12 +21,18 @@
       </div>
     </div>
     <div class="foot" loading:=loading @click="buy">立即购买</div>
+      <customer
+        v-if="product"
+        v-model="showCustomer"
+        :productId="product.id"
+      />
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import api from "@/api/sqbApi";
+import customer from "./components/customer";
 export default {
   name: "Product",
   props: [""],
@@ -34,10 +40,13 @@ export default {
     return {
       product: null,
       loading: false,
+      showCustomer: false,
     };
   },
 
-  components: {},
+  components: {
+    customer,
+  },
 
   computed: {
     ...mapGetters({
@@ -81,17 +90,18 @@ export default {
           this.$router.push(`/sqb/order/${unbalanceOrder.result[0].id}`);
         }, 2000);
       } else {
+        this.showCustomer = true;
         //添加订单
-        api.order
-          .post(_this.product.id)
-          .then((res) => {
-            _this.loading = false;
-            _this.$router.push(`/sqb/order/${res.result.id}`);
-          })
-          .catch(() => {
-            _this.loading = false;
-            this.$toast("添加订单失败!");
-          });
+        // api.order
+        //   .post(_this.product.id)
+        //   .then((res) => {
+        //     _this.loading = false;
+        //     _this.$router.push(`/sqb/order/${res.result.id}`);
+        //   })
+        //   .catch(() => {
+        //     _this.loading = false;
+        //     this.$toast("添加订单失败!");
+        //   });
       }
     },
   },
@@ -119,21 +129,20 @@ export default {
       line-height: 20px;
       color: #333333;
       overflow: hidden;
-       box-sizing: border-box;
+      box-sizing: border-box;
     }
     &-sales {
       margin: 0px 10px;
       font-size: 13px;
       line-height: 20px;
       color: #999999;
-       box-sizing: border-box;
+      box-sizing: border-box;
     }
     &-price {
       margin: 8px 10px;
       font-size: 18px;
       color: #ff5000;
 
-    
       box-sizing: border-box;
     }
   }

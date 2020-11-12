@@ -86,7 +86,7 @@ namespace Xw.Zx.Core.Controllers
         }
 
 
-        [HttpPost("{productId}")]
+        [HttpPost]
         public HbzsResult<OrderDto> Post(PostOrderDto postOrderDto)
         {
             try

@@ -55,7 +55,7 @@ namespace Xw.Zx.Core.Models.Dto
 
     public class PostOrderDto
     {
-        public int productId { get; set; }
+        public int ProductId { get; set; }
 
         public string CustomerName { get; set; }
 
