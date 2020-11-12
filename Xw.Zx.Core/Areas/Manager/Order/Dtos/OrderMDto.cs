@@ -30,6 +30,12 @@ namespace Xw.Zx.Core.Areas.Manager
         public string RealName { get; set; }
 
         [Sieve(CanFilter = true)]
+        public string CustomerName { get; set; }
+
+        [Sieve(CanFilter = true)]
+        public string CustomerPhone { get; set; }
+
+        [Sieve(CanFilter = true)]
         public OrderPaymentType OrderPaymentType { get; set; }
 
         public string OrderPaymentTypeName { get; set; }

@@ -51,6 +51,8 @@ namespace Xw.Zx.Core.Areas.Manager
                              ProducName = order.ProducName,
                              Amount = order.Amount,
                              AddTime = order.AddTime,
+                             CustomerName = order.CustomerName,
+                             CustomerPhone = order.CustomerPhone,
                              RealName = _context.Members.FirstOrDefault(m => m.Id == order.MemberId).RealName,
                              OrderPaymentType = order.OrderPaymentType,
                              OrderPaymentTypeName = order.OrderPaymentType.ToString(),

@@ -56,17 +56,37 @@
         color: '#1f2d3d',
       }"
     >
-      <el-table-column prop="id" label="Id" width="100px"></el-table-column>
-      <el-table-column prop="timestamp" label="单号"></el-table-column>
-      <el-table-column prop="realName" label="姓名"></el-table-column>
-      <el-table-column prop="memberPhone" label="电话"></el-table-column>
-      <el-table-column prop="producName" label="订单名"></el-table-column>
-      <el-table-column prop="amount" label="金额">
+      <el-table-column prop="id" label="Id" width="60px"></el-table-column>
+      <el-table-column
+        prop="timestamp"
+        label="单号"
+        width="180px"
+      ></el-table-column>
+      <el-table-column prop="producName" label="商品名"></el-table-column>
+      <el-table-column prop="amount" label="金额" width="100px">
         <template slot-scope="scope">
-          <span style="color: #ff5000;font-weight: bold;">{{ scope.row.amount }}</span>
+          <span style="color: #ff5000; font-weight: bold">{{
+            scope.row.amount
+          }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="addTime" label="时间"></el-table-column>
+      <el-table-column prop="realName" label="姓名" width="130px">
+        <template slot-scope="scope">
+          <p style="font-weight: bold">{{ scope.row.realName }}</p>
+          <p style="color: #999999; font-weight: bold">
+            {{ scope.row.memberPhone }}
+          </p>
+        </template>
+      </el-table-column>
+       <el-table-column prop="realName" label="客户姓名" width="130px">
+        <template slot-scope="scope">
+          <p style="font-weight: bold">{{ scope.row.customerName }}</p>
+          <p style="color: #999999; font-weight: bold">
+            {{ scope.row.customerPhone }}
+          </p>
+        </template>
+      </el-table-column>
+      <el-table-column prop="addTime" label="时间" width="120px"></el-table-column>
     </el-table>
 
     <!--工具条align='center'-->
@@ -127,7 +147,7 @@ export default {
       //TODO:删减查询条件
 
       if (this.filters.keyword)
-        this.requestParams.filters += `(Timestamp|RealName|MemberPhone)@=${this.filters.keyword},`;
+        this.requestParams.filters += `(Timestamp|RealName|MemberPhone|customerName|customerPhone)@=${this.filters.keyword},`;
 
       if (this.filters.addTimeStart)
         this.requestParams.filters += `AddTime>=${this.filters.addTimeStart},`;
@@ -149,6 +169,10 @@ export default {
 </script>
 
 <style scoped>
+p {
+  padding: 0px;
+  margin: 0px;
+}
 .el-tag {
   margin-left: 10px;
 }
