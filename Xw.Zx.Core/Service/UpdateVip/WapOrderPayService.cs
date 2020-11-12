@@ -22,16 +22,42 @@ namespace Xw.Zx.Core.Service
             _context = xwZxContext;
         }
 
-        public void SucessHandle(string timestamp)
+        public void SucessHandle(string timestamp, OrderPaymentType paymentType)
         {
             var order = _context.Orders.Where(o => o.Timestamp == timestamp).FirstOrDefault();            
 
             using (var transaction = _context.Database.BeginTransaction())
             {
                 ShareProfit(order);
-                UpdateOrder(order);
+                UpdateOrder();
                 _context.SaveChanges();
                 transaction.Commit();
+            }
+
+            void UpdateOrder()
+            {
+                var member = _context.Members.First(m => m.Id == order.MemberId);
+
+                //订单状态修正为已付款            
+                order.OrderState = OrderState.已付款;
+                order.OrderPaymentType = paymentType;
+                _context.Entry(order).State = EntityState.Modified;
+
+                //变更会员状态
+                switch (order.ProductId)
+                {
+                    case 7: member.MemberVipType = MemberVipType.运营中心; break;
+                    case 8: member.MemberVipType = MemberVipType.合伙人; break;
+                }
+                _context.Entry(member).State = EntityState.Modified;
+
+                // 生成收款单
+                var receivables = new Receivable()
+                {
+                    OrderId = order.Id,
+                    Amount = order.Amount,
+                };
+                _context.Receivables.Add(receivables);
             }
         }
 
@@ -80,30 +106,7 @@ namespace Xw.Zx.Core.Service
 
         }
 
-        private void UpdateOrder(Order order)
-        {
-            var member = _context.Members.First(m => m.Id == order.MemberId);
-
-            //订单状态修正为已付款            
-            order.OrderState = OrderState.已付款;
-            _context.Entry(order).State = EntityState.Modified;
-
-            //变更会员状态
-            switch (order.ProductId)
-            {
-                case 7: member.MemberVipType = MemberVipType.运营中心; break;
-                case 8: member.MemberVipType = MemberVipType.合伙人; break;
-            }
-            _context.Entry(member).State = EntityState.Modified;
-
-            // 生成收款单
-            var receivables = new Receivable()
-            {
-                OrderId = order.Id,
-                Amount = order.Amount,
-            };
-            _context.Receivables.Add(receivables);
-        }
+        
 
         /// <summary>
         /// 查找上级vip 依次: 一代 二代  运营中心

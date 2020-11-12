@@ -188,7 +188,7 @@ namespace Xw.Zx.Core.Controllers
                         {
                             var timestamp = sArray["out_trade_no"];
 
-                            _wapOrderPayService.SucessHandle(timestamp);
+                            _wapOrderPayService.SucessHandle(timestamp, OrderPaymentType.支付宝);
                         }
                     }
 

@@ -113,7 +113,7 @@ namespace Xw.Zx.Core.Controllers
             if (biqilinNotifyDto.orderStatus == "TRADE_SUCCESS")
             {
                 var timestamp = biqilinNotifyDto.outOrderNo;
-                _wapOrderPayService.SucessHandle(timestamp);
+                _wapOrderPayService.SucessHandle(timestamp, OrderPaymentType.碧麒麟);
             }
             await Response.WriteAsync(JsonConvert.SerializeObject(new
             {
