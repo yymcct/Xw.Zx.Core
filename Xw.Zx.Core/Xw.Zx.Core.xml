@@ -1315,6 +1315,12 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.MemberController.GetParent(System.Int32)">
+            <summary>
+            获取直属上级,和团队长
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Xw.Zx.Core.Areas.Manager.OrderController.GetOrders(Sieve.Models.SieveModel)">
             <summary>
             TODO

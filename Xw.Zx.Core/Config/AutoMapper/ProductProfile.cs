@@ -16,6 +16,8 @@ namespace Xw.Zx.Core.Config.AutoMapper
             CreateMap<Product, ProductDto>().ReverseMap();
             CreateMap<Order, OrderListDto>();
             CreateMap<Order, OrderDto>();
+
+            CreateMap<Member, Areas.Manager.MemberMDto>();
         }
     }
 }

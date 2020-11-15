@@ -5,6 +5,11 @@
     </div>
 
     <div class="login" v-if="!hasAccount">
+      <van-field
+        v-model="user.realName"
+        label="姓名"
+        placeholder="请输入真实姓名"
+      />
       <van-field v-model="user.phone" label="手机" placeholder="请输入手机号" />
       <van-field
         v-model="user.password"
@@ -93,6 +98,7 @@ export default {
     return {
       hasAccount: false,
       user: {
+        realName: "",
         phone: "",
         password: "",
         invitePhone: "",
@@ -113,7 +119,7 @@ export default {
   beforeMount() {
     this.user.openId = this.$route.query.id;
     this.bindUser.openId = this.$route.query.id;
-    console.log(this.$route.query)
+    console.log(this.$route.query);
   },
 
   mounted() {},
@@ -123,6 +129,10 @@ export default {
       const _this = this;
       if (!this.user.openId) {
         this.$toast("没有OpenID");
+        return;
+      }
+      if (this.user.realName.length < 2) {
+        this.$toast("姓名不正确");
         return;
       }
       if (this.user.phone.length != 11) {

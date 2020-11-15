@@ -59,7 +59,7 @@ namespace Xw.Zx.Core.Areas.Manager
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public HbzsManagerResult<List<MemberMDto>> GetMembers([FromQuery]SieveModel sieveModel)
+        public HbzsManagerResult<List<MemberMDto>> GetMembers([FromQuery] SieveModel sieveModel)
         {
             try
             {
@@ -102,7 +102,7 @@ namespace Xw.Zx.Core.Areas.Manager
         /// <param name="membermdto"></param>
         /// <returns></returns>
         [HttpPost]
-        public HbzsManagerResult PostMember([FromBody]PostMemberMDto membermdto)
+        public HbzsManagerResult PostMember([FromBody] PostMemberMDto membermdto)
         {
             try
             {
@@ -130,7 +130,7 @@ namespace Xw.Zx.Core.Areas.Manager
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
-        public HbzsManagerResult DeleteMember([FromQuery]int id)
+        public HbzsManagerResult DeleteMember([FromQuery] int id)
         {
             try
             {
@@ -182,6 +182,49 @@ namespace Xw.Zx.Core.Areas.Manager
 
             _context.SaveChanges();
 
+        }
+
+
+
+
+        /// <summary>
+        /// 获取直属上级,和团队长
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public HbzsManagerResult<IEnumerable<MemberMDto>> GetParent(int memberId)
+        {
+            try
+            {
+                var parentMembers = new List<MemberMDto>(); 
+
+                var member = _context.Members.FirstOrDefault(m => m.Id == memberId);               
+
+                if (member != null )
+                {
+                    parentMembers.Add(_mapper.Map<MemberMDto>(member));
+
+                    while (true)
+                    {
+                        var tmpMember = _context.Members.FirstOrDefault(m => m.Id == member.InviteId && m.Id != 6);
+
+                        if (tmpMember == null)  break;                       
+
+                        parentMembers.Add(_mapper.Map<MemberMDto>(tmpMember));
+
+                        member = tmpMember;
+                    }
+                }
+
+                parentMembers.Reverse();
+
+                return   new HbzsManagerResult<IEnumerable<MemberMDto>>(parentMembers);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new HbzsManagerResult<IEnumerable<MemberMDto>>(HbzsManagerResultCode.Invalid_Error, ex.Message);
+            }
         }
     }
 }

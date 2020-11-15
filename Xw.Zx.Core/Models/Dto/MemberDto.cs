@@ -71,6 +71,7 @@ namespace Xw.Zx.Core.Models.Dto
 
     public class RegisterUserDto
     {
+        public string RealName { get; set; }
         public string Phone { get; set; }
         public string Password { get; set; }
         public string Mail { get; set; }

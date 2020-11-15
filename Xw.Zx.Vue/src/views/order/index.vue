@@ -1,7 +1,6 @@
 ﻿
 <template>
-  <section>
-    <!--TODO:配置查询条件-->
+  <section v-if="orderMDtos">
     <el-row>
       <el-col :span="24" class="toolbar" style="padding-bottom: 0px">
         <el-form :inline="true" :model="filters">
@@ -76,9 +75,14 @@
           <p style="color: #999999; font-weight: bold">
             {{ scope.row.memberPhone }}
           </p>
+          <p>
+            <el-link type="primary" @click="getParent(scope.row)"
+              >查看关系树</el-link
+            >
+          </p>
         </template>
       </el-table-column>
-       <el-table-column prop="realName" label="客户姓名" width="130px">
+      <el-table-column prop="realName" label="客户姓名" width="130px">
         <template slot-scope="scope">
           <p style="font-weight: bold">{{ scope.row.customerName }}</p>
           <p style="color: #999999; font-weight: bold">
@@ -86,7 +90,11 @@
           </p>
         </template>
       </el-table-column>
-      <el-table-column prop="addTime" label="时间" width="120px"></el-table-column>
+      <el-table-column
+        prop="addTime"
+        label="时间"
+        width="120px"
+      ></el-table-column>
     </el-table>
 
     <!--工具条align='center'-->
@@ -102,15 +110,17 @@
         background
       ></el-pagination>
     </el-col>
+
+    <parent v-model="parent.showParent" :memberId="parent.memberId" />
   </section>
 </template>
 
 <script>
-//TODO: 拷贝到api文件
 
+import parent from "./parent"
 import { api_getOrderMDtos, api_delOrderMDto } from "../../api/api";
 export default {
-  components: {},
+  components: {parent},
   data() {
     return {
       requestParams: {
@@ -119,7 +129,6 @@ export default {
         filters: "",
         sorts: "-id",
       },
-      //TODO:删减查询条件
       filters: {
         keyword: null,
         addTimeStart: null,
@@ -128,6 +137,10 @@ export default {
       orderMDtos: null,
       total: 0,
       listLoading: false,
+      parent:{
+        showParent:false,
+        memberId:0
+      }
     };
   },
   methods: {
@@ -144,8 +157,6 @@ export default {
       this.page = 1;
       this.requestParams.filters = "";
 
-      //TODO:删减查询条件
-
       if (this.filters.keyword)
         this.requestParams.filters += `(Timestamp|RealName|MemberPhone|customerName|customerPhone)@=${this.filters.keyword},`;
 
@@ -159,6 +170,10 @@ export default {
         this.orderMDtos = respone.result;
         this.total = respone.total;
       });
+    },
+    getParent(val) {
+      this.parent.showParent = true;
+      this.parent.memberId = val.memberId;
     },
   },
 
