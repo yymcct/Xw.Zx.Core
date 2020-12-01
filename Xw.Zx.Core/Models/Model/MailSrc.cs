@@ -12,7 +12,7 @@ namespace Xw.Zx.Core.Models.Model
     {
         招商银行 = 0,
     }
-    public class MailSrc
+    public class MailSrc : ModelBase
     {
         public int Id { get; set; }
 

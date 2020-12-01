@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Xw.Zx.Core.Models.Model
 {
-    public class Mailconfig
+    public class Mailconfig : ModelBase
     {
         public int Id { get; set; }
 

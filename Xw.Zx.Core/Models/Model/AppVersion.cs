@@ -10,7 +10,7 @@ namespace Xw.Zx.Core.Models.Model
         Android = 0,
         Ios = 1
     }
-    public class AppVersion
+    public class AppVersion : ModelBase
     {
         public int Id { get; set; }
 

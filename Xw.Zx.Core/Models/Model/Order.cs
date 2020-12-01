@@ -25,7 +25,7 @@ namespace Xw.Zx.Core.Models.Model
     /// <summary>
     /// 订单表
     /// </summary>
-    public class Order
+    public class Order : ModelBase
     {
         [Sieve(CanFilter = true, CanSort = true)]
         public int Id { get; set; }

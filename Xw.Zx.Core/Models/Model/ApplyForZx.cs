@@ -15,7 +15,7 @@ namespace Xw.Zx.Core.Models.Model
     /// <summary>
     /// 追息申请表
     /// </summary>
-    public class ApplyForZxMDto
+    public class ApplyForZxMDto : ModelBase
     {
 
         public int Id { get; set; }

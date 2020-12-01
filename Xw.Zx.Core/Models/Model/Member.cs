@@ -21,7 +21,7 @@ namespace Xw.Zx.Core.Models.Model
         合伙人 = 20,
         运营中心=30
     }
-    public class Member
+    public class Member : ModelBase
     {
         public int Id { get; set; }
         /// <summary>

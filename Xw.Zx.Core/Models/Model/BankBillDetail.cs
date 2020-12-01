@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Xw.Zx.Core.Models.Model
 {
-    public class BankBillDetail
+    public class BankBillDetail : ModelBase
     {
         [Sieve(CanFilter = true, CanSort = true)]
         public int Id { get; set; }

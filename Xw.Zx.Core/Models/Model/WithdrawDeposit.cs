@@ -14,7 +14,7 @@ namespace Xw.Zx.Core.Models.Model
         拒绝 = 2,
         失败=3
     }
-    public class WithdrawDeposit
+    public class WithdrawDeposit : ModelBase
     {
         [Sieve(CanFilter = true, CanSort = true)]
         public int Id { get; set; }

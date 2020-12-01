@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Xw.Zx.Core.Models.Model
 {
-    public class AlipayLog
+    public class AlipayLog: ModelBase
     {
         public int Id { get; set; }
         public int PaymentId { get; set; } = 0;

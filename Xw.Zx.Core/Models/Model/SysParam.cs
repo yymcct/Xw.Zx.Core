@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Xw.Zx.Core.Models.Model
 {
-    public class SysParam
+    public class SysParam : ModelBase
     {        
         public int Id { get; set; }
 

@@ -9,7 +9,7 @@ namespace Xw.Zx.Core.Models.Model
     /// <summary>
     /// 收款表
     /// </summary>
-    public class Receivable
+    public class Receivable : ModelBase
     {
         public int Id { get; set; }
 

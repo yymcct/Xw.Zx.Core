@@ -29,7 +29,7 @@ namespace Xw.Zx.Core.Models.Model
     /// <summary>
     /// 升级Vip用的授权码
     /// </summary>
-    public class UpdateVipAuthCode
+    public class UpdateVipAuthCode : ModelBase
     {
         [Sieve(CanFilter = true, CanSort = true)]
         public int Id { get; set; }

@@ -12,7 +12,7 @@ namespace Xw.Zx.Core.Models.Model
         间接收益 = 1,
         级差收益 = 2
     }
-    public class IncomeAccount
+    public class IncomeAccount : ModelBase
     {
         public int Id { get; set; }
 

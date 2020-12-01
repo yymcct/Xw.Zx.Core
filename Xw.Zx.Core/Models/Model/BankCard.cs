@@ -27,7 +27,7 @@ namespace Xw.Zx.Core.Models.Model
         中国银行 =14,//未提供账单
         兴业银行 =15,//待引导客户同步测试
     }
-    public class BankCard
+    public class BankCard : ModelBase
     {
         [Sieve(CanFilter = true, CanSort = true)]
         public int Id { get; set; }

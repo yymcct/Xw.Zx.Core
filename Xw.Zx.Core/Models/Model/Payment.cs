@@ -9,7 +9,7 @@ namespace Xw.Zx.Core.Models.Model
     /// <summary>
     /// 付款表
     /// </summary>
-    public class Payment
+    public class Payment : ModelBase
     {
         public int Id { get; set; }
 

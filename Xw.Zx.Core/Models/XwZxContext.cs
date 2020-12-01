@@ -103,6 +103,83 @@ namespace Xw.Zx.Core.Models.Model
             modelBuilder.Entity<UpdateVipAuthCode>()
                   .Property(o => o.MemberVipType)
                   .HasDefaultValue(MemberVipType.会员);
+
+            modelBuilder.Entity<SysParam>()
+               .HasQueryFilter(c => !c.IsDelete)
+               .Property(c => c.IsDelete)
+               .HasDefaultValue(false);
+            modelBuilder.Entity<Member>()
+                           .HasQueryFilter(c => !c.IsDelete)
+                           .Property(c => c.IsDelete)
+                           .HasDefaultValue(false);
+            modelBuilder.Entity<ApplyForZxMDto>()
+                           .HasQueryFilter(c => !c.IsDelete)
+                           .Property(c => c.IsDelete)
+                           .HasDefaultValue(false);
+            modelBuilder.Entity<Mailconfig>()
+                           .HasQueryFilter(c => !c.IsDelete)
+                           .Property(c => c.IsDelete)
+                           .HasDefaultValue(false);
+            modelBuilder.Entity<MailSrc>()
+                           .HasQueryFilter(c => !c.IsDelete)
+                           .Property(c => c.IsDelete)
+                           .HasDefaultValue(false);
+            modelBuilder.Entity<BankCard>()
+                           .HasQueryFilter(c => !c.IsDelete)
+                           .Property(c => c.IsDelete)
+                           .HasDefaultValue(false);
+            modelBuilder.Entity<BankBill>()
+                           .HasQueryFilter(c => !c.IsDelete)
+                           .Property(c => c.IsDelete)
+                           .HasDefaultValue(false);
+            modelBuilder.Entity<BankBillDetail>()
+                           .HasQueryFilter(c => !c.IsDelete)
+                           .Property(c => c.IsDelete)
+                           .HasDefaultValue(false);
+            modelBuilder.Entity<UpdateVipAuthCode>()
+                           .HasQueryFilter(c => !c.IsDelete)
+                           .Property(c => c.IsDelete)
+                           .HasDefaultValue(false);
+            modelBuilder.Entity<Product>()
+                           .HasQueryFilter(c => !c.IsDelete)
+                           .Property(c => c.IsDelete)
+                           .HasDefaultValue(false);
+            modelBuilder.Entity<Order>()
+                           .HasQueryFilter(c => !c.IsDelete)
+                           .Property(c => c.IsDelete)
+                           .HasDefaultValue(false);
+            modelBuilder.Entity<Payment>()
+                           .HasQueryFilter(c => !c.IsDelete)
+                           .Property(c => c.IsDelete)
+                           .HasDefaultValue(false);
+            modelBuilder.Entity<Receivable>()
+                           .HasQueryFilter(c => !c.IsDelete)
+                           .Property(c => c.IsDelete)
+                           .HasDefaultValue(false);
+            modelBuilder.Entity<IncomeAccount>()
+                           .HasQueryFilter(c => !c.IsDelete)
+                           .Property(c => c.IsDelete)
+                           .HasDefaultValue(false);
+            modelBuilder.Entity<WithdrawDeposit>()
+                           .HasQueryFilter(c => !c.IsDelete)
+                           .Property(c => c.IsDelete)
+                           .HasDefaultValue(false);
+            modelBuilder.Entity<AlipayLog>()
+                           .HasQueryFilter(c => !c.IsDelete)
+                           .Property(c => c.IsDelete)
+                           .HasDefaultValue(false);
+            modelBuilder.Entity<AppVersion>()
+                           .HasQueryFilter(c => !c.IsDelete)
+                           .Property(c => c.IsDelete)
+                           .HasDefaultValue(false);
+            modelBuilder.Entity<VoiceNew>()
+                           .HasQueryFilter(c => !c.IsDelete)
+                           .Property(c => c.IsDelete)
+                           .HasDefaultValue(false);
+            modelBuilder.Entity<LxComputer>()
+                           .HasQueryFilter(c => !c.IsDelete)
+                           .Property(c => c.IsDelete)
+                           .HasDefaultValue(false);
         }
     }
 }
