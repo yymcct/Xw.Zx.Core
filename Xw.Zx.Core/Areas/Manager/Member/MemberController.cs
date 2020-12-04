@@ -137,7 +137,7 @@ namespace Xw.Zx.Core.Areas.Manager
                 var meetingarea = _context.Members.Find(id);
                 if (meetingarea != null)
                 {
-                    _context.Members.Remove(meetingarea);
+                    meetingarea.IsDelete = true;
                     _context.SaveChanges();
                 }
                 return new HbzsManagerResult(HbzsManagerResultCode.Sucess, "");

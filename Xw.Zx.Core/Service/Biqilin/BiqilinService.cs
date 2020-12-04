@@ -70,6 +70,29 @@ namespace Xw.Zx.Core.Service
             return res;
         }
 
+        //public BiqilinRespone.JsapiPay Query(Biqilin_Product biqilin_Product)
+        //{
+        //    const string url = "https://pay.biqilin.com/api/pay/query/partner/store_single2.do";
+        //    //var key = GetToken(); 获取一次就不再改变           
+        //    var token = "326b5d06397c08c379b447f1917d6ce38db006d43c31da324b4358eda54911f8";
+        //    var dto = new Biqilinrequest.Query(_biqilinOption);
+
+
+        //    dto.merchant_account = _biqilinOption.MerchantAccount;
+        //    dto.out_store_name = "债减减";
+        //    dto.out_cashier_name = "APP";
+        //    dto.order_no =
+        //    dto.partner_code = _biqilinOption.PartnerCode;
+        //    dto.token = token; //key.token;
+
+        //    var res = Post<BiqilinRespone.JsapiPay>(url, dto.ToDic());
+        //    return res;
+        //}
+
+
+
+
+
         public BiqilinRespone.KeyDownLoad GetToken()
         {
             const string url = "https://pay.biqilin.com/api/user/partner/key_download.do";

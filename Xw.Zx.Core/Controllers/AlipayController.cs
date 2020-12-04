@@ -23,6 +23,7 @@ using Microsoft.EntityFrameworkCore;
 using Alipay.AopSdk.F2FPay.Domain;
 using Alipay.AopSdk.F2FPay.Business;
 using Alipay.AopSdk.F2FPay.Model;
+using Alipay.AopSdk.Core;
 
 namespace Xw.Zx.Core.Controllers
 {
@@ -348,6 +349,26 @@ namespace Xw.Zx.Core.Controllers
             return new HbzsResult<bool>(res);
         }
 
+
         #endregion
+
+
+
+        public HbzsResult<string> Query(int orderId)
+        {
+
+
+            AlipayTradeQueryModel model = new AlipayTradeQueryModel();
+            model.OutTradeNo = "20201201153851803671";
+
+            AlipayTradeQueryRequest request = new AlipayTradeQueryRequest();
+
+            request.SetBizModel(model);
+
+            AlipayTradeQueryResponse response = _alipayService.Execute<AlipayTradeQueryResponse>(request);
+        
+
+            return new HbzsResult<string>("111");
+        }
     }
 }

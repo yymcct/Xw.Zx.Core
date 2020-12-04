@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xw.Zx.Core.Models.Dto;
 using Xw.Zx.Core.Models.Model;
+using Xw.Zx.Core.Service;
 
 namespace Xw.Zx.Core.Controllers
 {
@@ -22,14 +23,15 @@ namespace Xw.Zx.Core.Controllers
     public class OrderController : BaseController
     {
         private readonly ILogger<OrderController> _logger;
-
+        private readonly IOrderService _orderService;
         public OrderController(ILogger<OrderController> logger
          , XwZxContext xwZxContext
          , IMapper mapper
+         , IOrderService orderService
          , ISieveProcessor sieveProcessor) : base(xwZxContext, mapper, sieveProcessor)
         {
             _logger = logger;
-
+            _orderService = orderService;
         }
 
         [HttpGet]
@@ -67,13 +69,13 @@ namespace Xw.Zx.Core.Controllers
         {
             try
             {
-                var order = _context.Orders.FirstOrDefault(o => o.Id == id && o.MemberId == Member.Id);
+                var order = _orderService.GetOrder(id);
 
-                //  OrderDto dto = null;
-                //  if (order != null)
-                //  {
-                //     dto = _mapper.Map<OrderDto>(order);
-                // }
+                if (order.MemberId != Member.Id)
+                {
+                    return new HbzsResult<OrderDto>(HbzsResultCode.Invalid_Error, "您无权限查看!");
+                }               
+
                 var dto = _mapper.Map<OrderDto>(order);
 
                 return new HbzsResult<OrderDto>(dto);
@@ -129,7 +131,10 @@ namespace Xw.Zx.Core.Controllers
                 var order = _context.Orders
                             .Where(o => o.OrderState == OrderState.待付款 && Member.Id == o.MemberId && o.Id == id)
                             .First();
-                _context.Orders.Remove(order);
+
+                order.IsDelete = true;
+
+                //_context.Orders.Remove(order);
                 _context.SaveChanges();
                 return new HbzsResult<bool>(true);
             }

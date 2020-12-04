@@ -136,6 +136,19 @@ namespace Xw.Zx.Core.Service
             public string token { get; set; }
         }
 
+        public class Query : RequestBase
+        {
+            public Query(BiqilinOption biqilinOption) : base(biqilinOption)
+            {
+
+            }
+            public string merchant_account { get; set; }
+            public string out_store_name { get; set; }
+            public string out_cashier_name { get; set; }
+            public string order_no { get; set; }
+            public string partner_code { get; set; }
+            public string token { get; set; }
+        }
     }
 
 
@@ -203,6 +216,22 @@ namespace Xw.Zx.Core.Service
             public string jsNonceStr { get; set; }
             public string jsPaySign { get; set; }
         }
+
+        public class Query
+        {
+            public string storeAccount { get; set; }
+            public string cashierAccount { get; set; }
+            public string goodsName { get; set; }
+            public string orderNo { get; set; }
+            public string outOrderNo { get; set; }
+            public string orderStatus { get; set; }
+            public string orderTime { get; set; }
+            public string payType { get; set; }
+            public string amount { get; set; }
+            public string rateAfterAmount { get; set; }
+            public string orderStatusMsg { get; set; }
+            public string sign { get; set; }
+        }
     }
 
     public class BiqilinNotifyDto
@@ -214,4 +243,6 @@ namespace Xw.Zx.Core.Service
         public string orderStatusMsg { get; set; }
         public string sign { get; set; }
     }
+
+
 }

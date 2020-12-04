@@ -83,7 +83,7 @@ namespace Xw.Zx.Core.Areas.Manager
                 var meetingarea = _context.ApplyForZxs.Find(id);
                 if (meetingarea != null)
                 {
-                    _context.ApplyForZxs.Remove(meetingarea);
+                    meetingarea.IsDelete=true;
                     _context.SaveChanges();
                 }
                 return new HbzsManagerResult(HbzsManagerResultCode.Sucess, "");
