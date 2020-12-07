@@ -7,24 +7,29 @@
     <div class="login" v-if="!hasAccount">
       <van-field
         v-model="user.realName"
+        required
         label="姓名"
         placeholder="请输入身份证姓名"
       />
-      <van-field v-model="user.phone" label="手机" placeholder="请输入手机号" />
+      <van-field v-model="user.phone" required label="手机" placeholder="请输入手机号" />
+      <sms-code-field v-model="user.smsCheck" :phone="user.phone" />
       <van-field
         v-model="user.password"
+        required
         type="password"
         label="密码"
         placeholder="请输入密码"
       />
       <van-field
         v-model="user.password2"
+        required
         type="password"
         label="密码"
         placeholder="请再次输入密码"
       />
       <van-field
         v-model="user.invitePhone"
+        required
         label="邀请人"
         placeholder="请输入邀请人手机号"
       />
@@ -91,6 +96,7 @@
 
 <script>
 import api from "@/api/sqbApi";
+import smsCodeField from "@/components/smsCodeField";
 export default {
   name: "",
   props: [""],
@@ -103,6 +109,7 @@ export default {
         password: "",
         invitePhone: "",
         openId: "",
+        smsCheck: "",
       },
       bindUser: {
         phone: "",
@@ -112,7 +119,7 @@ export default {
     };
   },
 
-  components: {},
+  components: { smsCodeField },
 
   computed: {},
 
@@ -137,6 +144,10 @@ export default {
       }
       if (this.user.phone.length != 11) {
         this.$toast("手机号不正确");
+        return;
+      }
+      if (this.user.smsCheck.length != 4) {
+        this.$toast("验证码不正确");
         return;
       }
       if (this.user.password.length < 6) {
