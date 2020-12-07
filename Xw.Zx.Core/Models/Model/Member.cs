@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -90,6 +91,12 @@ namespace Xw.Zx.Core.Models.Model
 
         public string AliPayAccount { get; set; } = "";
         //查询次数
-        public int? QueryTimes { get; set; } 
+        public int? QueryTimes { get; set; }
+
+        /// <summary>
+        /// 运营中心的编码
+        /// </summary>
+        [Column(TypeName = "varchar(50)")]
+        public string BusinessCode { get; set; } = "";
     }
 }

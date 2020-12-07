@@ -79,6 +79,8 @@ namespace Xw.Zx.Core.Models.Dto
         public string InvitePhone { get; set; }
 
         public string OpenId { get; set; }
+
+        public int SmsCheck { get; set; }
     }
 
 

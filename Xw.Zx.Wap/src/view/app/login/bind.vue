@@ -8,7 +8,7 @@
       <van-field
         v-model="user.realName"
         label="姓名"
-        placeholder="请输入真实姓名"
+        placeholder="请输入身份证姓名"
       />
       <van-field v-model="user.phone" label="手机" placeholder="请输入手机号" />
       <van-field

@@ -64,7 +64,7 @@
       >
         扫码付款
       </van-button>
-      <van-button
+      <!-- <van-button
         class="foot-btn"
         type="primary"
         round
@@ -74,7 +74,7 @@
         :disabled="order.orderState == 1"
       >
         立即付款
-      </van-button>
+      </van-button> -->
     </div>
     <template v-if="useAlipay">
       <alipayQrcode
