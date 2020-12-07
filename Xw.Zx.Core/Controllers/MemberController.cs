@@ -45,15 +45,15 @@ namespace Xw.Zx.Core.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(user.RealName)) throw new Exception("请填写姓名");
-                if (!ValidateHelper.IsMobile(user.Phone)) throw new Exception("请填写手机号");
-                if (string.IsNullOrEmpty(user.Password)) throw new Exception("请填写密码");
-                if (_context.Members.Any(p => p.Phone == user.Phone)) throw new Exception("请勿重复注册");
-
                 if (!CheckSms(user.Phone, user.SmsCheck))
                 {
                     throw new Exception($"验证码错误!");
                 }
+
+                if (string.IsNullOrEmpty(user.RealName)) throw new Exception("请填写姓名");
+                if (!ValidateHelper.IsMobile(user.Phone)) throw new Exception("请填写手机号");
+                if (string.IsNullOrEmpty(user.Password)) throw new Exception("请填写密码");
+                if (_context.Members.Any(p => p.Phone == user.Phone)) throw new Exception("请勿重复注册");
 
 
                 var InviteUser = _context.Members.FirstOrDefault(m => m.Id == user.InviteId && m.Disabled == false);

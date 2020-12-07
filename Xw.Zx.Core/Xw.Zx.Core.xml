@@ -1002,6 +1002,11 @@
             邀请人ID, 上线
             </summary>
         </member>
+        <member name="P:Xw.Zx.Core.Models.Model.Member.BusinessCode">
+            <summary>
+            运营中心的编码
+            </summary>
+        </member>
         <member name="T:Xw.Zx.Core.Models.Model.Order">
             <summary>
             订单表
