@@ -203,7 +203,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Xw.Zx.Core.Controllers.MemberController.GetMyFirstTeamUser(System.Int32,System.Int32)">
+        <member name="M:Xw.Zx.Core.Controllers.MemberController.GetMyFirstTeamUser">
             <summary>
             获取未绑定银行卡的用户
             filter:0 全部 1:待绑卡

@@ -29,6 +29,8 @@ namespace Xw.Zx.Core.Models.Dto
 
         public MemberVipType MemberVipType { get; set; }
 
+        public string MemberVipTypeName { get; set; }
+
         public string Phone { get; set; }
 
         public int InviteId { get; set; } = 0;
@@ -60,6 +62,7 @@ namespace Xw.Zx.Core.Models.Dto
     {
         public int Id { get; set; }
         public MemberVipType MemberVipType { get; set; }
+        public string MemberVipTypeName { get; set; }
         public string Phone { get; set; }
         public string RealName { get; set; }
         //一代

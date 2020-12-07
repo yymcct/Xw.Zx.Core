@@ -335,17 +335,12 @@ namespace Xw.Zx.Core.Controllers
         /// <returns></returns>
         [HttpGet]
         [Authorize]
-        public HbzsResult<List<MyTeamUserDto>> GetMyFirstTeamUser(int memberId, int filter)
+        public HbzsResult<List<MyTeamUserDto>> GetMyFirstTeamUser()
         {
             try
             {
                 var db = _context.Members
-                          .Where(m => m.Disabled == false && m.InviteId == memberId);
-
-                if (filter == 1)
-                {
-                    db = db.Where(m => _context.BankCards.Any(b => b.Disabled == false && b.MemberId == m.Id) == false);
-                }
+                          .Where(m => m.Disabled == false && m.InviteId == Member.Id);      
 
                 var users = _mapper.Map<List<MyTeamUserDto>>(db.ToList());
 

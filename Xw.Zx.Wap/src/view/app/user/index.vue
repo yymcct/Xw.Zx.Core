@@ -27,6 +27,7 @@
         <van-cell title="级别" :value="memberVipType" />
       </div>
       <van-cell-group>
+        <van-cell title="我的团队" is-link to="/sqb/user/myteam" />
         <van-cell title="我的收益" is-link to="/sqb/user/income" />
         <van-cell title="我的订单" is-link to="/sqb/user/order" />
         <van-cell title="联系客服" is-link to="/sqb/user/kefu" />
