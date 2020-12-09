@@ -11,6 +11,11 @@ namespace Xw.Zx.Core.Models.Model
         男 = 1,
         女 = 2,
     }
+    public enum MemberIdentityState
+    {
+        未认证 = 0,
+        已认证 = 1
+    }
     public enum MemberVipType
     {
         普通 = 0,
@@ -20,7 +25,7 @@ namespace Xw.Zx.Core.Models.Model
         运营商 = 4,
         会员 = 10,
         合伙人 = 20,
-        运营中心=30
+        运营中心 = 30
     }
     public class Member : ModelBase
     {
@@ -98,5 +103,28 @@ namespace Xw.Zx.Core.Models.Model
         /// </summary>
         [Column(TypeName = "varchar(50)")]
         public string BusinessCode { get; set; } = "";
+
+        /// <summary>
+        /// 身份证号
+        /// </summary>
+        [Column(TypeName = "varchar(20)")]
+        public string IdentityCardNum { get; set; } = "";
+
+        /// <summary>
+        /// 身份证正面照
+        /// </summary>
+        [Column(TypeName = "varchar(200)")]
+        public string IdentityCardImgFront { get; set; } = "";
+
+        /// <summary>
+        /// 身份证反面照
+        /// </summary>
+        [Column(TypeName = "varchar(200)")]
+        public string IdentityCardImgReverse { get; set; } = "";
+
+        /// <summary>
+        /// 认证状态
+        /// </summary>
+        public MemberIdentityState MemberIdentityState { get; set; }
     }
 }

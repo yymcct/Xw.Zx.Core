@@ -21,6 +21,7 @@ namespace Xw.Zx.Core.Controllers
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Config.Swagger.HiddenApi]
     public class BiqilinController : BaseController
     {
         private readonly ILogger<BiqilinController> _logger;

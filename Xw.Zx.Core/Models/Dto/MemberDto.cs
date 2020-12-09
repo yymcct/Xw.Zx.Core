@@ -33,6 +33,9 @@ namespace Xw.Zx.Core.Models.Dto
 
         public string Phone { get; set; }
 
+        /// <summary>
+        /// 邀请人ID
+        /// </summary>
         public int InviteId { get; set; } = 0;
 
         public string InvitePhone { get; set; }
@@ -50,6 +53,12 @@ namespace Xw.Zx.Core.Models.Dto
         public int? QueryTimes { get; set; }
 
         public string WxOpenId { get; set; }
+
+        public string IdentityCardNum { get; set; }
+
+        public string IdentityCardImgFront { get; set; } 
+
+        public string IdentityCardImgReverse { get; set; }
 
     }
     public class MyTeamDto
@@ -89,16 +98,32 @@ namespace Xw.Zx.Core.Models.Dto
 
     public class PostUserDto
     {
+        /// <summary>
+        /// 真实姓名
+        /// </summary>
         public string RealName { get; set; }
 
-
-
+        /// <summary>
+        /// 支付宝账号
+        /// </summary>
         public string AliAccount { get; set; }
 
+        /// <summary>
+        /// 身份证号码
+        /// </summary>
+        public string IdentityCardNum { get; set; }
 
+        /// <summary>
+        /// 身份证正面照 存照片的url:形如 /UpLoad/IdentityCard/20202/1.jpg
+        /// </summary>
+        public string IdentityCardImgFront { get; set; } = "";
+
+        /// <summary>
+        /// 身份证反面照 
+        /// </summary>
+        public string IdentityCardImgReverse { get; set; } = "";
 
         public int SmsCheck { get; set; }
-
     }
 
     public class ChangePassWordDto

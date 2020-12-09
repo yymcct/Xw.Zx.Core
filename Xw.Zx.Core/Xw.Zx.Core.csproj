@@ -12,54 +12,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Areas\Manager\**" />
-    <Content Remove="Areas\Manager\**" />
-    <EmbeddedResource Remove="Areas\Manager\**" />
-    <None Remove="Areas\Manager\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="Api.http" />
-    <None Remove="Xw.Zx.Core.xml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="Areas\Manager\ApplyForZx\ApplyForZxController.cs" />
-    <Compile Include="Areas\Manager\ApplyForZx\ApplyForZxMDto.cs" />
-    <Compile Include="Areas\Manager\Base\Dtos\SelectOptionDto.cs" />
-    <Compile Include="Areas\Manager\Base\HbzsManagerResult.cs" />
-    <Compile Include="Areas\Manager\Base\ManagerBaseController.cs" />
-    <Compile Include="Areas\Manager\Income\IncomeAccountController.cs" />
-    <Compile Include="Areas\Manager\Income\IncomeAccountMDto.cs" />
-    <Compile Include="Areas\Manager\LxComputerController\Dtos\LxComputerMDto.cs" />
-    <Compile Include="Areas\Manager\LxComputerController\LxComputerController.cs" />
-    <Compile Include="Areas\Manager\Member\Dtos\ManagerMemberDto.cs" />
-    <Compile Include="Areas\Manager\Member\Dtos\MemberMDto.cs" />
-    <Compile Include="Areas\Manager\Member\Dtos\PostMemberMDto.cs" />
-    <Compile Include="Areas\Manager\Member\MemberController.cs" />
-    <Compile Include="Areas\Manager\Order\Dtos\OrderMDto.cs" />
-    <Compile Include="Areas\Manager\Order\Dtos\OrderTotalMDto.cs" />
-    <Compile Include="Areas\Manager\Order\OrderController.cs" />
-    <Compile Include="Areas\Manager\Receivables\Dtos\ReceivablesMDto.cs" />
-    <Compile Include="Areas\Manager\SysParam\SysParamController.cs" />
-    <Compile Include="Areas\Manager\UpdateVipAuthCode\Dtos\PostUpdateVipAuthCodeMDto.cs" />
-    <Compile Include="Areas\Manager\UpdateVipAuthCode\Dtos\UpdateVipAuthCodeMDto.cs" />
-    <Compile Include="Areas\Manager\UpdateVipAuthCode\UpdateVipAuthCodeController.cs" />
-    <Compile Include="Areas\Manager\UpdateVip\PostUpdateVipMDto.cs" />
-    <Compile Include="Areas\Manager\UpdateVip\UpdateVipController.cs" />
-    <Compile Include="Areas\Manager\WithdrawDeposit\Dtos\AuditWithdrawDepositdetailDto.cs" />
-    <Compile Include="Areas\Manager\WithdrawDeposit\Dtos\GetAuditWithdrawDepositdetailDto.cs" />
-    <Compile Include="Areas\Manager\WithdrawDeposit\Dtos\WithdrawDepositMDto.cs" />
-    <Compile Include="Areas\Manager\WithdrawDeposit\Dtos\WithdrawDepositTotalMDto.cs" />
-    <Compile Include="Areas\Manager\WithdrawDeposit\WithdrawDepositController.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Api.http">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Xw.Zx.Core.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
@@ -80,9 +38,11 @@
     <PackageReference Include="S22.Imap.Core" Version="3.6.1" />
     <PackageReference Include="Sieve" Version="2.3.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
+    <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\" />
     <Folder Include="wwwroot\" />
     <Folder Include="UpLoad\" />
   </ItemGroup>

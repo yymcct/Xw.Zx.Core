@@ -29,6 +29,7 @@ namespace Xw.Zx.Core.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Config.Swagger.HiddenApi]
     public class AlipayController : BaseController
     {
         private readonly ILogger<AlipayController> _logger;
@@ -72,6 +73,12 @@ namespace Xw.Zx.Core.Controllers
 
         }
 
+        /// <summary>
+        /// 阿里pay
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
         [HttpPost("{orderId}")]
         [Authorize]
         public HbzsResult<AliPayOrderDto> WapPay(int orderId, [FromQuery] string returnUrl)
@@ -114,9 +121,9 @@ namespace Xw.Zx.Core.Controllers
             }
 
         }
+        
         /// <summary>
         /// 支付宝支付成功回调地址 
-        /// TODO: 校验是否是来自于支付宝的域名
         /// </summary>
         [HttpPost]
         public async void Notifyurl()
@@ -159,6 +166,10 @@ namespace Xw.Zx.Core.Controllers
                 await Response.WriteAsync("fail");
             }
         }
+        
+        /// <summary>
+        /// 回调
+        /// </summary>
         [HttpPost]
         public async void WapNotifyurl()
         {
@@ -222,7 +233,10 @@ namespace Xw.Zx.Core.Controllers
         }
 
 
-
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public string WithdrawDeposit()
         {
@@ -270,6 +284,11 @@ namespace Xw.Zx.Core.Controllers
         #endregion
 
         #region 当面付
+        /// <summary>
+        /// 当面付
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
         [HttpPost("{orderId}")]
         [Authorize]
         public async Task<HbzsResult<string>> ScanCodeGen(int orderId)
@@ -341,7 +360,8 @@ namespace Xw.Zx.Core.Controllers
 
         }
 
-        //使用通道
+        [HttpGet]
+        [Authorize]
         public HbzsResult<bool> FirstUseAlipay()
         {
             var res = _context.SysParams.Any(s => s.Name == "FirstUseAlipay" && s.Value == "1");
@@ -352,23 +372,27 @@ namespace Xw.Zx.Core.Controllers
 
         #endregion
 
+        /// <summary>
+        /// 更新订单状态
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+
+        //public HbzsResult<string> Query(int orderId)
+        //{
 
 
-        public HbzsResult<string> Query(int orderId)
-        {
+        //    AlipayTradeQueryModel model = new AlipayTradeQueryModel();
+        //    model.OutTradeNo = "20201201153851803671";
+
+        //    AlipayTradeQueryRequest request = new AlipayTradeQueryRequest();
+
+        //    request.SetBizModel(model);
+
+        //    AlipayTradeQueryResponse response = _alipayService.Execute<AlipayTradeQueryResponse>(request);
 
 
-            AlipayTradeQueryModel model = new AlipayTradeQueryModel();
-            model.OutTradeNo = "20201201153851803671";
-
-            AlipayTradeQueryRequest request = new AlipayTradeQueryRequest();
-
-            request.SetBizModel(model);
-
-            AlipayTradeQueryResponse response = _alipayService.Execute<AlipayTradeQueryResponse>(request);
-        
-
-            return new HbzsResult<string>("111");
-        }
+        //    return new HbzsResult<string>("111");
+        //}
     }
 }

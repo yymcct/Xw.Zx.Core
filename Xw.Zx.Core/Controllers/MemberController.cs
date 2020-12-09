@@ -73,7 +73,7 @@ namespace Xw.Zx.Core.Controllers
                     InviteId = InviteUser.Id,
                     Email = "",
                     QueryTimes = 0,
-                    WxOpenId= user.OpenId
+                    WxOpenId = user.OpenId
                 };
 
                 var member = _context.Members.Add(model);
@@ -194,7 +194,7 @@ namespace Xw.Zx.Core.Controllers
                 {
                     throw new Exception($"该微信{weixinBindDto.OpenId}已绑定有用户，请先解绑. ");
                 }
-                else if ((!string.IsNullOrEmpty(member.WxOpenId)) &&member.WxOpenId != weixinBindDto.OpenId && member.Phone == weixinBindDto.Phone)
+                else if ((!string.IsNullOrEmpty(member.WxOpenId)) && member.WxOpenId != weixinBindDto.OpenId && member.Phone == weixinBindDto.Phone)
                 {
                     throw new Exception($"该手机{weixinBindDto.Phone}已绑定有用户，请先解绑.");
                 }
@@ -340,7 +340,7 @@ namespace Xw.Zx.Core.Controllers
             try
             {
                 var db = _context.Members
-                          .Where(m => m.Disabled == false && m.InviteId == Member.Id);      
+                          .Where(m => m.Disabled == false && m.InviteId == Member.Id);
 
                 var users = _mapper.Map<List<MyTeamUserDto>>(db.ToList());
 
@@ -443,6 +443,41 @@ namespace Xw.Zx.Core.Controllers
                 return new HbzsResult<MemberDto>(HbzsResultCode.Invalid_Error, ex.Message);
             }
         }
+        
+        /// <summary>
+        /// 获取其他人的个人详情. 需Admin权限
+        /// </summary>
+        /// <param name="memberId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public HbzsResult<MemberDto> GetMember([FromQuery]int memberId)
+        {
+            try
+            {
+                var user = _context.Members
+                    .First(m => m.Id == memberId && m.Disabled == false);
+
+                var memberDto = _mapper.Map<MemberDto>(user);
+
+                if (user.InviteId != 0)
+                {
+                    var inviteUser = _context.Members
+                       .FirstOrDefault(m => m.Id == user.InviteId && m.Disabled == false);
+                    if (inviteUser != null)
+                    {
+                        memberDto.InvitePhone = inviteUser.Phone;
+                    }
+                }
+                return new HbzsResult<MemberDto>(memberDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new HbzsResult<MemberDto>(HbzsResultCode.Invalid_Error, ex.Message);
+            }
+        }
+
 
         /// <summary>
         /// 修改用户基本信息
@@ -607,6 +642,55 @@ namespace Xw.Zx.Core.Controllers
                 return new HbzsResult(HbzsResultCode.Remote_Service_Error, "修改失败");
             }
         }
+
+        /// <summary>
+        /// 认证客户(需Admin 权限)
+        /// </summary>
+        /// <param name="memberId"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public HbzsResult Identity([FromQuery] int memberId)
+        {
+            try
+            {
+                var member = _context.Members.First(m => m.Id == memberId);
+                member.MemberIdentityState = MemberIdentityState.已认证;
+                _context.SaveChanges();
+                return new HbzsResult("已认证");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new HbzsResult(HbzsResultCode.Invalid_Error, "未找到用户");
+            }
+        }
+
+        /// <summary>
+        /// 对已认证的客户, 取消认证(需Admin 权限)
+        /// </summary>
+        /// <param name="memberId"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public HbzsResult UnIdentity([FromQuery] int memberId)
+        {
+            try
+            {
+                var member = _context.Members.First(m => m.Id == memberId);
+                member.MemberIdentityState = MemberIdentityState.未认证;
+                _context.SaveChanges();
+                return new HbzsResult("已取消认证");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new HbzsResult(HbzsResultCode.Invalid_Error, "未找到用户");
+            }
+        }
+
+
+
 
         private bool CheckSms(string phone, int code)
         {

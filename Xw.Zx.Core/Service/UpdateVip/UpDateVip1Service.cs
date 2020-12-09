@@ -16,11 +16,11 @@ namespace Xw.Zx.Core.Service
 {
     public class UpDateVip1Service : IUpDateVip1Service
     {
-        private readonly ILogger<AlipayController> _logger;
+        private readonly ILogger<UpDateVip1Service> _logger;
         private readonly AlipayService _alipayService;
         public readonly XwZxContext _context;
         public readonly IMapper _mapper;
-        public UpDateVip1Service(ILogger<AlipayController> logger
+        public UpDateVip1Service(ILogger<UpDateVip1Service> logger
             , XwZxContext xwZxContext
             , IMapper mapper
             , AlipayService alipayService)
