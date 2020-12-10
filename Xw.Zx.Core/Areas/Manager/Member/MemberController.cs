@@ -17,6 +17,7 @@ using Sieve.Services;
 using Microsoft.EntityFrameworkCore;
 using Xw.Zx.Core.Models.Model;
 
+
 namespace Xw.Zx.Core.Areas.Manager
 {
 
@@ -51,6 +52,29 @@ namespace Xw.Zx.Core.Areas.Manager
             {
                 _logger.LogError(ex.Message);
                 return new HbzsManagerResult<ManagerMemberDto>(HbzsManagerResultCode.Invalid_Error, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <param name="memberId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public HbzsManagerResult<MemberMDto> GetMember([FromQuery] int memberId)
+        {
+            try
+            {
+                var member = _context.Members.First(m => m.Id == memberId);
+
+                var memberDto = _mapper.Map<MemberMDto>(member);
+
+                return new HbzsManagerResult<MemberMDto>(memberDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new HbzsManagerResult<MemberMDto>(HbzsManagerResultCode.Invalid_Error, ex.Message);
             }
         }
 
@@ -184,7 +208,33 @@ namespace Xw.Zx.Core.Areas.Manager
 
         }
 
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public HbzsManagerResult PostChangeInvite([FromBody] PostChangeInviteDto dto)
+        {
+            try
+            {
+                if (!_context.Members.Any(m => m.Id == dto.InviteId)) 
+                {
+                    return new HbzsManagerResult(HbzsManagerResultCode.Invalid_Error, "邀请人不存在!");
+                }
 
+                var member = _context.Members.First(m => m.Id == dto.MemberId);
+                member.InviteId = dto.InviteId;
+                _context.SaveChanges();
+
+                return new HbzsManagerResult(HbzsManagerResultCode.Sucess, "");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new HbzsManagerResult(HbzsManagerResultCode.Invalid_Error, ex.Message);
+            }
+        }
 
 
         /// <summary>
@@ -196,11 +246,11 @@ namespace Xw.Zx.Core.Areas.Manager
         {
             try
             {
-                var parentMembers = new List<MemberMDto>(); 
+                var parentMembers = new List<MemberMDto>();
 
-                var member = _context.Members.FirstOrDefault(m => m.Id == memberId);               
+                var member = _context.Members.FirstOrDefault(m => m.Id == memberId);
 
-                if (member != null )
+                if (member != null)
                 {
                     parentMembers.Add(_mapper.Map<MemberMDto>(member));
 
@@ -208,7 +258,7 @@ namespace Xw.Zx.Core.Areas.Manager
                     {
                         var tmpMember = _context.Members.FirstOrDefault(m => m.Id == member.InviteId && m.Id != 6);
 
-                        if (tmpMember == null)  break;                       
+                        if (tmpMember == null) break;
 
                         parentMembers.Add(_mapper.Map<MemberMDto>(tmpMember));
 
@@ -218,7 +268,7 @@ namespace Xw.Zx.Core.Areas.Manager
 
                 parentMembers.Reverse();
 
-                return   new HbzsManagerResult<IEnumerable<MemberMDto>>(parentMembers);
+                return new HbzsManagerResult<IEnumerable<MemberMDto>>(parentMembers);
             }
             catch (Exception ex)
             {

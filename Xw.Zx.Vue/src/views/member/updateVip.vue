@@ -2,7 +2,7 @@
   <section>
     <!--TODO:删减编辑界面数据-->
     <el-dialog
-      :title="member.phone +'升级会员'"
+      :title="member?member.phone:'' +'升级会员'"
       :visible.sync="editFormVisible"
       :close-on-click-modal="false"
       @close="cancelSubmit"
@@ -10,7 +10,7 @@
       <el-row :span="24">
         <el-tag type="danger" class="tag">重要提示: 提交后立即产生收益单,客户可立即提现, 请核实电话,确认收款后操作</el-tag>
       </el-row>
-      <el-form :model="postUpdateVipMDto" label-width="80px" :rules="editFormRules" ref="editForm">
+      <el-form v-if="member" :model="postUpdateVipMDto" label-width="80px" :rules="editFormRules" ref="editForm">
         <el-row>
           <el-col :span="24">
             <el-tooltip class="item" effect="dark" content="选择升级的类型" placement="top-start">

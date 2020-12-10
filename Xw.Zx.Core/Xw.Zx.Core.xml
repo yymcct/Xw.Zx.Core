@@ -89,6 +89,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.MemberController.GetMember(System.Int32)">
+            <summary>
+            TODO
+            </summary>
+            <param name="memberId"></param>
+            <returns></returns>
+        </member>
         <member name="M:Xw.Zx.Core.Areas.Manager.MemberController.GetMembers(Sieve.Models.SieveModel)">
             <summary>
             TODO
@@ -107,6 +114,13 @@
             TODO
             </summary>
             <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.MemberController.PostChangeInvite(Xw.Zx.Core.Areas.Manager.PostChangeInviteDto)">
+            <summary>
+            TODO
+            </summary>
+            <param name="dto"></param>
             <returns></returns>
         </member>
         <member name="M:Xw.Zx.Core.Areas.Manager.MemberController.GetParent(System.Int32)">

@@ -6,7 +6,9 @@ export default {
         getValue : (name) => request.post(`/manager/SysParam/getValue?name=${name}`)
     },
     member:{
-        getParent:(memberId) => request.get(`/manager/Member/GetParent?memberId=${memberId}`)
+        getParent:(memberId) => request.get(`/manager/Member/GetParent?memberId=${memberId}`),
+        getMember:(memberId) => request.get(`/manager/Member/GetMember?memberId=${memberId}`),
+        changeInvite : (params) => request.post(`/manager/Member/PostChangeInvite`, params)
     }
 
 }
