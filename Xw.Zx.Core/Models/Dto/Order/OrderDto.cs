@@ -51,6 +51,12 @@ namespace Xw.Zx.Core.Models.Dto
         public OrderState OrderState { get; set; }
 
         public OrderPaymentType OrderPaymentType { get; set; }
+
+        public string CustomerName { get; set; }
+
+        public string CustomerPhone { get; set; }
+
+        public string Remark { get; set; }
     }
 
     public class PostOrderDto
@@ -60,5 +66,7 @@ namespace Xw.Zx.Core.Models.Dto
         public string CustomerName { get; set; }
 
         public string CustomerPhone { get; set; }
+
+        public string Remark { get; set; }
     }
 }

@@ -24,4 +24,5 @@ GET {{baseUrl}}/api/Member/GetMember?memberid=72
 Authorization: Bearer {{token}}
 
 ###
-GET {{baseUrl}}/api/Member/Identity
+POST {{baseUrl}}/api/Member/Identity?memiberid=72
+Authorization: Bearer {{token}}

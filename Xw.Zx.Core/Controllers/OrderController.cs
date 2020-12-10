@@ -103,6 +103,7 @@ namespace Xw.Zx.Core.Controllers
                     ProducName = product.Name,
                     CustomerName = postOrderDto.CustomerName,
                     CustomerPhone = postOrderDto.CustomerPhone,
+                    Remark = postOrderDto.Remark,
                     Amount = product.Price,
                     AddTime = DateTime.Now,
                     OrderState = OrderState.待付款,

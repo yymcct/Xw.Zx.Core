@@ -27,6 +27,19 @@
         </div>
       </div>
     </div>
+    <div
+      class="customer"
+      v-if="order.customerName || order.customerPhone || order.remark"
+    >
+      <div class="customer-title">
+        <p>客户信息</p>
+      </div>
+      <div class="customer-content">
+        <p>姓名: {{ order.customerName }}</p>
+        <p>电话: {{ order.customerPhone }}</p>
+        <p class="customer-content-remark">备注: {{ order.remark }}</p>
+      </div>
+    </div>
     <div class="coupon" v-if="userCouponCode">
       <van-field v-model="couponCode" placeholder="请输入兑换卷" />
       <van-button
@@ -207,10 +220,11 @@ export default {
               signType: _this.weixinjsApi.jsSignType, //微信签名方式：
               paySign: _this.weixinjsApi.jsPaySign, //微信签名
             },
-            function (res) {     
+            function (res) {
               //使用以下方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
               if (res.err_msg == "get_brand_wcpay_request:ok") {
-                window.location.href="http://jsq.lawss360.com/sqb/order/"+ _this.order.id;
+                window.location.href =
+                  "http://jsq.lawss360.com/sqb/order/" + _this.order.id;
                 //onSuccessMsg();
               } else {
                 //弹出之后，苹果手机会卡死
@@ -326,6 +340,27 @@ export default {
           line-height: 20px;
           color: #999999;
         }
+      }
+    }
+  }
+  .customer {
+    margin-top: 20px;
+    background-color: #fff;
+    padding: 10px;
+    color: #999999;
+    font-size: 15px;
+    line-height: 26px;
+    &-title{
+      p{
+        color: #333333;
+        font-size: 15px;
+        font-weight: bold;
+      }
+    }
+    &-content{
+      margin: 5px 10px 0px 10px;
+      &-remark{
+        font-size: 14px;
       }
     }
   }

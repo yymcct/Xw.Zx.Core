@@ -49,6 +49,9 @@ namespace Xw.Zx.Core.Models.Model
         [Column(TypeName = "nvarchar(50)")]
         public string CustomerPhone { get; set; }
 
+        [Column(TypeName = "nvarchar(500)")]
+        public string Remark { get; set; }
+
         public DateTime AddTime { get; set; } = DateTime.Now;
 
         [Sieve(CanFilter = true, CanSort = true)]

@@ -82,12 +82,26 @@
           </p>
         </template>
       </el-table-column>
-      <el-table-column prop="realName" label="客户姓名" width="130px">
+      <el-table-column prop="realName" label="客户姓名" width="160px">
         <template slot-scope="scope">
-          <p style="font-weight: bold">{{ scope.row.customerName }}</p>
-          <p style="color: #999999; font-weight: bold">
-            {{ scope.row.customerPhone }}
-          </p>
+          <el-popover trigger="hover" placement="top">
+            <p style="font-weight: bold">{{ scope.row.customerName }}</p>
+            <p style="color: #999999; font-weight: bold">
+              {{ scope.row.customerPhone }}
+            </p>
+            <p style="color: #999999;" v-if="scope.row.remark">
+              备注: {{ scope.row.remark }}
+            </p>
+            <div slot="reference" class="name-wrapper">
+              <p style="font-weight: bold">{{ scope.row.customerName }}</p>
+              <p style="color: #999999; font-weight: bold">
+                {{ scope.row.customerPhone }}
+              </p>
+              <p style="color: #999999; overflow: hidden;text-overflow:ellipsis;white-space: nowrap;" v-if="scope.row.remark">
+                备注: {{ scope.row.remark }}
+              </p>
+            </div>
+          </el-popover>
         </template>
       </el-table-column>
       <el-table-column
@@ -116,11 +130,10 @@
 </template>
 
 <script>
-
-import parent from "./parent"
-import { api_getOrderMDtos, api_delOrderMDto } from "../../api/api";
+import parent from "./parent";
+import { api_getOrderMDtos } from "../../api/api";
 export default {
-  components: {parent},
+  components: { parent },
   data() {
     return {
       requestParams: {
@@ -137,10 +150,10 @@ export default {
       orderMDtos: null,
       total: 0,
       listLoading: false,
-      parent:{
-        showParent:false,
-        memberId:0
-      }
+      parent: {
+        showParent: false,
+        memberId: 0,
+      },
     };
   },
   methods: {

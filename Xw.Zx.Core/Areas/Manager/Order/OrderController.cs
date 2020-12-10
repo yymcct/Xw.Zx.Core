@@ -56,7 +56,8 @@ namespace Xw.Zx.Core.Areas.Manager
                              RealName = _context.Members.FirstOrDefault(m => m.Id == order.MemberId).RealName,
                              OrderPaymentType = order.OrderPaymentType,
                              OrderPaymentTypeName = order.OrderPaymentType.ToString(),
-                             Timestamp = order.Timestamp
+                             Timestamp = order.Timestamp,
+                             Remark = order.Remark
                          };
 
                 var result = new OrderTotalMDto()

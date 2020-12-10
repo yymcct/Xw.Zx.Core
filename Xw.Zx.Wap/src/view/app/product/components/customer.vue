@@ -7,7 +7,7 @@
       lazy-render
       :close-on-click-overlay="false"
       @close="close"
-      :style="{ height: '45%' }"
+      :style="{ height: '55%' }"
     >
       <div class="content">
         <h1>客户信息</h1>
@@ -15,13 +15,23 @@
           v-model="dto.customerName"
           required
           label="姓名"
-          placeholder="请输入姓名"
+          placeholder="请输入身份证姓名"
         />
         <van-field
           v-model="dto.customerPhone"
           required
           label="手机"
           placeholder="请输入手机号"
+        />
+        <van-field
+          v-model="dto.remark"
+          rows="2"
+          autosize
+          label="备注"
+          type="textarea"
+          maxlength="200"
+          placeholder="请输入预定备注"
+          show-word-limit
         />
         <van-button
           class="content-btn"
@@ -62,6 +72,7 @@ export default {
         productId: 0,
         customerName: "",
         customerPhone: "",
+        remark:""
       },
     };
   },

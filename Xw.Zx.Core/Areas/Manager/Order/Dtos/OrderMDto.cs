@@ -41,5 +41,7 @@ namespace Xw.Zx.Core.Areas.Manager
         public string OrderPaymentTypeName { get; set; }
         [Sieve(CanFilter = true)]
         public string Timestamp { get; set; }
+
+        public string Remark { get; set; }
     }
 }
