@@ -16,7 +16,7 @@ using Sieve.Models;
 using Sieve.Services;
 using Microsoft.EntityFrameworkCore;
 using Xw.Zx.Core.Models.Model;
-
+using AutoMapper.QueryableExtensions;
 
 namespace Xw.Zx.Core.Areas.Manager
 {
@@ -218,7 +218,7 @@ namespace Xw.Zx.Core.Areas.Manager
         {
             try
             {
-                if (!_context.Members.Any(m => m.Id == dto.InviteId)) 
+                if (!_context.Members.Any(m => m.Id == dto.InviteId))
                 {
                     return new HbzsManagerResult(HbzsManagerResultCode.Invalid_Error, "邀请人不存在!");
                 }
@@ -275,6 +275,18 @@ namespace Xw.Zx.Core.Areas.Manager
                 _logger.LogError(ex.Message);
                 return new HbzsManagerResult<IEnumerable<MemberMDto>>(HbzsManagerResultCode.Invalid_Error, ex.Message);
             }
+        }
+
+
+        [HttpGet]
+        public HbzsManagerResult<IEnumerable<QueryMemberDto>> QueryMember(string key)
+        {
+            var result = _context.Members
+                  .Where(m => (m.Disabled == false) && (m.Phone == key || m.RealName == key))
+                  .ProjectTo<QueryMemberDto>(_mapper.ConfigurationProvider)
+                  .ToArray();
+
+            return new HbzsManagerResult<IEnumerable<QueryMemberDto>>(result);
         }
     }
 }
