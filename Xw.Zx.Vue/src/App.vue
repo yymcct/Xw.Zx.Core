@@ -39,7 +39,7 @@ body {
 }
 
 .toolbar {
-	background: #f2f2f2;
+	background-color: #ff51000a;
 	padding: 10px;
 	margin: 10px 0px;
   .el-form-item {
@@ -55,5 +55,22 @@ body {
 .fade-enter,
 .fade-leave-active {
 	opacity: 0;
+}
+</style>
+<style  >
+.el-table--enable-row-hover .el-table__body tr:hover > td {
+  background-color: #ff510025 !important;
+}
+/* .el-pagination .el-pager li:not(.active) {
+  background-color: #06a65e10 !important;
+} */
+/* .el-pagination .btn-prev {
+  background-color: #06a65e10 !important;
+} */
+/* .el-pagination .btn-next {
+  background-color: #06a65e10 !important;
+} */
+.el-image-viewer__close .el-icon-circle-close {
+  color: #fff;
 }
 </style>

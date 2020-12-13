@@ -34,8 +34,7 @@
             class="el-menu-vertical-demo"
             router
             menu-trigger="hover"
-            background-color="#eef1f6"
-            active-text-color="#04ac74"
+            active-text-color="#ff5000"
             :collapse="collapsed"
           >
             <template v-for="(item, index) in $router.options.routes">
@@ -50,7 +49,7 @@
                 </template>
                 <template v-for="child in item.children">
                   <el-menu-item
-                    class="menu-item"         
+                    class="menu-item"
                     :index="child.path"
                     :key="child.path"
                     v-if="!child.hidden"
@@ -157,7 +156,7 @@ export default {
   .header {
     height: 40px;
     line-height: 40px;
-    background: #04ac74;
+    background: #ff5100ad;
     color: #fff;
     .userinfo {
       text-align: right;

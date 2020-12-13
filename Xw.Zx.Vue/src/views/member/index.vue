@@ -51,10 +51,7 @@
       highlight-current-row
       v-loading="listLoading"
       style="width: 100%"
-      :header-cell-style="{
-        'background-color': '#eef1f6',
-        color: '#1f2d3d',
-      }"
+
     >
       <el-table-column
         prop="id"
@@ -178,11 +175,9 @@
 
 <script>
 import { api_getMemberMDtos, api_delMemberMDto } from "../../api/api";
-import { type } from "os";
 import edit from "./edit";
 import chageInvite from "./chageInvite";
 import UpdateVip from "./updateVip";
-import { MessageBox, Message } from "element-ui";
 import parentTree from "@/components/parentTree";
 export default {
   components: {
