@@ -97,10 +97,6 @@ namespace Xw.Zx.Core.Areas.Manager
                          {
                              Id = member.Id,
                              RoleName = member.RoleName,
-                             Password = member.Password,
-                             Nick = member.Nick,
-                             Photo = member.Photo,
-                             BirthDay = member.BirthDay,
                              Phone = member.Phone,
                              WxOpenId = member.WxOpenId,
                              CreateDate = member.CreateDate,
@@ -109,7 +105,6 @@ namespace Xw.Zx.Core.Areas.Manager
                              MemberVipType = member.MemberVipType,
                              MemberVipTypeName = member.MemberVipType.ToString(),
                              AliPayAccount = member.AliPayAccount,
-                             QueryTimes = member.QueryTimes,
                              InviteId = member.InviteId,
                              InviteName = _context.Members.FirstOrDefault(m => m.Id == member.InviteId).RealName,
                              InvitePhone = _context.Members.FirstOrDefault(m => m.Id == member.InviteId).Phone
@@ -125,32 +120,32 @@ namespace Xw.Zx.Core.Areas.Manager
                 return new HbzsManagerResult<List<MemberMDto>>(HbzsManagerResultCode.Invalid_Error, ex.Message);
             }
         }
+
         /// <summary>
-        /// TODO
+        /// 修改会员信息
         /// </summary>
+        /// <param name="id"></param>
         /// <param name="membermdto"></param>
         /// <returns></returns>
-        [HttpPost]
-        public HbzsManagerResult PostMember([FromBody] PostMemberMDto membermdto)
+        [HttpPut]
+        public HbzsManagerResult PutMember([FromQuery] int id, [FromBody] PostMemberMDto membermdto)
         {
-            try
-            {
-                if (membermdto.Id == 0)
-                {
-                    AddMember(membermdto);
-                }
-                else
-                {
-                    UpdateMember(membermdto);
-                }
+            var member = _context.Members.First(m => m.Id == id);
 
-                return new HbzsManagerResult(HbzsManagerResultCode.Sucess, "");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return new HbzsManagerResult(HbzsManagerResultCode.Invalid_Error, ex.Message);
-            }
+            member.RealName = membermdto.RealName;
+            member.BusinessCode = membermdto.BusinessCode;
+            member.IdentityCardNum = membermdto.IdentityCardNum;
+            member.Remark = membermdto.Remark;
+            member.MemberVipType = membermdto.MemberVipType;
+            
+
+            _context.Entry(member).State = EntityState.Modified;
+
+            _context.SaveChanges();
+
+            //TODO 数据库记录变更
+
+            return new HbzsManagerResult(HbzsManagerResultCode.Sucess,"");
         }
 
         /// <summary>
@@ -176,41 +171,6 @@ namespace Xw.Zx.Core.Areas.Manager
                 _logger.LogError(ex.Message);
                 return new HbzsManagerResult(HbzsManagerResultCode.Invalid_Error, ex.Message);
             }
-        }
-
-        private void AddMember(PostMemberMDto membermdto)
-        {
-            var member = new Member()
-            {
-                RoleName = membermdto.RoleName,
-                Password = membermdto.Password,
-                Nick = membermdto.Nick,
-                Photo = membermdto.Photo,
-                BirthDay = membermdto.BirthDay,
-                Phone = membermdto.Phone,
-                Remark = membermdto.Remark,
-            };
-
-            _context.Members.Add(member);
-
-            _context.SaveChanges();
-        }
-
-        private void UpdateMember(PostMemberMDto membermdto)
-        {
-            var member = _context.Members.First(m => m.Id == membermdto.Id);
-
-            member.Password = membermdto.Password;
-            member.Nick = membermdto.Nick;
-            member.Photo = membermdto.Photo;
-            member.BirthDay = membermdto.BirthDay;
-            member.Phone = membermdto.Phone;
-            member.Remark = membermdto.Remark;
-
-            _context.Entry(member).State = EntityState.Modified;
-
-            _context.SaveChanges();
-
         }
 
         /// <summary>
@@ -324,7 +284,7 @@ namespace Xw.Zx.Core.Areas.Manager
             {
                 IEnumerable<MemberTreeNodeDto> nodes = GetBrother(memberId);
                 if (nodes == null)
-                   break;
+                    break;
 
                 if (tree == null)
                 {
@@ -343,9 +303,29 @@ namespace Xw.Zx.Core.Areas.Manager
             return new HbzsManagerResult<IEnumerable<MemberTreeNodeDto>>(tree);
         }
 
+        [HttpGet]
+        public HbzsManagerResult<IEnumerable<MemberTreeNodeDto>> ChildrenTree(int memberId)
+        {
+            var member = _context
+                 .Members
+                 .Where(m => m.InviteId == memberId)
+                 .ProjectTo<MemberTreeNodeDto.Member>(_mapper.ConfigurationProvider)
+                 .ToArray();
 
+            var nodes = member.Select(m =>
+            {
+                var node = new MemberTreeNodeDto()
+                {
+                    Members = m
+                };
 
+                node.Members.MemberVipTypeName = node.Members.MemberVipType.ToString();
 
+                return node;
+            }).OrderByDescending(n => n.Members.IsDirectLine).ToArray();
+
+            return new HbzsManagerResult<IEnumerable<MemberTreeNodeDto>>(nodes);
+        }
 
         [HttpGet]
         public HbzsManagerResult<IEnumerable<QueryMemberDto>> QueryMember(string key)

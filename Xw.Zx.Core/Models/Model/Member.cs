@@ -18,14 +18,11 @@ namespace Xw.Zx.Core.Models.Model
     }
     public enum MemberVipType
     {
-        普通 = 0,
-        Vip会员 = 1,
-        创客 = 2,
-        服务站 = 3,
-        运营商 = 4,
-        会员 = 10,
-        合伙人 = 20,
-        运营中心 = 30
+        客户 = 0,
+        业务经理 = 10,
+        运营中心 = 20,
+        大区经理 = 30,
+        分公司 = 40,
     }
     public class Member : ModelBase
     {
@@ -35,7 +32,7 @@ namespace Xw.Zx.Core.Models.Model
         /// </summary>
         public int InviteId { get; set; } = 0;
 
-        public MemberVipType MemberVipType { get; set; } = MemberVipType.普通;
+        public MemberVipType MemberVipType { get; set; } = MemberVipType.客户;
 
         public int RoleId
         { get; set; } = 0;

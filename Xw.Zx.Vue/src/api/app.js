@@ -8,9 +8,11 @@ export default {
     member: {
         getParent: (memberId) => request.get(`/manager/Member/GetParent?memberId=${memberId}`),
         parentTree: (memberId) => request.get(`/manager/Member/ParentTree?memberId=${memberId}`),
+        childrenTree: (memberId) => request.get(`/manager/Member/ChildrenTree?memberId=${memberId}`),
         getMember: (memberId) => request.get(`/manager/Member/GetMember?memberId=${memberId}`),
         changeInvite: (params) => request.post(`/manager/Member/PostChangeInvite`, params),
-        queryMember: (key) => request.get(`/manager/Member/QueryMember?key=${key}`)
+        queryMember: (key) => request.get(`/manager/Member/QueryMember?key=${key}`),
+        put: (id, params) => request.put(`/manager/Member/PutMember?id=${id}`, params)
     }
 
 }

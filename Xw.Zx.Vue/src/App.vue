@@ -59,7 +59,7 @@ body {
 </style>
 <style  >
 .el-table--enable-row-hover .el-table__body tr:hover > td {
-  background-color: #ff510025 !important;
+  background-color: #ff510015 !important;
 }
 /* .el-pagination .el-pager li:not(.active) {
   background-color: #06a65e10 !important;

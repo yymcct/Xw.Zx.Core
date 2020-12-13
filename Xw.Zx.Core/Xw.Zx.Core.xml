@@ -83,6 +83,11 @@
             待提现
             </summary>
         </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.MemberMDto.IdentityCardNum">
+            <summary>
+            身份证号
+            </summary>
+        </member>
         <member name="M:Xw.Zx.Core.Areas.Manager.MemberController.GetUser">
             <summary>
             获取用户
@@ -102,10 +107,11 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Xw.Zx.Core.Areas.Manager.MemberController.PostMember(Xw.Zx.Core.Areas.Manager.PostMemberMDto)">
+        <member name="M:Xw.Zx.Core.Areas.Manager.MemberController.PutMember(System.Int32,Xw.Zx.Core.Areas.Manager.PostMemberMDto)">
             <summary>
-            TODO
+            修改会员信息
             </summary>
+            <param name="id"></param>
             <param name="membermdto"></param>
             <returns></returns>
         </member>

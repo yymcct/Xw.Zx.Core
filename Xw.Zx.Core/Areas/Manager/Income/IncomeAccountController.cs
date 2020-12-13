@@ -87,7 +87,7 @@ namespace Xw.Zx.Core.Areas.Manager
                 //         };
 
 
-                var db = from member in _context.Members.Where(m => m.MemberVipType != MemberVipType.普通)
+                var db = from member in _context.Members.Where(m => m.MemberVipType != MemberVipType.客户)
                          select new IncomeAccountMDto
                          {
                              MemberId = member.Id,

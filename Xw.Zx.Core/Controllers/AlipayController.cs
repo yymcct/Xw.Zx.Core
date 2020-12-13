@@ -59,7 +59,7 @@ namespace Xw.Zx.Core.Controllers
         /// <returns></returns>
         [HttpGet]
         [Authorize]
-        public HbzsResult<AliPayOrderDto> GetUpdateVip1Order(MemberVipType toVipType = MemberVipType.Vip会员)
+        public HbzsResult<AliPayOrderDto> GetUpdateVip1Order(MemberVipType toVipType = MemberVipType.客户)
         {
             try
             {

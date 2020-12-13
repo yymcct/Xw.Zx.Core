@@ -91,14 +91,14 @@ namespace Xw.Zx.Core.Areas.Manager.UpdateVip
 
             switch (memberVipType)
             {
-                case MemberVipType.Vip会员:
-                    producName = "升级会员"; break;
-                case MemberVipType.创客:
-                    producName = "升级创客"; break;
-                case MemberVipType.服务站:
-                    producName = "升级服务站"; break;
-                case MemberVipType.运营商:
-                    producName = "升级运营商"; break;
+                case MemberVipType.客户:
+                    producName = "升级客户"; break;
+                case MemberVipType.大区经理:
+                    producName = "升级大区经理"; break;
+                case MemberVipType.运营中心:
+                    producName = "升级运营中心"; break;
+                case MemberVipType.分公司:
+                    producName = "升级分公司"; break;
             }
 
             return _context.Products.First(p => p.Name == producName);

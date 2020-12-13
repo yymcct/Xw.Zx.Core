@@ -24,7 +24,7 @@ export const getUser = () => request.get('/manager/Member/GetUser');
 
 //用户管理
 export const api_getMemberMDtos = (params) => request.get('/manager/Member/GetMembers', { params: params });
-export const api_postMemberMDto = (params) => request.post('/manager/Member/PostMember', params);
+
 export const api_delMemberMDto = (id) => request.get('/manager/Member/DeleteMember', { params: { 'id': id } });
 //升级VIP
 export const api_PostUpdateVip = (params) => request.post('/manager/UpdateVip/UpdateVip', params);

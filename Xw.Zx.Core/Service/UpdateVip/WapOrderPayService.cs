@@ -47,7 +47,7 @@ namespace Xw.Zx.Core.Service
                 switch (order.ProductId)
                 {
                     case 7: member.MemberVipType = MemberVipType.运营中心; break;
-                    case 8: member.MemberVipType = MemberVipType.合伙人; break;
+                    case 8: member.MemberVipType = MemberVipType.大区经理; break;
                 }
                 _context.Entry(member).State = EntityState.Modified;
 

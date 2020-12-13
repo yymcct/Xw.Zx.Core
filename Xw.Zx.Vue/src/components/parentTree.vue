@@ -20,6 +20,15 @@
               }"
             >
               {{ scope.data.members.realName }} {{ scope.data.members.phone }}
+              <span>
+                <el-link
+                  type="primary"
+                  class="get-children"
+                  v-if="scope.data.children == null"
+                  @click="getChildren(scope.data)"
+                  >查看下级</el-link
+                ></span
+              >
             </span>
           </div>
         </template>
@@ -70,9 +79,9 @@ export default {
       this.$emit("input", false);
     },
     init() {
-      this.tree=[];
+      this.tree = [];
       const loading = this.$loading({
-        target:document.querySelector('.loadingtarget'),
+        // target: document.querySelector(".loadingtarget"),
         lock: true,
         text: "Loading",
         spinner: "el-icon-loading",
@@ -82,6 +91,24 @@ export default {
         .parentTree(this.memberId)
         .then((res) => {
           this.tree = res.result;
+          loading.close();
+        })
+        .catch(() => {
+          loading.close();
+        });
+    },
+    getChildren(data) {
+      const loading = this.$loading({
+        //target: document.querySelector(".loadingtarget"),
+        lock: true,
+        text: "Loading",
+        spinner: "el-icon-loading",
+        background: "rgba(0, 0, 0, 0.2)",
+      });
+      api.member
+        .childrenTree(data.members.id)
+        .then((res) => {
+          data.children = res.result;
           loading.close();
         })
         .catch(() => {
@@ -98,5 +125,9 @@ export default {
 .level0 {
   color: #ff5000;
   font-weight: bold;
+}
+.get-children {
+  font-size: 13px;
+  margin-left: 10px;
 }
 </style>

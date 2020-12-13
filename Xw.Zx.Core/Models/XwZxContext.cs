@@ -102,7 +102,7 @@ namespace Xw.Zx.Core.Models.Model
 
             modelBuilder.Entity<UpdateVipAuthCode>()
                   .Property(o => o.MemberVipType)
-                  .HasDefaultValue(MemberVipType.会员);
+                  .HasDefaultValue(MemberVipType.客户);
 
             modelBuilder.Entity<SysParam>()
                .HasQueryFilter(c => !c.IsDelete)

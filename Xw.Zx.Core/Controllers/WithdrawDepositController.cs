@@ -54,7 +54,7 @@ namespace Xw.Zx.Core.Controllers
         {
             try
             {
-                if (Member.MemberVipType == MemberVipType.普通 || Member.Disabled == true)
+                if (Member.MemberVipType == MemberVipType.客户 || Member.Disabled == true)
                 {
                     return new HbzsResult(HbzsResultCode.Invalid_Error, "您的账户异常, 请人工处理!");
                 }

@@ -18,7 +18,7 @@
           <el-input
             class="keyword"
             v-model="filters.keywords"
-            placeholder="角色,姓名,手机号,备注,会员类型,推荐人,推荐人电话"
+            placeholder="角色,姓名,手机号,备注,会员类型"
           ></el-input>
         </el-form-item>
         <el-form-item>
@@ -51,7 +51,6 @@
       highlight-current-row
       v-loading="listLoading"
       style="width: 100%"
-
     >
       <el-table-column
         prop="id"
@@ -119,17 +118,17 @@
       ></el-table-column>
       <el-table-column label="操作" width="140px">
         <template scope="scope">
-          <el-button
+          <!-- <el-button
             type="danger"
             size="mini"
             @click="handleUpdateVip(scope.$index, scope.row)"
             >升级</el-button
-          >
-          <!-- <i
+          > -->
+          <i
             class="el-icon-edit"
-            style="margin: 0 5px; font-weight:bold;cursor: pointer;"
-            @click="handleEdit(scope.$index, scope.row)"
-          ></i> -->
+            style="margin: 0 5px; font-weight: bold; cursor: pointer"
+            @click="showEdit(scope.row)"
+          ></i>
           <!-- <i
             class="el-icon-delete"
             style="margin: 0 5px; font-weight:bold;cursor: pointer;"
@@ -153,11 +152,11 @@
       ></el-pagination>
     </el-col>
 
-    <edit
-      :action="editAction"
-      :PostMemberMDto="editForm"
-      @change="editChange"
-    ></edit>
+    <edit-member
+      v-model="edit.show"
+      :memberId="edit.memberId"
+      @change="getMemberMDtos()"
+    />
     <update-vip
       :action="updateVipAction"
       :member="updateMember"
@@ -175,13 +174,13 @@
 
 <script>
 import { api_getMemberMDtos, api_delMemberMDto } from "../../api/api";
-import edit from "./edit";
+import editMember from "./editMember";
 import chageInvite from "./chageInvite";
 import UpdateVip from "./updateVip";
 import parentTree from "@/components/parentTree";
 export default {
   components: {
-    edit,
+    editMember,
     UpdateVip,
     chageInvite,
     parentTree,
@@ -209,7 +208,10 @@ export default {
       editAction: "none",
       updateMember: null,
       updateVipAction: "none",
-
+      edit: {
+        show: false,
+        memberId: 0,
+      },
       changInvite: {
         show: false,
         memberId: 0,
@@ -238,7 +240,7 @@ export default {
         this.requestParams.filters += `MemberVipType==${this.filters.vipType},`;
 
       if (this.filters.keywords)
-        this.requestParams.filters += `(RoleName|Phone|Remark|RealName|inviteName|invitePhone)@=${this.filters.keywords},`;
+        this.requestParams.filters += `(RoleName|Phone|Remark|RealName)@=${this.filters.keywords},`;
 
       if (this.filters.addTimeStart)
         this.requestParams.filters += `CreateDate>=${this.filters.addTimeStart},`;
@@ -258,44 +260,16 @@ export default {
         type: "error",
         duration: 5 * 1000,
       });
-      // this.editForm = Object.assign({}, row);
-      // this.editAction = "edit";
     },
     //显示新增界面
     handleAdd: function () {
       this.editAction = "add";
     },
-    //删除
-    handleDel: function (index, row) {
-      Message({
-        message: "TODO 开发中..",
-        type: "error",
-        duration: 5 * 1000,
-      });
-      // this.$confirm("确认删除?", "提示", { type: "warning" }).then(() => {
-      //   this.listLoading = true;
-      //   //NProgress.start();
-      //   api_delMemberMDto(row.id).then(res => {
-      //     this.listLoading = false;
-      //     //NProgress.done();
-      //     this.$message({
-      //       message: "删除成功",
-      //       type: "success"
-      //     });
-      //     this.getMemberMDtos();
-      //   });
-      // });
-    },
     handleUpdateVip(index, row) {
       this.updateMember = Object.assign({}, row);
       this.updateVipAction = "edit";
     },
-    editChange(cancel) {
-      this.editAction = "none";
-      if (cancel != "cancel") {
-        this.getMemberMDtos();
-      }
-    },
+
     updateVipChange(cancel) {
       this.updateVipAction = "none";
       if (cancel != "cancel") {
@@ -312,6 +286,10 @@ export default {
     showParentTree(row) {
       this.parentTree.memberId = row.id;
       this.parentTree.show = true;
+    },
+    showEdit(row) {
+      this.edit.memberId = row.id;
+      this.edit.show = true;
     },
   },
 
