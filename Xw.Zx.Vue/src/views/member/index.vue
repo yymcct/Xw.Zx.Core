@@ -68,13 +68,25 @@
         width="100px"
         sortable
       ></el-table-column>
-      <el-table-column prop="realName" label="姓名" sortable></el-table-column>
-      <el-table-column
+      <el-table-column prop="realName" label="姓名" width="140px" sortable>
+        <template slot-scope="scope">
+          <p style="font-weight: bold">{{ scope.row.realName }}</p>
+          <p style="color: #999999; font-weight: bold">
+            {{ scope.row.phone }}
+          </p>
+          <p>
+            <el-link type="primary" @click="showParentTree(scope.row)"
+              >查看团队树</el-link
+            >
+          </p>
+        </template>
+      </el-table-column>
+      <!-- <el-table-column
         prop="phone"
         label="手机"
         width="120px"
         sortable
-      ></el-table-column>
+      ></el-table-column> -->
       <el-table-column
         prop="memberVipTypeName"
         label="级别"
@@ -89,7 +101,7 @@
           </p>
           <p>
             <el-link type="primary" @click="showChangeInvite(scope.row)"
-              >更改</el-link
+              >更改上级</el-link
             >
           </p>
         </template>
@@ -159,23 +171,25 @@
       :memberId="changInvite.memberId"
       @change="changInviteHandle"
     />
+
+    <parent-tree v-model="parentTree.show" :memberId="parentTree.memberId" />
   </section>
 </template>
 
 <script>
-
-
 import { api_getMemberMDtos, api_delMemberMDto } from "../../api/api";
 import { type } from "os";
 import edit from "./edit";
 import chageInvite from "./chageInvite";
 import UpdateVip from "./updateVip";
 import { MessageBox, Message } from "element-ui";
+import parentTree from "@/components/parentTree";
 export default {
   components: {
     edit,
     UpdateVip,
     chageInvite,
+    parentTree,
   },
   data() {
     return {
@@ -202,6 +216,10 @@ export default {
       updateVipAction: "none",
 
       changInvite: {
+        show: false,
+        memberId: 0,
+      },
+      parentTree: {
         show: false,
         memberId: 0,
       },
@@ -295,6 +313,10 @@ export default {
     },
     changInviteHandle() {
       this.getMemberMDtos();
+    },
+    showParentTree(row) {
+      this.parentTree.memberId = row.id;
+      this.parentTree.show = true;
     },
   },
 

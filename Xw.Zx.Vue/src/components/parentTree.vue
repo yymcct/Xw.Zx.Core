@@ -3,14 +3,27 @@
 <template>
   <section>
     <el-dialog
-      title="关系树"
+      title="团队树"
       :visible.sync="dialogVisible"
       :close-on-click-modal="false"
       @close="cancelSubmit"
       width="60%"
     >
+      <el-tree :data="tree" :props="defaultProps" default-expand-all>
+        <template slot-scope="scope">
+          <div class="categorys">
+            <span
+              :class="{
+                level0: scope.data.members.isDirectLine == true,
+              }"
+            >
+              {{ scope.data.members.realName }} {{ scope.data.members.phone }}
+            </span>
+          </div>
+        </template>
+      </el-tree>
       <!--列表-->
-      <el-table
+      <!-- <el-table
         :data="members"
         highlight-current-row
         v-loading="loading"
@@ -24,14 +37,10 @@
         ></el-table-column>
         <el-table-column
           prop="realName"
-          label="姓名"   
+          label="姓名"
           sortable
         ></el-table-column>
-        <el-table-column
-          prop="phone"
-          label="手机"
-          sortable
-        ></el-table-column>
+        <el-table-column prop="phone" label="手机" sortable></el-table-column>
         <el-table-column
           prop="memberVipTypeName"
           label="级别"
@@ -44,7 +53,7 @@
           width="100px"
           sortable
         ></el-table-column>
-      </el-table>
+      </el-table> -->
 
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancelSubmit">取消</el-button>
@@ -78,6 +87,11 @@ export default {
       dialogVisible: false,
       loading: false,
       members: [],
+      tree: [],
+      defaultProps: {
+        children: "children",
+        label: "label",
+      },
     };
   },
   methods: {
@@ -88,10 +102,19 @@ export default {
     },
     init() {
       this.loading = true;
+      // api.member
+      //   .getParent(this.memberId)
+      //   .then((res) => {
+      //     this.members = res.result;
+      //     this.loading = false;
+      //   })
+      //   .catch(() => {
+      //     this.loading = false;
+      //   });
       api.member
-        .getParent(this.memberId)
+        .parentTree(this.memberId)
         .then((res) => {
-          this.members = res.result;
+          this.tree = res.result;
           this.loading = false;
         })
         .catch(() => {
@@ -103,5 +126,9 @@ export default {
 };
 </script>
 
-<style scoped>
+
+<style lang="scss" scoped>
+.level0 {
+  color: #ff5000;
+}
 </style>

@@ -7,6 +7,7 @@ export default {
     },
     member: {
         getParent: (memberId) => request.get(`/manager/Member/GetParent?memberId=${memberId}`),
+        parentTree: (memberId) => request.get(`/manager/Member/ParentTree?memberId=${memberId}`),
         getMember: (memberId) => request.get(`/manager/Member/GetMember?memberId=${memberId}`),
         changeInvite: (params) => request.post(`/manager/Member/PostChangeInvite`, params),
         queryMember: (key) => request.get(`/manager/Member/QueryMember?key=${key}`)

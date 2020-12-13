@@ -76,20 +76,20 @@
             {{ scope.row.memberPhone }}
           </p>
           <p>
-            <el-link type="primary" @click="getParent(scope.row)"
-              >查看关系树</el-link
+            <el-link type="primary" @click="showParentTree(scope.row)"
+              >查看团队树</el-link
             >
           </p>
         </template>
       </el-table-column>
-      <el-table-column prop="realName" label="客户姓名" width="160px">
+      <el-table-column prop="realName" label="客户姓名" width="180px">
         <template slot-scope="scope">
           <el-popover trigger="hover" placement="top">
             <p style="font-weight: bold">{{ scope.row.customerName }}</p>
             <p style="color: #999999; font-weight: bold">
               {{ scope.row.customerPhone }}
             </p>
-            <p style="color: #999999;" v-if="scope.row.remark">
+            <p style="color: #999999" v-if="scope.row.remark">
               备注: {{ scope.row.remark }}
             </p>
             <div slot="reference" class="name-wrapper">
@@ -97,18 +97,29 @@
               <p style="color: #999999; font-weight: bold">
                 {{ scope.row.customerPhone }}
               </p>
-              <p style="color: #999999; overflow: hidden;text-overflow:ellipsis;white-space: nowrap;" v-if="scope.row.remark">
+              <p
+                style="
+                  color: #999999;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                "
+                v-if="scope.row.remark"
+              >
                 备注: {{ scope.row.remark }}
               </p>
             </div>
           </el-popover>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="addTime"
-        label="时间"
-        width="120px"
-      ></el-table-column>
+      <el-table-column prop="addTime" label="时间" width="120px">
+        <template slot-scope="scope">
+          <p >{{ scope.row.addTime.split(' ')[0] }}</p>
+          <p style="color: #999999; font-size: 14px;">
+            {{ scope.row.addTime.split(' ')[1] }}
+          </p>
+        </template>
+      </el-table-column>
     </el-table>
 
     <!--工具条align='center'-->
@@ -130,7 +141,7 @@
 </template>
 
 <script>
-import parent from "./parent";
+import parent from "@/components/parentTree";
 import { api_getOrderMDtos } from "../../api/api";
 export default {
   components: { parent },
@@ -184,7 +195,7 @@ export default {
         this.total = respone.total;
       });
     },
-    getParent(val) {
+    showParentTree(val) {
       this.parent.showParent = true;
       this.parent.memberId = val.memberId;
     },

@@ -61,7 +61,7 @@ namespace Xw.Zx.Core
 
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-                .AddJsonOptions(options => { options.SerializerSettings.DateFormatString = "yyyy-MM-dd"; });
+                .AddJsonOptions(options => { options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss"; });
 
 
 

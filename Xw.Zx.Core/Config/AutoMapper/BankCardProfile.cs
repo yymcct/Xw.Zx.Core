@@ -39,6 +39,8 @@ namespace Xw.Zx.Core.Config.AutoMapper
             CreateMap<LxComputer, LxComputerMDto>();
 
             CreateMap<Member, QueryMemberDto>();
+
+            CreateMap<Member, MemberTreeNodeDto.Member>();
         }
     }
 }

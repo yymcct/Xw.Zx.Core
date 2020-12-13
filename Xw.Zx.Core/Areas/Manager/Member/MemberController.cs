@@ -282,12 +282,76 @@ namespace Xw.Zx.Core.Areas.Manager
             }
         }
 
+        public IEnumerable<MemberTreeNodeDto> GetBrother(int memberId)
+        {
+            if (memberId == 0)
+                return null;
+
+            var inviteId = _context.Members
+                .Where(m => m.Id == memberId)
+                .Select(m => m.InviteId)
+                .FirstOrDefault();
+
+            var member = _context
+                .Members
+                .Where(m => m.InviteId == inviteId)
+                .ProjectTo<MemberTreeNodeDto.Member>(_mapper.ConfigurationProvider)
+                .ToArray();
+
+            var nodes = member.Select(m =>
+            {
+                var node = new MemberTreeNodeDto()
+                {
+                    Members = m
+                };
+                if (node.Members.Id == memberId)
+                {
+                    node.Members.IsDirectLine = true;
+                }
+                node.Members.MemberVipTypeName = node.Members.MemberVipType.ToString();
+
+                return node;
+            }).OrderByDescending(n => n.Members.IsDirectLine).ToArray();
+
+            return nodes;
+        }
+
+        [HttpGet]
+        public HbzsManagerResult<IEnumerable<MemberTreeNodeDto>> ParentTree(int memberId)
+        {
+            IEnumerable<MemberTreeNodeDto> tree = null;
+            while (true)
+            {
+                IEnumerable<MemberTreeNodeDto> nodes = GetBrother(memberId);
+                if (nodes == null)
+                   break;
+
+                if (tree == null)
+                {
+                    tree = nodes;
+                }
+                else
+                {
+                    var diectLineNode = nodes.First(m => m.Members.IsDirectLine);
+                    diectLineNode.Children = tree;
+                    diectLineNode.Members.IsDirectLine = true;
+                    tree = nodes;
+                }
+                memberId = tree.First().Members.InviteId;
+            }
+
+            return new HbzsManagerResult<IEnumerable<MemberTreeNodeDto>>(tree);
+        }
+
+
+
+
 
         [HttpGet]
         public HbzsManagerResult<IEnumerable<QueryMemberDto>> QueryMember(string key)
         {
             var result = _context.Members
-                  .Where(m => (m.Disabled == false) && (m.Phone.Contains( key) || m.RealName.Contains(key)))
+                  .Where(m => (m.Disabled == false) && (m.Phone.Contains(key) || m.RealName.Contains(key)))
                   .ProjectTo<QueryMemberDto>(_mapper.ConfigurationProvider)
                   .ToArray();
 
