@@ -8,6 +8,8 @@
       :close-on-click-modal="false"
       @close="cancelSubmit"
       width="60%"
+      ref="dialog"
+      class="loadingtarget"
     >
       <el-tree :data="tree" :props="defaultProps" default-expand-all>
         <template slot-scope="scope">
@@ -22,38 +24,6 @@
           </div>
         </template>
       </el-tree>
-      <!--列表-->
-      <!-- <el-table
-        :data="members"
-        highlight-current-row
-        v-loading="loading"
-        style="width: 100%"
-      >
-        <el-table-column
-          prop="id"
-          label="Id"
-          width="100px"
-          sortable
-        ></el-table-column>
-        <el-table-column
-          prop="realName"
-          label="姓名"
-          sortable
-        ></el-table-column>
-        <el-table-column prop="phone" label="手机" sortable></el-table-column>
-        <el-table-column
-          prop="memberVipTypeName"
-          label="级别"
-          width="120px"
-          sortable
-        ></el-table-column>
-        <el-table-column
-          prop="createDate"
-          label="添加时间"
-          width="100px"
-          sortable
-        ></el-table-column>
-      </el-table> -->
 
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancelSubmit">取消</el-button>
@@ -85,7 +55,6 @@ export default {
   data() {
     return {
       dialogVisible: false,
-      loading: false,
       members: [],
       tree: [],
       defaultProps: {
@@ -101,24 +70,22 @@ export default {
       this.$emit("input", false);
     },
     init() {
-      this.loading = true;
-      // api.member
-      //   .getParent(this.memberId)
-      //   .then((res) => {
-      //     this.members = res.result;
-      //     this.loading = false;
-      //   })
-      //   .catch(() => {
-      //     this.loading = false;
-      //   });
+      this.tree=[];
+      const loading = this.$loading({
+        target:document.querySelector('.loadingtarget'),
+        lock: true,
+        text: "Loading",
+        spinner: "el-icon-loading",
+        background: "rgba(255, 80, 0, 0.05)",
+      });
       api.member
         .parentTree(this.memberId)
         .then((res) => {
           this.tree = res.result;
-          this.loading = false;
+          loading.close();
         })
         .catch(() => {
-          this.loading = false;
+          loading.close();
         });
     },
   },
@@ -130,5 +97,6 @@ export default {
 <style lang="scss" scoped>
 .level0 {
   color: #ff5000;
+  font-weight: bold;
 }
 </style>
