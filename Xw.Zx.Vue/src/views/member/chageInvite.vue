@@ -9,15 +9,25 @@
       :close-on-click-modal="false"
       @close="cancelSubmit"
     >
-      <el-row>
-        <el-col :span="24">姓名: {{member.realName}} </el-col>
-        <el-col :span="24">电话: {{member.phone}} </el-col>
-        <el-col :span="24">当前邀请人: {{member.inviteId}} </el-col>
-        <el-col :span="24">当前邀请电话: {{member.realName}} </el-col>
+      <el-row v-if="member" class="info">
+        <el-col :span="24"
+          ><p>姓名: {{ member.realName }}</p></el-col
+        >
+        <el-col :span="24"
+          ><p>电话: {{ member.phone }}</p></el-col
+        >
+        <el-col :span="24"
+          ><p>当前上级: {{ member.inviteName }}</p>
+        </el-col>
+        <el-col :span="24"
+          ><p>当前上级电话: {{ member.invitePhone }}</p>
+        </el-col>
       </el-row>
       <el-form :model="editForm" label-width="100px" ref="editForm">
-        <el-row>
-          <el-col :span="12"> </el-col>
+        <el-row style="margin-top:10px;">
+          <el-col :span="12">
+            <select-member v-model="editForm.inviteId" v-if="dialogVisible" />
+          </el-col>
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -35,10 +45,10 @@
 
 <script>
 import api from "@/api/app";
-
+import selectMember from "./selectMember";
 export default {
   name: "changIndex",
-  components: {},
+  components: { selectMember },
   props: {
     value: Boolean,
     memberId: Number,
@@ -65,6 +75,7 @@ export default {
   },
   methods: {
     init() {
+      
       this.editForm.inviteId = 0;
       api.member.getMember(this.memberId).then((res) => {
         this.member = res.result;
@@ -82,7 +93,7 @@ export default {
                 memberId: this.member.id,
                 inviteId: this.editForm.inviteId,
               })
-              .then((res) => {
+              .then(() => {
                 this.$message({
                   message: "修改成功!",
                   type: "success",
@@ -102,6 +113,7 @@ export default {
       });
     },
     cancelSubmit: function () {
+      this.member= null;
       this.dialogVisible = false;
       this.$emit("input", false);
     },
@@ -110,5 +122,10 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.info{
+  p{
+    margin: 5px 0;
+  }
+}
 </style>

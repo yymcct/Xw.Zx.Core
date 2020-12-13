@@ -81,17 +81,17 @@
         width="120px"
         sortable
       ></el-table-column>
-      <el-table-column prop="inviteName" label="推荐人" width="120px" sortable>
+      <el-table-column prop="inviteName" label="上级" width="120px" sortable>
         <template slot-scope="scope">
           <p style="font-weight: bold">{{ scope.row.inviteName }}</p>
           <p style="color: #999999; font-weight: bold">
             {{ scope.row.invitePhone }}
           </p>
-          <!-- <p>
+          <p>
             <el-link type="primary" @click="showChangeInvite(scope.row)"
               >更改</el-link
             >
-          </p> -->
+          </p>
         </template>
       </el-table-column>
       <!-- <el-table-column prop="invitePhone" label="推荐人电话" width="150px" sortable></el-table-column> -->
@@ -144,7 +144,6 @@
       ></el-pagination>
     </el-col>
 
-    <!--TODO:删减编辑界面数据-->
     <edit
       :action="editAction"
       :PostMemberMDto="editForm"
@@ -164,7 +163,7 @@
 </template>
 
 <script>
-//TODO: 拷贝到api文件
+
 
 import { api_getMemberMDtos, api_delMemberMDto } from "../../api/api";
 import { type } from "os";
@@ -186,7 +185,7 @@ export default {
         filters: "",
         sorts: "-id",
       },
-      //TODO:删减查询条件
+
       filters: {
         keywords: null,
         addTimeStart: null,
@@ -197,7 +196,6 @@ export default {
       total: 0,
       listLoading: false,
 
-      //TODO:删减编辑界面数据
       editForm: null,
       editAction: "none",
       updateMember: null,

@@ -1,69 +1,56 @@
 <template>
   <el-select
-    v-model="value"
-    multiple
+    v-model="selectValue"
     filterable
     remote
     reserve-keyword
-    placeholder="请输入关键词"
+    placeholder="请输入新上级姓名或电话"
     :remote-method="remoteMethod"
-    :loading="loading">
+    :loading="loading"
+    @change="selectChange"
+  >
     <el-option
       v-for="item in options"
       :key="item.value"
       :label="item.label"
-      :value="item.value">
+      :value="item.value"
+    >
     </el-option>
   </el-select>
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        options: [],
-        value: [],
-        list: [],
-        loading: false,
-        states: ["Alabama", "Alaska", "Arizona",
-        "Arkansas", "California", "Colorado",
-        "Connecticut", "Delaware", "Florida",
-        "Georgia", "Hawaii", "Idaho", "Illinois",
-        "Indiana", "Iowa", "Kansas", "Kentucky",
-        "Louisiana", "Maine", "Maryland",
-        "Massachusetts", "Michigan", "Minnesota",
-        "Mississippi", "Missouri", "Montana",
-        "Nebraska", "Nevada", "New Hampshire",
-        "New Jersey", "New Mexico", "New York",
-        "North Carolina", "North Dakota", "Ohio",
-        "Oklahoma", "Oregon", "Pennsylvania",
-        "Rhode Island", "South Carolina",
-        "South Dakota", "Tennessee", "Texas",
-        "Utah", "Vermont", "Virginia",
-        "Washington", "West Virginia", "Wisconsin",
-        "Wyoming"]
+import api from "@/api/app";
+export default {
+  name:"selectMember",
+  data() {
+    return {
+      options: [],
+      selectValue: [],
+      loading: false,
+    };
+  },
+  props: {
+    value: Number,
+  },
+  mounted() {},
+  methods: {
+    remoteMethod(query) {
+      if (query !== "") {
+        this.loading = true;
+        api.member.queryMember(query).then((res) => {
+          this.options = res.result.map((item) => {
+            return {value: item.id,  label: `${item.realName} ${item.phone}` };
+          });
+          this.loading = false;
+        });
+      } else {
+        this.options = [];
       }
     },
-    mounted() {
-      this.list = this.states.map(item => {
-        return { value: `value:${item}`, label: `label:${item}` };
-      });
+    selectChange() {
+      this.$emit("input", this.selectValue);
     },
-    methods: {
-      remoteMethod(query) {
-        if (query !== '') {
-          this.loading = true;
-          setTimeout(() => {
-            this.loading = false;
-            this.options = this.list.filter(item => {
-              return item.label.toLowerCase()
-                .indexOf(query.toLowerCase()) > -1;
-            });
-          }, 200);
-        } else {
-          this.options = [];
-        }
-      }
-    }
-  }
+  },
+};
 </script>

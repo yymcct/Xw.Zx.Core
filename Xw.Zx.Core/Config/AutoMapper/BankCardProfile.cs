@@ -37,6 +37,8 @@ namespace Xw.Zx.Core.Config.AutoMapper
                 .ForMember(dest => dest.WithdrawDepositStateName, opt=>opt.MapFrom(src=>src.WithdrawDepositState.ToString()));
 
             CreateMap<LxComputer, LxComputerMDto>();
+
+            CreateMap<Member, QueryMemberDto>();
         }
     }
 }

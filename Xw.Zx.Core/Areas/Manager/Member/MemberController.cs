@@ -69,6 +69,11 @@ namespace Xw.Zx.Core.Areas.Manager
 
                 var memberDto = _mapper.Map<MemberMDto>(member);
 
+                var inviteMemer = _context.Members.First(m => m.Id == member.InviteId);
+
+                memberDto.InviteName = inviteMemer.RealName;
+                memberDto.InvitePhone = inviteMemer.Phone;
+
                 return new HbzsManagerResult<MemberMDto>(memberDto);
             }
             catch (Exception ex)
@@ -282,7 +287,7 @@ namespace Xw.Zx.Core.Areas.Manager
         public HbzsManagerResult<IEnumerable<QueryMemberDto>> QueryMember(string key)
         {
             var result = _context.Members
-                  .Where(m => (m.Disabled == false) && (m.Phone == key || m.RealName == key))
+                  .Where(m => (m.Disabled == false) && (m.Phone.Contains( key) || m.RealName.Contains(key)))
                   .ProjectTo<QueryMemberDto>(_mapper.ConfigurationProvider)
                   .ToArray();
 
