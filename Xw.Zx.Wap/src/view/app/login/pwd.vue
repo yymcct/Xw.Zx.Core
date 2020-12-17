@@ -5,11 +5,22 @@
     </div>
 
     <div class="login">
-      <van-field v-model="user.phone" required label="手机" placeholder="请输入手机号" />
-      <sms-code-field v-model="user.smsCheck" :phone="user.phone" />
+      <van-field
+        v-model="user.phone"
+        required
+        :formatter="$fieldFormatter"
+        label="手机"
+        placeholder="请输入手机号"
+      />
+      <sms-code-field
+        v-model="user.smsCheck"
+        :formatter="$fieldFormatter"
+        :phone="user.phone"
+      />
       <van-field
         v-model="user.password"
         required
+        :formatter="$fieldFormatter"
         type="password"
         label="密码"
         placeholder="请输入密码"
@@ -17,6 +28,7 @@
       <van-field
         v-model="user.password2"
         required
+        :formatter="$fieldFormatter"
         type="password"
         label="密码"
         placeholder="请再次输入密码"
@@ -55,7 +67,7 @@ export default {
     };
   },
 
-  components: {smsCodeField},
+  components: { smsCodeField },
 
   computed: {},
 
@@ -64,7 +76,6 @@ export default {
   mounted() {},
 
   methods: {
-
     bindLogin() {
       const _this = this;
       if (this.user.phone.length != 11) {

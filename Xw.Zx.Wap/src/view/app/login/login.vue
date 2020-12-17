@@ -5,9 +5,10 @@
     </div>
 
     <div class="login">
-      <van-field v-model="account" label="手机" placeholder="请输入手机号" />
+      <van-field v-model="account" :formatter="$fieldFormatter" label="手机" placeholder="请输入手机号" />
       <van-field
         v-model="password"
+        :formatter="$fieldFormatter"
         type="password"
         label="密码"
         placeholder="请输入密码"
@@ -15,7 +16,7 @@
 
       <van-button
         class="login-btn"
-        type="primary"
+        type="primary"        
         round
         color="linear-gradient(to right, #ff7a00, #ff5000)"
         @click="bindLogin"

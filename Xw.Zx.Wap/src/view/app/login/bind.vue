@@ -8,14 +8,26 @@
       <van-field
         v-model="user.realName"
         required
+        :formatter="$fieldFormatter"
         label="姓名"
         placeholder="请输入身份证姓名"
       />
-      <van-field v-model="user.phone" required label="手机" placeholder="请输入手机号" />
-      <sms-code-field v-model="user.smsCheck" :phone="user.phone" />
+      <van-field
+        v-model="user.phone"
+        required
+        :formatter="$fieldFormatter"
+        label="手机"
+        placeholder="请输入手机号"
+      />
+      <sms-code-field
+        v-model="user.smsCheck"
+        :formatter="$fieldFormatter"
+        :phone="user.phone"
+      />
       <van-field
         v-model="user.password"
         required
+        :formatter="$fieldFormatter"
         type="password"
         label="密码"
         placeholder="请输入密码"
@@ -23,6 +35,7 @@
       <van-field
         v-model="user.password2"
         required
+        :formatter="$fieldFormatter"
         type="password"
         label="密码"
         placeholder="请再次输入密码"
@@ -30,6 +43,7 @@
       <van-field
         v-model="user.invitePhone"
         required
+        :formatter="$fieldFormatter"
         label="邀请人"
         placeholder="请输入邀请人手机号"
       />

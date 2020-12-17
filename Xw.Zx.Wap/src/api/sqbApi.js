@@ -42,7 +42,7 @@ export default {
     },
     income: {
         getIncomeInfo: () => request.get('/api/Income/GetIncomeInfo'),
-        getDetails: () => request.get('/api/Income/GetDetails'),
+        getDetails: (params) => request.get('/api/Income/GetDetails', { params: params }),
     },
     withdrawDeposit: {
         withdrawDeposit: (params) => request.post('/api/WithdrawDeposit/PostWithdrawDeposit', params),

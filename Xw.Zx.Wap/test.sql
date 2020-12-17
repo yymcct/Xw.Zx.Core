@@ -45,7 +45,14 @@ select * from Orders where Timestamp='20201201153851803671'
 select * from ShareProfitConfigs
 select top 100 * from IncomeAccounts order by id desc
 
+-- memberID 784    InviteId 750 -> InviteId 47
 update Orders set orderstate = 0  where Timestamp='20201201153851803671'
+
+select * from Members where id =47
+
+update Members set MemberVipType = 20 where id =47
+
+update IncomeAccounts set MemberId=72 where id = 317
 
 
 

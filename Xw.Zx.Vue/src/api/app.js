@@ -12,7 +12,7 @@ export default {
         getMember: (memberId) => request.get(`/manager/Member/GetMember?memberId=${memberId}`),
         changeInvite: (params) => request.post(`/manager/Member/PostChangeInvite`, params),
         queryMember: (key) => request.get(`/manager/Member/QueryMember?key=${key}`),
-        put: (id, params) => request.put(`/manager/Member/PutMember?id=${id}`, params)
+        put: (id, params) => request.post(`/manager/Member/PostMember?id=${id}`, params)
     }
 
 }

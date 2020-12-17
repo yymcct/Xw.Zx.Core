@@ -127,8 +127,8 @@ namespace Xw.Zx.Core.Areas.Manager
         /// <param name="id"></param>
         /// <param name="membermdto"></param>
         /// <returns></returns>
-        [HttpPut]
-        public HbzsManagerResult PutMember([FromQuery] int id, [FromBody] PostMemberMDto membermdto)
+        [HttpPost]
+        public HbzsManagerResult PostMember([FromQuery] int id, [FromBody] PostMemberMDto membermdto)
         {
             var member = _context.Members.First(m => m.Id == id);
 

@@ -43,6 +43,9 @@ Vue.use(CellGroup);
 
 
 Vue.prototype.$globalFun = globalFun;
+Vue.prototype.$fieldFormatter = (value) => {
+  return value.replace(/ /g, '');
+}
 
 
 router.beforeEach((to, from, next) => {
