@@ -26,18 +26,18 @@ namespace Xw.Zx.Core.Controllers
     {
         private readonly ILogger<BiqilinController> _logger;
         private readonly IBiqilinService _biqilinService;
-        private readonly IWapOrderPayService _wapOrderPayService;
+        private readonly IOrderService _orderService;
 
         public BiqilinController(ILogger<BiqilinController> logger
             , XwZxContext xwZxContext
             , IMapper mapper
             , ISieveProcessor sieveProcessor
             , IBiqilinService biqilinService
-            , IWapOrderPayService wapOrderPayService) : base(xwZxContext, mapper, sieveProcessor)
+            , IOrderService orderService) : base(xwZxContext, mapper, sieveProcessor)
         {
             _logger = logger;
             _biqilinService = biqilinService;
-            _wapOrderPayService = wapOrderPayService;
+            _orderService = orderService;
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace Xw.Zx.Core.Controllers
             if (biqilinNotifyDto.orderStatus == "TRADE_SUCCESS")
             {
                 var timestamp = biqilinNotifyDto.outOrderNo;
-                _wapOrderPayService.SucessHandle(timestamp, OrderPaymentType.碧麒麟);
+                _orderService.OrderPay(timestamp, OrderPaymentType.碧麒麟);
             }
             await Response.WriteAsync(JsonConvert.SerializeObject(new
             {

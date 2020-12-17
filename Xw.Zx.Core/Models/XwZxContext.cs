@@ -67,8 +67,9 @@ namespace Xw.Zx.Core.Models.Model
 
         //支付宝支付记录表
         public DbSet<AlipayLog> AlipayLogs { get; set; }
-        #endregion
 
+        public DbSet<ShareProfitConfig> ShareProfitConfigs { get; set; }
+        #endregion
 
         #region 其他 
         /// <summary>
@@ -88,6 +89,8 @@ namespace Xw.Zx.Core.Models.Model
         /// </summary>
         public DbSet<LxComputer> LxComputers { get; set; }
         #endregion
+
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -177,6 +180,10 @@ namespace Xw.Zx.Core.Models.Model
                            .Property(c => c.IsDelete)
                            .HasDefaultValue(false);
             modelBuilder.Entity<LxComputer>()
+                           .HasQueryFilter(c => !c.IsDelete)
+                           .Property(c => c.IsDelete)
+                           .HasDefaultValue(false);
+            modelBuilder.Entity<ShareProfitConfig>()
                            .HasQueryFilter(c => !c.IsDelete)
                            .Property(c => c.IsDelete)
                            .HasDefaultValue(false);

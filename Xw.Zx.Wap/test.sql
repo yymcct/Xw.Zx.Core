@@ -35,3 +35,17 @@ update orders set Amount='0.1', [Timestamp]='20201017134251806513' where id =178
 select * from SmsCheck where Phone='18624938007'
 
 
+select * from Orders order by id desc
+
+select * from Receivables order by id desc
+
+-- 测试分润
+select * from Members where id =784
+select * from Orders where Timestamp='20201201153851803671'
+select * from ShareProfitConfigs
+select top 100 * from IncomeAccounts order by id desc
+
+update Orders set orderstate = 0  where Timestamp='20201201153851803671'
+
+
+

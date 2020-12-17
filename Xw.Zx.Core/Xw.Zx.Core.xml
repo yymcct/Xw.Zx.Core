@@ -1468,6 +1468,16 @@
             <param name="orderId"></param>
             <returns></returns>
         </member>
+        <member name="T:Xw.Zx.Core.Service.ShareProfit.ShareProfit2">
+            <summary>
+            反润50%
+            </summary>
+        </member>
+        <member name="T:Xw.Zx.Core.Service.ShareProfit.ShareProfit3">
+            <summary>
+            反润7000
+            </summary>
+        </member>
         <member name="M:Xw.Zx.Core.Service.IUpDateVip1Service.AliPayMentSucessHandle(System.Collections.Generic.Dictionary{System.String,System.String})">
             <summary>
             支付宝支付成功处理

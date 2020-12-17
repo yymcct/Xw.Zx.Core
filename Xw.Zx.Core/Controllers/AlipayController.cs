@@ -36,7 +36,7 @@ namespace Xw.Zx.Core.Controllers
         private readonly AlipayService _alipayService;
         private readonly AlipayF2FService _alipayF2FService;
         private readonly IUpDateVip1Service _upDateVip1Service;
-        private readonly IWapOrderPayService _wapOrderPayService;
+        private readonly IOrderService _orderService;
         public AlipayController(ILogger<AlipayController> logger
             , XwZxContext xwZxContext
             , IMapper mapper
@@ -44,13 +44,13 @@ namespace Xw.Zx.Core.Controllers
             , AlipayService alipayService
             , AlipayF2FService alipayF2FService
             , IUpDateVip1Service upDateVip1Service
-            , IWapOrderPayService wapOrderPayService) : base(xwZxContext, mapper, sieveProcessor)
+            , IOrderService orderService) : base(xwZxContext, mapper, sieveProcessor)
         {
             _logger = logger;
             _alipayService = alipayService;
             _alipayF2FService = alipayF2FService;
             _upDateVip1Service = upDateVip1Service;
-            _wapOrderPayService = wapOrderPayService;
+            _orderService = orderService;
         }
 
         /// <summary>
@@ -200,7 +200,7 @@ namespace Xw.Zx.Core.Controllers
                         {
                             var timestamp = sArray["out_trade_no"];
 
-                            _wapOrderPayService.SucessHandle(timestamp, OrderPaymentType.支付宝);
+                            _orderService.OrderPay(timestamp, OrderPaymentType.支付宝);
                         }
                     }
 

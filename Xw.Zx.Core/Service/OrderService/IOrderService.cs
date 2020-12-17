@@ -23,5 +23,7 @@ namespace Xw.Zx.Core.Service
         /// <returns></returns>
         void UpDateOrderPayState(int orderId);
 
+        void OrderPay(string timestamp, OrderPaymentType paymentType);
+
     }
 }
