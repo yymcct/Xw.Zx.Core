@@ -9,7 +9,7 @@
     </div>
     <div class="banner">
       <img
-        :src="require('@/assets/images/home/banner.png')"
+        :src="require('@/assets/images/home/banner.jpg')"
         style="display: block; width: 100%; height: auto"
       />
     </div>
