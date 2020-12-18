@@ -11,18 +11,28 @@ namespace Xw.Zx.Core.Service
     {
         private readonly XwZxContext _context;
         private readonly IAlipaySdkService _alipaySdkService;
-        private readonly IWapOrderPayService _wapOrderPayService;
-        private readonly Func<int, IShareprofit> _shareprofitProvider;
+        private readonly ShareProfitHandle _ShareProfitHandle;
+        private readonly UpdateMemberTypeHandle _UpdateMemberTypeHandle;
+        private readonly LogReceive _LogReceive;
+        private readonly PresentedCoupons _PresentedCoupons;
+
 
         public OrderService(XwZxContext context
-            , IWapOrderPayService wapOrderPayService
             , IAlipaySdkService alipaySdkService
-            , Func<int, IShareprofit> shareprofitProvider)
+            , ShareProfitHandle ShareProfitHandle
+            , UpdateMemberTypeHandle UpdateMemberTypeHandle
+            , LogReceive LogReceive
+            , PresentedCoupons PresentedCoupons
+            )
         {
             _context = context;
-            _wapOrderPayService = wapOrderPayService;
+        
             _alipaySdkService = alipaySdkService;
-            _shareprofitProvider = shareprofitProvider;
+
+            _ShareProfitHandle =ShareProfitHandle;
+            _UpdateMemberTypeHandle =UpdateMemberTypeHandle;
+            _LogReceive = LogReceive;
+            _PresentedCoupons = PresentedCoupons;
         }
 
         public Order GetOrder(int orderId)
@@ -67,28 +77,14 @@ namespace Xw.Zx.Core.Service
 
                 order.OrderState = OrderState.已付款;
                 order.OrderPaymentType = paymentType;
-
-                //记录收款
-                var receivables = new Receivable()
-                {
-                    OrderId = order.Id,
-                    Amount = order.Amount,
-                };
-                _context.Receivables.Add(receivables);
                 _context.SaveChanges();
 
-                //TODO变更VIP状态
+                _LogReceive.SetOrderPay(_ShareProfitHandle)
+                    .SetOrderPay(_UpdateMemberTypeHandle)
+                    .SetOrderPay(_ShareProfitHandle)
+                    .SetOrderPay(_PresentedCoupons);
 
-                //分润
-                var shareProfitConfig = _context.ShareProfitConfigs.FirstOrDefault(s => s.ProductId == order.ProductId);
-                if (shareProfitConfig != null)
-                {
-                    var shareProfit = _shareprofitProvider(shareProfitConfig.ShareProfitTemplateId);
-                    if (shareProfit != null)
-                    {
-                        shareProfit.ShareProfit(order.Id);
-                    }
-                }
+                _LogReceive.HandleOrderPayRequest(order);
             }
         }
     }
