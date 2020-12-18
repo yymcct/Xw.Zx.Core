@@ -8,7 +8,7 @@ namespace Xw.Zx.Core.Service
 {
     public static class OrderServiceCollectionExtensions
     {
-        public static IServiceCollection AddProfit(this IServiceCollection services)
+        public static IServiceCollection AddOrderService(this IServiceCollection services)
         {
             services.AddScoped<ShareProfitHandle>();
             services.AddScoped<UpdateMemberTypeHandle>();

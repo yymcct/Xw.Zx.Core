@@ -21,22 +21,14 @@ namespace Xw.Zx.Core.Service
         {         
             //赠送优惠券
             try
-            { 
-                //运营中心代理权
-                if (order.Id == 7)
+            {
+                var receivables = new Receivable()
                 {
-                    for (int i = 0; i < 8; i++)
-                    {
-                        var code = new UpdateVipAuthCode()
-                        {
-                            OwinId = order.Id,
-                            Code = Guid.NewGuid().ToString(),                 
-                        };
-                        _context.UpdateVipAuthCodes.Add(code);
-                    }
-                    _context.SaveChanges();
-                }
-               
+                    OrderId = order.Id,
+                    Amount = order.Amount,
+                };
+                _context.Receivables.Add(receivables);
+                _context.SaveChanges();                             
             }
             catch (Exception ex)
             {

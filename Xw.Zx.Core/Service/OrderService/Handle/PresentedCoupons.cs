@@ -22,13 +22,20 @@ namespace Xw.Zx.Core.Service
             //记录收款
             try
             {
-                var receivables = new Receivable()
+                //运营中心代理权
+                if (order.Id == 7)
                 {
-                    OrderId = order.Id,
-                    Amount = order.Amount,
-                };
-                _context.Receivables.Add(receivables);
-                _context.SaveChanges();
+                    for (int i = 0; i < 8; i++)
+                    {
+                        var code = new UpdateVipAuthCode()
+                        {
+                            OwinId = order.MemberId,
+                            Code = Guid.NewGuid().ToString(),
+                        };
+                        _context.UpdateVipAuthCodes.Add(code);
+                    }
+                    _context.SaveChanges();
+                }
             }
             catch (Exception ex)
             {

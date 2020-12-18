@@ -20,7 +20,10 @@ namespace Xw.Zx.Core.Service
         public void HandleOrderPayRequest(Order order)
         {
             Handle(order);
-            _orderPay.HandleOrderPayRequest(order);
+            if (_orderPay != null)
+            {
+                _orderPay.HandleOrderPayRequest(order);
+            }            
         }
 
         abstract protected void Handle(Order order);
