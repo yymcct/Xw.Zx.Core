@@ -7,11 +7,11 @@
         <el-form-item>
           <el-select v-model="filters.vipType" placeholder="请选择">
             <el-option label="全部类型" value="999"></el-option>
-            <el-option label="普通" value="0"></el-option>
-            <el-option label="VIP会员" value="1"></el-option>
-            <el-option label="合伙人" value="2"></el-option>
-            <el-option label="服务站" value="3"></el-option>
-            <el-option label="运营商" value="4"></el-option>
+            <el-option label="客户" value="0"></el-option>
+            <el-option label="业务经理" value="10"></el-option>
+            <el-option label="运营中心" value="20"></el-option>
+            <el-option label="大区经理" value="30"></el-option>
+            <el-option label="分公司" value="40"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>

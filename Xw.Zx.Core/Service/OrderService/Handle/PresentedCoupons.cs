@@ -7,23 +7,22 @@ using Xw.Zx.Core.Models.Model;
 
 namespace Xw.Zx.Core.Service
 {
-    public class LogReceive : OrderPay
+    public class PresentedCoupons : OrderPay
     {
         private readonly XwZxContext _context;
-        private readonly ILogger<LogReceive> _logger;
-        public LogReceive(XwZxContext context
-            , ILogger<LogReceive> logger)
+        private readonly ILogger<PresentedCoupons> _logger;
+        public PresentedCoupons(XwZxContext context
+            , ILogger<PresentedCoupons> logger)
         {
             _context = context;
             _logger = logger;
         }
         protected override void Handle(Order order)
         {
-            //记录收款
+            //赠送优惠券
             try
-            {
-                //运营中心代理权
-                if (order.Id == 7)
+            { //运营中心代理权
+                if (order.ProductId == 7)
                 {
                     for (int i = 0; i < 8; i++)
                     {
@@ -36,6 +35,7 @@ namespace Xw.Zx.Core.Service
                     }
                     _context.SaveChanges();
                 }
+
             }
             catch (Exception ex)
             {

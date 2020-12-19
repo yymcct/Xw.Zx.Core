@@ -7,19 +7,19 @@ using Xw.Zx.Core.Models.Model;
 
 namespace Xw.Zx.Core.Service
 {
-    public class PresentedCoupons : OrderPay
+    public class LogReceive : OrderPay
     {
         private readonly XwZxContext _context;
-        private readonly ILogger<PresentedCoupons> _logger;
-        public PresentedCoupons(XwZxContext context
-            , ILogger<PresentedCoupons> logger)
+        private readonly ILogger<LogReceive> _logger;
+        public LogReceive(XwZxContext context
+            , ILogger<LogReceive> logger)
         {
             _context = context;
             _logger = logger;
         }
         protected override void Handle(Order order)
-        {         
-            //赠送优惠券
+        {
+            //记录收款
             try
             {
                 var receivables = new Receivable()
@@ -28,7 +28,8 @@ namespace Xw.Zx.Core.Service
                     Amount = order.Amount,
                 };
                 _context.Receivables.Add(receivables);
-                _context.SaveChanges();                             
+                _context.SaveChanges();
+               
             }
             catch (Exception ex)
             {
