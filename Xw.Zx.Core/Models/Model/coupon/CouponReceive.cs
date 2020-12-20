@@ -20,15 +20,13 @@ namespace Xw.Zx.Core.Models.Model
     {
         public int Couponid { get; set; }
 
-        public int Memberid { get; set; }
-
-        public decimal Money { get; set; }
+        public int Memberid { get; set; }       
 
         [Column(TypeName = "varchar(50)")]
         public string Code { get; set; }
 
         [Column(TypeName = "nvarchar(500)")]
-        public string Remark { get; set; }
+        public string Remark { get; set; } = "";
 
         public CouponUseState CouponUseState { get; set; }
     }

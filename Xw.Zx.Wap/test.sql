@@ -55,4 +55,18 @@ update Members set MemberVipType = 20 where id =47
 update IncomeAccounts set MemberId=72 where id = 317
 
 
+-- 测试优惠券
+-- Insert rows into table 'Coupons'
+INSERT INTO Coupons
+( -- columns to insert data into
+ [CreateTime], [Name], [StartTime],EndTime, Money,TotalCount,CurCount
+)
+VALUES
+( -- first row: values for the columns in the list above
+ GETDATE(), '永久5000VIP抵用卷', GETDATE(),GETDATE(), 5000, 999,999
+)
+-- add more rows here
+GO
+
+SELECT * FROM Coupons
 

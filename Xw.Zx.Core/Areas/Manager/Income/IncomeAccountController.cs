@@ -44,49 +44,6 @@ namespace Xw.Zx.Core.Areas.Manager
         {
             try
             {
-
-                //var db = from member in _context.Members
-                //         join income in _context.IncomeAccounts on member.Id equals income.MemberId into joinTmp
-                //         from tmp in joinTmp.DefaultIfEmpty()
-                //         join withdrawDeposit in _context.WithdrawDeposits on member.Id equals withdrawDeposit.MemberId into wjoinTmp
-                //         from wtmp in wjoinTmp.DefaultIfEmpty()
-                //         where member.MemberVipType != MemberVipType.普通
-                //         group tmp by new
-                //         {
-                //             member.Id,
-                //             member.RealName,
-                //             member.Phone,
-                //             member.MemberVipType,
-                //             iAmount = tmp.Amount,
-                //             wAmount = wtmp.Amount
-                //         } into groupkeywords
-                //         select new IncomeAccountMDto
-                //         {
-                //             MemberId = groupkeywords.Key.Id,
-
-                //             MemberName = groupkeywords.Key.RealName,
-                //             MemberPhone = groupkeywords.Key.Phone,
-                //             MemberVipType = groupkeywords.Key.MemberVipType,
-                //             MemberVipTypeName = groupkeywords.Key.MemberVipType.ToString(),
-                //             ZhijieTotla = groupkeywords.Where(g => g.IncomeAccountType == IncomeAccountType.直接收益).Sum(g => g.Amount),
-
-                //             JianjieTotla = groupkeywords.Where(g => g.IncomeAccountType == IncomeAccountType.间接收益).Sum(g => g.Amount),
-
-                //             ChajiTotla = groupkeywords.Where(g => g.IncomeAccountType == IncomeAccountType.级差收益).Sum(g => g.Amount),
-
-                //             //IncomeTotal = groupkeywords.Sum(g =>g.w),
-
-                //             //WithdrawDepositTotal = groupkeywords.amo,
-
-                //             //Balance = _context.IncomeAccounts
-                //             //                            .Where(i => i.MemberId == member.Id)
-                //             //                            .Sum(i => i.Amount) -
-                //             //                            _context.WithdrawDeposits
-                //             //                            .Where(w => w.WithdrawDepositState == WithdrawDepositState.通过 && w.MemberId == member.Id)
-                //             //                            .Sum(w => w.Amount)
-                //         };
-
-
                 var db = from member in _context.Members.Where(m => m.MemberVipType != MemberVipType.客户)
                          select new IncomeAccountMDto
                          {

@@ -13,6 +13,10 @@ export default {
         changeInvite: (params) => request.post(`/manager/Member/PostChangeInvite`, params),
         queryMember: (key) => request.get(`/manager/Member/QueryMember?key=${key}`),
         put: (id, params) => request.post(`/manager/Member/PostMember?id=${id}`, params)
+    },
+    coupon: {
+        getCouponList: () => request.get(`/manager/Coupon/GetCouponList`),
+        giveCoupon: (params) => request.post(`/manager/Coupon/GiveCoupon`, params),
     }
 
 }

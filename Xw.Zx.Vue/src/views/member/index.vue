@@ -118,17 +118,24 @@
       ></el-table-column>
       <el-table-column label="操作" width="140px">
         <template scope="scope">
-          <!-- <el-button
-            type="danger"
-            size="mini"
-            @click="handleUpdateVip(scope.$index, scope.row)"
-            >升级</el-button
-          > -->
-          <i
+          <el-dropdown @command="handleDropdownCommand">
+            <span class="el-dropdown-link">
+              更多操作<i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item :command="composeValue('edit', scope.row)"
+                >编辑</el-dropdown-item
+              >
+              <el-dropdown-item :command="composeValue('giveCoupon', scope.row)"
+                >发放优惠券</el-dropdown-item
+              >
+            </el-dropdown-menu>
+          </el-dropdown>
+          <!-- <i
             class="el-icon-edit"
             style="margin: 0 5px; font-weight: bold; cursor: pointer"
             @click="showEdit(scope.row)"
-          ></i>
+          ></i> -->
           <!-- <i
             class="el-icon-delete"
             style="margin: 0 5px; font-weight:bold;cursor: pointer;"
@@ -169,21 +176,25 @@
     />
 
     <parent-tree v-model="parentTree.show" :memberId="parentTree.memberId" />
+
+    <give-coupon v-model="giveCoupon.show" :memberId="giveCoupon.memberId" />
   </section>
 </template>
 
 <script>
-import { api_getMemberMDtos, api_delMemberMDto } from "../../api/api";
+import { api_getMemberMDtos } from "../../api/api";
 import editMember from "./editMember";
 import chageInvite from "./chageInvite";
 import UpdateVip from "./updateVip";
 import parentTree from "@/components/parentTree";
+import giveCoupon from "./giveCoupon";
 export default {
   components: {
     editMember,
     UpdateVip,
     chageInvite,
     parentTree,
+    giveCoupon,
   },
   data() {
     return {
@@ -220,6 +231,10 @@ export default {
         show: false,
         memberId: 0,
       },
+      giveCoupon: {
+        show: false,
+        memberId: 0,
+      },
     };
   },
   methods: {
@@ -253,14 +268,7 @@ export default {
         this.total = respone.total;
       });
     },
-    //显示编辑界面
-    handleEdit: function (index, row) {
-      Message({
-        message: "TODO 开发中..",
-        type: "error",
-        duration: 5 * 1000,
-      });
-    },
+
     //显示新增界面
     handleAdd: function () {
       this.editAction = "add";
@@ -287,9 +295,28 @@ export default {
       this.parentTree.memberId = row.id;
       this.parentTree.show = true;
     },
-    showEdit(row) {
-      this.edit.memberId = row.id;
-      this.edit.show = true;
+    composeValue(item, data) {
+      return {
+        button: item,
+        data: data,
+      };
+    },
+    handleDropdownCommand(command) {
+      const _this = this;
+      const showEdit = (row) => {
+        _this.edit.memberId = row.id;
+        _this.edit.show = true;
+      };
+      const showGiveCoupon = (row) => {
+        _this.giveCoupon.memberId = row.id;
+        _this.giveCoupon.show = true;
+      };
+      if (command.button == "edit") {
+        showEdit(command.data);
+      }
+      if (command.button == "giveCoupon") {
+        showGiveCoupon(command.data);
+      }
     },
   },
 
