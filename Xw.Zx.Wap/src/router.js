@@ -246,6 +246,26 @@ const routes = [
         }
     },
     {
+        path: '/sqb/user/coupon',
+        component: () =>
+            import(/* webpackChunkName: "sqb" */ './view/app/user/coupon'),
+        meta: {
+            title: '我的优惠券', 
+            keepAlive: false,
+            private:true
+        }
+    },
+        {
+        path: '/sqb/user/coupon/:id',
+        component: () =>
+            import(/* webpackChunkName: "sqb" */ './view/app/user/couponContent'),
+        meta: {
+            title: '我的优惠券', 
+            keepAlive: false,
+            private:true
+        }
+    },
+    {
         path: '/sqb/login',
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/login/login'),

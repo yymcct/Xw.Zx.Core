@@ -52,5 +52,9 @@ export default {
     },
     updateVipAuthCode: {
         use: (code) => request.post(`/api/UpdateVipAuthCode/Use?code=${code}`),
+    },
+    coupon: {
+        getCoupons: (params) => request.get('/api/Coupon/GetCoupons', { params: params }),
+        getCoupon: (id) => request.get(`/api/Coupon/GetCoupon?couponReceiveId=${id}`),
     }
 }

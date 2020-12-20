@@ -30,6 +30,7 @@
         <van-cell title="我的团队" is-link to="/sqb/user/myteam" />
         <van-cell title="我的收益" is-link to="/sqb/user/income" />
         <van-cell title="我的订单" is-link to="/sqb/user/order" />
+        <van-cell title="我的优惠券" is-link to="/sqb/user/coupon" />
         <van-cell title="联系客服" is-link to="/sqb/user/kefu" />
         <van-cell title="立刻分享" is-link to="/sqb/user/share" />
         <!-- <van-cell title="个人信息" is-link to="/sqb/user/user" /> -->
