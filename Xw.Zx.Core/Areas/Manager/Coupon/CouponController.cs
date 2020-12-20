@@ -28,17 +28,21 @@ namespace Xw.Zx.Core.Areas.Manager.Coupon
             _logger = logger;
         }
 
-        public HbzsManagerResult<IEnumerable<CouponRespone.CouponList>> GetCouponList()
+        public HbzsManagerResult<IEnumerable<CouponMRespone.CouponList>> GetCouponList()
         {
             var result = _context.Coupons
-                 .ProjectTo<CouponRespone.CouponList>(_mapper.ConfigurationProvider)
+                 .ProjectTo<CouponMRespone.CouponList>(_mapper.ConfigurationProvider)
                  .ToArray();
 
-            return new HbzsManagerResult<IEnumerable<CouponRespone.CouponList>>(result);
+            return new HbzsManagerResult<IEnumerable<CouponMRespone.CouponList>>(result);
         }
 
-
-        public HbzsManagerResult GiveCoupon(CouponRequest.GiveCoupon dto)
+        /// <summary>
+        /// 发送优惠券
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public HbzsManagerResult GiveCoupon(CouponMRequest.GiveCoupon dto)
         {
             if (!_context.Members.Any(m => m.MemberVipType == MemberVipType.运营中心
                                         && m.Id == dto.Memberid))

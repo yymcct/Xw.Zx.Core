@@ -11,6 +11,10 @@ namespace Xw.Zx.Core.Models.Model
     /// </summary>
     public class Coupon : ModelBase_Id_CreateTime
     {
+        /// <summary>
+        /// 指定产品ID
+        /// </summary>
+        public int ProductId { get; set; } = 0;
 
         [Column(TypeName = "nvarchar(200)")]
         public string Name { get; set; }
@@ -24,6 +28,7 @@ namespace Xw.Zx.Core.Models.Model
 
         [Column(TypeName = "nvarchar(500)")]
         public string Remark { get; set; }
+
 
         /// <summary>
         /// 合计数量
