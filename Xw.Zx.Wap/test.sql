@@ -69,4 +69,4 @@ VALUES
 GO
 
 SELECT * FROM Coupons
-
+SELECT * FROM CouponReceives

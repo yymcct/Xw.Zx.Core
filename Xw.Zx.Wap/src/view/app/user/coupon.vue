@@ -9,8 +9,13 @@
     </div>
     <div class="container">
       <template v-for="(item, index) in coupons">
-        <router-link
+        <!-- <router-link
           :to="{ path: `/sqb/user/coupon/${item.couponReceiveId}` }"
+          :key="index"
+          class="coupon-item orange"
+        > -->
+        <router-link
+          :to="{ path: `/sqb/product/${item.productId}` }"
           :key="index"
           class="coupon-item orange"
         >

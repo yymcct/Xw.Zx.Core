@@ -41,6 +41,7 @@ namespace Xw.Zx.Core.Controllers
                          select new CouponRespone.CouponList
                          {
                              CouponReceiveId = couponreceive.Id,
+                             ProductId = coupon.ProductId,
                              Name = coupon.Name,
                              StartTime = coupon.StartTime,
                              EndTime = coupon.EndTime,

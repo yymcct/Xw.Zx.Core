@@ -16,6 +16,9 @@ namespace Xw.Zx.Core.Models.Dto
         public class CouponList
         {
             public int CouponReceiveId { get; set; }
+
+            public int ProductId { get; set; }
+
             public string Name { get; set; }
 
             public DateTime StartTime { get; set; }
