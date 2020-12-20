@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Xw.Zx.Core.Areas.Manager.Coupon
 {
-    public class CouponRespone
+    public class CouponMRespone
     {
         public class CouponList
         {

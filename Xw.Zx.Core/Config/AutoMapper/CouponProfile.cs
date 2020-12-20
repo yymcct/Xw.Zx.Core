@@ -13,8 +13,12 @@ namespace Xw.Zx.Core.Config.AutoMapper
     {
         public CouponProfile()
         {
-            CreateMap<Coupon, CouponRespone.CouponList>();
-    
+            CreateMap<Coupon, CouponMRespone.CouponList>();
+
+            CreateMap<Coupon, CouponRespone.Coupon>();
+
+            CreateMap<Product, CouponRespone.Porduct>();
+
         }
     }
 }
