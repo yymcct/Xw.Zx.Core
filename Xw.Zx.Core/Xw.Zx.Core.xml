@@ -107,7 +107,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Xw.Zx.Core.Areas.Manager.MemberController.PutMember(System.Int32,Xw.Zx.Core.Areas.Manager.PostMemberMDto)">
+        <member name="M:Xw.Zx.Core.Areas.Manager.MemberController.PostMember(System.Int32,Xw.Zx.Core.Areas.Manager.PostMemberMDto)">
             <summary>
             修改会员信息
             </summary>
@@ -1255,6 +1255,31 @@
         <member name="P:Xw.Zx.Core.Models.Model.BankCard.OverdueFine">
             <summary>
             滞纳金, 同步时进行更新
+            </summary>
+        </member>
+        <member name="T:Xw.Zx.Core.Models.Model.Coupon">
+            <summary>
+            优惠券表
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.Coupon.TotalCount">
+            <summary>
+            合计数量
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.Coupon.CurCount">
+            <summary>
+            当前数量
+            </summary>
+        </member>
+        <member name="T:Xw.Zx.Core.Models.Model.CouponReceive">
+            <summary>
+            优惠券表领取表
+            </summary>
+        </member>
+        <member name="T:Xw.Zx.Core.Models.Model.CouponUseLog">
+            <summary>
+            优惠券表领取表
             </summary>
         </member>
         <member name="P:Xw.Zx.Core.Models.Model.IncomeAccount.SourceOrderId">

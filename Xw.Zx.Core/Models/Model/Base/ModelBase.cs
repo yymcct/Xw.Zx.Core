@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Xw.Zx.Core.Models.Model
 {
-    public class ModelBase
+    public abstract class ModelBase
     {
         public bool IsDelete { get; set; } = false;
     }

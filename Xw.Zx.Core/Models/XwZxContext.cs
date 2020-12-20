@@ -90,6 +90,11 @@ namespace Xw.Zx.Core.Models.Model
         public DbSet<LxComputer> LxComputers { get; set; }
         #endregion
 
+        #region y
+        public DbSet<Coupon> Coupons { get; set; }
+        public DbSet<CouponReceive> CouponReceives { get; set; }
+        public DbSet<CouponUseLog> CouponUseLogs { get; set; }
+        #endregion
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -187,6 +192,18 @@ namespace Xw.Zx.Core.Models.Model
                            .HasQueryFilter(c => !c.IsDelete)
                            .Property(c => c.IsDelete)
                            .HasDefaultValue(false);
+            modelBuilder.Entity<Coupon>()
+               .HasQueryFilter(c => !c.IsDelete)
+               .Property(c => c.IsDelete)
+               .HasDefaultValue(false);
+            modelBuilder.Entity<CouponReceive>()
+               .HasQueryFilter(c => !c.IsDelete)
+               .Property(c => c.IsDelete)
+               .HasDefaultValue(false);
+            modelBuilder.Entity<CouponUseLog>()
+               .HasQueryFilter(c => !c.IsDelete)
+               .Property(c => c.IsDelete)
+               .HasDefaultValue(false);
         }
     }
 }
