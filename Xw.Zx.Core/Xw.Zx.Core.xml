@@ -47,6 +47,13 @@
             消息
             </summary>
         </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.Coupon.CouponController.GiveCoupon(Xw.Zx.Core.Areas.Manager.Coupon.Dtos.CouponMRequest.GiveCoupon)">
+            <summary>
+            发送优惠券
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
         <member name="M:Xw.Zx.Core.Areas.Manager.IncomeAccountController.GetIncomeAccounts(Sieve.Models.SieveModel)">
             <summary>
             TODO
@@ -1260,6 +1267,11 @@
         <member name="T:Xw.Zx.Core.Models.Model.Coupon">
             <summary>
             优惠券表
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.Coupon.ProductId">
+            <summary>
+            指定产品ID
             </summary>
         </member>
         <member name="P:Xw.Zx.Core.Models.Model.Coupon.TotalCount">

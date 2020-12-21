@@ -1,0 +1,103 @@
+#stamp{
+  position: relative; 
+  width: 80%;
+   height:100%; 
+   border: 1px solid red;
+        margin: 0px auto
+}
+.stamp-panel
+{
+    position: absolute;
+    top:8px;
+    left:8px;
+}
+ .stamp-btn
+{
+    display: inline-block;
+    padding: 4px 10px 4px;
+    margin-bottom: 0;
+    font-size: 13px;
+    line-height: 18px;
+    color: #333;
+    text-align: center;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+    vertical-align: middle;
+    background-color: whiteSmoke;
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(white), to(#E6E6E6));
+    background-repeat: repeat-x;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    border: 1px solid #CCC;
+    border-bottom-color: #B3B3B3;
+    -webkit-border-radius: 4px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    -webkit-user-select: none;
+}
+ .stamp-btn:hover
+{
+    color: #333;
+    text-decoration: none;
+    background-color: #E6E6E6;
+    background-position: 0 -15px;
+    -webkit-transition: background-position 0.1s linear;
+}
+ .stamp-btn[disabled]
+{
+    cursor: default;
+    background-image: none;
+    background-color: #E6E6E6;
+    opacity: 0.65;
+    filter: alpha(opacity=65);
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+ .stamp-btn.stamp-add
+{
+    margin-right:8px;
+}
+ .stamp-cursor
+{
+    cursor: none;
+}
+ .stamp-show
+{
+    display: block;
+}
+ .stamp-hide
+{
+    display: none;
+}
+ 
+ .stamp-sign
+{
+    position: absolute;
+    cursor: move;
+    border: 1px dashed #ccc;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+ .stamp-sign.stamp-ok
+{
+    cursor: default;
+    border-color:transparent;
+}
+ .stamp-sign .stamp-btn
+{
+    padding: 2px 6px;
+    font-size: 11px;
+    line-height: 14px;
+    position: absolute;
+}
+ 
+ .stamp-sign .stamp-btn.stamp-del
+{
+    bottom: 4px;
+    right: 4px;
+}
+ .stamp-sign .stamp-btn.stamp-ok
+{
+    bottom: 4px;
+    right: 50px;
+}

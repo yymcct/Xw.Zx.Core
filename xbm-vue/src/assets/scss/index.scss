@@ -1,0 +1,165 @@
+.home-tab{
+    height:100%;
+    /*header css*/
+    .header{
+        width:100%;
+        position: relative;
+        // padding: 0px 15px;
+        overflow: hidden;
+        font-size: 12px;
+        background: #2f8ac1 url('~@/assets/images/default.png') left top repeat-x;
+        .top-header{
+            width:100%;
+            height:44px;
+            padding: 0 15px;
+            .header-left{
+                width:499px;
+                height:100%;
+                // background:url('~@/assets/images/product.png');
+                display:inline-block;
+                font-size: 24px;
+                color: #fff;
+                line-height: 44px;
+            }
+            .header-right{
+                position: absolute;
+                right:10px;
+                top:5px;
+                >p{
+                //   font-size:1rem;
+                  font:14px/1.5 'Microsoft YaHei','arial','tahoma';
+                  color:#fff;
+                  line-height: 1.5;
+                  .dec-text{
+                      display:inline-block;
+                      text-decoration: underline;
+                  } 
+                  >strong{
+                      font-weight:bolder;
+                      font-size:1.5rem;
+                  }
+                }
+            }
+            .header-right{
+                float:right;
+            }
+        }
+        .nav-bar{
+            padding: 0 15px;
+            height:60px;
+            .nav-bar-left{
+                float:left;
+                .menu-button{
+                    display: block;
+                    width: 97px;
+                    height: 60px;
+                    background: url('~@/assets/images/start_menu.png') center 0px no-repeat;
+                    cursor: pointer;
+                    &:hover,&.active{
+                        background-position: center -40px;
+                    }
+                }
+				
+				
+            }
+			.header-left{
+				float: left;
+				color: #fff;
+				height: 60px;
+				line-height: 60px;
+				margin-left: 35px;
+			}
+			.nav-bar-middle{
+				float: left;
+				margin-left: 30px;
+				height: 60px;
+				overflow: hidden;
+				.topmenulist{
+					//background: rgba(255,255,255,0);
+					height: 60px;
+					li{
+						color: #fff;
+						font-size: 18px;
+						&.is-active{
+							color: rgb(255, 208, 75);
+							background: rgba(255,255,255,0);
+						}
+						&:hover{
+							background: rgb(84, 92, 100);
+							
+						}
+						
+					}
+				}
+			}
+            .nav-bar-right{
+                float:right;
+                .bar-item{
+                    display: inline-block;
+                    width: 27px;
+                    height: 25px;
+                    margin-top: 20px;
+                    // margin-right: 10px;
+                    cursor: pointer;
+                   
+                }
+                .task{
+                    background: url('~@/assets/images/desktop_icons.png') 0px 0px no-repeat;
+                }
+                .sns{
+                    background: url('~@/assets/images/desktop_icons.png') -403px 0px no-repeat;
+                }
+                .help{
+                    background: url('~@/assets/images/desktop_icons.png') -40px -1px no-repeat;
+                }
+                .settings{
+                    background: url('~@/assets/images/desktop_icons.png') -254px 0px no-repeat;
+                }
+                .theme{
+                    background: url('~@/assets/images/desktop_icons.png') -364px 0px no-repeat;
+                }
+                .logout{
+                    background: url('~@/assets/images/desktop_icons.png') -288px 0px no-repeat;
+                }
+                .hide_topbar{
+                    background: url('~@/assets/images/desktop_icons.png') -117px 0px no-repeat;
+                }
+              
+            }
+        }
+        .header-line-bg{
+            height: 32px;
+         background: #e0ecfd url('~@/assets/images/funcbar_bg.png') left top repeat-x;
+        }
+     
+    }
+    .avatar-uploader{
+        width:100%;
+        height:100%;
+        text-align: center;
+      }
+    .avatar-uploader .el-upload {
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        width: 140px;
+        height: 140px;
+      }
+      .avatar-uploader .el-upload:hover {
+        border-color: #409eff;
+      }
+     .el-tabs--top.el-tabs--border-card .el-tabs--top .el-tabs__item:nth-child(2){
+        padding-left:6px;
+      }
+      .el-tabs--top.el-tabs--border-card .el-tabs--top .el-tabs__item:last-child{
+        padding-right:6px;
+      }
+      .el-tabs--top.el-tabs--border-card .el-tabs--top.el-tabs--border-card .el-tabs__item:nth-child(2){
+        padding-left:20px;
+      }
+      .el-tabs--top.el-tabs--border-card .el-tabs--top.el-tabs--border-card .el-tabs__item:last-child{
+        padding-right:20px;
+      }
+}
