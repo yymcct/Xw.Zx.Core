@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Xw.Zx.Core.Models.Model;
 
 namespace Xw.Zx.Core.Models.Dto
 {
@@ -26,6 +27,8 @@ namespace Xw.Zx.Core.Models.Dto
             public DateTime EndTime { get; set; }
 
             public decimal Money { get; set; }
+
+            public CouponUseState CouponUseState { get; set; }
         }
 
         public class Coupon
@@ -38,6 +41,8 @@ namespace Xw.Zx.Core.Models.Dto
             public DateTime EndTime { get; set; }
 
             public decimal Money { get; set; }
+
+            public CouponUseState CouponUseState { get; set; }
         }
 
         public class CouponContent

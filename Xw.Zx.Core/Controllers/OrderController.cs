@@ -74,7 +74,7 @@ namespace Xw.Zx.Core.Controllers
                 if (order.MemberId != Member.Id)
                 {
                     return new HbzsResult<OrderDto>(HbzsResultCode.Invalid_Error, "您无权限查看!");
-                }               
+                }
 
                 var dto = _mapper.Map<OrderDto>(order);
 
@@ -121,6 +121,22 @@ namespace Xw.Zx.Core.Controllers
             {
                 _logger.LogError(ex.Message);
                 return new HbzsResult<OrderDto>(HbzsResultCode.Invalid_Error, "产品不存在");
+            }
+        }
+
+        [HttpPost("[action]")]
+        public HbzsResult CouponPay([FromQuery] int orderId, int couponreceiveId)
+        {
+            try
+            {
+                _orderService.CouponOrderPay(Member.Id, orderId, couponreceiveId);
+
+                return new HbzsResult("支付成功");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new HbzsResult(HbzsResultCode.Invalid_Error, "产品不存在");
             }
         }
 

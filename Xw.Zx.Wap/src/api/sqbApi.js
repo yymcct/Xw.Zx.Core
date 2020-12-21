@@ -29,6 +29,7 @@ export default {
         get: (params) => request.get(`/api/Order/${params}`),
         delete: (params) => request.post(`/api/Order/Delete?id=${params}`),
         gets: (params) => request.get('/api/Order', { params: params }),
+        couponPay: (orderId,couponreceiveId) => request.post(`/api/Order/CouponPay?orderId=${orderId}&couponreceiveId=${couponreceiveId}`)
     },
     alipay: {
         wapPay: (params) => request.post(`/api/Alipay/WapPay/${params.id}?returnurl=${params.returnUrl}`),
@@ -56,5 +57,6 @@ export default {
     coupon: {
         getCoupons: (params) => request.get('/api/Coupon/GetCoupons', { params: params }),
         getCoupon: (id) => request.get(`/api/Coupon/GetCoupon?couponReceiveId=${id}`),
+        getCouponByProductId: (id) => request.get(`/api/Coupon/GetCouponByProductId?productId=${id}`),      
     }
 }

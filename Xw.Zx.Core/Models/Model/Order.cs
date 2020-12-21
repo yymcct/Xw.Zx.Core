@@ -19,7 +19,8 @@ namespace Xw.Zx.Core.Models.Model
         支付宝 = 0,
         微信 = 1,
         线下 = 2,
-        碧麒麟=3
+        碧麒麟=3,
+        全额优惠券=4
     }
 
     /// <summary>

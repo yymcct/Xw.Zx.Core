@@ -40,18 +40,13 @@
         <p class="customer-content-remark">备注: {{ order.remark }}</p>
       </div>
     </div>
-    <div class="coupon" v-if="userCouponCode">
-      <van-field v-model="couponCode" placeholder="请输入兑换卷" />
-      <van-button
-        class="foot-btn"
-        color="#ff5000"
-        round
-        plain
-        size="mini"
-        @click="couponCodeHandle"
+    <div class="coupon" v-if="coupon">
+      <van-checkbox
+        v-model="couponChecked"
+        shape="square"
+        checked-color="#ff5000"
+        >使用{{ coupon.coupon.name }}</van-checkbox
       >
-        使用
-      </van-button>
     </div>
     <div class="foot">
       <van-button
@@ -66,6 +61,7 @@
         删除订单
       </van-button>
       <van-button
+        v-if="!couponChecked"
         class="foot-btn"
         type="primary"
         plain
@@ -76,6 +72,18 @@
         :disabled="order.orderState == 1"
       >
         扫码付款
+      </van-button>
+      <van-button
+        v-if="couponChecked && coupon"
+        class="foot-btn"
+        type="primary"
+        round
+        size="small"
+        color="linear-gradient(to right, #ff7a00, #ff5000)"
+        @click="couponPay"
+        :disabled="order.orderState == 1"
+      >
+        提交
       </van-button>
       <!-- <van-button
         class="foot-btn"
@@ -122,9 +130,9 @@ export default {
       useAlipay: false,
       product: null,
       order: null,
+      coupon: null,
+      couponChecked: false,
       loading: false,
-      couponCode: "",
-      userCouponCode: false,
       showQrcodePay: false,
       weixinjsApi: null,
     };
@@ -158,6 +166,10 @@ export default {
       ).result;
 
       _this.useAlipay = (await api.alipay.firstUseAlipay()).result;
+
+      _this.coupon = (
+        await api.coupon.getCouponByProductId(_this.order.productId)
+      ).result;
     },
     delOrder() {
       const _this = this;
@@ -182,6 +194,15 @@ export default {
           }
         },
       });
+    },
+    couponPay() {
+      const _this = this;
+      api.order
+        .couponPay(_this.order.id, _this.coupon.couponReceiveId)
+        .then(() => {
+          this.$toast("支付成功");
+          this.$router.push({ path: `/sqb/user/order` });
+        });
     },
     payOrder() {
       const isWeixin = () =>
@@ -270,7 +291,6 @@ export default {
         this.init();
       }
     },
-    couponCodeHandle() {},
   },
 
   watch: {},
@@ -350,28 +370,29 @@ export default {
     color: #999999;
     font-size: 15px;
     line-height: 26px;
-    &-title{
-      p{
+    &-title {
+      p {
         color: #333333;
         font-size: 15px;
         font-weight: bold;
       }
     }
-    &-content{
+    &-content {
       margin: 5px 10px 0px 10px;
-      &-remark{
+      &-remark {
         font-size: 14px;
       }
     }
   }
   .coupon {
     margin-top: 20px;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
+    // display: flex;
+    // flex-direction: row;
+    // justify-content: flex-end;
+    // align-items: center;
     background-color: #fff;
     padding: 10px;
+    font-size: 16px;
   }
   .foot {
     position: fixed;

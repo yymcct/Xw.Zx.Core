@@ -5,7 +5,7 @@ import { router } from './router';
 import {
   Field, Toast, Loading,
   Button, NavBar, Image, Tab, Tabs, Picker, Popup, Dialog,
-  Icon, Cell, CellGroup
+  Icon, Cell, CellGroup,Checkbox, CheckboxGroup
 } from "vant";
 import globalFun from '@/utils/globalFun'
 import store from './store'
@@ -37,6 +37,8 @@ Vue.use(Popup);
 Vue.use(Dialog);
 Vue.use(Cell);
 Vue.use(CellGroup);
+Vue.use(Checkbox);
+Vue.use(CheckboxGroup);
 
 
 

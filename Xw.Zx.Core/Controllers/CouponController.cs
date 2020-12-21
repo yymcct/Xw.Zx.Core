@@ -45,7 +45,8 @@ namespace Xw.Zx.Core.Controllers
                              Name = coupon.Name,
                              StartTime = coupon.StartTime,
                              EndTime = coupon.EndTime,
-                             Money = coupon.Money
+                             Money = coupon.Money,
+                             CouponUseState= couponreceive.CouponUseState
                          };
 
                 var details = _sieveProcessor
@@ -81,6 +82,35 @@ namespace Xw.Zx.Core.Controllers
                 };
 
                 return new HbzsResult<CouponRespone.CouponContent>(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new HbzsResult<CouponRespone.CouponContent>(HbzsResultCode.Invalid_Error, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        public HbzsResult<CouponRespone.CouponContent> GetCouponByProductId([FromQuery] int productId)
+        {
+            try
+            {
+                int couponReceiveId = (from coupon in _context.Coupons
+                                        join couponreceive in _context.CouponReceives
+                                        on coupon.Id equals couponreceive.Couponid
+                                        where couponreceive.Memberid == Member.Id
+                                            && coupon.ProductId == productId
+                                            && couponreceive.CouponUseState == CouponUseState.未使用
+                                        select couponreceive.Id)
+                         .FirstOrDefault();
+
+                if (couponReceiveId != 0)
+                {
+                    return GetCoupon((int)couponReceiveId);
+                }
+
+                return new HbzsResult<CouponRespone.CouponContent>(null);
+
             }
             catch (Exception ex)
             {

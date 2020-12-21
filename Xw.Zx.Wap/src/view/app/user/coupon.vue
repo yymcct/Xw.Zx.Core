@@ -14,17 +14,26 @@
           :key="index"
           class="coupon-item orange"
         > -->
-        <router-link
+        <!-- <router-link
           :to="{ path: `/sqb/product/${item.productId}` }"
           :key="index"
-          class="coupon-item orange"
-        >
+          class="coupon-item orange"go
+        > -->
+        <div class="coupon-item" @click="go(item)" :key="index">
           <div class="coupon-dots">
             <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i
             ><i></i><i></i><i></i><i></i>
           </div>
-          <div class="coupon-type">代金券</div>
-          <div class="coupon-left">
+          <div
+            class="coupon-type"
+            :class="{ 'coupon-type-use': item.couponUseState }"
+          >
+            代金券
+          </div>
+          <div
+            class="coupon-left"
+            :class="{ 'coupon-left-use': item.couponUseState }"
+          >
             <div class="title">
               <span class="subtitle">￥</span>{{ item.money }}
             </div>
@@ -36,10 +45,11 @@
             <div class="subtitle"></div>
             <div class="usetime">
               <div class="text">有效期 {{ item.endTime.split(" ")[0] }}</div>
-              <div class="usebtn">立即使用</div>
+              <div class="usebtn" v-if="!item.couponUseState">立即使用</div>
+              <div class="usebtn-use" v-else>已使用</div>
             </div>
           </div>
-        </router-link>
+        </div>
       </template>
     </div>
   </div>
@@ -72,7 +82,13 @@ export default {
 
   mounted() {},
 
-  methods: {},
+  methods: {
+    go(item) {
+      if (!item.couponUseState) {
+        this.$router.push({ path: `/sqb/product/${item.productId}` });
+      }
+    },
+  },
 
   watch: {},
 };
@@ -117,7 +133,12 @@ export default {
     transform-origin: 40px 40px;
     z-index: 10;
   }
-
+  .coupon-type-use {
+    background: #b3b3b3 !important;
+  }
+  .coupon-left-use {
+    background: #b3b3b3 !important;
+  }
   .coupon-left {
     height: inherit;
     width: 105px;
@@ -176,6 +197,15 @@ export default {
         border: 1px solid #ff5000;
         border-radius: 22px;
         color: #ff5000;
+      }
+      .usebtn-use {
+        height: 22px;
+        width: 64px;
+        line-height: 22px;
+        text-align: center;
+        border: 1px solid #b3b3b3;
+        border-radius: 22px;
+        color: #b3b3b3;
       }
     }
   }
