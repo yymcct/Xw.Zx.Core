@@ -70,3 +70,7 @@ GO
 
 SELECT * FROM Coupons
 SELECT * FROM CouponReceives
+
+UPDATE Orders SET ProductAmount = Amount 
+
+UPDATE Orders SET Amount = 0 WHERE OrderPaymentType = 4 

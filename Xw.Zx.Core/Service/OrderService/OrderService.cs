@@ -100,7 +100,8 @@ namespace Xw.Zx.Core.Service
                 Productid = order.ProductId,
                 Orderid = order.Id
             });
-          
+
+            order.Amount = 0;
             order.OrderState = OrderState.已付款;
             order.OrderPaymentType = OrderPaymentType.全额优惠券;
             _context.SaveChanges();

@@ -62,11 +62,16 @@
         width="180px"
       ></el-table-column>
       <el-table-column prop="producName" label="商品名"></el-table-column>
-      <el-table-column prop="amount" label="金额" width="100px">
+      <el-table-column prop="amount" label="支付金额" width="160px">
         <template slot-scope="scope">
           <span style="color: #ff5000; font-weight: bold">{{
             scope.row.amount
           }}</span>
+          <p style="color: #999999">
+            商品价格:  {{ scope.row.productAmount }}
+            <br/>
+            支付通道: {{ scope.row.orderPaymentTypeName }}
+          </p>
         </template>
       </el-table-column>
       <el-table-column prop="realName" label="姓名" width="130px">
@@ -75,6 +80,7 @@
           <p style="color: #999999; font-weight: bold">
             {{ scope.row.memberPhone }}
           </p>
+
           <p>
             <el-link type="primary" @click="showParentTree(scope.row)"
               >查看团队树</el-link
@@ -114,9 +120,9 @@
       </el-table-column>
       <el-table-column prop="addTime" label="时间" width="120px">
         <template slot-scope="scope">
-          <p >{{ scope.row.addTime.split(' ')[0] }}</p>
-          <p style="color: #999999; font-size: 14px;">
-            {{ scope.row.addTime.split(' ')[1] }}
+          <p>{{ scope.row.addTime.split(" ")[0] }}</p>
+          <p style="color: #999999; font-size: 14px">
+            {{ scope.row.addTime.split(" ")[1] }}
           </p>
         </template>
       </el-table-column>

@@ -23,6 +23,8 @@ namespace Xw.Zx.Core.Areas.Manager
 
         public decimal Amount { get; set; }
 
+        public decimal ProductAmount { get; set; }
+
         [Sieve(CanFilter = true)]
         public DateTime AddTime { get; set; } = DateTime.Now;
 

@@ -170,6 +170,11 @@ export default {
       _this.coupon = (
         await api.coupon.getCouponByProductId(_this.order.productId)
       ).result;
+
+      //下单时选择了优惠券方式,且有名下有优惠券
+      if(_this.coupon && _this.order.orderPaymentType ==4){
+        _this.couponChecked = true;
+      }
     },
     delOrder() {
       const _this = this;

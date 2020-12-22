@@ -41,8 +41,18 @@ namespace Xw.Zx.Core.Models.Model
         public int ProductId { get; set; }
 
         public string ProducName { get; set; }
+
+        /// <summary>
+        /// 实际支付金额
+        /// </summary>
         [Column(TypeName = "decimal(8, 2)")]
         public decimal Amount { get; set; }
+
+        /// <summary>
+        /// 商品金额
+        /// </summary>
+        [Column(TypeName = "decimal(8, 2)")]
+        public decimal ProductAmount { get; set; }
 
         [Column(TypeName = "nvarchar(50)")]
         public string CustomerName { get; set; }

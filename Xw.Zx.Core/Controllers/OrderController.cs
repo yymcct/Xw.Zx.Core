@@ -101,13 +101,14 @@ namespace Xw.Zx.Core.Controllers
                     MemberPhone = Member.Phone,
                     ProductId = product.Id,
                     ProducName = product.Name,
+                    ProductAmount = product.Price,
                     CustomerName = postOrderDto.CustomerName,
                     CustomerPhone = postOrderDto.CustomerPhone,
                     Remark = postOrderDto.Remark,
                     Amount = product.Price,
                     AddTime = DateTime.Now,
                     OrderState = OrderState.待付款,
-                    OrderPaymentType = OrderPaymentType.支付宝
+                    OrderPaymentType = postOrderDto.OrderPaymentType
                 };
                 _context.Add(order);
                 _context.SaveChanges();

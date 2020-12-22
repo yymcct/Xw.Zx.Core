@@ -57,7 +57,8 @@ namespace Xw.Zx.Core.Areas.Manager
                              OrderPaymentType = order.OrderPaymentType,
                              OrderPaymentTypeName = order.OrderPaymentType.ToString(),
                              Timestamp = order.Timestamp,
-                             Remark = order.Remark
+                             Remark = order.Remark,
+                             ProductAmount = order.ProductAmount
                          };
 
                 var result = new OrderTotalMDto()

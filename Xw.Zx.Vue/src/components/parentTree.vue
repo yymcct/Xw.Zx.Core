@@ -19,7 +19,7 @@
                 level0: scope.data.members.isDirectLine == true,
               }"
             >
-              {{ scope.data.members.realName }} {{ scope.data.members.phone }}
+              {{ scope.data.members.realName }} {{ scope.data.members.phone }} <span v-if="scope.data.members.id!=6">[{{ scope.data.members.memberVipTypeName}}]</span>
               <span>
                 <el-link
                   type="primary"

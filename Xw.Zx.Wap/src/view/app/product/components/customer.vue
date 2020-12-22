@@ -72,7 +72,8 @@ export default {
         productId: 0,
         customerName: "",
         customerPhone: "",
-        remark:""
+        orderPaymentType: 0,
+        remark: "",
       },
     };
   },
@@ -83,7 +84,11 @@ export default {
 
   beforeMount() {},
 
-  mounted() {},
+  mounted() {
+    if (this.$route.query.from == "coup") {
+      this.dto.orderPaymentType = 4;
+    }
+  },
 
   methods: {
     pay() {

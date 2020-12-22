@@ -85,7 +85,7 @@ export default {
   methods: {
     go(item) {
       if (!item.couponUseState) {
-        this.$router.push({ path: `/sqb/product/${item.productId}` });
+        this.$router.push({ path: `/sqb/product/${item.productId}`, query:{from:'coup'}});
       }
     },
   },

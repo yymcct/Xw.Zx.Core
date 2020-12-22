@@ -68,5 +68,7 @@ namespace Xw.Zx.Core.Models.Dto
         public string CustomerPhone { get; set; }
 
         public string Remark { get; set; }
+
+        public OrderPaymentType OrderPaymentType { get; set; } = OrderPaymentType.支付宝;
     }
 }
