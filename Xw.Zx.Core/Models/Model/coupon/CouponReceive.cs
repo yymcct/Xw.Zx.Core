@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sieve.Attributes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -28,6 +29,7 @@ namespace Xw.Zx.Core.Models.Model
         [Column(TypeName = "nvarchar(500)")]
         public string Remark { get; set; } = "";
 
+        [Sieve(CanFilter = true, CanSort = true)]
         public CouponUseState CouponUseState { get; set; }
     }
 }

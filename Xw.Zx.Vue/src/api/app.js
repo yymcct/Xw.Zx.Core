@@ -17,6 +17,7 @@ export default {
     coupon: {
         getCouponList: () => request.get(`/manager/Coupon/GetCouponList`),
         giveCoupon: (params) => request.post(`/manager/Coupon/GiveCoupon`, params),
+        getCoupon: (params) => request.get(`/manager/Coupon/GetCoupon`,{params: params}),
     }
 
 }
