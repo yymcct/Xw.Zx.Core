@@ -65,7 +65,7 @@ namespace Xw.Zx.Core.Controllers
                 }
 
                 if (_context.WithdrawDeposits.Any(w => w.MemberId == Member.Id
-                     && w.WithdrawDepositState == WithdrawDepositState.申请中))
+                     && w.WithdrawDepositState == WithdrawDepositState.申请提现))
                 {
                     return new HbzsResult(HbzsResultCode.Sucess, "我们已收到您的申请,正在处理中,请稍后");
                 }
@@ -194,7 +194,7 @@ namespace Xw.Zx.Core.Controllers
                     return new HbzsResult(HbzsResultCode.Invalid_Error, "账户无权限!");
                 }
 
-                if (detail.WithdrawDepositState != WithdrawDepositState.申请中)
+                if (detail.WithdrawDepositState != WithdrawDepositState.申请提现)
                 {
                     return new HbzsResult(HbzsResultCode.Invalid_Error, "单据状态异常,无法处理!");
                 }

@@ -17,6 +17,7 @@
             <span
               :class="{
                 level0: scope.data.members.isDirectLine == true,
+                iscurmember: scope.data.members.id == memberId
               }"
             >
               {{ scope.data.members.realName }} {{ scope.data.members.phone }} <span v-if="scope.data.members.id!=6">[{{ scope.data.members.memberVipTypeName}}]</span>
@@ -129,5 +130,8 @@ export default {
 .get-children {
   font-size: 13px;
   margin-left: 10px;
+}
+.iscurmember{
+  font-size:20px;
 }
 </style>

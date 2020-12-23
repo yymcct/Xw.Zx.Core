@@ -9,7 +9,7 @@ namespace Xw.Zx.Core.Models.Model
 {
     public enum WithdrawDepositState
     {
-        申请中 = 0,
+        申请提现 = 0,
         通过 = 1,
         拒绝 = 2,
         失败=3
@@ -28,7 +28,7 @@ namespace Xw.Zx.Core.Models.Model
         [Sieve(CanFilter = true, CanSort = true)]
         public DateTime AddTime { get; set; } = DateTime.Now;
 
-        public WithdrawDepositState WithdrawDepositState { get; set; } = WithdrawDepositState.申请中;
+        public WithdrawDepositState WithdrawDepositState { get; set; } = WithdrawDepositState.申请提现;
 
         public string Remark { get; set; } = "";
     }

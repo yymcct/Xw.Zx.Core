@@ -72,6 +72,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.IncomeAccountController.GetIncomes(Sieve.Models.SieveModel)">
+            <summary>
+            获取详情
+            </summary>
+            <param name="sieveModel"></param>
+            <returns></returns>
+        </member>
         <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMDto.ZhijieTotla">
             <summary>
             直接收益
@@ -100,6 +107,21 @@
         <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMDto.Balance">
             <summary>
             待提现
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMRespone.Income.MemberId">
+            <summary>
+            受益人ID
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMRespone.Income.Amount">
+            <summary>
+            收益金额
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMRespone.Income.SourceOrderId">
+            <summary>
+            产生收益的单据ID
             </summary>
         </member>
         <member name="P:Xw.Zx.Core.Areas.Manager.MemberMDto.IdentityCardNum">
