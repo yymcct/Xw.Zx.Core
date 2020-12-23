@@ -123,5 +123,11 @@ namespace Xw.Zx.Core.Models.Model
         /// 认证状态
         /// </summary>
         public MemberIdentityState MemberIdentityState { get; set; }
+
+        /// <summary>
+        /// 用户余额表
+        /// </summary>
+        [Column(TypeName = "decimal(8, 2)")]
+        public decimal Money { get; set; }
     }
 }

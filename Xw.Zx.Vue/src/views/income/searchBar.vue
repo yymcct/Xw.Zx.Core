@@ -10,14 +10,14 @@
         <el-form-item>
           <el-input
             v-model.trim="filters.memberName"
-            placeholder="用户姓名,电话"
+            placeholder="收益人姓名,电话"
           ></el-input>
         </el-form-item>
         <el-form-item>
           <el-date-picker
             v-model="filters.startTimeStart"
             type="date"
-            placeholder="领取开始时间"
+            placeholder="收益开始时间"
             align="right"
             :picker-options="glpickerOptions"
             value-format="yyyy-MM-dd"
@@ -25,7 +25,7 @@
           <el-date-picker
             v-model="filters.startTimeEnd"
             type="date"
-            placeholder="领取结束时间"
+            placeholder="收益结束时间"
             align="right"
             :picker-options="glpickerOptions"
             value-format="yyyy-MM-dd"

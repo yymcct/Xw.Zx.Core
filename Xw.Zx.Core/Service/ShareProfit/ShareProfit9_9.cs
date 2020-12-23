@@ -33,20 +33,37 @@ namespace Xw.Zx.Core.Service.ShareProfit
 
                 if (inviter != null)
                 {
-                    var remark = $"{member.RealName}[{member.Phone}]购买:{order.ProducName}[{order.Id}]产生分润:{9.0}元";
-
-                    _context.IncomeAccounts.Add(new IncomeAccount()
+                    var money = 9.0m;
+                    var remark = $"{member.RealName}[{member.Phone}]购买:{order.ProducName}[{order.Id}]产生分润:{money}元";
+                    using (var transaction = _context.Database.BeginTransaction())
                     {
-                        MemberId = inviter.Id,
-                        Amount = 9.0m,//order.Amount,
-                        SourceOrderId = order.Id,
-                        SourceOrderMemberId = order.MemberId,
-                        SourceOrderMemberInviteId = inviter.Id,
-                        IncomeAccountType = IncomeAccountType.直接收益,
-                        Remark = remark,
-                    });
+                        _context.IncomeAccounts.Add(new IncomeAccount()
+                        {
+                            MemberId = inviter.Id,
+                            Amount = money,
+                            SourceOrderId = order.Id,
+                            SourceOrderMemberId = order.MemberId,
+                            SourceOrderMemberInviteId = inviter.Id,
+                            IncomeAccountType = IncomeAccountType.直接收益,
+                            Remark = remark,
+                        });
 
-                    _context.SaveChanges();
+                        _context.MemberBalanceLogs.Add(new MemberBalanceLog()
+                        {
+                            Memberid = inviter.Id,
+                            memberMoneySource = MemberMoneySource.分润,
+                            SourceId = order.Id,
+                            Amount = money,
+                            OriginalMoney = inviter.Money,
+                            CurMoney = inviter.Money += money,
+                            Remark = remark
+                        });
+
+                        inviter.Money += money;
+
+                        _context.SaveChanges();
+                        transaction.Commit();
+                    }
                     _logger.LogError(remark);
                 }
             }

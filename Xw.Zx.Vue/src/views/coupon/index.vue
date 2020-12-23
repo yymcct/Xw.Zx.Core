@@ -61,7 +61,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" width="100px">
+      <!-- <el-table-column label="操作" width="100px">
         <template scope="scope">
           <i
             class="el-icon-edit"
@@ -74,7 +74,7 @@
             @click="handleDel(scope.$index, scope.row)"
           ></i>
         </template>
-      </el-table-column>
+      </el-table-column> -->
     </el-table>
 
     <!--工具条align='center'-->

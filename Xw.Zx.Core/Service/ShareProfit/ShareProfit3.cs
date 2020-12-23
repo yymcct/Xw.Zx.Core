@@ -36,21 +36,38 @@ namespace Xw.Zx.Core.Service.ShareProfit
 
                 if (yyzxMember != null)
                 {
-                    if (order.Amount > 7000m)
+                    var money = 7000m;
+                    if (order.Amount > money)
                     {
                         var remark = $"{member.RealName}[{member.Phone}]购买:{order.ProducName}[{order.Id}]产生分润:7000元";
-
-                        _context.IncomeAccounts.Add(new IncomeAccount()
+                        using (var transaction = _context.Database.BeginTransaction())
                         {
-                            MemberId = yyzxMember.Id,
-                            Amount = 7000m,
-                            SourceOrderId = order.Id,
-                            SourceOrderMemberId = order.MemberId,
-                            SourceOrderMemberInviteId = yyzxMember.Id,
-                            IncomeAccountType = IncomeAccountType.直接收益,
-                            Remark = remark,
-                        });
-                        _context.SaveChanges();
+                            _context.IncomeAccounts.Add(new IncomeAccount()
+                            {
+                                MemberId = yyzxMember.Id,
+                                Amount = money,
+                                SourceOrderId = order.Id,
+                                SourceOrderMemberId = order.MemberId,
+                                SourceOrderMemberInviteId = yyzxMember.Id,
+                                IncomeAccountType = IncomeAccountType.直接收益,
+                                Remark = remark,
+                            });
+
+                            _context.MemberBalanceLogs.Add(new MemberBalanceLog()
+                            {
+                                Memberid = yyzxMember.Id,
+                                memberMoneySource = MemberMoneySource.分润,
+                                SourceId = order.Id,
+                                Amount = money,
+                                OriginalMoney = yyzxMember.Money,
+                                CurMoney = yyzxMember.Money += money,
+                                Remark = remark
+                            });
+
+                            yyzxMember.Money += money;
+                            _context.SaveChanges();
+                            transaction.Commit();
+                        }
                         _logger.LogError(remark);
                     }
                 }

@@ -1378,6 +1378,16 @@
             认证状态
             </summary>
         </member>
+        <member name="P:Xw.Zx.Core.Models.Model.Member.Money">
+            <summary>
+            用户余额表
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.MemberBalanceLog.Amount">
+            <summary>
+            变动金额
+            </summary>
+        </member>
         <member name="T:Xw.Zx.Core.Models.Model.Order">
             <summary>
             订单表

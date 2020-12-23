@@ -32,34 +32,51 @@ namespace Xw.Zx.Core.Service.ShareProfit
             {
                 var order = _context.Orders.First(o => o.Id == orderId);
                 var member = _context.Members.First(o => o.Id == order.MemberId);
-                Member yyzxMember = null ;
+                Member yyzxMember = null;
                 if (member.MemberVipType == MemberVipType.运营中心)
                 {
                     yyzxMember = member;
                 }
-                else 
+                else
                 {
                     yyzxMember = _member.GetYunyinzhongxinMember(member);
                 }
-              
+
 
                 if (yyzxMember != null)
                 {
-                    var remark = $"{member.RealName}[{member.Phone}]购买:{order.ProducName}[{order.Id}]产生分润:{order.Amount}*50%={order.Amount * 0.5m}元";
+                    var money = order.Amount * 0.5m;
+                    var remark = $"{member.RealName}[{member.Phone}]购买:{order.ProducName}[{order.Id}]产生分润:{order.Amount}*50%={money}元";
 
-                    _context.IncomeAccounts.Add(new IncomeAccount()
+                    using (var transaction = _context.Database.BeginTransaction())
                     {
-                        MemberId = yyzxMember.Id,
-                        Amount = order.Amount * 0.5m,
-                        SourceOrderId = order.Id,
-                        SourceOrderMemberId = order.MemberId,
-                        SourceOrderMemberInviteId = yyzxMember.Id,
-                        IncomeAccountType = IncomeAccountType.直接收益,
-                        Remark = remark,
-                    });
+                        _context.IncomeAccounts.Add(new IncomeAccount()
+                        {
+                            MemberId = yyzxMember.Id,
+                            Amount = money,
+                            SourceOrderId = order.Id,
+                            SourceOrderMemberId = order.MemberId,
+                            SourceOrderMemberInviteId = yyzxMember.Id,
+                            IncomeAccountType = IncomeAccountType.直接收益,
+                            Remark = remark,
+                        });
 
-                    _context.SaveChanges();
+                        _context.MemberBalanceLogs.Add(new MemberBalanceLog()
+                        {
+                            Memberid = yyzxMember.Id,
+                            memberMoneySource = MemberMoneySource.分润,
+                            SourceId = order.Id,
+                            Amount = money,
+                            OriginalMoney = yyzxMember.Money,
+                            CurMoney = yyzxMember.Money += money,
+                            Remark = remark
+                        });
 
+                        yyzxMember.Money += money;
+
+                        _context.SaveChanges();
+                        transaction.Commit();
+                    }
                     _logger.LogError(remark);
                 }
             }

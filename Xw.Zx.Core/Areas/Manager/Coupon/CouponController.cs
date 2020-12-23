@@ -135,8 +135,8 @@ namespace Xw.Zx.Core.Areas.Manager.Coupon
 
                 items.Add(item);
             }
-
-            return new HbzsManagerResult<IEnumerable<CouponMRespone.CouponItem>>(items);
+            var total = _sieveProcessor.Apply(sieveModel, couponReceiveDb, null, true, true, false).Count();
+            return new HbzsManagerResult<IEnumerable<CouponMRespone.CouponItem>>(items, total);
         }
 
     }

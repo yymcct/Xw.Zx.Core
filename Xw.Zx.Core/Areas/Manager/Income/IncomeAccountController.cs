@@ -104,7 +104,8 @@ namespace Xw.Zx.Core.Areas.Manager
         [HttpGet]
         public HbzsManagerResult<IEnumerable<IncomeAccountMRespone.Income>> GetIncomes([FromQuery] SieveModel sieveModel)
         {
-            var incomes = _sieveProcessor.Apply(sieveModel, _context.IncomeAccounts).ToList();
+            var db = _context.IncomeAccounts;
+            var incomes = _sieveProcessor.Apply(sieveModel, db).ToList();
 
             var memberIds = incomes.Select(i => i.MemberId).ToArray();
             var members = _context.Members.Where(m => memberIds.Contains(m.Id)).ToArray();
@@ -139,8 +140,8 @@ namespace Xw.Zx.Core.Areas.Manager
 
                 items.Add(item);
             }
-
-            return new HbzsManagerResult<IEnumerable<IncomeAccountMRespone.Income>>(items);
+            var total = _sieveProcessor.Apply(sieveModel, db, null, true, true, false).Count();
+            return new HbzsManagerResult<IEnumerable<IncomeAccountMRespone.Income>>(items, total);
         }
     }
 }

@@ -14,7 +14,32 @@
         width="100px"
         sortable
       ></el-table-column>
+      <el-table-column prop="memberName" label="收益人" width="200px" sortable>
+        <template slot-scope="scope">
+          <p style="font-weight: bold">{{ scope.row.memberName }}</p>
+          <p style="color: #999999">{{ scope.row.memberPhone }}</p>
+          <p>
+            <el-link type="primary" @click="showMemberParentTree(scope.row)"
+              >查看收益人团队树</el-link
+            >
+          </p>
+        </template>
+      </el-table-column>
 
+      <el-table-column prop="amount" label="收益金额" width="130px" sortable>
+        <template slot-scope="scope">
+          <p style="font-weight: bold; color: #ff5000; font-size: 18px">
+            {{ scope.row.amount }}
+          </p>
+        </template>
+      </el-table-column>
+      <el-table-column prop="memberName" label="收益类型" sortable>
+        <template slot-scope="scope">
+          <p style="font-weight: bold">{{ scope.row.incomeAccountTypeName }}</p>
+          <p style="color: #999999">备注: {{ scope.row.remark }}</p>
+          <p style="color: #999999">收益时间: {{ scope.row.addTime }}</p>
+        </template>
+      </el-table-column>
       <el-table-column
         prop="sourceOrderId"
         label="分润订单"
@@ -47,34 +72,6 @@
           </p>
         </template>
       </el-table-column>
-
-      <el-table-column prop="amount" label="收益金额" width="130px" sortable>
-        <template slot-scope="scope">
-          <p style="font-weight: bold; color: #ff5000; font-size: 18px">
-            {{ scope.row.amount }}
-          </p>
-        </template>
-      </el-table-column>
-      <el-table-column prop="memberName" label="收益类型" sortable>
-        <template slot-scope="scope">
-          <p style="font-weight: bold">{{ scope.row.incomeAccountTypeName }}</p>
-          <p style="color: #999999">备注: {{ scope.row.remark }}</p>
-          <p style="color: #999999">收益时间: {{ scope.row.addTime }}</p>
-        </template>
-      </el-table-column>
-
-      <el-table-column prop="memberName" label="收益人" width="200px" sortable>
-        <template slot-scope="scope">
-          <p style="font-weight: bold">{{ scope.row.memberName }}</p>
-          <p style="color: #999999">{{ scope.row.memberPhone }}</p>
-          <p>
-            <el-link type="primary" @click="showMemberParentTree(scope.row)"
-              >查看收益人团队树</el-link
-            >
-          </p>
-        </template>
-      </el-table-column>
-
       <!-- <el-table-column label="操作" width="100px">
         <template scope="scope">
           <i

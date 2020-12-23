@@ -20,6 +20,8 @@ namespace Xw.Zx.Core.Models.Model
 
         public DbSet<Member> Members { get; set; }
 
+        public DbSet<MemberBalanceLog> MemberBalanceLogs { get; set; }
+
         public DbSet<ApplyForZxMDto> ApplyForZxs { get; set; }
 
         #region 邮箱
@@ -90,7 +92,7 @@ namespace Xw.Zx.Core.Models.Model
         public DbSet<LxComputer> LxComputers { get; set; }
         #endregion
 
-        #region y
+        #region 优惠券
         public DbSet<Coupon> Coupons { get; set; }
         public DbSet<CouponReceive> CouponReceives { get; set; }
         public DbSet<CouponUseLog> CouponUseLogs { get; set; }
@@ -116,10 +118,22 @@ namespace Xw.Zx.Core.Models.Model
                .HasQueryFilter(c => !c.IsDelete)
                .Property(c => c.IsDelete)
                .HasDefaultValue(false);
+
             modelBuilder.Entity<Member>()
                            .HasQueryFilter(c => !c.IsDelete)
                            .Property(c => c.IsDelete)
                            .HasDefaultValue(false);
+
+            modelBuilder.Entity<Member>()
+               .Property(c => c.Money)
+               .HasDefaultValue(0m);
+
+            modelBuilder.Entity<MemberBalanceLog>()
+                   .HasQueryFilter(c => !c.IsDelete)
+                   .Property(c => c.IsDelete)
+                   .HasDefaultValue(false);
+
+
             modelBuilder.Entity<ApplyForZxMDto>()
                            .HasQueryFilter(c => !c.IsDelete)
                            .Property(c => c.IsDelete)

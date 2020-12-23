@@ -37,7 +37,7 @@ namespace Xw.Zx.Core.Config
                 return source.Where(c => 1 != 1);
             }
 
-            var res = source.Where(c => c.SourceOrderMemberId == member.Id);
+            var res = source.Where(c => c.MemberId == member.Id);
 
             return res;
         }
