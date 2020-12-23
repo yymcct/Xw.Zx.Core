@@ -348,3 +348,4 @@ UpLoad/
 *.bak
 /Hbzs.tt/tt/*.cs
 /Hbzs.tt/tt/*.vue
+dist/

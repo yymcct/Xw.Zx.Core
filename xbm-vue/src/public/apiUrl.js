@@ -81,21 +81,21 @@ export let apiUrl = {
 	GET_MANAGE_MENU: root + 'page_339_1.bsp',//政务管理菜单
 	// --------组织机构管理----------
 	// GET_ORG_LIST: root + 'PAGE_1_65.bsp', //组织机构列表
-	GET_ORG_LIST: root + 'PAGE_1_148.bsp', //组织机构列表
-	GET_USER_LIST: root + 'PAGE_1_74.bsp', //用户列表
+	GET_ORG_LIST: root + 'PAGE_1_20.bsp', //组织机构列表
+	GET_USER_LIST: root + 'PAGE_1_21.bsp', //用户列表
 
-	ADD_USER: root + 'PAGE_1_1.bsp', //用户信息新增
-	EDIT_USER: root + 'PAGE_1_2.bsp', //用户信息修改
-	DEL_USER: root + 'PAGE_1_4.bsp', //用户信息修改
+	ADD_USER: root + 'PAGE_1_22.bsp', //用户信息新增
+	EDIT_USER: root + 'PAGE_1_23.bsp', //用户信息修改
+	DEL_USER: root + 'PAGE_1_24.bsp', //用户信息修改
 
-	GET_DEPART_LIST: root + 'PAGE_1_72.bsp', //部门管理查询列表
-	ADD_DEPART: root + 'PAGE_1_6.bsp', //部门管理_新增
-	EDIT_DEPART: root + 'PAGE_1_73.bsp', //部门管理_修改
-	DEL_DEPART: root + 'PAGE_1_71.bsp', //部门管理_删除
+	GET_DEPART_LIST: root + 'PAGE_1_25.bsp', //部门管理查询列表
+	ADD_DEPART: root + 'PAGE_1_26.bsp', //部门管理_新增
+	EDIT_DEPART: root + 'PAGE_1_27.bsp', //部门管理_修改
+	DEL_DEPART: root + 'PAGE_1_28.bsp', //部门管理_删除
 
-	GET_UNIT_LIST: root + 'PAGE_1_7.bsp', //单位管理列表
-	ADD_UNIT: root + 'PAGE_1_11.bsp', //单位添加
-	RESET_PASSWORD: root + 'page_1_101.bsp', //重置用户密码
+	GET_UNIT_LIST: root + 'PAGE_1_29.bsp', //单位管理列表
+	ADD_UNIT: root + 'PAGE_1_30.bsp', //单位添加
+	RESET_PASSWORD: root + 'page_1_31.bsp', //重置用户密码
 
 
 	//版本查询
@@ -280,10 +280,10 @@ export let apiUrl = {
 	GET_FILE_CATALOG_BTN_AUTH: root + 'page_2_72.bsp', //个人文件柜上传删除权限
 
 	//个人信息
-	GET_PERSONAL_INFORMATION: root + 'page_2_1.bsp', //个人信息
-	GET_PERSONAL_INFORMATION_EDIT: root + 'page_2_2.bsp', //个人信息修改
-	GET_PERSONAL_INFORMATION_PASSWORD: root + 'page_2_21.bsp', //密码修改
-	GET_PERSONAL_INFORMATION_DEPARTMENT: root + 'page_2_46.bsp', //个人部门获取
+	GET_PERSONAL_INFORMATION: root + 'page_1_32.bsp', //个人信息
+	GET_PERSONAL_INFORMATION_EDIT: root + 'page_1_33.bsp', //个人信息修改
+	GET_PERSONAL_INFORMATION_PASSWORD: root + 'page_1_34.bsp', //密码修改
+	GET_PERSONAL_INFORMATION_DEPARTMENT: root + 'page_1_35.bsp', //个人部门获取
 
 	//惯用语
 	GET_IDIOMS_ADD: root + 'page_2_22.bsp', //惯用语添加
