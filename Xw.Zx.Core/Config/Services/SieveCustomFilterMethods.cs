@@ -28,5 +28,18 @@ namespace Xw.Zx.Core.Config
 
             return res;
         }
+
+        public IQueryable<IncomeAccount> MemberName(IQueryable<IncomeAccount> source, string op, string[] values)
+        {
+            var member = _context.Members.FirstOrDefault(m => m.RealName.Contains(values[0]) || m.Phone.Contains(values[0]));
+            if (member == null)
+            {
+                return source.Where(c => 1 != 1);
+            }
+
+            var res = source.Where(c => c.SourceOrderMemberId == member.Id);
+
+            return res;
+        }
     }
 }

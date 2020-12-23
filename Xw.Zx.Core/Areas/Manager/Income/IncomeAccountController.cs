@@ -40,7 +40,7 @@ namespace Xw.Zx.Core.Areas.Manager
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public HbzsManagerResult<List<IncomeAccountMDto>> GetIncomeAccounts([FromQuery]SieveModel sieveModel)
+        public HbzsManagerResult<List<IncomeAccountMDto>> GetIncomeAccounts([FromQuery] SieveModel sieveModel)
         {
             try
             {
@@ -95,5 +95,52 @@ namespace Xw.Zx.Core.Areas.Manager
             }
         }
 
+
+        /// <summary>
+        /// 获取详情
+        /// </summary>
+        /// <param name="sieveModel"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public HbzsManagerResult<IEnumerable<IncomeAccountMRespone.Income>> GetIncomes([FromQuery] SieveModel sieveModel)
+        {
+            var incomes = _sieveProcessor.Apply(sieveModel, _context.IncomeAccounts).ToList();
+
+            var memberIds = incomes.Select(i => i.MemberId).ToArray();
+            var members = _context.Members.Where(m => memberIds.Contains(m.Id)).ToArray();
+
+            var orderIds = incomes.Select(i => i.SourceOrderId).ToArray();
+            var orders = _context.Orders.Where(o => orderIds.Contains(o.Id));
+
+            var items = new List<IncomeAccountMRespone.Income>();
+            foreach (var r in incomes)
+            {
+                var item = new IncomeAccountMRespone.Income();
+                item.Id = r.Id;
+                item.MemberId = r.MemberId;
+                var member = members.First(m => m.Id == r.MemberId);
+                item.MemberName = member.RealName;
+                item.MemberPhone = member.Phone;
+                item.Amount = r.Amount;
+                var order = orders.First(o => o.Id == r.SourceOrderId);
+                item.SourceOrderId = order.Id;
+                item.SourceOrderTimestamp = order.Timestamp;
+                item.SourceOrderMemberId = order.MemberId;
+                item.SourceOrderMemberPhone = order.MemberPhone;
+                item.SourceOrderProducName = order.ProducName;
+                item.SourceOrderProductAmount = order.Amount;
+                item.SourceOrderAddTime = order.AddTime;
+                item.SourceOrderOrderPaymentType = order.OrderPaymentType;
+                item.SourceOrderOrderPaymentTypeName = order.OrderPaymentType.ToString();
+                item.IncomeAccountType = r.IncomeAccountType;
+                item.IncomeAccountTypeName = r.IncomeAccountType.ToString();
+                item.Remark = r.Remark;
+                item.AddTime = r.AddTime;
+
+                items.Add(item);
+            }
+
+            return new HbzsManagerResult<IEnumerable<IncomeAccountMRespone.Income>>(items);
+        }
     }
 }

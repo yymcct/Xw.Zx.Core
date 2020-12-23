@@ -54,6 +54,18 @@
             <param name="dto"></param>
             <returns></returns>
         </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.Coupon.CouponController.GetCoupon(Sieve.Models.SieveModel)">
+            <summary>
+            根据用户ID查
+            </summary>
+            <param name="sieveModel"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.Coupon.CouponMRespone.CouponItem.CreateTime">
+            <summary>
+            领取时间
+            </summary>
+        </member>
         <member name="M:Xw.Zx.Core.Areas.Manager.IncomeAccountController.GetIncomeAccounts(Sieve.Models.SieveModel)">
             <summary>
             TODO
@@ -1347,6 +1359,16 @@
         <member name="T:Xw.Zx.Core.Models.Model.Order">
             <summary>
             订单表
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.Order.Amount">
+            <summary>
+            实际支付金额
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.Order.ProductAmount">
+            <summary>
+            商品金额
             </summary>
         </member>
         <member name="T:Xw.Zx.Core.Models.Model.Payment">
