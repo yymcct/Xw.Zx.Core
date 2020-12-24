@@ -66,7 +66,7 @@ namespace Xw.Zx.Core.Areas.Manager
                     OrderMDtos = _sieveProcessor.Apply(sieveModel, db).ToList(),
                     QueryTotal = _sieveProcessor.Apply(sieveModel, db, null, true, true, false).Sum(o => o.Amount),
                     AllOrderTotal = db.Sum(o => o.Amount),
-                    WithdrawDepositsTotal = _context.WithdrawDeposits.Where(w => w.WithdrawDepositState == WithdrawDepositState.通过).Sum(w => w.Amount),
+                    WithdrawDepositsTotal = _context.WithdrawDeposits.Where(w => w.WithdrawDepositState == WithdrawDepositState.提现成功).Sum(w => w.Amount),
                 };
                 result.Balance = result.AllOrderTotal - result.WithdrawDepositsTotal;
 

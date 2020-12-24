@@ -9,14 +9,10 @@ namespace Xw.Zx.Core.Models.Model
 {
     public enum WithdrawDepositState
     {
-        //申请提现 = 0,
-        //审核通过 = 1,
-        //提现成功 = 2,
-        //提现失败=3
-        申请中 = 0,
-        通过 = 1,
-        拒绝 = 2,
-        失败 = 3
+        申请提现 = 0,
+        审核通过 = 10,
+        提现成功 = 20,
+        提现失败 = 30
     }
     public class WithdrawDeposit : ModelBase
     {
@@ -48,7 +44,7 @@ namespace Xw.Zx.Core.Models.Model
         [Sieve(CanFilter = true, CanSort = true)]
         public DateTime AddTime { get; set; } = DateTime.Now;
 
-        public WithdrawDepositState WithdrawDepositState { get; set; } = WithdrawDepositState.申请中;
+        public WithdrawDepositState WithdrawDepositState { get; set; } = WithdrawDepositState.申请提现;
 
         [Column(TypeName = "nvarchar(500)")]
         public string Remark { get; set; } = "";

@@ -14,7 +14,7 @@ namespace Xw.Zx.Core.Models.Model
 
         public int AddUserId { get; set; }  
 
-        public WithdrawDepositState WithdrawDepositState { get; set; } = WithdrawDepositState.申请中;
+        public WithdrawDepositState WithdrawDepositState { get; set; } = WithdrawDepositState.申请提现;
 
         [Column(TypeName = "nvarchar(500)")]
         public string Remark { get; set; } = "";

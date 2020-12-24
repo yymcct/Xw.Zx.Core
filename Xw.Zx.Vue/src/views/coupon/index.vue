@@ -153,25 +153,25 @@ export default {
       this.edit.id = 0;
       this.edit.showEdit = true;
     },
-    //删除
-    handleDel(index, row) {
-      this.$confirm("确认删除?", "提示", { type: "warning" }).then(() => {
-        this.loading = true;
-        api.coupon
-          .del(row.id)
-          .then((res) => {
-            this.loading = false;
-            this.$message({
-              message: "删除成功",
-              type: "success",
-            });
-            this.getCouponItems();
-          })
-          .catch(() => {
-            this.loading = false;
-          });
-      });
-    },
+    // //删除
+    // handleDel(index, row) {
+    //   this.$confirm("确认删除?", "提示", { type: "warning" }).then(() => {
+    //     this.loading = true;
+    //     api.coupon
+    //       .del(row.id)
+    //       .then((res) => {
+    //         this.loading = false;
+    //         this.$message({
+    //           message: "删除成功",
+    //           type: "success",
+    //         });
+    //         this.getCouponItems();
+    //       })
+    //       .catch(() => {
+    //         this.loading = false;
+    //       });
+    //   });
+    // },
     editChange(cancel) {
       if (cancel != "cancel") {
         this.getCouponItems();

@@ -69,7 +69,7 @@ namespace Xw.Zx.Core.Areas.Manager
                                             .Sum(i => new decimal?(i.Amount)),
 
                              WithdrawDepositTotal = _context.WithdrawDeposits
-                                            .Where(w => w.WithdrawDepositState == WithdrawDepositState.通过 && w.MemberId == member.Id)
+                                            .Where(w => w.WithdrawDepositState == WithdrawDepositState.提现成功 && w.MemberId == member.Id)
                                             .Sum(w => new decimal?(w.Amount)),
                          };
 

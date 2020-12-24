@@ -118,7 +118,7 @@ namespace Xw.Zx.Core.Controllers
 
                 var WithdrawDeposit = _context.WithdrawDeposits
                         .Where(b => b.MemberId == Member.Id
-                                && b.WithdrawDepositState == WithdrawDepositState.通过)
+                                && b.WithdrawDepositState == WithdrawDepositState.提现成功)
                         .Sum(b => b.Amount);
 
                 var res = new IncomInfo()

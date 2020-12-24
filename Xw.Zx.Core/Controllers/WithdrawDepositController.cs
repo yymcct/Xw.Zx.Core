@@ -65,7 +65,7 @@ namespace Xw.Zx.Core.Controllers
                 }
 
                 if (_context.WithdrawDeposits.Any(w => w.MemberId == Member.Id
-                     && w.WithdrawDepositState == WithdrawDepositState.申请中))
+                     && w.WithdrawDepositState == WithdrawDepositState.申请提现))
                 {
                     return new HbzsResult(HbzsResultCode.Sucess, "我们已收到您的申请,正在处理中,请稍后");
                 }
@@ -76,7 +76,7 @@ namespace Xw.Zx.Core.Controllers
 
                 var WithdrawDeposit = _context.WithdrawDeposits
                         .Where(b => b.MemberId == Member.Id
-                                && b.WithdrawDepositState == WithdrawDepositState.通过)
+                                && b.WithdrawDepositState == WithdrawDepositState.提现成功)
                         .Sum(b => b.Amount);
 
                 var canGet = IncomTotal - WithdrawDeposit;
@@ -193,7 +193,7 @@ namespace Xw.Zx.Core.Controllers
                     return new HbzsResult(HbzsResultCode.Invalid_Error, "账户无权限!");
                 }
 
-                if (detail.WithdrawDepositState != WithdrawDepositState.申请中)
+                if (detail.WithdrawDepositState != WithdrawDepositState.申请提现)
                 {
                     return new HbzsResult(HbzsResultCode.Invalid_Error, "单据状态异常,无法处理!");
                 }
@@ -209,13 +209,13 @@ namespace Xw.Zx.Core.Controllers
 
                 var WithdrawDeposit = _context.WithdrawDeposits
                         .Where(b => b.MemberId == detail.MemberId
-                                && b.WithdrawDepositState == WithdrawDepositState.通过)
+                                && b.WithdrawDepositState == WithdrawDepositState.提现成功)
                         .Sum(b => b.Amount);
 
                 var canGet = IncomTotal - WithdrawDeposit;
                 if (detail.Amount < 2.09m || detail.Amount > canGet)
                 {
-                    detail.WithdrawDepositState = WithdrawDepositState.拒绝;
+                    detail.WithdrawDepositState = WithdrawDepositState.提现失败;
                     detail.Remark = "提现的金额过大或过小, 无法处理";
                     _context.SaveChanges();
                     return new HbzsResult(HbzsResultCode.Sucess, "提现的金额过大或过小, 无法处理");
@@ -223,7 +223,7 @@ namespace Xw.Zx.Core.Controllers
 
                 if (dto.IsPass == false)
                 {
-                    detail.WithdrawDepositState = WithdrawDepositState.拒绝;
+                    detail.WithdrawDepositState = WithdrawDepositState.提现失败;
                     _context.SaveChanges();
                     return new HbzsResult(HbzsResultCode.Sucess);
                 }
@@ -235,7 +235,7 @@ namespace Xw.Zx.Core.Controllers
                 if (paylog.code != "10000")
                 {
                     detail.Remark = paylog.sub_msg;
-                    detail.WithdrawDepositState = WithdrawDepositState.失败;
+                    detail.WithdrawDepositState = WithdrawDepositState.提现失败;
                     _context.SaveChanges();
 
                     return new HbzsResult(HbzsResultCode.Invalid_Error, paylog.sub_msg);
@@ -244,7 +244,7 @@ namespace Xw.Zx.Core.Controllers
 
                 using (var transaction = _context.Database.BeginTransaction())
                 {
-                    detail.WithdrawDepositState = WithdrawDepositState.通过;
+                    detail.WithdrawDepositState = WithdrawDepositState.提现成功;
 
                     _context.Payments.Add(new Payment()
                     {
