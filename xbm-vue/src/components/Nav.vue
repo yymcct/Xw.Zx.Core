@@ -2,7 +2,7 @@
   <div class="box">
     <template v-if="token">
       <iframe
-        :src="'/jz/form_1_27.bsp?token=' + token"
+        :src="'/jz/form_1_2.bsp?token=' + token"
         style="display:none"
       ></iframe
     ></template>

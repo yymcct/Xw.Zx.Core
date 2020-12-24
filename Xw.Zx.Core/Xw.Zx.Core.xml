@@ -1498,6 +1498,21 @@
             失效时间
             </summary>
         </member>
+        <member name="P:Xw.Zx.Core.Models.Model.WithdrawDeposit.Amount">
+            <summary>
+            申请提现金额
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.WithdrawDeposit.WithdrawCharge">
+            <summary>
+            提现手续费
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.WithdrawDeposit.RealityAmount">
+            <summary>
+            实际提现金额
+            </summary>
+        </member>
         <member name="P:Xw.Zx.Core.Models.Model.XwZxContext.SysParams">
             <summary>
             系统参数表

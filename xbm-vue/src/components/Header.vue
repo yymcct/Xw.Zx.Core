@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <iframe :src="'/jz/form_1_27.bsp?token='+token" style="display:none"></iframe>
+    <iframe :src="'/jz/form_1_2.bsp?token='+token" style="display:none"></iframe>
     <h3>
       {{title}}
       <p>{{subtitle}}</p>

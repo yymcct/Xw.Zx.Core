@@ -113,7 +113,7 @@ namespace Xw.Zx.Core.Areas.Manager
                     return new HbzsManagerResult(HbzsManagerResultCode.Invalid_Error, "账户无权限!");
                 }
 
-                if (detail.WithdrawDepositState != WithdrawDepositState.申请提现)
+                if (detail.WithdrawDepositState != WithdrawDepositState.申请中)
                 {
                     return new HbzsManagerResult(HbzsManagerResultCode.Invalid_Error, "单据状态异常,无法处理!");
                 }

@@ -9,10 +9,14 @@ namespace Xw.Zx.Core.Models.Model
 {
     public enum WithdrawDepositState
     {
-        申请提现 = 0,
+        //申请提现 = 0,
+        //审核通过 = 1,
+        //提现成功 = 2,
+        //提现失败=3
+        申请中 = 0,
         通过 = 1,
         拒绝 = 2,
-        失败=3
+        失败 = 3
     }
     public class WithdrawDeposit : ModelBase
     {
@@ -23,13 +27,30 @@ namespace Xw.Zx.Core.Models.Model
 
         public int MemberId { get; set; }
 
+        /// <summary>
+        /// 申请提现金额
+        /// </summary>
         [Column(TypeName = "decimal(8, 2)")]
         public decimal Amount { get; set; }
+
+        /// <summary>
+        /// 提现手续费
+        /// </summary>
+        [Column(TypeName = "decimal(8, 2)")]
+        public decimal WithdrawCharge { get; set; }
+
+        /// <summary>
+        /// 实际提现金额
+        /// </summary>
+        [Column(TypeName = "decimal(8, 2)")]
+        public decimal RealityAmount { get; set; }
+
         [Sieve(CanFilter = true, CanSort = true)]
         public DateTime AddTime { get; set; } = DateTime.Now;
 
-        public WithdrawDepositState WithdrawDepositState { get; set; } = WithdrawDepositState.申请提现;
+        public WithdrawDepositState WithdrawDepositState { get; set; } = WithdrawDepositState.申请中;
 
+        [Column(TypeName = "nvarchar(500)")]
         public string Remark { get; set; } = "";
     }
 }
