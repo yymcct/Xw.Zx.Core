@@ -55,7 +55,7 @@ namespace Xw.Zx.Core.Service.ShareProfit
                             SourceId = order.Id,
                             Amount = money,
                             OriginalMoney = inviter.Money,
-                            CurMoney = inviter.Money += money,
+                            CurMoney = inviter.Money + money,
                             Remark = remark
                         });
 

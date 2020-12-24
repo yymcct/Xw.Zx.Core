@@ -60,7 +60,7 @@ namespace Xw.Zx.Core.Service.ShareProfit
                                 SourceId = order.Id,
                                 Amount = money,
                                 OriginalMoney = yyzxMember.Money,
-                                CurMoney = yyzxMember.Money += money,
+                                CurMoney = yyzxMember.Money + money,
                                 Remark = remark
                             });
 

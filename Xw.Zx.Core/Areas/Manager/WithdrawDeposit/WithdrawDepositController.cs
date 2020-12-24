@@ -92,6 +92,100 @@ namespace Xw.Zx.Core.Areas.Manager
             }
         }
 
+
+        /// <summary>
+        /// 审核通过
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public HbzsManagerResult AuditWithdrawDepositPass([FromBody] PostAuditWithdrawDepositdetailDto dto)
+        {
+            try
+            {
+
+                var detail = _context.WithdrawDeposits.First(w => w.Timestamp == dto.Timestamp);
+                var detailMemnber = _context.Members.First(m => m.Id == detail.MemberId);
+
+                if (!AppsettingsUtility.CanCreateUpdateVipCodePhone.Any(p => p == Member.Phone))
+                {
+                    return new HbzsManagerResult(HbzsManagerResultCode.Invalid_Error, "账户无权限!");
+                }
+
+                if (detail.WithdrawDepositState != WithdrawDepositState.申请提现)
+                {
+                    return new HbzsManagerResult(HbzsManagerResultCode.Invalid_Error, "单据状态异常,无法处理!");
+                }
+
+                if (detailMemnber.Disabled == true)
+                {
+                    return new HbzsManagerResult(HbzsManagerResultCode.Invalid_Error, "申请人账户异常,无法处理!");
+                }
+
+                var IncomTotal = _context.IncomeAccounts
+                    .Where(b => b.MemberId == detail.MemberId)
+                    .Sum(b => b.Amount);
+
+                var WithdrawDeposit = _context.WithdrawDeposits
+                        .Where(b => b.MemberId == detail.MemberId
+                                && b.WithdrawDepositState == WithdrawDepositState.提现成功)
+                        .Sum(b => b.Amount);
+
+                var canGet = IncomTotal - WithdrawDeposit;
+                if (detail.Amount < 2.09m || detail.Amount > canGet)
+                {
+                    detail.WithdrawDepositState = WithdrawDepositState.提现失败;
+                    detail.Remark = "提现的金额过大或过小, 无法处理";
+                    _context.SaveChanges();
+                    return new HbzsManagerResult(HbzsManagerResultCode.Sucess, "提现的金额过大或过小, 无法处理");
+                }
+
+                if (dto.IsPass == false)
+                {
+                    detail.WithdrawDepositState = WithdrawDepositState.提现失败;
+                    _context.SaveChanges();
+                    return new HbzsManagerResult(HbzsManagerResultCode.Sucess, "");
+                }
+
+
+                //转账
+                var paylog = Alipayment(detail, detailMemnber);
+
+                if (paylog.code != "10000")
+                {
+                    detail.Remark = paylog.sub_msg;
+                    detail.WithdrawDepositState = WithdrawDepositState.提现失败;
+                    _context.SaveChanges();
+
+                    return new HbzsManagerResult(HbzsManagerResultCode.Invalid_Error, paylog.sub_msg);
+                }
+
+
+                using (var transaction = _context.Database.BeginTransaction())
+                {
+                    detail.WithdrawDepositState = WithdrawDepositState.提现成功;
+
+                    _context.Payments.Add(new Payment()
+                    {
+                        OrderId = detail.Id,
+                        MemberId = Member.Id,
+                        Amount = detail.Amount
+                    });
+
+                    _context.SaveChanges();
+
+                    transaction.Commit();
+                }
+
+                return new HbzsManagerResult(HbzsManagerResultCode.Sucess, "");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex.Message);
+                return new HbzsManagerResult(HbzsManagerResultCode.Invalid_Error, ex.Message);
+            }
+        }
+
         /// <summary>
         /// 通过或拒绝
         /// </summary>
