@@ -55,7 +55,7 @@ export default new Router({
             path: '/order',
             component: () =>
                 import('./views/order/index'),
-            name: '毛收入管理'
+            name: '订单管理'
         },
         {
             path: '/incomeAccount',
@@ -69,12 +69,7 @@ export default new Router({
                 import('./views/income/index'),
             name: '分润详情'
         },
-        {
-            path: '/withdrawDeposit',
-            component: () =>
-                import('./views/withdrawDeposit/index'),
-            name: '提现管理'
-        },
+
         {
             path: '/updateVipAuthCode',
             component: () =>
@@ -92,6 +87,37 @@ export default new Router({
             component: () =>
                 import('./views/coupon/index'),
             name: '优惠券记录'
+        },
+        ]
+    },
+    {
+        path: '/',
+        name: '提现管理',
+        component: Home,
+        iconCls: 'el-icon-tickets',
+        children: [{
+            path: '/withdraw/waitaduit',
+            component: () =>
+                import('./views/withdrawDeposit/waitAduit'),
+            name: '待审核'
+        },
+        {
+            path: '/withdraw/waitpay',
+            component: () =>
+                import('./views/withdrawDeposit/waitPay'),
+            name: '待打款'
+        },
+        {
+            path: '/withdraw/sucess',
+            component: () =>
+                import('./views/withdrawDeposit/index'),
+            name: '已打款'
+        },
+        {
+            path: '/withdraw/fail',
+            component: () =>
+                import('./views/withdrawDeposit/fail'),
+            name: '失败'
         },
         ]
     },

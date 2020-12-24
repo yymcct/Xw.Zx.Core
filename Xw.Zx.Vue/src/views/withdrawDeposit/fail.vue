@@ -215,7 +215,7 @@ export default {
       this.page = 1;
       this.requestParams.filters = "";
 
-      this.requestParams.filters += `WithdrawDepositState==20,`;
+      this.requestParams.filters += `WithdrawDepositState==30,`;
 
       if (this.filters.keyword)
         this.requestParams.filters += `(Remark|RealName|Phone|AliPayAccount)@=${this.filters.keyword},`;

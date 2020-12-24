@@ -46,14 +46,20 @@ select * from ShareProfitConfigs
 select top 100 * from IncomeAccounts order by id desc
 
 -- memberID 784    InviteId 750 -> InviteId 47
-update Orders set orderstate = 0  where Timestamp='20201201153851803671'
+update Orders set orderstate = 0  where Timestamp='20201222230655723972'
 
-select * from Members where id =47
+select * from Members where id =72
+select * from MemberBalanceLogs where Memberid=72
 
 update Members set MemberVipType = 20 where id =47
 
 update IncomeAccounts set MemberId=72 where id = 317
 
+
+  select Memberid, max(CurMoney) from MemberBalanceLogs group by Memberid order by Memberid
+  select memberId, sum(amount) from IncomeAccounts where IsDelete=0 group by Memberid order by Memberid
+
+  select Memberid, sum(Amount) from MemberBalanceLogs group by Memberid order by Memberid
 
 -- 测试优惠券
 -- Insert rows into table 'Coupons'
@@ -74,3 +80,7 @@ SELECT * FROM CouponReceives
 UPDATE Orders SET ProductAmount = Amount 
 
 UPDATE Orders SET Amount = 0 WHERE OrderPaymentType = 4 
+
+-- 测试提现
+SELECT * FROM WithdrawDeposits
+select 

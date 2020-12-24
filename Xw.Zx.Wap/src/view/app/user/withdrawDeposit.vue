@@ -14,7 +14,7 @@
         placeholder="请输入提现金额,最小2.1元"
       />
       <div class="border">
-        <span class="sxf">提现手续费: 2元/笔</span>
+        <span class="sxf">提现手续费: 15% (支付宝收取)</span>
       </div>
     </div>
     <div class="foot">

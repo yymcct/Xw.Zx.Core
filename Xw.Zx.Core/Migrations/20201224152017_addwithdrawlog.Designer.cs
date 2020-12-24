@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Xw.Zx.Core.Models.Model;
 
 namespace Xw.Zx.Core.Migrations
 {
     [DbContext(typeof(XwZxContext))]
-    partial class XwZxContextModelSnapshot : ModelSnapshot
+    [Migration("20201224152017_addwithdrawlog")]
+    partial class addwithdrawlog
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -829,32 +831,6 @@ namespace Xw.Zx.Core.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("WithdrawDeposits");
-                });
-
-            modelBuilder.Entity("Xw.Zx.Core.Models.Model.WithdrawDepositLog", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AddUserId");
-
-                    b.Property<DateTime>("CreateTime");
-
-                    b.Property<bool>("IsDelete")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(false);
-
-                    b.Property<string>("Remark")
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<int>("WithdrawDepositId");
-
-                    b.Property<int>("WithdrawDepositState");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("WithdrawDepositLogs");
                 });
 #pragma warning restore 612, 618
         }

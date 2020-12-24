@@ -17,10 +17,15 @@ export default {
     coupon: {
         getCouponList: () => request.get(`/manager/Coupon/GetCouponList`),
         giveCoupon: (params) => request.post(`/manager/Coupon/GiveCoupon`, params),
-        getCoupon: (params) => request.get(`/manager/Coupon/GetCoupon`,{params: params}),
+        getCoupon: (params) => request.get(`/manager/Coupon/GetCoupon`, { params: params }),
     },
-    income:{
-        getCoupon: (params) => request.get(`/manager/IncomeAccount/GetIncomes`,{params: params}),
+    income: {
+        getCoupon: (params) => request.get(`/manager/IncomeAccount/GetIncomes`, { params: params }),
+    },
+    withdraw: {
+        get: (params) => request.get('/manager/WithdrawDeposit/GetWithdrawDeposits', { params: params }),
+        audit: (id) => request.post(`/manager/WithdrawDeposit/Audit?id=${id}`),
+        pay: (id) => request.post(`/manager/WithdrawDeposit/Pay?id=${id}`),
+        fail: (id) => request.post(`/manager/WithdrawDeposit/Fail?id=${id}`),
     }
-
 }

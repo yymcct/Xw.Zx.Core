@@ -61,7 +61,7 @@ POST {{baseUrl}}/api/Biqilin/Notifyurl
 Content-Type: {{contentType}}
 
 {
-  "outOrderNo":"20201201153851803671",
+  "outOrderNo":"20201222230655723972",
   "orderStatus":"TRADE_SUCCESS"
 }
 

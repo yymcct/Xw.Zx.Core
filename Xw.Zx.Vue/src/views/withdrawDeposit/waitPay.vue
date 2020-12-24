@@ -125,17 +125,17 @@
             >历史</el-button
           >
           <el-button
-            v-if="scope.row.withdrawDepositState == 0"
+            v-if="scope.row.withdrawDepositState == 10"
             size="mini"
             type="warning"
             @click="handleAuditFail(scope.row)"
             >拒绝</el-button
           >
           <el-button
-            v-if="scope.row.withdrawDepositState == 0"
+            v-if="scope.row.withdrawDepositState == 10"
             size="mini"
             type="success"
-            @click="handleAudit(scope.row)"
+            @click="handlePay(scope.row)"
             >通过</el-button
           >
         </template>
@@ -215,7 +215,7 @@ export default {
       this.page = 1;
       this.requestParams.filters = "";
 
-      this.requestParams.filters += `WithdrawDepositState==20,`;
+      this.requestParams.filters += `WithdrawDepositState==10,`;
 
       if (this.filters.keyword)
         this.requestParams.filters += `(Remark|RealName|Phone|AliPayAccount)@=${this.filters.keyword},`;
@@ -232,10 +232,10 @@ export default {
       });
     },
     //显示编辑界面
-    handleAudit: function (row) {
-      api.withdraw.audit(row.id).then(() => {
+    handlePay: function (row) {
+      api.withdraw.pay(row.id).then(() => {
         this.$message({
-          message: "审核通过",
+          message: "打款成功",
           type: "success",
         });
         this.getWithdrawDepositMDtos();

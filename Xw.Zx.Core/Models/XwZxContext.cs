@@ -67,6 +67,8 @@ namespace Xw.Zx.Core.Models.Model
         //用户提现表
         public DbSet<WithdrawDeposit> WithdrawDeposits { get; set; }
 
+        public DbSet<WithdrawDepositLog> WithdrawDepositLogs { get; set; }
+
         //支付宝支付记录表
         public DbSet<AlipayLog> AlipayLogs { get; set; }
 
@@ -186,6 +188,12 @@ namespace Xw.Zx.Core.Models.Model
                            .HasQueryFilter(c => !c.IsDelete)
                            .Property(c => c.IsDelete)
                            .HasDefaultValue(false);
+
+            modelBuilder.Entity<WithdrawDepositLog>()
+                           .HasQueryFilter(c => !c.IsDelete)
+                           .Property(c => c.IsDelete)
+                           .HasDefaultValue(false);
+
             modelBuilder.Entity<AlipayLog>()
                            .HasQueryFilter(c => !c.IsDelete)
                            .Property(c => c.IsDelete)
