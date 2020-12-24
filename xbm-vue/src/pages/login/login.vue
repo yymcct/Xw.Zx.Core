@@ -200,10 +200,10 @@ export default {
         .getDataAdd(params)
         .then(res => {
           sessionStorage.setItem("lg_code", res.LG_CODE);
-          // this.$router.push({
-          //   path: "/pproval"
-          // });
-          window.location.href='/jz/index.html#/approval';
+          this.$router.push({
+            path: "/approval"
+          });
+          //window.location.href='/jz/index.html#/approval';
           this.subLoading = false;
         })
         .catch(res => {

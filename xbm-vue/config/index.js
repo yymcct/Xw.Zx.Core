@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/dz_exchange': {
-        target: 'http://localhost:9001/',
+        target: 'http://139.198.187.64:9001/',
         changeOrigin: true,
         pathRewrite: {
          '^/':'/'
@@ -21,7 +21,7 @@ module.exports = {
       '/web': {
         // target: 'http://192.168.1.253:8088/',
         // target: 'http://shoa.publicvm.com:8088/',
-        target: 'http://localhost:9001/',
+        target: 'http://139.198.187.64:9001/',
         changeOrigin: true,
         pathRewrite: {
          '^/':'/'
@@ -29,14 +29,14 @@ module.exports = {
       },
       '/dghy': {
         // target: 'http://192.168.1.253:8088/',
-        target: 'http://localhost:9001/',
+        target: 'http://139.198.187.64:9001/',
         changeOrigin: true,
         pathRewrite: {
          '^/':'/dghy/'
         }
       },
       '/': {
-        target: 'http://localhost:9001/',
+        target: 'http://139.198.187.64:9001/',
         // target: 'http://shoa.publicvm.com:9012',
         changeOrigin: true,
         pathRewrite: {
@@ -44,7 +44,7 @@ module.exports = {
         }
       },
       '/api': {
-        target: 'http://localhost:9001/',
+        target: 'http://139.198.187.64:9001/',
         // target: 'http://shoa.publicvm.com:9012',
         changeOrigin: true,
         pathRewrite: {

@@ -68,12 +68,15 @@ export default {
   },
 
   created: function () {
+    console.log(111);
     this.getTreeData();
   },
   methods: {
     getTreeData: function () {
       this.loading = true;
+      console.log(222);
       getOrgTree().then((res) => {
+        console.log(333);
         this.loading = false;
         this.data = forMateData(res.data, "OR_UPER", "OR_CODE");
         this.orgInfo = this.data[0];
