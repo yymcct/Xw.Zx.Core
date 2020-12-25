@@ -44,6 +44,10 @@ namespace Xw.Zx.Core.Areas.Manager
         [Sieve(CanFilter = true)]
         public string Timestamp { get; set; }
 
+        [Sieve(CanFilter = true)]
         public string Remark { get; set; }
+
+        [Sieve(CanFilter = true)]
+        public OrderState OrderState { get; set; }
     }
 }

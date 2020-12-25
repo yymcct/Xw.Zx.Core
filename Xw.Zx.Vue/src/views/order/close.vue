@@ -185,7 +185,7 @@ export default {
     getOrderMDtos() {
       this.listLoading = true;
       this.page = 1;
-      this.requestParams.filters = "OrderState==1,";
+      this.requestParams.filters = "OrderState==2,";
 
       if (this.filters.keyword)
         this.requestParams.filters += `(Timestamp|RealName|MemberPhone|customerName|customerPhone)@=${this.filters.keyword},`;

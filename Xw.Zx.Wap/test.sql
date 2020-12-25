@@ -55,11 +55,13 @@ update Members set MemberVipType = 20 where id =47
 
 update IncomeAccounts set MemberId=72 where id = 317
 
-
+  select * from Members where id = 72
   select Memberid, max(CurMoney) from MemberBalanceLogs group by Memberid order by Memberid
   select memberId, sum(amount) from IncomeAccounts where IsDelete=0 group by Memberid order by Memberid
 
   select Memberid, sum(Amount) from MemberBalanceLogs group by Memberid order by Memberid
+
+  select * from MemberBalanceLogs where Memberid = 72
 
 -- 测试优惠券
 -- Insert rows into table 'Coupons'

@@ -55,8 +55,20 @@ export default new Router({
             path: '/order',
             component: () =>
                 import('./views/order/index'),
-            name: '订单管理'
+            name: '已支付订单'
         },
+        {
+            path: '/order/waitpay',
+            component: () =>
+                import('./views/order/waitpay'),
+            name: '待支付订单'
+        },
+        // {
+        //     path: '/order/close',
+        //     component: () =>
+        //         import('./views/order/close'),
+        //     name: '超时关闭订单'
+        // },
         {
             path: '/incomeAccount',
             component: () =>

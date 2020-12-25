@@ -64,7 +64,7 @@
       <el-table-column prop="producName" label="商品名"></el-table-column>
       <el-table-column prop="amount" label="支付金额" width="160px">
         <template slot-scope="scope">
-          <span style="color: #ff5000; font-weight: bold">{{
+          <span style=" font-weight: bold">{{
             scope.row.amount
           }}</span>
           <p style="color: #999999">
@@ -185,7 +185,7 @@ export default {
     getOrderMDtos() {
       this.listLoading = true;
       this.page = 1;
-      this.requestParams.filters = "OrderState==1,";
+      this.requestParams.filters = "OrderState==0,";
 
       if (this.filters.keyword)
         this.requestParams.filters += `(Timestamp|RealName|MemberPhone|customerName|customerPhone)@=${this.filters.keyword},`;

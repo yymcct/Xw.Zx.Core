@@ -36,12 +36,11 @@ namespace Xw.Zx.Core.Areas.Manager
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public HbzsManagerResult<OrderTotalMDto> GetOrders([FromQuery]SieveModel sieveModel)
+        public HbzsManagerResult<OrderTotalMDto> GetOrders([FromQuery] SieveModel sieveModel)
         {
             try
             {
                 var db = from order in _context.Orders
-                         where order.OrderState == OrderState.已付款
                          select new OrderMDto
                          {
                              Id = order.Id,
@@ -58,7 +57,8 @@ namespace Xw.Zx.Core.Areas.Manager
                              OrderPaymentTypeName = order.OrderPaymentType.ToString(),
                              Timestamp = order.Timestamp,
                              Remark = order.Remark,
-                             ProductAmount = order.ProductAmount
+                             ProductAmount = order.ProductAmount,
+                             OrderState = order.OrderState
                          };
 
                 var result = new OrderTotalMDto()

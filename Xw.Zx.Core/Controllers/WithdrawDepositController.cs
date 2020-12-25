@@ -86,7 +86,7 @@ namespace Xw.Zx.Core.Controllers
                     return new HbzsResult(HbzsResultCode.Sucess, "提现的金额过大或过小, 无法处理");
                 }
 
-                var charge = decimal.Parse((postWithdrawDepositDto.Amount * 15 / 100).ToString("#0.00"));
+                var charge = decimal.Parse((postWithdrawDepositDto.Amount * 0.15m / 100).ToString("#0.00"));
 
                 var withdrawDeposit = new WithdrawDeposit()
                 {
