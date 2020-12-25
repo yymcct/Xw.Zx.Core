@@ -62,7 +62,7 @@
     </el-row>
 
     <!--列表-->
-    <el-table
+ <el-table
       :data="withdrawDepositMDtos.withdrawDepositMDtos"
       highlight-current-row
       v-loading="listLoading"
@@ -78,30 +78,46 @@
         width="100px"
         sortable
       ></el-table-column>
-      <el-table-column
-        prop="realName"
-        label="姓名"
-        width="150px"
-        sortable
-      ></el-table-column>
-      <el-table-column
-        prop="phone"
-        label="电话"
-        width="150px"
-        sortable
-      ></el-table-column>
-      <el-table-column
-        prop="aliPayAccount"
-        label="支付宝"
-        width="200px"
-        sortable
-      ></el-table-column>
-      <el-table-column
-        prop="amount"
-        label="金额"
-        width="100px"
-        sortable
-      ></el-table-column>
+      <el-table-column prop="realName" label="姓名" width="260px" sortable>
+        <template slot-scope="scope">
+          <p style="font-weight: bold">
+            {{ scope.row.realName }}
+          </p>
+          <p style="color: #999999; font-weight: bold">
+            {{ scope.row.memberVipTypeName }}
+          </p>
+          <p style="color: #999999; font-weight: bold">
+            {{ scope.row.phone }}
+          </p>
+          <p
+            style="color: #999999; font-weight: bold"
+            v-if="scope.row.businessCode"
+          >
+            编码: {{ scope.row.businessCode }}
+          </p>
+          <p style="color: #999999; font-weight: bold" v-if="scope.row.address">
+            {{ scope.row.address }}
+          </p>
+          <p style="color: #999999; font-weight: bold">
+            支付宝: {{ scope.row.aliPayAccount }}
+          </p>
+        </template>
+      </el-table-column>
+      <el-table-column prop="amount" label="提现金额" width="200px" sortable>
+        <template slot-scope="scope">
+          <p style="color: #999999; font-weight: bold">
+            <span style="color: #ff5000; font-size: 22px">{{
+              scope.row.amount
+            }}</span>
+          </p>
+          <p style="color: #999999; font-weight: bold">
+            手续费: {{ scope.row.withdrawCharge }}
+          </p>
+          <p style="color: #999999; font-weight: bold">
+            到账金额: {{ scope.row.realityAmount }}
+          </p>
+        </template>
+      </el-table-column>
       <el-table-column
         prop="withdrawDepositStateName"
         label="状态"
@@ -268,5 +284,9 @@ export default {
 <style scoped>
 .el-tag {
   margin-left: 10px;
+}
+p {
+  padding: 0px;
+  margin: 0px;
 }
 </style>

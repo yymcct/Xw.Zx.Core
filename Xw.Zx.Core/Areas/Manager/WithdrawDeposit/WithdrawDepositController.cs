@@ -69,7 +69,13 @@ namespace Xw.Zx.Core.Areas.Manager
                              RealName = member.RealName,
                              Phone = member.Phone,
                              AliPayAccount = member.AliPayAccount,
+                             MemberVipType = member.MemberVipType,
+                             MemberVipTypeName = member.MemberVipType.ToString(),
+                             Address = member.Address,
+                             BusinessCode = member.BusinessCode,
                              WithdrawDepositStateName = withdrawdeposit.WithdrawDepositState.ToString(),
+                             WithdrawCharge = withdrawdeposit.WithdrawCharge,
+                             RealityAmount = withdrawdeposit.RealityAmount,
                          };
 
 
@@ -283,7 +289,7 @@ namespace Xw.Zx.Core.Areas.Manager
 
                 _context.WithdrawDepositLogs.Add(withdrawLog);
 
-                detail.WithdrawDepositState = WithdrawDepositState.提现失败;             
+                detail.WithdrawDepositState = WithdrawDepositState.提现失败;
                 _context.SaveChanges();
 
                 return new HbzsManagerResult(HbzsManagerResultCode.Sucess, "");
