@@ -17,10 +17,15 @@
             <span
               :class="{
                 level0: scope.data.members.isDirectLine == true,
-                iscurmember: scope.data.members.id == memberId
+                iscurmember: scope.data.members.id == memberId,
               }"
             >
-              {{ scope.data.members.realName }} {{ scope.data.members.phone }} <span v-if="scope.data.members.id!=6">[{{ scope.data.members.memberVipTypeName}}]</span>
+              {{ scope.data.members.realName }} {{ scope.data.members.phone }}
+              <span v-if="scope.data.members.id != 6"  
+                > {{ scope.data.members.memberVipTypeName }}</span
+              >
+              <span style="font-size:13px;color:#666666"> {{ scope.data.members.businessCode }}</span>
+              <span style="font-size:13px;color:#999999"> {{ scope.data.members.address }}</span>
               <span>
                 <el-link
                   type="primary"
@@ -131,7 +136,7 @@ export default {
   font-size: 13px;
   margin-left: 10px;
 }
-.iscurmember{
-  font-size:20px;
+.iscurmember {
+  font-size: 20px;
 }
 </style>

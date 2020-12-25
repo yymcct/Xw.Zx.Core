@@ -14,6 +14,8 @@ namespace Xw.Zx.Core.Areas.Manager
         public string BusinessCode { get; set; }
 
         public string IdentityCardNum { get; set; }
+
+        public string Address { get; set; }
         //备注
         public string Remark { get; set; }
 

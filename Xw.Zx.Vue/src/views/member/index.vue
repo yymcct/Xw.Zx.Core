@@ -64,12 +64,18 @@
         width="100px"
         sortable
       ></el-table-column>
-      <el-table-column prop="realName" label="姓名" width="140px" sortable>
+      <el-table-column prop="realName" label="姓名" width="180px" sortable>
         <template slot-scope="scope">
           <p style="font-weight: bold">{{ scope.row.realName }}</p>
           <p style="color: #999999; font-weight: bold">
             {{ scope.row.phone }}
           </p>
+          <p style="color: #999999; font-weight: bold" v-if="scope.row.businessCode">
+            编码: {{ scope.row.businessCode }}
+          </p>
+          <p style="color: #999999; font-weight: bold" v-if="scope.row.address">
+            {{ scope.row.address }}
+          </p>          
           <p>
             <el-link type="primary" @click="showParentTree(scope.row)"
               >查看团队树</el-link
@@ -77,12 +83,6 @@
           </p>
         </template>
       </el-table-column>
-      <!-- <el-table-column
-        prop="phone"
-        label="手机"
-        width="120px"
-        sortable
-      ></el-table-column> -->
       <el-table-column
         prop="memberVipTypeName"
         label="级别"

@@ -50,6 +50,8 @@ namespace Xw.Zx.Core.Areas.Manager
         [Sieve(CanFilter = true)]
         public string BusinessCode { get; set; }
 
+        [Sieve(CanFilter = true)]
+        public string Address { get; set; }
         /// <summary>
         /// 身份证号
         /// </summary>

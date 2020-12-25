@@ -50,14 +50,30 @@
               placement="top-start"
             >
               <el-form-item label="客户编码" prop="businessCode">
-                <el-input v-model="editForm.businessCode" placeholder="请填写客户编码"></el-input>
+                <el-input
+                  v-model="editForm.businessCode"
+                  placeholder="请填写客户编码"
+                ></el-input>
               </el-form-item>
             </el-tooltip>
           </el-col>
 
           <el-col :span="12">
             <el-form-item label="身份证" prop="identityCardNum">
-              <el-input v-model="editForm.identityCardNum" placeholder="请填写身份证编码"></el-input>
+              <el-input
+                v-model="editForm.identityCardNum"
+                placeholder="请填写身份证编码"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="24">
+            <el-form-item label="客户地址" prop="address">
+              <el-input
+                v-model="editForm.address"
+                placeholder="请填写客户地址"
+              ></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -118,6 +134,7 @@ export default {
         identityCardNum: "",
         memberVipType: 0,
         remark: "",
+        address:"",
       },
       editFormRules: {
         realName: [{ required: true, message: "不可为空", trigger: "blur" }],
@@ -131,6 +148,7 @@ export default {
       this.editForm.businessCode = "";
       this.editForm.identityCardNum = "";
       this.editForm.remark = "";
+      this.editForm.address="";
       this.editForm.memberVipType = 0;
       api.member.getMember(this.memberId).then((res) => {
         this.member = res.result;
@@ -140,6 +158,7 @@ export default {
         this.editForm.identityCardNum = res.result.identityCardNum;
         this.editForm.remark = res.result.remark;
         this.editForm.memberVipType = res.result.memberVipType;
+        this.editForm.address= res.result.address;
       });
     },
 

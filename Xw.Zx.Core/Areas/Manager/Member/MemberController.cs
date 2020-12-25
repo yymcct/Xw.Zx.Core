@@ -105,6 +105,8 @@ namespace Xw.Zx.Core.Areas.Manager
                              MemberVipType = member.MemberVipType,
                              MemberVipTypeName = member.MemberVipType.ToString(),
                              AliPayAccount = member.AliPayAccount,
+                             BusinessCode = member.BusinessCode,
+                             Address = member.Address,
                              InviteId = member.InviteId,
                              InviteName = _context.Members.FirstOrDefault(m => m.Id == member.InviteId).RealName,
                              InvitePhone = _context.Members.FirstOrDefault(m => m.Id == member.InviteId).Phone
@@ -137,7 +139,7 @@ namespace Xw.Zx.Core.Areas.Manager
             member.IdentityCardNum = membermdto.IdentityCardNum;
             member.Remark = membermdto.Remark;
             member.MemberVipType = membermdto.MemberVipType;
-            
+            member.Address = membermdto.Address;
 
             _context.Entry(member).State = EntityState.Modified;
 
@@ -145,7 +147,7 @@ namespace Xw.Zx.Core.Areas.Manager
 
             //TODO 数据库记录变更
 
-            return new HbzsManagerResult(HbzsManagerResultCode.Sucess,"");
+            return new HbzsManagerResult(HbzsManagerResultCode.Sucess, "");
         }
 
         /// <summary>

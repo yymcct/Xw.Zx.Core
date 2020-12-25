@@ -22,6 +22,10 @@ namespace Xw.Zx.Core.Areas.Manager
 
             public string MemberVipTypeName { get; set; }
 
+            public string BusinessCode { get; set; }
+
+            public string Address { get; set; }
+
             public bool IsDirectLine { get; set; } = false;
         }
 
