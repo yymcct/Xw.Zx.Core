@@ -85,7 +85,7 @@ import {
   api_delIncomeAccountMDto
 } from "../../api/api";
 import { type } from "os";
-import detail from "../withdrawDeposit/detail";
+import detail from "../withdrawDeposit/components/detail";
 export default {
   components: {
     detail

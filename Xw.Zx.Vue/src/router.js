@@ -115,19 +115,19 @@ export default new Router({
         },{
             path: '/withdraw/waitaduit',
             component: () =>
-                import('./views/withdrawDeposit/caiwuAduit'),
+                import('./views/withdrawDeposit/caiwuAudit'),
             name: '财务部审核'
         },
         {
             path: '/withdraw/waitpay',
             component: () =>
-                import('./views/withdrawDeposit/waitPay'),
+                import('./views/withdrawDeposit/caiwuManagerAudit'),
             name: '财务部打款'
         },
         {
             path: '/withdraw/sucess',
             component: () =>
-                import('./views/withdrawDeposit/index'),
+                import('./views/withdrawDeposit/sucess'),
             name: '提现成功'
         },
         {

@@ -1,6 +1,6 @@
 ﻿<template>
   <div>
-     <withdraw-deposit menu="tongjibuAudit" />
+     <withdraw-deposit menu="sucess" />
   </div>
 </template>
 

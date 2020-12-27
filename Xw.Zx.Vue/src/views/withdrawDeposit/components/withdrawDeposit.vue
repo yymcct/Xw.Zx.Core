@@ -48,9 +48,11 @@
       <el-table-column prop="amount" label="提现金额" width="200px" sortable>
         <template slot-scope="scope">
           <p style="color: #999999; font-weight: bold">
-            <span style="color: #ff5000; font-size: 22px">{{
-              scope.row.amount
-            }}</span>
+            <span
+              style="color: #ff5000; font-size: 22px"
+              :class="{ fail: menu == 'fail' }"
+              >{{ scope.row.amount }}</span
+            >
           </p>
           <p style="color: #999999; font-weight: bold">
             手续费: {{ scope.row.withdrawCharge }}
@@ -83,19 +85,41 @@
             >历史</el-button
           >
           <el-button
-            v-if="scope.row.withdrawDepositState == 0"
+            v-if="
+              (menu == 'tongjibuAudit' && user.roleName == 'Admin_Tongjibu') ||
+              (menu == 'caiwuAudit' && user.roleName == 'Admin_Caiwu') ||
+              (menu == 'caiwuManagerAudit' &&
+                user.roleName == 'Admin_CaiwuManager')
+            "
             size="mini"
             type="warning"
             @click="handleAuditFail(scope.row)"
             >拒绝</el-button
           >
           <el-button
-            v-if="scope.row.withdrawDepositState == 0"
+            v-if="menu == 'tongjibuAudit' && user.roleName == 'Admin_Tongjibu'"
             size="mini"
             type="success"
             @click="handleAudit(scope.row)"
-            >通过</el-button
-          >
+            >通过
+          </el-button>
+          <el-button
+            v-if="menu == 'caiwuAudit' && user.roleName == 'Admin_Caiwu'"
+            size="mini"
+            type="success"
+            @click="handleAudit(scope.row)"
+            >通过
+          </el-button>
+          <el-button
+            v-if="
+              menu == 'caiwuManagerAudit' &&
+              user.roleName == 'Admin_CaiwuManager'
+            "
+            size="mini"
+            type="success"
+            @click="handleAudit(scope.row)"
+            >通过
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -179,7 +203,17 @@ export default {
     getWithdrawDepositMDtos() {
       this.listLoading = true;
 
-      this.requestParams.filters += `WithdrawDepositState==20,`;
+      if (this.menu == "tongjibuAudit") {
+        this.requestParams.filters += `WithdrawDepositState==0,`;
+      } else if (this.menu == "caiwuAudit") {
+        this.requestParams.filters += `WithdrawDepositState==5,`;
+      } else if (this.menu == "caiwuManagerAudit") {
+        this.requestParams.filters += `WithdrawDepositState==10,`;
+      } else if (this.menu == "sucess") {
+        this.requestParams.filters += `WithdrawDepositState==20,`;
+      } else if (this.menu == "fail") {
+        this.requestParams.filters += `WithdrawDepositState==30,`;
+      }
 
       api.withdraw.get(this.requestParams).then((respone) => {
         this.listLoading = false;
@@ -188,21 +222,36 @@ export default {
       });
     },
     handleAudit: function (row) {
-      api.withdraw.audit(row.id).then(() => {
-        this.$message({
-          message: "审核通过",
-          type: "success",
+      let auditApi = "";
+      if (this.menu == "tongjibuAudit") {
+        auditApi = api.withdraw.tongjibuAudit;
+      } else if (this.menu == "caiwuAudit") {
+        auditApi = api.withdraw.caiwuAudit;
+      } else if (this.menu == "caiwuManagerAudit") {
+        auditApi = api.withdraw.pay;
+      }
+      const _this = this;
+      _this.$confirm("操作不可逆, 确认通过吗？", "提示", {}).then(() => {
+        auditApi(row.id).then(() => {
+          _this.$message({
+            message: "审核通过",
+            type: "success",
+          });
+          _this.getWithdrawDepositMDtos();
         });
-        this.getWithdrawDepositMDtos();
       });
     },
+
     handleAuditFail: function (row) {
-      api.withdraw.fail(row.id).then(() => {
-        this.$message({
-          message: "已拒绝",
-          type: "error",
+      const _this = this;
+      this.$confirm("操作不可逆, 确认拒绝吗？", "提示", {}).then(() => {
+        api.withdraw.fail(row.id).then(() => {
+          _this.$message({
+            message: "已拒绝",
+            type: "error",
+          });
+          _this.getWithdrawDepositMDtos();
         });
-        this.getWithdrawDepositMDtos();
       });
     },
     handleShowDetails: function (row) {
@@ -223,5 +272,8 @@ export default {
 p {
   padding: 0px;
   margin: 0px;
+}
+.fail {
+  color: #666 !important;
 }
 </style>

@@ -82,11 +82,11 @@ namespace Xw.Zx.Core.Areas.Manager
                 var result = new WithdrawDepositTotalMDto()
                 {
                     WithdrawDepositMDtos = _sieveProcessor.Apply(sieveModel, db).ToList(),
-                    QueryTotal = _sieveProcessor.Apply(sieveModel, db.Where(w => w.WithdrawDepositState == WithdrawDepositState.提现成功), null, true, true, false).Sum(o => o.Amount),
-                    AllTotal = db.Where(w => w.WithdrawDepositState == WithdrawDepositState.提现成功).Sum(o => o.Amount),
-                    OrderTotal = _context.Orders.Where(o => o.OrderState == OrderState.已付款).Sum(w => w.Amount),
+                  //  QueryTotal = _sieveProcessor.Apply(sieveModel, db.Where(w => w.WithdrawDepositState == WithdrawDepositState.提现成功), null, true, true, false).Sum(o => o.Amount),
+                  //  AllTotal = db.Where(w => w.WithdrawDepositState == WithdrawDepositState.提现成功).Sum(o => o.Amount),
+                  //  OrderTotal = _context.Orders.Where(o => o.OrderState == OrderState.已付款).Sum(w => w.Amount),
                 };
-                result.Balance = result.OrderTotal - result.AllTotal;
+               // result.Balance = result.OrderTotal - result.AllTotal;
 
                 var total = _sieveProcessor.Apply(sieveModel, db, null, true, true, false).Count();
                 return new HbzsManagerResult<WithdrawDepositTotalMDto>(result, total);
