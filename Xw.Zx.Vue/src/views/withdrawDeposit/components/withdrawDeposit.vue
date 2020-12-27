@@ -1,55 +1,7 @@
-﻿
+
 <template>
   <section>
-    <!--TODO:配置查询条件-->
-    <el-row>
-      <el-col :span="24" class="toolbar" style="padding-bottom: 0px">
-        <el-form :inline="true" :model="filters">
-          <el-form-item>
-            <el-input
-              v-model.trim="filters.keyword"
-              placeholder="姓名,电话,支付宝,备注"
-            ></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-date-picker
-              v-model="filters.addTimeStart"
-              type="date"
-              placeholder="开始时间"
-              align="right"
-              :picker-options="glpickerOptions"
-              value-format="yyyy-MM-dd"
-            ></el-date-picker>
-            <el-date-picker
-              v-model="filters.addTimeEnd"
-              type="date"
-              placeholder="结束时间"
-              align="right"
-              :picker-options="glpickerOptions"
-              value-format="yyyy-MM-dd"
-            ></el-date-picker>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="getWithdrawDepositMDtos"
-              >查询</el-button
-            >
-          </el-form-item>
-        </el-form>
-      </el-col>
-    </el-row>
-
-    <el-row class="toolbar" style="padding-top: 20px; padding-bottom: 20px">
-      <el-col :span="24">
-        <el-tag type="danger"
-          >当查询条件下合计:{{ withdrawDepositMDtos.queryTotal }}</el-tag
-        >
-        <el-tag>全部提现合计:{{ withdrawDepositMDtos.allTotal }}</el-tag>
-        <el-tag>全部毛收入合计:{{ withdrawDepositMDtos.orderTotal }}</el-tag>
-        <el-tag
-          >(全部毛收入-全部提现)合计:{{ withdrawDepositMDtos.balance }}</el-tag
-        >
-      </el-col>
-    </el-row>
+    <search-bar @search="handleSearch" />
 
     <!--列表-->
     <el-table
@@ -172,14 +124,23 @@
 </template>
 
 <script>
-//TODO: 拷贝到api文件
-
 import api from "@/api/app";
 import detail from "./detail";
+import searchBar from "./searchBar";
+import { mapGetters } from "vuex";
 export default {
-  name:"audit123",
+  name: "withdrawDeposit",
   components: {
     detail,
+    searchBar,
+  },
+  props: {
+    menu: String,
+  },
+  computed: {
+    ...mapGetters({
+      user: "user/user",
+    }),
   },
   data() {
     return {
@@ -189,21 +150,17 @@ export default {
         filters: "",
         sorts: "-id",
       },
-      //TODO:删减查询条件
-      filters: {
-        withdrawDepositState: 999,
-        keyword: null,
-        addTimeStart: null,
-        addTimeEnd: null,
-      },
+
       withdrawDepositMDtos: [],
       total: 0,
       listLoading: false,
 
-
       shwoMemberId: null,
       showDetailsAction: "none",
     };
+  },
+  mounted() {
+    this.getWithdrawDepositMDtos();
   },
   methods: {
     handleSizeChange(val) {
@@ -214,20 +171,15 @@ export default {
       this.requestParams.page = val;
       this.getWithdrawDepositMDtos();
     },
+    handleSearch(filterStr) {
+      this.requestParams.page = 1;
+      this.requestParams.filters = filterStr;
+      this.getWithdrawDepositMDtos();
+    },
     getWithdrawDepositMDtos() {
       this.listLoading = true;
-      this.page = 1;
-      this.requestParams.filters = "";
 
       this.requestParams.filters += `WithdrawDepositState==20,`;
-
-      if (this.filters.keyword)
-        this.requestParams.filters += `(Remark|RealName|Phone|AliPayAccount)@=${this.filters.keyword},`;
-
-      if (this.filters.addTimeStart)
-        this.requestParams.filters += `AddTime>=${this.filters.addTimeStart},`;
-      if (this.filters.addTimeEnd)
-        this.requestParams.filters += `AddTime<=${this.filters.addTimeEnd},`;
 
       api.withdraw.get(this.requestParams).then((respone) => {
         this.listLoading = false;
@@ -235,7 +187,6 @@ export default {
         this.total = respone.total;
       });
     },
-    //显示编辑界面
     handleAudit: function (row) {
       api.withdraw.audit(row.id).then(() => {
         this.$message({
@@ -261,10 +212,6 @@ export default {
     showDetailsChage(cancel) {
       this.showDetailsAction = "none";
     },
-  },
-
-  mounted() {
-    this.getWithdrawDepositMDtos();
   },
 };
 </script>

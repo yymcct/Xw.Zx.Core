@@ -9,7 +9,6 @@ export default {
   name: "app",
   created() {
     var user = sessionStorage.getItem("user");
-    console.log('123',user);
     if (user) {
       user = JSON.parse(user);
       this.$store.commit("user/setUser", user);

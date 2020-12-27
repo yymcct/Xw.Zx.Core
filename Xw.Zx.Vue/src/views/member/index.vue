@@ -206,7 +206,7 @@ export default {
       },
 
       filters: {
-        keywords: null,
+        keywords: '',
         addTimeStart: null,
         addTimeEnd: null,
         vipType: "999",

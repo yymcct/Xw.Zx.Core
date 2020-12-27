@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import { api_GetAuditWithdrawDepositdetails } from "../../api/api";
+import { api_GetAuditWithdrawDepositdetails } from "@/api/api";
 
 export default {
   name: "withdrawDepositDetail",

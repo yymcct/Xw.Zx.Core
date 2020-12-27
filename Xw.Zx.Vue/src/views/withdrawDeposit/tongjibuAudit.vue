@@ -68,7 +68,7 @@
         width="100px"
         sortable
       ></el-table-column>
-      <el-table-column prop="realName" label="姓名" width="260px" sortable>
+      <el-table-column prop="realName" label="申请人" width="260px" sortable>
         <template slot-scope="scope">
           <p style="font-weight: bold">
             {{ scope.row.realName }}
@@ -175,8 +175,6 @@
 //TODO: 拷贝到api文件
 
 import api from "@/api/app";
-import { type } from "os";
-import { MessageBox, Message } from "element-ui";
 import detail from "./detail";
 import { mapGetters } from "vuex";
 export default {
@@ -265,7 +263,7 @@ export default {
       this.showDetailsAction = "show";
       this.shwoMemberId = row.memberId;
     },
-    showDetailsChage(cancel) {
+    showDetailsChage() {
       this.showDetailsAction = "none";
     },
   },

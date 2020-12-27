@@ -78,7 +78,7 @@
         width="100px"
         sortable
       ></el-table-column>
-      <el-table-column prop="realName" label="姓名" width="260px" sortable>
+      <el-table-column prop="realName" label="申请人" width="260px" sortable>
         <template slot-scope="scope">
           <p style="font-weight: bold">
             {{ scope.row.realName }}
