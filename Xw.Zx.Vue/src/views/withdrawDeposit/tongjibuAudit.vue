@@ -131,14 +131,14 @@
             >历史</el-button
           >
           <el-button
-            v-if="scope.row.withdrawDepositState == 0"
+            v-if="user.roleName == 'Admin_Tongjibu'"
             size="mini"
             type="warning"
             @click="handleAuditFail(scope.row)"
             >拒绝</el-button
           >
           <el-button
-            v-if="scope.row.withdrawDepositState == 0"
+            v-if="user.roleName == 'Admin_Tongjibu'"
             size="mini"
             type="success"
             @click="handleAudit(scope.row)"
@@ -178,10 +178,16 @@ import api from "@/api/app";
 import { type } from "os";
 import { MessageBox, Message } from "element-ui";
 import detail from "./detail";
+import { mapGetters } from "vuex";
 export default {
   name: "audit123",
   components: {
     detail,
+  },
+  computed: {
+    ...mapGetters({
+      user: "user/user",
+    }),
   },
   data() {
     return {
@@ -238,7 +244,7 @@ export default {
     },
     //显示编辑界面
     handleAudit: function (row) {
-      api.withdraw.audit(row.id).then(() => {
+      api.withdraw.tongjibuAudit(row.id).then(() => {
         this.$message({
           message: "审核通过",
           type: "success",

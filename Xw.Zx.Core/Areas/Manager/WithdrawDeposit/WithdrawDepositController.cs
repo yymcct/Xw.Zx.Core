@@ -102,11 +102,6 @@ namespace Xw.Zx.Core.Areas.Manager
 
         private bool CheckDetailMember(WithdrawDeposit detail, Member detailMemnber)
         {
-            if (!AppsettingsUtility.CanCreateUpdateVipCodePhone.Any(p => p == Member.Phone))
-            {
-                throw new Exception("账户无权限!");
-            }
-
             if (detail == null)
             {
                 throw new Exception("单据状态异常,无法处理!");
@@ -128,7 +123,7 @@ namespace Xw.Zx.Core.Areas.Manager
                     .Sum(b => b.Amount);
 
             var canGet = IncomTotal - WithdrawDeposit;
-            if (detail.Amount < 2.09m || detail.Amount > canGet)
+            if (detail.Amount < 1m || detail.Amount > canGet)
             {
                 detail.WithdrawDepositState = WithdrawDepositState.提现失败;
                 detail.Remark = "提现的金额过大或过小, 无法处理";
@@ -187,11 +182,10 @@ namespace Xw.Zx.Core.Areas.Manager
         /// <returns></returns>        
         [HttpPost]
         [Authorize(Roles = nameof(MemberRole.Admin_Caiwu))]
-        public HbzsManagerResult Audit([FromQuery] int id)
+        public HbzsManagerResult CaiwuAudit([FromQuery] int id)
         {
             try
             {
-
                 var detail = _context.WithdrawDeposits.First(w => w.Id == id && w.WithdrawDepositState == WithdrawDepositState.统计部审核);
                 var detailMemnber = _context.Members.First(m => m.Id == detail.MemberId);
 
@@ -230,7 +224,6 @@ namespace Xw.Zx.Core.Areas.Manager
         {
             try
             {
-
                 var detail = _context.WithdrawDeposits.First(w => w.Id == id && w.WithdrawDepositState == WithdrawDepositState.财务部审核);
                 var detailMemnber = _context.Members.First(m => m.Id == detail.MemberId);
 
@@ -315,11 +308,6 @@ namespace Xw.Zx.Core.Areas.Manager
 
                 var detail = _context.WithdrawDeposits.First(w => w.Id == id && (w.WithdrawDepositState == WithdrawDepositState.申请提现 || w.WithdrawDepositState == WithdrawDepositState.统计部审核 || w.WithdrawDepositState == WithdrawDepositState.财务部审核));
                 var detailMemnber = _context.Members.First(m => m.Id == detail.MemberId);
-
-                if (!AppsettingsUtility.CanCreateUpdateVipCodePhone.Any(p => p == Member.Phone))
-                {
-                    throw new Exception("账户无权限!");
-                }
 
                 if (detail == null)
                 {

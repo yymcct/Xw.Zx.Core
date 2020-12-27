@@ -81,9 +81,9 @@ namespace Xw.Zx.Core.Controllers
 
                 var canGet = IncomTotal - WithdrawDeposit;
 
-                if (postWithdrawDepositDto.Amount < 2.1m || postWithdrawDepositDto.Amount > canGet)
+                if (postWithdrawDepositDto.Amount < 1.0m || postWithdrawDepositDto.Amount > canGet)
                 {
-                    return new HbzsResult(HbzsResultCode.Sucess, "提现的金额过大或过小, 无法处理");
+                    return new HbzsResult(HbzsResultCode.Invalid_Error, "提现的金额过大或过小, 无法处理");
                 }
 
                 var charge = decimal.Parse((postWithdrawDepositDto.Amount * 0.15m / 100).ToString("#0.00"));

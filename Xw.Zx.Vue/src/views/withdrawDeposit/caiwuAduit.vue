@@ -220,7 +220,7 @@ export default {
       this.page = 1;
       this.requestParams.filters = "";
 
-      this.requestParams.filters += `WithdrawDepositState==0,`;
+      this.requestParams.filters += `WithdrawDepositState==5,`;
 
       if (this.filters.keyword)
         this.requestParams.filters += `(Remark|RealName|Phone|AliPayAccount)@=${this.filters.keyword},`;
@@ -238,7 +238,7 @@ export default {
     },
     //显示编辑界面
     handleAudit: function (row) {
-      api.withdraw.audit(row.id).then(() => {
+      api.withdraw.caiwuAudit(row.id).then(() => {
         this.$message({
           message: "审核通过",
           type: "success",

@@ -16,20 +16,14 @@ namespace Xw.Zx.Core.Areas.Manager
 
         public string RealName { get; set; }
 
-        public string Nick { get; set; }
-        //头像
-        public string Photo { get; set; }
-        //性别
-        public MemberSex Sex { get; set; }
-        //生日
-        public DateTime BirthDay { get; set; }
         //电话
         public string Phone { get; set; }
-        //Email
-        public string Email { get; set; }
-        //QQ
-        public string QQ { get; set; }
+
         //街道地址
         public string Address { get; set; }
+
+        public string RoleName { get; set; }
+
+        public string BusinessCode { get; set; }
     }
 }

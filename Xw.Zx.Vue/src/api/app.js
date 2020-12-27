@@ -24,7 +24,8 @@ export default {
     },
     withdraw: {
         get: (params) => request.get('/manager/WithdrawDeposit/GetWithdrawDeposits', { params: params }),
-        audit: (id) => request.post(`/manager/WithdrawDeposit/Audit?id=${id}`),
+        tongjibuAudit: (id) => request.post(`/manager/WithdrawDeposit/TongjibuAudit?id=${id}`),
+        caiwuAudit: (id) => request.post(`/manager/WithdrawDeposit/CaiwuAudit?id=${id}`),
         pay: (id) => request.post(`/manager/WithdrawDeposit/Pay?id=${id}`),
         fail: (id) => request.post(`/manager/WithdrawDeposit/Fail?id=${id}`),
     }

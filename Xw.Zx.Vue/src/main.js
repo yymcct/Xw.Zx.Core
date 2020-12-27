@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
+import store from './store'
 import './plugins/element.js'
 import axios from 'axios'
 import 'font-awesome/css/font-awesome.min.css'
@@ -98,5 +99,6 @@ Vue.prototype.glfileUploadUrl=`${process.env.VUE_APP_BASE_API}/manager/FileUploa
 
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')
