@@ -17,7 +17,7 @@ namespace Xw.Zx.Core.Areas.Manager.Coupon
 {
     [ApiController]
     [Route("manager/[controller]/[action]")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Policy = "Admins")]
     public class CouponController : ManagerBaseController
     {
         private readonly ILogger<CouponController> _logger;

@@ -10,7 +10,8 @@ namespace Xw.Zx.Core.Models.Model
     public enum WithdrawDepositState
     {
         申请提现 = 0,
-        审核通过 = 10,
+        统计部审核 =5,
+        财务部审核 = 10,
         提现成功 = 20,
         提现失败 = 30
     }

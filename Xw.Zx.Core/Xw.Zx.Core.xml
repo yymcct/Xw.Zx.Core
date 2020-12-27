@@ -221,25 +221,25 @@
             <param name="sieveModel"></param>
             <returns></returns>
         </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.WithdrawDepositController.TongjibuAudit(System.Int32)">
+            <summary>
+            统计部审核通过
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:Xw.Zx.Core.Areas.Manager.WithdrawDepositController.Audit(System.Int32)">
             <summary>
             审核通过
             </summary>
             <param name="id"></param>
-            <returns></returns>
+            <returns></returns>        
         </member>
         <member name="M:Xw.Zx.Core.Areas.Manager.WithdrawDepositController.Pay(System.Int32)">
             <summary>
             付款
             </summary>
             <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Xw.Zx.Core.Areas.Manager.WithdrawDepositController.Alipayment(Xw.Zx.Core.Models.Model.WithdrawDeposit,Xw.Zx.Core.Models.Model.Member)">
-            <summary>
-            通过或拒绝
-            </summary>
-            <param name="dto"></param>
             <returns></returns>
         </member>
         <member name="M:Xw.Zx.Core.Areas.Manager.WithdrawDepositController.GetAuditWithdrawDepositdetails(System.Int32)">

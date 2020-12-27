@@ -23,7 +23,7 @@ namespace Xw.Zx.Core.Areas.Manager
 
     [ApiController]
     [Route("manager/[controller]/[action]")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Policy = "Admins")]
     public class UpdateVipAuthCodeController : ManagerBaseController
     {
         private readonly ILogger<UpdateVipAuthCodeController> _logger;

@@ -30,7 +30,7 @@ namespace Xw.Zx.Core.Areas.Manager
     /// </summary>
     [ApiController]
     [Route("manager/[controller]/[action]")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Policy = "Admins")]
     public class WithdrawDepositController : ManagerBaseController
     {
         private readonly ILogger<WithdrawDepositController> _logger;
@@ -141,12 +141,13 @@ namespace Xw.Zx.Core.Areas.Manager
         }
 
         /// <summary>
-        /// 审核通过
+        /// 统计部审核通过
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPost]
-        public HbzsManagerResult Audit([FromQuery] int id)
+        [Authorize(Roles = nameof(MemberRole.Admin_Tongjibu))]        
+        public HbzsManagerResult TongjibuAudit([FromQuery] int id)
         {
             try
             {
@@ -160,10 +161,50 @@ namespace Xw.Zx.Core.Areas.Manager
                     {
                         WithdrawDepositId = id,
                         AddUserId = Member.Id,
-                        WithdrawDepositState = WithdrawDepositState.审核通过,
+                        WithdrawDepositState = WithdrawDepositState.统计部审核,
                     });
 
-                    detail.WithdrawDepositState = WithdrawDepositState.审核通过;
+                    detail.WithdrawDepositState = WithdrawDepositState.统计部审核;
+                    _context.SaveChanges();
+
+
+                    return new HbzsManagerResult(HbzsManagerResultCode.Sucess, "");
+                }
+
+                return new HbzsManagerResult(HbzsManagerResultCode.Sucess, "");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex.Message);
+                return new HbzsManagerResult(HbzsManagerResultCode.Invalid_Error, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// 审核通过
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>        
+        [HttpPost]
+        [Authorize(Roles = nameof(MemberRole.Admin_Caiwu))]
+        public HbzsManagerResult Audit([FromQuery] int id)
+        {
+            try
+            {
+
+                var detail = _context.WithdrawDeposits.First(w => w.Id == id && w.WithdrawDepositState == WithdrawDepositState.统计部审核);
+                var detailMemnber = _context.Members.First(m => m.Id == detail.MemberId);
+
+                if (CheckDetailMember(detail, detailMemnber))
+                {
+                    _context.WithdrawDepositLogs.Add(new WithdrawDepositLog()
+                    {
+                        WithdrawDepositId = id,
+                        AddUserId = Member.Id,
+                        WithdrawDepositState = WithdrawDepositState.财务部审核,
+                    });
+
+                    detail.WithdrawDepositState = WithdrawDepositState.财务部审核;
                     _context.SaveChanges();
 
 
@@ -184,12 +225,13 @@ namespace Xw.Zx.Core.Areas.Manager
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPost]
+        [Authorize(Roles = nameof(MemberRole.Admin_CaiwuManager))]
         public HbzsManagerResult Pay([FromQuery] int id)
         {
             try
             {
 
-                var detail = _context.WithdrawDeposits.First(w => w.Id == id && w.WithdrawDepositState == WithdrawDepositState.审核通过);
+                var detail = _context.WithdrawDeposits.First(w => w.Id == id && w.WithdrawDepositState == WithdrawDepositState.财务部审核);
                 var detailMemnber = _context.Members.First(m => m.Id == detail.MemberId);
 
                 if (CheckDetailMember(detail, detailMemnber))
@@ -262,12 +304,16 @@ namespace Xw.Zx.Core.Areas.Manager
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin_Tongjibu,Admin_Caiwu, Admin_CaiwuManager")]
+        //[Authorize(Roles =  nameof(MemberRole.Admin_Tongjibu))]
+        //[Authorize(Roles = nameof(MemberRole.Admin_Caiwu))]
+        //[Authorize(Roles = nameof(MemberRole.Admin_CaiwuManager))]
         public HbzsManagerResult Fail([FromQuery] int id)
         {
             try
             {
 
-                var detail = _context.WithdrawDeposits.First(w => w.Id == id && (w.WithdrawDepositState == WithdrawDepositState.申请提现 || w.WithdrawDepositState == WithdrawDepositState.审核通过));
+                var detail = _context.WithdrawDeposits.First(w => w.Id == id && (w.WithdrawDepositState == WithdrawDepositState.申请提现 || w.WithdrawDepositState == WithdrawDepositState.统计部审核 || w.WithdrawDepositState == WithdrawDepositState.财务部审核));
                 var detailMemnber = _context.Members.First(m => m.Id == detail.MemberId);
 
                 if (!AppsettingsUtility.CanCreateUpdateVipCodePhone.Any(p => p == Member.Phone))
@@ -300,99 +346,6 @@ namespace Xw.Zx.Core.Areas.Manager
                 return new HbzsManagerResult(HbzsManagerResultCode.Invalid_Error, ex.Message);
             }
         }
-
-        /// <summary>
-        /// 通过或拒绝
-        /// </summary>
-        /// <param name="dto"></param>
-        /// <returns></returns>
-        //[HttpPost]
-        //public HbzsManagerResult AuditWithdrawDepositdetail([FromBody] PostAuditWithdrawDepositdetailDto dto)
-        //{
-        //    try
-        //    {
-
-        //        var detail = _context.WithdrawDeposits.First(w => w.Timestamp == dto.Timestamp);
-        //        var detailMemnber = _context.Members.First(m => m.Id == detail.MemberId);
-
-        //        if (!AppsettingsUtility.CanCreateUpdateVipCodePhone.Any(p => p == Member.Phone))
-        //        {
-        //            return new HbzsManagerResult(HbzsManagerResultCode.Invalid_Error, "账户无权限!");
-        //        }
-
-        //        if (detail.WithdrawDepositState != WithdrawDepositState.申请提现)
-        //        {
-        //            return new HbzsManagerResult(HbzsManagerResultCode.Invalid_Error, "单据状态异常,无法处理!");
-        //        }
-
-        //        if (detailMemnber.Disabled == true)
-        //        {
-        //            return new HbzsManagerResult(HbzsManagerResultCode.Invalid_Error, "申请人账户异常,无法处理!");
-        //        }
-
-        //        var IncomTotal = _context.IncomeAccounts
-        //            .Where(b => b.MemberId == detail.MemberId)
-        //            .Sum(b => b.Amount);
-
-        //        var WithdrawDeposit = _context.WithdrawDeposits
-        //                .Where(b => b.MemberId == detail.MemberId
-        //                        && b.WithdrawDepositState == WithdrawDepositState.提现成功)
-        //                .Sum(b => b.Amount);
-
-        //        var canGet = IncomTotal - WithdrawDeposit;
-        //        if (detail.Amount < 2.09m || detail.Amount > canGet)
-        //        {
-        //            detail.WithdrawDepositState = WithdrawDepositState.提现失败;
-        //            detail.Remark = "提现的金额过大或过小, 无法处理";
-        //            _context.SaveChanges();
-        //            return new HbzsManagerResult(HbzsManagerResultCode.Sucess, "提现的金额过大或过小, 无法处理");
-        //        }
-
-        //        if (dto.IsPass == false)
-        //        {
-        //            detail.WithdrawDepositState = WithdrawDepositState.提现失败;
-        //            _context.SaveChanges();
-        //            return new HbzsManagerResult(HbzsManagerResultCode.Sucess, "");
-        //        }
-
-
-        //        //转账
-        //        var paylog = Alipayment(detail, detailMemnber);
-
-        //        if (paylog.code != "10000")
-        //        {
-        //            detail.Remark = paylog.sub_msg;
-        //            detail.WithdrawDepositState = WithdrawDepositState.提现失败;
-        //            _context.SaveChanges();
-
-        //            return new HbzsManagerResult(HbzsManagerResultCode.Invalid_Error, paylog.sub_msg);
-        //        }
-
-
-        //        using (var transaction = _context.Database.BeginTransaction())
-        //        {
-        //            detail.WithdrawDepositState = WithdrawDepositState.提现成功;
-
-        //            _context.Payments.Add(new Payment()
-        //            {
-        //                OrderId = detail.Id,
-        //                MemberId = Member.Id,
-        //                Amount = detail.Amount
-        //            });
-
-        //            _context.SaveChanges();
-
-        //            transaction.Commit();
-        //        }
-
-        //        return new HbzsManagerResult(HbzsManagerResultCode.Sucess, "");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogWarning(ex.Message);
-        //        return new HbzsManagerResult(HbzsManagerResultCode.Invalid_Error, ex.Message);
-        //    }
-        //}
 
 
         private AlipayLog Alipayment(WithdrawDeposit withdrawDeposit, Member PayMember)

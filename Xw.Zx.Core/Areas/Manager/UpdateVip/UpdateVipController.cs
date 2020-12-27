@@ -15,7 +15,7 @@ namespace Xw.Zx.Core.Areas.Manager.UpdateVip
 {
     [ApiController]
     [Route("manager/[controller]/[action]")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Policy = "Admins")]
     public class UpdateVipController : ManagerBaseController
     {
         private readonly ILogger<UpdateVipController> _logger;

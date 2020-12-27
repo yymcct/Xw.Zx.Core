@@ -6,6 +6,14 @@ using System.Threading.Tasks;
 
 namespace Xw.Zx.Core.Models.Model
 {
+    public enum MemberRole
+    {
+        AppUser = 0,
+        Admin = 100, //后台基础管理员
+        Admin_Tongjibu = 200,
+        Admin_Caiwu=300,
+        Admin_CaiwuManager = 301
+    }
     public enum MemberSex
     {
         男 = 1,

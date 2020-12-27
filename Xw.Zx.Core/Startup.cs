@@ -63,7 +63,17 @@ namespace Xw.Zx.Core
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(options => { options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss"; });
 
-
+            #region 权限配置
+            //App
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admins",
+                     policy => policy.RequireRole(nameof(MemberRole.Admin)
+                            , nameof(MemberRole.Admin_Tongjibu)
+                            , nameof(MemberRole.Admin_Caiwu)
+                            , nameof(MemberRole.Admin_CaiwuManager)));
+            });
+            #endregion
 
             #region 跨域
             services.AddCors(options =>
