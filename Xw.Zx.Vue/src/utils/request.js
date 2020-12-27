@@ -1,12 +1,12 @@
 import axios from 'axios'
-import { MessageBox, Message } from 'element-ui'
+import {Message } from 'element-ui'
 import { getToken, removeToken } from './auth'
 
 // create an axios instance
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
   headers: { 'Content-Type': 'application/json' },
-  timeout: 5000*2 // request timeout
+  timeout: 1000*60 // request timeout
 })
 
 // request interceptor

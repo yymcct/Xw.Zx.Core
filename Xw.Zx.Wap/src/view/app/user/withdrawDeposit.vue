@@ -11,7 +11,7 @@
       <van-field
         v-model="getamount"
         label="提现金额"
-        placeholder="请输入提现金额,最小2.1元"
+        placeholder="请输入提现金额,最小1.0元"
       />
       <div class="border">
         <span class="sxf"
@@ -63,9 +63,9 @@ export default {
       const _this = this;
       if (
         parseFloat(this.canget) < parseFloat(this.getamount) ||
-        parseFloat(this.getamount) < parseFloat(2.1)
+        parseFloat(this.getamount) < parseFloat(1.0)
       ) {
-        this.$toast(`最大提现金额为${this.canget}元, 最小为2.1元`);
+        this.$toast(`最大提现金额为${this.canget}元, 最小为1.0元`);
         return;
       }
 

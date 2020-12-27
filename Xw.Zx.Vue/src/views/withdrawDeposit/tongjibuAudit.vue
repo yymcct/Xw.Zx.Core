@@ -5,16 +5,6 @@
     <el-row>
       <el-col :span="24" class="toolbar" style="padding-bottom: 0px">
         <el-form :inline="true" :model="filters">
-          <!-- <el-form-item>
-            <el-select v-model="filters.withdrawDepositState" placeholder="请选择" style="width:120px">
-              <el-option
-                v-for="item in withdrawDepositStateDrops"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item> -->
           <el-form-item>
             <el-input
               v-model.trim="filters.keyword"
@@ -62,7 +52,7 @@
     </el-row>
 
     <!--列表-->
-   <el-table
+    <el-table
       :data="withdrawDepositMDtos.withdrawDepositMDtos"
       highlight-current-row
       v-loading="listLoading"
@@ -141,14 +131,14 @@
             >历史</el-button
           >
           <el-button
-            v-if="scope.row.withdrawDepositState == 10"
+            v-if="scope.row.withdrawDepositState == 0"
             size="mini"
             type="warning"
             @click="handleAuditFail(scope.row)"
             >拒绝</el-button
           >
           <el-button
-            v-if="scope.row.withdrawDepositState == 10"
+            v-if="scope.row.withdrawDepositState == 0"
             size="mini"
             type="success"
             @click="handleAudit(scope.row)"
@@ -189,7 +179,7 @@ import { type } from "os";
 import { MessageBox, Message } from "element-ui";
 import detail from "./detail";
 export default {
-  name:"audit123",
+  name: "audit123",
   components: {
     detail,
   },
@@ -212,7 +202,6 @@ export default {
       total: 0,
       listLoading: false,
 
-
       shwoMemberId: null,
       showDetailsAction: "none",
     };
@@ -231,7 +220,7 @@ export default {
       this.page = 1;
       this.requestParams.filters = "";
 
-      this.requestParams.filters += `WithdrawDepositState==10,`;
+      this.requestParams.filters += `WithdrawDepositState==0,`;
 
       if (this.filters.keyword)
         this.requestParams.filters += `(Remark|RealName|Phone|AliPayAccount)@=${this.filters.keyword},`;
@@ -248,10 +237,10 @@ export default {
       });
     },
     //显示编辑界面
-    handlePay: function (row) {
-      api.withdraw.pay(row.id).then(() => {
+    handleAudit: function (row) {
+      api.withdraw.audit(row.id).then(() => {
         this.$message({
-          message: "打款成功",
+          message: "审核通过",
           type: "success",
         });
         this.getWithdrawDepositMDtos();

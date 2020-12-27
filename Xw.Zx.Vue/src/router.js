@@ -108,28 +108,33 @@ export default new Router({
         component: Home,
         iconCls: 'el-icon-tickets',
         children: [{
+            path: '/withdraw/tongjibuAudit',
+            component: () =>
+                import('./views/withdrawDeposit/tongjibuAudit'),
+            name: '统计部审核'
+        },{
             path: '/withdraw/waitaduit',
             component: () =>
-                import('./views/withdrawDeposit/waitAduit'),
-            name: '待审核'
+                import('./views/withdrawDeposit/caiwuAduit'),
+            name: '财务部审核'
         },
         {
             path: '/withdraw/waitpay',
             component: () =>
                 import('./views/withdrawDeposit/waitPay'),
-            name: '待打款'
+            name: '财务部打款'
         },
         {
             path: '/withdraw/sucess',
             component: () =>
                 import('./views/withdrawDeposit/index'),
-            name: '已打款'
+            name: '提现成功'
         },
         {
             path: '/withdraw/fail',
             component: () =>
                 import('./views/withdrawDeposit/fail'),
-            name: '失败'
+            name: '提现失败'
         },
         ]
     },
