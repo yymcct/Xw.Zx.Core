@@ -78,7 +78,7 @@ namespace Xw.Zx.Core.Controllers
             {
                 var db = _context.IncomeAccounts
                     .AsNoTracking()
-                    .Where(b => b.MemberId == memberId);
+                    .Where(b => b.MemberId == memberId );
 
                 var details = _sieveProcessor
                     .Apply(new SieveModel(),db)
@@ -113,7 +113,7 @@ namespace Xw.Zx.Core.Controllers
             try
             {
                 var IncomTotal = _context.IncomeAccounts
-                    .Where(b => b.MemberId == Member.Id)
+                    .Where(b => b.MemberId == Member.Id && b.IncomeAccountState == IncomeAccountState.已发放)
                     .Sum(b => b.Amount);
 
                 var WithdrawDeposit = _context.WithdrawDeposits

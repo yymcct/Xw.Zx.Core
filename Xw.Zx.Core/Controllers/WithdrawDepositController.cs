@@ -71,7 +71,7 @@ namespace Xw.Zx.Core.Controllers
                 }
 
                 var IncomTotal = _context.IncomeAccounts
-                        .Where(b => b.MemberId == Member.Id)
+                        .Where(b => b.MemberId == Member.Id && b.IncomeAccountState == IncomeAccountState.已发放)
                         .Sum(b => b.Amount);
 
                 var WithdrawDeposit = _context.WithdrawDeposits
@@ -208,7 +208,7 @@ public HbzsResult AuditWithdrawDepositdetail([FromBody] AuditWithdrawDepositdeta
         }
 
         var IncomTotal = _context.IncomeAccounts
-            .Where(b => b.MemberId == detail.MemberId)
+            .Where(b => b.MemberId == detail.MemberId && b.IncomeAccountState == IncomeAccountState.已发放)
             .Sum(b => b.Amount);
 
         var WithdrawDeposit = _context.WithdrawDeposits

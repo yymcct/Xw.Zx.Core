@@ -13,6 +13,14 @@ namespace Xw.Zx.Core.Models.Model
         间接收益 = 1,
         级差收益 = 2
     }
+
+    public enum IncomeAccountState
+    {
+        待审核 = 0,
+        已发放 = 1,
+        已拒绝 = 2
+    }
+
     public class IncomeAccount : ModelBase
     {
         [Sieve(CanFilter = true, CanSort = true)]
@@ -21,7 +29,7 @@ namespace Xw.Zx.Core.Models.Model
         public int MemberId { get; set; }
 
         [Column(TypeName = "decimal(8, 2)")]
-        public decimal Amount { get; set; }      
+        public decimal Amount { get; set; }
 
         /// <summary>
         /// 产生收益的单据ID
@@ -39,6 +47,14 @@ namespace Xw.Zx.Core.Models.Model
         public int SourceOrderMemberInviteId { get; set; }
 
         public IncomeAccountType IncomeAccountType { get; set; }
+
+
+        public IncomeAccountState IncomeAccountState { get; set; } = IncomeAccountState.待审核;
+
+
+        public int AuditMemberId { get; set; } = 0;
+
+        public DateTime Auditime { get; set; }
 
         public string Remark { get; set; }
 

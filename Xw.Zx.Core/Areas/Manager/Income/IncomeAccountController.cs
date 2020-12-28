@@ -53,19 +53,19 @@ namespace Xw.Zx.Core.Areas.Manager
                              MemberVipType = member.MemberVipType,
                              MemberVipTypeName = member.MemberVipType.ToString(),
                              ZhijieTotla = _context.IncomeAccounts
-                                            .Where(i => i.MemberId == member.Id && i.IncomeAccountType == IncomeAccountType.直接收益)
+                                            .Where(i => i.MemberId == member.Id && i.IncomeAccountType == IncomeAccountType.直接收益 && i.IncomeAccountState == IncomeAccountState.已发放)
                                             .Sum(i => new decimal?(i.Amount)),
 
                              JianjieTotla = _context.IncomeAccounts
-                                            .Where(i => i.MemberId == member.Id && i.IncomeAccountType == IncomeAccountType.间接收益)
+                                            .Where(i => i.MemberId == member.Id && i.IncomeAccountType == IncomeAccountType.间接收益 && i.IncomeAccountState == IncomeAccountState.已发放)
                                             .Sum(i => new decimal?(i.Amount)),
 
                              ChajiTotla = _context.IncomeAccounts
-                                            .Where(i => i.MemberId == member.Id && i.IncomeAccountType == IncomeAccountType.级差收益)
+                                            .Where(i => i.MemberId == member.Id && i.IncomeAccountType == IncomeAccountType.级差收益 && i.IncomeAccountState == IncomeAccountState.已发放)
                                             .Sum(i => new decimal?(i.Amount)),
 
                              IncomeTotal = _context.IncomeAccounts
-                                            .Where(i => i.MemberId == member.Id)
+                                            .Where(i => i.MemberId == member.Id && i.IncomeAccountState == IncomeAccountState.已发放)
                                             .Sum(i => new decimal?(i.Amount)),
 
                              WithdrawDepositTotal = _context.WithdrawDeposits
@@ -142,6 +142,51 @@ namespace Xw.Zx.Core.Areas.Manager
             }
             var total = _sieveProcessor.Apply(sieveModel, db, null, true, true, false).Count();
             return new HbzsManagerResult<IEnumerable<IncomeAccountMRespone.Income>>(items, total);
+        }
+
+        [HttpPost]
+        public HbzsManagerResult AuditSucess([FromQuery] int id)
+        {
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                var income = _context.IncomeAccounts.First(i => i.IncomeAccountState == IncomeAccountState.待审核 && i.Id == id);
+                income.IncomeAccountState = IncomeAccountState.已发放;
+                income.Auditime = DateTime.Now;
+                income.AuditMemberId = Member.Id;
+                income.Remark += $"{Member.RealName}[{Member.Phone}]审核";
+
+                var yyzxMember = _context.Members.First(m => m.Disabled == false && m.Id == income.MemberId);
+
+                _context.MemberBalanceLogs.Add(new MemberBalanceLog()
+                {
+                    Memberid = yyzxMember.Id,
+                    memberMoneySource = MemberMoneySource.分润,
+                    SourceId = income.SourceOrderId,
+                    Amount = income.Amount,
+                    OriginalMoney = yyzxMember.Money,
+                    CurMoney = yyzxMember.Money + income.Amount,
+                    Remark = income.Remark
+                });
+
+                yyzxMember.Money += income.Amount;
+
+                _context.SaveChanges();
+                transaction.Commit();
+            }
+
+            return new HbzsManagerResult(HbzsManagerResultCode.Sucess, "提交成功");
+        }
+
+        [HttpPost]
+        public HbzsManagerResult AuditFail([FromQuery] int id, [FromBody] IncomeAccountMRequest.Audit audit)
+        {
+            var income = _context.IncomeAccounts.First(i => i.IncomeAccountState == IncomeAccountState.待审核 && i.Id == id);
+            income.IncomeAccountState = IncomeAccountState.已拒绝;
+            income.Auditime = DateTime.Now;
+            income.AuditMemberId = Member.Id;
+            income.Remark += audit.Remark;
+
+            return new HbzsManagerResult(HbzsManagerResultCode.Sucess, "提交成功");
         }
     }
 }

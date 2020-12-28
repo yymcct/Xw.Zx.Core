@@ -35,35 +35,21 @@ namespace Xw.Zx.Core.Service.ShareProfit
                 {
                     var money = 9.0m;
                     var remark = $"{member.RealName}[{member.Phone}]购买:{order.ProducName}[{order.Id}]产生分润:{money}元";
-                    using (var transaction = _context.Database.BeginTransaction())
+
+                    _context.IncomeAccounts.Add(new IncomeAccount()
                     {
-                        _context.IncomeAccounts.Add(new IncomeAccount()
-                        {
-                            MemberId = inviter.Id,
-                            Amount = money,
-                            SourceOrderId = order.Id,
-                            SourceOrderMemberId = order.MemberId,
-                            SourceOrderMemberInviteId = inviter.Id,
-                            IncomeAccountType = IncomeAccountType.直接收益,
-                            Remark = remark,
-                        });
+                        MemberId = inviter.Id,
+                        Amount = money,
+                        SourceOrderId = order.Id,
+                        SourceOrderMemberId = order.MemberId,
+                        SourceOrderMemberInviteId = inviter.Id,
+                        IncomeAccountType = IncomeAccountType.直接收益,
+                        IncomeAccountState = IncomeAccountState.待审核,
+                        Remark = remark,
+                    });
 
-                        _context.MemberBalanceLogs.Add(new MemberBalanceLog()
-                        {
-                            Memberid = inviter.Id,
-                            memberMoneySource = MemberMoneySource.分润,
-                            SourceId = order.Id,
-                            Amount = money,
-                            OriginalMoney = inviter.Money,
-                            CurMoney = inviter.Money + money,
-                            Remark = remark
-                        });
+                    _context.SaveChanges();
 
-                        inviter.Money += money;
-
-                        _context.SaveChanges();
-                        transaction.Commit();
-                    }
                     _logger.LogError(remark);
                 }
             }

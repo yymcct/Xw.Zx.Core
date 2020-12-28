@@ -114,7 +114,7 @@ namespace Xw.Zx.Core.Areas.Manager
 
             //TODO 系统校验
             var IncomTotal = _context.IncomeAccounts
-                .Where(b => b.MemberId == detail.MemberId)
+                .Where(b => b.MemberId == detail.MemberId && b.IncomeAccountState == IncomeAccountState.已发放)
                 .Sum(b => b.Amount);
 
             var WithdrawDeposit = _context.WithdrawDeposits
@@ -375,7 +375,7 @@ namespace Xw.Zx.Core.Areas.Manager
                 var result = new GetAuditWithdrawDepositdetailDto()
                 {
                     IncomeDetails = _context.IncomeAccounts
-                                    .Where(i => i.MemberId == memberId)
+                                    .Where(i => i.MemberId == memberId && i.IncomeAccountState == IncomeAccountState.已发放)
                                     .OrderBy(i => i.AddTime)
                                     .Select(i => new IncomeDetail
                                     {
@@ -398,7 +398,7 @@ namespace Xw.Zx.Core.Areas.Manager
                                     }).ToList(),
 
                     IncomeTotal = _context.IncomeAccounts
-                                .Where(i => i.MemberId == memberId)
+                                .Where(i => i.MemberId == memberId && i.IncomeAccountState == IncomeAccountState.已发放)
                                 .Sum(i => i.Amount),
 
                     WithdrawDeposit = _context.WithdrawDeposits
