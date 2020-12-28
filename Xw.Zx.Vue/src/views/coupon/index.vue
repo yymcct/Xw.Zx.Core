@@ -20,7 +20,7 @@
       ></el-table-column>
       <el-table-column prop="realName" label="用户" width="140px" sortable>
         <template slot-scope="scope">
-          <p style="font-weight: bold">{{ scope.row.RealName }}</p>
+          <p style="font-weight: bold">{{ scope.row.realName }}</p>
           <p style="color: #999999">{{ scope.row.phone }}</p>
           <p style="color: #999999; font-weight: bold">
             {{ scope.row.memberVipTypeName }}
