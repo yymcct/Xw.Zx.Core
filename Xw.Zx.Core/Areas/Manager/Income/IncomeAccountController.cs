@@ -110,6 +110,9 @@ namespace Xw.Zx.Core.Areas.Manager
             var memberIds = incomes.Select(i => i.MemberId).ToArray();
             var members = _context.Members.Where(m => memberIds.Contains(m.Id)).ToArray();
 
+            var auditMemberIds = incomes.Select(i => i.AuditMemberId).ToArray();
+            var auditMembers = _context.Members.Where(m => auditMemberIds.Contains(m.Id)).ToArray();
+
             var orderIds = incomes.Select(i => i.SourceOrderId).ToArray();
             var orders = _context.Orders.Where(o => orderIds.Contains(o.Id));
 
@@ -136,6 +139,11 @@ namespace Xw.Zx.Core.Areas.Manager
                 item.IncomeAccountType = r.IncomeAccountType;
                 item.IncomeAccountTypeName = r.IncomeAccountType.ToString();
                 item.Remark = r.Remark;
+                item.IncomeAccountState = r.IncomeAccountState;
+                item.IncomeAccountStateName = r.IncomeAccountState.ToString();
+                item.AuditMemberId = r.AuditMemberId;
+                item.AuditMemberName = auditMembers.FirstOrDefault(m => m.Id == r.AuditMemberId)?.RealName;
+                item.Auditime = r.Auditime;
                 item.AddTime = r.AddTime;
 
                 items.Add(item);
@@ -153,7 +161,7 @@ namespace Xw.Zx.Core.Areas.Manager
                 income.IncomeAccountState = IncomeAccountState.已发放;
                 income.Auditime = DateTime.Now;
                 income.AuditMemberId = Member.Id;
-                income.Remark += $"{Member.RealName}[{Member.Phone}]审核";
+                income.Remark += $"; {Member.RealName}[{Member.Phone}]审核";
 
                 var yyzxMember = _context.Members.First(m => m.Disabled == false && m.Id == income.MemberId);
 
@@ -184,8 +192,8 @@ namespace Xw.Zx.Core.Areas.Manager
             income.IncomeAccountState = IncomeAccountState.已拒绝;
             income.Auditime = DateTime.Now;
             income.AuditMemberId = Member.Id;
-            income.Remark += audit.Remark;
-
+            income.Remark += "; "+audit.Remark;
+            _context.SaveChanges();
             return new HbzsManagerResult(HbzsManagerResultCode.Sucess, "提交成功");
         }
     }

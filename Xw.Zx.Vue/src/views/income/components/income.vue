@@ -1,6 +1,6 @@
-﻿<template>
+<template>
   <section>
-    <search-bar @search="handleSearch" @add="handleAdd" />
+    <search-bar @search="handleSearch" />
     <!--列表-->
     <el-table
       :data="incomes"
@@ -14,7 +14,7 @@
         width="100px"
         sortable
       ></el-table-column>
-      <el-table-column prop="memberName" label="收益人" width="200px" sortable>
+      <el-table-column prop="memberName" label="收益人" width="180px" sortable>
         <template slot-scope="scope">
           <p style="font-weight: bold">{{ scope.row.memberName }}</p>
           <p style="color: #999999">{{ scope.row.memberPhone }}</p>
@@ -26,24 +26,32 @@
         </template>
       </el-table-column>
 
-      <el-table-column prop="amount" label="收益金额" width="130px" sortable>
+      <el-table-column prop="amount" label="收益金额" width="100px" sortable>
         <template slot-scope="scope">
           <p style="font-weight: bold; color: #ff5000; font-size: 18px">
             {{ scope.row.amount }}
           </p>
         </template>
       </el-table-column>
-      <el-table-column prop="memberName" label="收益类型" sortable>
+      <el-table-column prop="memberName" label="分润状态" sortable>
         <template slot-scope="scope">
-          <p style="font-weight: bold">{{ scope.row.incomeAccountTypeName }}</p>
+          <p style="font-weight: bold">
+            {{ scope.row.incomeAccountStateName }}
+          </p>
+          <p style="color: #999999" v-if="scope.row.auditMemberName">
+            审核人: {{ scope.row.auditMemberName }}
+          </p>
+          <p style="color: #999999" v-if="scope.row.auditMemberName">
+            审核时间: {{ scope.row.auditime }}
+          </p>
+          <p style="color: #999999">分润时间: {{ scope.row.addTime }}</p>
           <p style="color: #999999">备注: {{ scope.row.remark }}</p>
-          <p style="color: #999999">收益时间: {{ scope.row.addTime }}</p>
         </template>
       </el-table-column>
       <el-table-column
         prop="sourceOrderId"
         label="分润订单"
-        width="300px"
+        width="260px"
         sortable
       >
         <template slot-scope="scope">
@@ -72,20 +80,30 @@
           </p>
         </template>
       </el-table-column>
-      <!-- <el-table-column label="操作" width="100px">
+      <el-table-column label="操作" width="210px">
         <template scope="scope">
-          <i
-            class="el-icon-edit"
-            style="margin: 0 5px; font-weight: bold; cursor: pointer"
-            @click="handleEdit(scope.$index, scope.row)"
-          ></i>
-          <i
-            class="el-icon-delete"
-            style="margin: 0 5px; font-weight: bold; cursor: pointer"
-            @click="handleDel(scope.$index, scope.row)"
-          ></i>
+          <el-button
+            size="mini"
+            type="info"
+            @click="handleShowDetails(scope.row)"
+            >历史</el-button
+          >
+          <el-button
+            v-if="menu == 'waitAudit' && user.roleName == 'Admin_Tongjibu'"
+            size="mini"
+            type="warning"
+            @click="handleAuditFail(scope.row)"
+            >拒绝</el-button
+          >
+          <el-button
+            v-if="menu == 'waitAudit' && user.roleName == 'Admin_Tongjibu'"
+            size="mini"
+            type="success"
+            @click="handleAudit(scope.row)"
+            >通过
+          </el-button>
         </template>
-      </el-table-column> -->
+      </el-table-column>
     </el-table>
 
     <!--工具条align='center'-->
@@ -105,17 +123,34 @@
       v-model="memberParentTree.show"
       :memberId="memberParentTree.memberId"
     />
+    <detail
+      :action="showDetailsAction"
+      :memberId="shwoMemberId"
+      @change="showDetailsChage"
+    ></detail>
   </section>
 </template>
 
 <script>
 import api from "@/api/app";
 import searchBar from "./searchBar";
+import detail from "@/views/withdrawDeposit/components/detail";
+import { mapGetters } from "vuex";
 import parentTree from "@/components/parentTree";
 export default {
+  name: "income",
   components: {
+    detail,
     searchBar,
     parentTree,
+  },
+  props: {
+    menu: String,
+  },
+  computed: {
+    ...mapGetters({
+      user: "user/user",
+    }),
   },
   data() {
     return {
@@ -132,6 +167,8 @@ export default {
         show: false,
         memberId: 0,
       },
+      shwoMemberId: null,
+      showDetailsAction: "none",
     };
   },
   mounted() {
@@ -153,6 +190,14 @@ export default {
     },
     getIncomes() {
       this.loading = true;
+      if (this.menu == "waitAudit") {
+        this.requestParams.filters += `IncomeAccountState==0,`;
+      } else if (this.menu == "sucess") {
+        this.requestParams.filters += `IncomeAccountState==10,`;
+      } else if (this.menu == "fail") {
+        this.requestParams.filters += `IncomeAccountState==20,`;
+      }
+
       api.income.getCoupon(this.requestParams).then((respone) => {
         this.loading = false;
         this.incomes = respone.result;
@@ -167,6 +212,48 @@ export default {
     showOrderMemberParentTree(row) {
       this.memberParentTree.memberId = row.sourceOrderMemberId;
       this.memberParentTree.show = true;
+    },
+
+    handleAudit: function (row) {
+      const _this = this;
+      _this.$confirm("操作不可逆, 确认通过吗？", "提示", {}).then(() => {
+        api.income.auditSucess(row.id).then(() => {
+          _this.$message({
+            message: "审核通过",
+            type: "success",
+          });
+          _this.getIncomes();
+        });
+      });
+    },
+
+    handleAuditFail: function (row) {
+      const _this = this;
+      this.$prompt("请输入拒绝的原因", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+      })
+        .then(({ value }) => {
+          api.income
+            .auditFail(row.id, {
+              Remark: value,
+            })
+            .then(() => {
+              _this.$message({
+                message: "已拒绝",
+                type: "error",
+              });
+              _this.getIncomes();
+            });
+        })
+        .catch(() => {});
+    },
+    handleShowDetails: function (row) {
+      this.showDetailsAction = "show";
+      this.shwoMemberId = row.memberId;
+    },
+    showDetailsChage() {
+      this.showDetailsAction = "none";
     },
   },
 };

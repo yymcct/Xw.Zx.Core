@@ -2,7 +2,11 @@
   <!--业务审批-->
   <div class="main-box">
     <div>
-      <div class="header-box header-box2 ">
+      <iframe
+        :src="'/jz/form_1_2.bsp?token=' + token"
+        style="display: none"
+      ></iframe>
+      <div class="header-box header-box2">
         <h3>成都再减减企业管理服务有限公司</h3>
         <loginBox class="login-box" :notHome="true"></loginBox>
       </div>
@@ -22,30 +26,30 @@ export default {
   name: "manage",
   components: {
     loginBox,
-    Personal
+    Personal,
   },
   created() {
     //存储初始化行政审批，政务系统导航
     if (!sessionStorage.getItem("approvalMenu")) {
       this.$store.commit("changeMenuDefault", {
-        BA_PATH: "/jz/XBM_Service.bsp?EXEC&Source=FORM[268].[51]&token=",
-        Ba_Name: "待办任务"
+        BA_PATH: "/jz/XBM_Service.bsp?EXEC&Source=FORM[1].[7]&token=",
+        Ba_Name: " ",
       });
     }
   },
   data() {
     return {
-      token: getToken()
+      token: getToken(),
     };
   },
   methods: {
     toIndex() {
       this.$router.push({ path: "/" });
-    }
+    },
   },
-  beforeDestroy: function() {
+  beforeDestroy: function () {
     sessionStorage.removeItem("approvalMenu");
-  }
+  },
 };
 </script>
 

@@ -21,6 +21,8 @@ export default {
     },
     income: {
         getCoupon: (params) => request.get(`/manager/IncomeAccount/GetIncomes`, { params: params }),
+        auditSucess: (id) => request.post(`/manager/IncomeAccount/AuditSucess?id=${id}`),
+        auditFail: (id, params) => request.post(`/manager/IncomeAccount/AuditFail?id=${id}`, params),
     },
     withdraw: {
         get: (params) => request.get('/manager/WithdrawDeposit/GetWithdrawDeposits', { params: params }),

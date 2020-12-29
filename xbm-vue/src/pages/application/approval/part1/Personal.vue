@@ -183,7 +183,7 @@ export default {
       // /jz/XBM_Service.bsp?EXEC&Source=FORM[268].[50]&token=
       this.$store.commit("changeMenuDefault", {
         BA_PATH: "/jz/XBM_Service.bsp?EXEC&Source=FORM[268].[51]&token=",
-        Ba_Name: "待办任务"
+        Ba_Name: "待办任务2"
       });
       this.$router.push("/approval");
     }

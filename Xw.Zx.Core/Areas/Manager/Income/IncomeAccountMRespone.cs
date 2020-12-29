@@ -49,6 +49,15 @@ namespace Xw.Zx.Core.Areas.Manager
             //备注
             public string Remark { get; set; }
 
+            public IncomeAccountState IncomeAccountState { get; set; }
+
+            public string IncomeAccountStateName { get; set; }
+
+            public int AuditMemberId { get; set; }
+            public string AuditMemberName { get; set; }
+
+            public DateTime Auditime { get; set; }
+
             //收益时间
             public DateTime AddTime { get; set; } 
         }

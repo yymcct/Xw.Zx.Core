@@ -48,7 +48,7 @@ export default new Router({
     },
     {
         path: '/',
-        name: '账户管理',
+        name: '订单管理',
         component: Home,
         iconCls: 'el-icon-tickets',
         children: [{
@@ -63,25 +63,6 @@ export default new Router({
                 import('./views/order/waitpay'),
             name: '待支付订单'
         },
-        // {
-        //     path: '/order/close',
-        //     component: () =>
-        //         import('./views/order/close'),
-        //     name: '超时关闭订单'
-        // },
-        {
-            path: '/incomeAccount',
-            component: () =>
-                import('./views/incomeAccount/index'),
-            name: '分润管理'
-        },
-        {
-            path: '/income',
-            component: () =>
-                import('./views/income/index'),
-            name: '分润详情'
-        },
-
         {
             path: '/updateVipAuthCode',
             component: () =>
@@ -104,6 +85,38 @@ export default new Router({
     },
     {
         path: '/',
+        name: '分润管理',
+        component: Home,
+        iconCls: 'el-icon-tickets',
+        children: [
+            {
+                path: '/income/waitAudit',
+                component: () =>
+                    import('./views/income/waitAudit'),
+                name: '待审核'
+            },
+            {
+                path: '/income/sucess',
+                component: () =>
+                    import('./views/income/sucess'),
+                name: '已通过'
+            },
+            {
+                path: '/income/fail', 
+                component: () =>
+                    import('./views/income/fail'),
+                name: '已拒绝'
+            },
+            {
+                path: '/incomeAccount',
+                component: () =>
+                    import('./views/incomeAccount/index'),
+                name: '账户详情'
+            },
+        ]
+    },
+    {
+        path: '/',
         name: '提现管理',
         component: Home,
         iconCls: 'el-icon-tickets',
@@ -112,7 +125,7 @@ export default new Router({
             component: () =>
                 import('./views/withdrawDeposit/tongjibuAudit'),
             name: '统计部审核'
-        },{
+        }, {
             path: '/withdraw/waitaduit',
             component: () =>
                 import('./views/withdrawDeposit/caiwuAudit'),

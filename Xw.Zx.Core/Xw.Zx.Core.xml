@@ -228,7 +228,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:Xw.Zx.Core.Areas.Manager.WithdrawDepositController.Audit(System.Int32)">
+        <member name="M:Xw.Zx.Core.Areas.Manager.WithdrawDepositController.CaiwuAudit(System.Int32)">
             <summary>
             审核通过
             </summary>

@@ -17,8 +17,8 @@ namespace Xw.Zx.Core.Models.Model
     public enum IncomeAccountState
     {
         待审核 = 0,
-        已发放 = 1,
-        已拒绝 = 2
+        已发放 = 10,
+        已拒绝 = 20
     }
 
     public class IncomeAccount : ModelBase
@@ -48,7 +48,7 @@ namespace Xw.Zx.Core.Models.Model
 
         public IncomeAccountType IncomeAccountType { get; set; }
 
-
+        [Sieve(CanFilter = true, CanSort = true)]
         public IncomeAccountState IncomeAccountState { get; set; } = IncomeAccountState.待审核;
 
 
