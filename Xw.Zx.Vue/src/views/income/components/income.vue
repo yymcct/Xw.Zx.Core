@@ -216,22 +216,31 @@ export default {
 
     handleAudit: function (row) {
       const _this = this;
-      _this.$confirm("操作不可逆, 确认通过吗？", "提示", {}).then(() => {
-        api.income.auditSucess(row.id).then(() => {
-          _this.$message({
-            message: "审核通过",
-            type: "success",
+      this.$prompt("同意分润, 请输入审批意见(选填)", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+      }).then(({ value }) => {
+        api.income
+          .auditSucess(row.id, {
+            Remark: value,
+          })
+          .then(() => {
+            _this.$message({
+              message: "审核通过",
+              type: "success",
+            });
+            _this.getIncomes();
           });
-          _this.getIncomes();
-        });
       });
     },
 
     handleAuditFail: function (row) {
       const _this = this;
-      this.$prompt("请输入拒绝的原因", "提示", {
+      this.$prompt("拒绝分润, 请输入审批意见(必填)", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
+        inputPattern: /(.+)/,
+        inputErrorMessage: "审批意见不能为空",
       })
         .then(({ value }) => {
           api.income

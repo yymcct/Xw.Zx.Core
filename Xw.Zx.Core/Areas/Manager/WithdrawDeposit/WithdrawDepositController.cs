@@ -60,7 +60,6 @@ namespace Xw.Zx.Core.Areas.Manager
                          select new WithdrawDepositMDto
                          {
                              Id = withdrawdeposit.Id,
-
                              MemberId = withdrawdeposit.MemberId,
                              Amount = withdrawdeposit.Amount,
                              AddTime = withdrawdeposit.AddTime,
@@ -82,11 +81,26 @@ namespace Xw.Zx.Core.Areas.Manager
                 var result = new WithdrawDepositTotalMDto()
                 {
                     WithdrawDepositMDtos = _sieveProcessor.Apply(sieveModel, db).ToList(),
-                  //  QueryTotal = _sieveProcessor.Apply(sieveModel, db.Where(w => w.WithdrawDepositState == WithdrawDepositState.提现成功), null, true, true, false).Sum(o => o.Amount),
-                  //  AllTotal = db.Where(w => w.WithdrawDepositState == WithdrawDepositState.提现成功).Sum(o => o.Amount),
-                  //  OrderTotal = _context.Orders.Where(o => o.OrderState == OrderState.已付款).Sum(w => w.Amount),
+                    //  QueryTotal = _sieveProcessor.Apply(sieveModel, db.Where(w => w.WithdrawDepositState == WithdrawDepositState.提现成功), null, true, true, false).Sum(o => o.Amount),
+                    //  AllTotal = db.Where(w => w.WithdrawDepositState == WithdrawDepositState.提现成功).Sum(o => o.Amount),
+                    //  OrderTotal = _context.Orders.Where(o => o.OrderState == OrderState.已付款).Sum(w => w.Amount),
                 };
-               // result.Balance = result.OrderTotal - result.AllTotal;
+                // result.Balance = result.OrderTotal - result.AllTotal;
+
+                foreach (var item in result.WithdrawDepositMDtos)
+                {
+                    var logs = (from member in _context.Members
+                                join log in _context.WithdrawDepositLogs on member.Id equals log.AddUserId
+                                where log.WithdrawDepositId == item.Id
+                                select new WithdrawDepositMDto.Auditlog
+                                {
+                                    RealName = member.RealName,
+                                    Remark = log.Remark,
+                                    CreateTime = log.CreateTime
+                                }).ToArray();
+
+                    item.Auditlogs = logs;
+                }
 
                 var total = _sieveProcessor.Apply(sieveModel, db, null, true, true, false).Count();
                 return new HbzsManagerResult<WithdrawDepositTotalMDto>(result, total);
@@ -141,8 +155,8 @@ namespace Xw.Zx.Core.Areas.Manager
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(Roles = nameof(MemberRole.Admin_Tongjibu))]        
-        public HbzsManagerResult TongjibuAudit([FromQuery] int id)
+        [Authorize(Roles = nameof(MemberRole.Admin_Tongjibu))]
+        public HbzsManagerResult TongjibuAudit([FromQuery] int id, [FromBody] IncomeAccountMRequest.Audit audit)
         {
             try
             {
@@ -156,6 +170,7 @@ namespace Xw.Zx.Core.Areas.Manager
                     {
                         WithdrawDepositId = id,
                         AddUserId = Member.Id,
+                        Remark = "审核意见: " + (string.IsNullOrEmpty(audit.Remark) ? "无" : audit.Remark),
                         WithdrawDepositState = WithdrawDepositState.统计部审核,
                     });
 
@@ -182,7 +197,7 @@ namespace Xw.Zx.Core.Areas.Manager
         /// <returns></returns>        
         [HttpPost]
         [Authorize(Roles = nameof(MemberRole.Admin_Caiwu))]
-        public HbzsManagerResult CaiwuAudit([FromQuery] int id)
+        public HbzsManagerResult CaiwuAudit([FromQuery] int id, [FromBody] IncomeAccountMRequest.Audit audit)
         {
             try
             {
@@ -195,6 +210,7 @@ namespace Xw.Zx.Core.Areas.Manager
                     {
                         WithdrawDepositId = id,
                         AddUserId = Member.Id,
+                        Remark = "审核意见: " + (string.IsNullOrEmpty(audit.Remark) ? "无" : audit.Remark),
                         WithdrawDepositState = WithdrawDepositState.财务部审核,
                     });
 
@@ -220,7 +236,7 @@ namespace Xw.Zx.Core.Areas.Manager
         /// <returns></returns>
         [HttpPost]
         [Authorize(Roles = nameof(MemberRole.Admin_CaiwuManager))]
-        public HbzsManagerResult Pay([FromQuery] int id)
+        public HbzsManagerResult Pay([FromQuery] int id, [FromBody] IncomeAccountMRequest.Audit audit)
         {
             try
             {
@@ -233,6 +249,7 @@ namespace Xw.Zx.Core.Areas.Manager
                     {
                         WithdrawDepositId = id,
                         AddUserId = Member.Id,
+                        Remark = "审核意见: " + (string.IsNullOrEmpty(audit.Remark) ? "无" : audit.Remark),
                         WithdrawDepositState = WithdrawDepositState.提现成功,
                     };
 
@@ -301,7 +318,7 @@ namespace Xw.Zx.Core.Areas.Manager
         //[Authorize(Roles =  nameof(MemberRole.Admin_Tongjibu))]
         //[Authorize(Roles = nameof(MemberRole.Admin_Caiwu))]
         //[Authorize(Roles = nameof(MemberRole.Admin_CaiwuManager))]
-        public HbzsManagerResult Fail([FromQuery] int id)
+        public HbzsManagerResult Fail([FromQuery] int id, [FromBody] IncomeAccountMRequest.Audit audit)
         {
             try
             {
@@ -318,6 +335,7 @@ namespace Xw.Zx.Core.Areas.Manager
                 {
                     WithdrawDepositId = id,
                     AddUserId = Member.Id,
+                    Remark = "审核意见: " + audit.Remark,
                     WithdrawDepositState = WithdrawDepositState.提现失败,
                 };
 

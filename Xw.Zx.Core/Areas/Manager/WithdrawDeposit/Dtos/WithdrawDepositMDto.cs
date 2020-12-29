@@ -35,16 +35,23 @@ namespace Xw.Zx.Core.Areas.Manager
         public decimal RealityAmount { get; set; }
 
         [Sieve(CanFilter = true)]
-        public DateTime AddTime { get; set; } 
+        public DateTime AddTime { get; set; }
 
         [Sieve(CanFilter = true)]
         public WithdrawDepositState WithdrawDepositState { get; set; }
-        
+
         [Sieve(CanFilter = true)]
-        public string Remark { get; set; } 
-
-
+        public string Remark { get; set; }
 
         public string WithdrawDepositStateName { get; set; }
+
+
+        public class Auditlog
+        {
+            public string RealName { get; set; }
+            public string Remark { get; set; }
+            public DateTime CreateTime { get; set; }
+        }
+        public IEnumerable<Auditlog> Auditlogs { get; set; }
     }
 }

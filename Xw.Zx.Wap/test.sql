@@ -90,4 +90,10 @@ select * from Members where phone='18624938007'
 --update Members set RoleName = 'Admin_Tongjibu' where phone='18624938007' 
 --update Members set RoleName = 'Admin_Caiwu' where phone='18624938007' 
 --update Members set RoleName = 'Admin_CaiwuManager' where phone='18624938007' 
+
+update WithdrawDeposits set WithdrawDepositState = 0 where id = 157
+
+update IncomeAccounts set IncomeAccountState=10 
+
+delete WithdrawDepositLogs where WithdrawDepositId=157
  

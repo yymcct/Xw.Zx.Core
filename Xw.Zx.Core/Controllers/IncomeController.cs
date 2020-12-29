@@ -44,7 +44,7 @@ namespace Xw.Zx.Core.Controllers
             {
                 var db = _context.IncomeAccounts
                     .AsNoTracking()
-                    .Where(b => b.MemberId == Member.Id);
+                    .Where(b => b.MemberId == Member.Id && b.IncomeAccountState == IncomeAccountState.已发放);
 
                 var details = _sieveProcessor
                     .Apply(sieveModel, db)
@@ -78,7 +78,7 @@ namespace Xw.Zx.Core.Controllers
             {
                 var db = _context.IncomeAccounts
                     .AsNoTracking()
-                    .Where(b => b.MemberId == memberId );
+                    .Where(b => b.MemberId == memberId && b.IncomeAccountState == IncomeAccountState.已发放);
 
                 var details = _sieveProcessor
                     .Apply(new SieveModel(),db)

@@ -68,7 +68,17 @@
         width="100px"
         sortable
       ></el-table-column>
-      <el-table-column prop="remark" label="备注" sortable></el-table-column>
+      <el-table-column prop="remark" label="备注" sortable>
+        <template slot-scope="scope">
+          <p style="color: #999999; font-weight: bold">
+            {{ scope.row.remark }}
+          </p>
+          <p style="color: #999999;" v-for="(item,index) in scope.row.auditlogs" :key="index">
+             审核人: {{ item.realName }}  {{ item.createTime }}  {{ item.remark }}
+          </p>
+        
+        </template>
+      </el-table-column>
       <el-table-column
         prop="addTime"
         label="时间"
@@ -231,8 +241,13 @@ export default {
         auditApi = api.withdraw.pay;
       }
       const _this = this;
-      _this.$confirm("操作不可逆, 确认通过吗？", "提示", {}).then(() => {
-        auditApi(row.id).then(() => {
+      this.$prompt("同意提现, 请输入审批意见(选填)", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+      }).then(({ value }) => {
+        auditApi(row.id, {
+          Remark: value,
+        }).then(() => {
           _this.$message({
             message: "审核通过",
             type: "success",
@@ -244,14 +259,23 @@ export default {
 
     handleAuditFail: function (row) {
       const _this = this;
-      this.$confirm("操作不可逆, 确认拒绝吗？", "提示", {}).then(() => {
-        api.withdraw.fail(row.id).then(() => {
-          _this.$message({
-            message: "已拒绝",
-            type: "error",
+      this.$prompt("拒绝提现, 请输入审批意见(必填)", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        inputPattern: /(.+)/,
+        inputErrorMessage: "审批意见不能为空",
+      }).then(({ value }) => {
+        api.withdraw
+          .fail(row.id, {
+            Remark: value,
+          })
+          .then(() => {
+            _this.$message({
+              message: "已拒绝",
+              type: "error",
+            });
+            _this.getWithdrawDepositMDtos();
           });
-          _this.getWithdrawDepositMDtos();
-        });
       });
     },
     handleShowDetails: function (row) {

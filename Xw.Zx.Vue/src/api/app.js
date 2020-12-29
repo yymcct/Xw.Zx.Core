@@ -21,14 +21,14 @@ export default {
     },
     income: {
         getCoupon: (params) => request.get(`/manager/IncomeAccount/GetIncomes`, { params: params }),
-        auditSucess: (id) => request.post(`/manager/IncomeAccount/AuditSucess?id=${id}`),
+        auditSucess: (id, params) => request.post(`/manager/IncomeAccount/AuditSucess?id=${id}`, params),
         auditFail: (id, params) => request.post(`/manager/IncomeAccount/AuditFail?id=${id}`, params),
     },
     withdraw: {
         get: (params) => request.get('/manager/WithdrawDeposit/GetWithdrawDeposits', { params: params }),
-        tongjibuAudit: (id) => request.post(`/manager/WithdrawDeposit/TongjibuAudit?id=${id}`),
-        caiwuAudit: (id) => request.post(`/manager/WithdrawDeposit/CaiwuAudit?id=${id}`),
-        pay: (id) => request.post(`/manager/WithdrawDeposit/Pay?id=${id}`),
-        fail: (id) => request.post(`/manager/WithdrawDeposit/Fail?id=${id}`),
+        tongjibuAudit: (id, params) => request.post(`/manager/WithdrawDeposit/TongjibuAudit?id=${id}`, params),
+        caiwuAudit: (id, params) => request.post(`/manager/WithdrawDeposit/CaiwuAudit?id=${id}`, params),
+        pay: (id, params) => request.post(`/manager/WithdrawDeposit/Pay?id=${id}`, params),
+        fail: (id, params) => request.post(`/manager/WithdrawDeposit/Fail?id=${id}`, params),
     }
 }

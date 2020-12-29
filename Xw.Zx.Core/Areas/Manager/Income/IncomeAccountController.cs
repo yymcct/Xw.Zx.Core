@@ -153,7 +153,7 @@ namespace Xw.Zx.Core.Areas.Manager
         }
 
         [HttpPost]
-        public HbzsManagerResult AuditSucess([FromQuery] int id)
+        public HbzsManagerResult AuditSucess([FromQuery] int id, [FromBody] IncomeAccountMRequest.Audit audit)
         {
             using (var transaction = _context.Database.BeginTransaction())
             {
@@ -161,7 +161,7 @@ namespace Xw.Zx.Core.Areas.Manager
                 income.IncomeAccountState = IncomeAccountState.已发放;
                 income.Auditime = DateTime.Now;
                 income.AuditMemberId = Member.Id;
-                income.Remark += $"; {Member.RealName}[{Member.Phone}]审核";
+                income.Remark += $"; {Member.RealName}[{Member.Phone}]审核" + "; 审核意见:" + (string.IsNullOrEmpty(audit.Remark) ? "无" : audit.Remark);
 
                 var yyzxMember = _context.Members.First(m => m.Disabled == false && m.Id == income.MemberId);
 
@@ -192,7 +192,7 @@ namespace Xw.Zx.Core.Areas.Manager
             income.IncomeAccountState = IncomeAccountState.已拒绝;
             income.Auditime = DateTime.Now;
             income.AuditMemberId = Member.Id;
-            income.Remark += "; "+audit.Remark;
+            income.Remark += "; 审核意见: " + audit.Remark;
             _context.SaveChanges();
             return new HbzsManagerResult(HbzsManagerResultCode.Sucess, "提交成功");
         }
