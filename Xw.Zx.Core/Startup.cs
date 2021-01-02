@@ -71,6 +71,7 @@ namespace Xw.Zx.Core
                      policy => policy.RequireRole(nameof(MemberRole.Admin)
                             , nameof(MemberRole.Admin_Tongjibu)
                             , nameof(MemberRole.Admin_Caiwu)
+                            , nameof(MemberRole.Admin_CaiwuPayChange)
                             , nameof(MemberRole.Admin_CaiwuManager)));
             });
             #endregion

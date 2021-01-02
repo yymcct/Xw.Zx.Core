@@ -34,7 +34,7 @@
         </el-form>
       </el-col>
     </el-row>
-    <el-row class="toolbar" style="padding-top: 20px; padding-bottom: 20px">
+    <!-- <el-row class="toolbar" style="padding-top: 20px; padding-bottom: 20px">
       <el-col :span="24">
         <el-tag type="danger"
           >当查询条件下合计:{{ orderMDtos.queryTotal }}</el-tag
@@ -43,7 +43,7 @@
         <el-tag>全部提现合计:{{ orderMDtos.withdrawDepositsTotal }}</el-tag>
         <el-tag>(全部毛收入-全部提现)合计:{{ orderMDtos.balance }}</el-tag>
       </el-col>
-    </el-row>
+    </el-row> -->
     <!--列表-->
     <el-table
       :data="orderMDtos.orderMDtos"

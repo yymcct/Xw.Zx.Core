@@ -12,16 +12,6 @@ export default new Router({
             import('./views/login/index'),
         hidden: true
     },
-    // {
-    //   path: '/',
-    //   name: '会议管理',
-    //   component: Home,
-    //   iconCls: 'el-icon-setting',
-    //   children: [
-    //     { path: '/main', component: About, name: '主页', hidden: true },
-    //     { path: '/meeting', component: () => import('./views/meeting/index'), name: '会议管理' },
-    //   ]
-    // },
     {
         path: '/',
         name: '系统设置',

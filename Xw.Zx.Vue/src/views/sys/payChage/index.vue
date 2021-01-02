@@ -1,10 +1,20 @@
 <template>
   <div class="wrapper">
     <el-row>
-      <el-radio v-model="radio" label="1">支付宝</el-radio>
-      <el-radio v-model="radio" label="2">碧麒麟</el-radio>
+      <el-radio
+        v-model="radio"
+        label="1"
+        :disabled="user.roleName != 'Admin_CaiwuPayChange'"
+        >支付宝</el-radio
+      > 
+      <el-radio
+        v-model="radio"
+        label="2"
+        :disabled="user.roleName != 'Admin_CaiwuPayChange'"
+        >碧麒麟</el-radio
+      >
     </el-row>
-    <el-row>
+    <el-row v-if="user.roleName == 'Admin_CaiwuPayChange'">
       <el-button class="btn" type="primary" @click="post">提交</el-button>
     </el-row>
   </div>
@@ -12,18 +22,21 @@
 
 <script>
 import api from "@/api/app";
+import { mapGetters } from "vuex";
 export default {
-  name: "",
+  name: "Change",
   props: [""],
   data() {
     return {
       radio: "0",
     };
   },
-
+  computed: {
+    ...mapGetters({
+      user: "user/user",
+    }),
+  },
   components: {},
-
-  computed: {},
 
   beforeMount() {
     api.sysParam.getValue("FirstUseAlipay").then((res) => {

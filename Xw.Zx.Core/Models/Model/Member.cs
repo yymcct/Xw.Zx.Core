@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,11 +9,18 @@ namespace Xw.Zx.Core.Models.Model
 {
     public enum MemberRole
     {
+        [Description("APP用户")]
         AppUser = 0,
+        [Description("后台管理员")]
         Admin = 100, //后台基础管理员
+        [Description("后台统计部管理员")]
         Admin_Tongjibu = 200,
-        Admin_Caiwu=300,
-        Admin_CaiwuManager = 301
+        [Description("后台财务部")]
+        Admin_Caiwu =300,
+        [Description("财务部经理")]
+        Admin_CaiwuManager = 301,
+        [Description("财务部通道")]
+        Admin_CaiwuPayChange = 301
     }
     public enum MemberSex
     {
