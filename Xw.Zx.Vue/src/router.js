@@ -22,6 +22,11 @@ export default new Router({
             component: () =>
                 import('./views/sys/payChage/index'),
             name: '支付通道'
+        }, {
+            path: '/sys/orderinfo',
+            component: () =>
+                import('./views/sys/orderInfo/index'),
+            name: '订单统计'
         },]
     },
     {
@@ -92,7 +97,7 @@ export default new Router({
                 name: '已通过'
             },
             {
-                path: '/income/fail', 
+                path: '/income/fail',
                 component: () =>
                     import('./views/income/fail'),
                 name: '已拒绝'

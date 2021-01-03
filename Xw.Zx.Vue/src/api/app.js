@@ -30,5 +30,8 @@ export default {
         caiwuAudit: (id, params) => request.post(`/manager/WithdrawDeposit/CaiwuAudit?id=${id}`, params),
         pay: (id, params) => request.post(`/manager/WithdrawDeposit/Pay?id=${id}`, params),
         fail: (id, params) => request.post(`/manager/WithdrawDeposit/Fail?id=${id}`, params),
+    },
+    order: {
+        getInfo: (params) => request.get('/manager/order/getInfo', { params: params }),       
     }
 }

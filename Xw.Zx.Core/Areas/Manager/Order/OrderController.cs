@@ -80,5 +80,106 @@ namespace Xw.Zx.Core.Areas.Manager
                 return new HbzsManagerResult<OrderTotalMDto>(HbzsManagerResultCode.Invalid_Error, ex.Message);
             }
         }
+
+        [HttpGet]
+        public HbzsManagerResult<OrderMRespone.Info> GetInfo(DateTime startTime, DateTime endTime)
+        {
+            var info = new OrderMRespone.Info();
+
+            //订单
+            info.OrderWaitPay.Count = _context
+                .Orders
+                .Where(o => startTime <= o.AddTime && o.AddTime <= endTime && o.OrderState == OrderState.待付款)
+                .Count();
+            info.OrderWaitPay.Amount = _context
+                .Orders
+                .Where(o => startTime <= o.AddTime && o.AddTime <= endTime && o.OrderState == OrderState.待付款)
+                .Sum(o => o.Amount);
+
+            info.OrderSucess.Count = _context
+                .Orders
+                .Where(o => startTime <= o.AddTime && o.AddTime <= endTime && o.OrderState == OrderState.已付款)
+                .Count();
+            info.OrderSucess.Amount = _context
+                .Orders
+                .Where(o => startTime <= o.AddTime && o.AddTime <= endTime && o.OrderState == OrderState.已付款)
+                .Sum(o => o.Amount);
+
+            //分润
+            info.IncomeWaitAudit.Count = _context
+                .IncomeAccounts
+                .Where(o => startTime <= o.AddTime && o.AddTime <= endTime && o.IncomeAccountState == IncomeAccountState.待审核)
+                .Count();
+            info.IncomeWaitAudit.Amount = _context
+                .IncomeAccounts
+                .Where(o => startTime <= o.AddTime && o.AddTime <= endTime && o.IncomeAccountState == IncomeAccountState.待审核)
+                .Sum(o => o.Amount);
+
+            info.IncomeSucess.Count = _context
+                .IncomeAccounts
+                .Where(o => startTime <= o.AddTime && o.AddTime <= endTime && o.IncomeAccountState == IncomeAccountState.已发放)
+                .Count();
+            info.IncomeSucess.Amount = _context
+                .IncomeAccounts
+                .Where(o => startTime <= o.AddTime && o.AddTime <= endTime && o.IncomeAccountState == IncomeAccountState.已发放)
+                .Sum(o => o.Amount);
+
+            info.IncomeFail.Count = _context
+                .IncomeAccounts
+                .Where(o => startTime <= o.AddTime && o.AddTime <= endTime && o.IncomeAccountState == IncomeAccountState.已拒绝)
+                .Count();
+            info.IncomeFail.Amount = _context
+                .IncomeAccounts
+                .Where(o => startTime <= o.AddTime && o.AddTime <= endTime && o.IncomeAccountState == IncomeAccountState.已拒绝)
+                .Sum(o => o.Amount);
+
+            //提现
+            info.WithdrawApplyFor.Count = _context
+                .WithdrawDeposits
+                .Where(o => startTime <= o.AddTime && o.AddTime <= endTime && o.WithdrawDepositState == WithdrawDepositState.申请提现)
+                .Count();
+            info.WithdrawApplyFor.Amount = _context
+                .WithdrawDeposits
+                .Where(o => startTime <= o.AddTime && o.AddTime <= endTime && o.WithdrawDepositState == WithdrawDepositState.申请提现)
+                .Sum(o => o.Amount);
+
+            info.WithdrawTongjibuAudit.Count = _context
+                .WithdrawDeposits
+                .Where(o => startTime <= o.AddTime && o.AddTime <= endTime && o.WithdrawDepositState == WithdrawDepositState.统计部审核)
+                .Count();
+            info.WithdrawTongjibuAudit.Amount = _context
+                .WithdrawDeposits
+                .Where(o => startTime <= o.AddTime && o.AddTime <= endTime && o.WithdrawDepositState == WithdrawDepositState.统计部审核)
+                .Sum(o => o.Amount);
+
+            info.WithdrawCaiwubuAudit.Count = _context
+                .WithdrawDeposits
+                .Where(o => startTime <= o.AddTime && o.AddTime <= endTime && o.WithdrawDepositState == WithdrawDepositState.统计部审核)
+                .Count();
+            info.WithdrawCaiwubuAudit.Amount = _context
+                .WithdrawDeposits
+                .Where(o => startTime <= o.AddTime && o.AddTime <= endTime && o.WithdrawDepositState == WithdrawDepositState.统计部审核)
+                .Sum(o => o.Amount);
+
+            info.WithdrawSucess.Count = _context
+                .WithdrawDeposits
+                .Where(o => startTime <= o.AddTime && o.AddTime <= endTime && o.WithdrawDepositState == WithdrawDepositState.提现成功)
+                .Count();
+            info.WithdrawSucess.Amount = _context
+                .WithdrawDeposits
+                .Where(o => startTime <= o.AddTime && o.AddTime <= endTime && o.WithdrawDepositState == WithdrawDepositState.提现成功)
+                .Sum(o => o.Amount);
+
+            info.WithdrawFail.Count = _context
+                .WithdrawDeposits
+                .Where(o => startTime <= o.AddTime && o.AddTime <= endTime && o.WithdrawDepositState == WithdrawDepositState.提现失败)
+                .Count();
+            info.WithdrawFail.Amount = _context
+                .WithdrawDeposits
+                .Where(o => startTime <= o.AddTime && o.AddTime <= endTime && o.WithdrawDepositState == WithdrawDepositState.提现失败)
+                .Sum(o => o.Amount);
+
+            return new HbzsManagerResult<OrderMRespone.Info>(info);
+        }
     }
 }
