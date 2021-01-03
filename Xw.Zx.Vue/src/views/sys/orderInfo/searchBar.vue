@@ -7,7 +7,7 @@
     <el-col :span="24" class="toolbar" style="padding-bottom: 0px">
       <el-form :inline="true" :model="filters">
         <el-form-item>
-          <el-date-picker
+          <!-- <el-date-picker
             v-model="filters.startTime"
             type="date"
             placeholder="开始时间"
@@ -22,7 +22,8 @@
             align="right"
             :picker-options="glpickerOptions"
             value-format="yyyy-MM-dd"
-          ></el-date-picker>
+          ></el-date-picker> -->
+          <date-picker @change="datepickerChange" />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="handleSearch">查询</el-button>
@@ -33,24 +34,26 @@
 </template>
 
 <script>
+import datePicker from "@/components/datePicker";
 export default {
-  components: {},
+  components: {
+    datePicker,
+  },
   data() {
     return {
       filters: {
-        startTime : '2020-12-01',
-        endTime: '2020-12-31',
+        startTime: "2020-12-01",
+        endTime: "2020-12-31",
       },
     };
   },
   methods: {
+    datepickerChange(val) {
+      console.log(1111,val);
+      this.filters.startTime = val[0];
+      this.filters.endTime = val[1];
+    },
     handleSearch() {
-      //let filtersStr = "";
-
-      // if (this.filters.startTimeStart)
-      //   filtersStr += `CreateTime>=${this.filters.startTimeStart},`;
-      // if (this.filters.startTimeEnd)
-      //   filtersStr += `CreateTime<=${this.filters.startTimeEnd},`;
       this.$emit("search", this.filters);
     },
     handleAdd() {
@@ -65,5 +68,4 @@ export default {
 <style scoped>
 </style>
 <style lang="scss" scoped>
-
 </style>
