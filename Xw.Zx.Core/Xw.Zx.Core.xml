@@ -176,6 +176,36 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.OrderMRespone.Info.OrderWaitPay">
+            <summary>
+            待付款订单
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.OrderMRespone.Info.OrderSucess">
+            <summary>
+            支付成功订单
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.OrderMRespone.Info.IncomeWaitAudit">
+            <summary>
+            分润待审核
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.OrderMRespone.Info.IncomeSucess">
+            <summary>
+            分润成功
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.OrderMRespone.Info.IncomeFail">
+            <summary>
+            分润失败
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.OrderMRespone.Info.WithdrawApplyFor">
+            <summary>
+            申请提现
+            </summary>
+        </member>
         <member name="M:Xw.Zx.Core.Areas.Manager.OrderController.GetOrders(Sieve.Models.SieveModel)">
             <summary>
             TODO
