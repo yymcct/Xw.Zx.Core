@@ -1,7 +1,7 @@
 <template>
   <!-- 利息计算方式修订 -->
   <div class="wrapper">
-    <h1 class="head">贷款利息减免计算器 <span>V1.2测试版</span></h1>
+    <h1 class="head">贷款利息减免计算器 <span>V1.2版</span></h1>
     <div class="content">
       <van-field v-model="name" label="姓名" placeholder="请输入姓名" />
       <van-field
@@ -85,7 +85,7 @@
         <span class="result-value2">{{ jmlx_max }}</span>
         <span class="result-value">元</span>
       </p>
-      <p style="font-size: 13px" v-html="maxlxLog"></p>
+      <!-- <p style="font-size: 13px" v-html="maxlxLog"></p> -->
     </div>
     <div class="footer">
       <img :src="require('@/assets/images/log.png')" alt="" />
@@ -260,8 +260,8 @@ export default {
       this.maxlxLog += `合计应付利息${yingfulixi}<br\>`;
       var yuqi = this.jsq_yuqulx();
       console.log(yuqi);
-      let jm = hetongjine - daozhangjine - yingfulixi + yuqi;
-      this.maxlxLog += `最大减免:${hetongjine} -${daozhangjine}-${yingfulixi}+${yuqi} =${jm}<br\><br\>`;
+      let jm = hetongjine - daozhangjine - yingfulixi - yuqi;
+      this.maxlxLog += `最大减免:${hetongjine} -${daozhangjine}-${yingfulixi} - ${yuqi} =${jm}<br\><br\>`;
       return Math.round(jm);
     },
     jsq_maxjmlx() {
@@ -287,8 +287,8 @@ export default {
 
       this.maxlxLog += `合计应付利息${yingfulixi}<br\>`;
       var yuqi = this.jsq_yuqulx();
-      let jm = hetongjine - daozhangjine - yingfulixi + yuqi;
-      this.maxlxLog += `最大减免:${hetongjine} -${daozhangjine}-${yingfulixi}+${yuqi} =${jm}<br\><br\>`;
+      let jm = hetongjine - daozhangjine - yingfulixi - yuqi;
+      this.maxlxLog += `最大减免:${hetongjine} -${daozhangjine}-${yingfulixi}-${yuqi} =${jm}<br\><br\>`;
 
       return Math.round(jm);
     },
