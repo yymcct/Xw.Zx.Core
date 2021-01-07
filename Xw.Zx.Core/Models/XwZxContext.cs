@@ -57,6 +57,8 @@ namespace Xw.Zx.Core.Models.Model
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
 
+        public DbSet<BiqilinLog> BiqilinLogs { get; set; }
+
         public DbSet<Payment> Payments { get; set; }
 
         public DbSet<Receivable> Receivables { get; set; }
@@ -223,6 +225,11 @@ namespace Xw.Zx.Core.Models.Model
                .Property(c => c.IsDelete)
                .HasDefaultValue(false);
             modelBuilder.Entity<CouponUseLog>()
+               .HasQueryFilter(c => !c.IsDelete)
+               .Property(c => c.IsDelete)
+               .HasDefaultValue(false);
+
+            modelBuilder.Entity<BiqilinLog>()
                .HasQueryFilter(c => !c.IsDelete)
                .Property(c => c.IsDelete)
                .HasDefaultValue(false);

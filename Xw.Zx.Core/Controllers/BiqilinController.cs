@@ -53,7 +53,7 @@ namespace Xw.Zx.Core.Controllers
                                                 && o.OrderState == OrderState.待付款
                                                 && o.Id == biqilinDto.OrderId);
 
-                var url = _biqilinService.CreateQrcodePayUrl(new Biqilin_Product()
+                var res = _biqilinService.CreateQrcodePayUrl(new Biqilin_Product()
                 {
                     Name = order.ProducName,
                     Timestamp = order.Timestamp,
@@ -61,7 +61,14 @@ namespace Xw.Zx.Core.Controllers
                     Biqilin_PayType = biqilinDto.Biqilin_PayType
                 });
 
-                return new HbzsResult<string>(url);
+                _context.BiqilinLogs.Add(new BiqilinLog
+                {
+                    OrderId = order.Id,
+                    BiqilinOrderNo = res.orderNo
+                });
+                _context.SaveChanges();
+
+                return new HbzsResult<string>(res.codeUrl);
             }
             catch (Exception ex)
             {

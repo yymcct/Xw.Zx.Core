@@ -61,7 +61,17 @@ POST {{baseUrl}}/api/Biqilin/Notifyurl
 Content-Type: {{contentType}}
 
 {
-  "outOrderNo":"20201222230655723972",
+  "outOrderNo":"20210106093229312077",
+  "orderStatus":"TRADE_SUCCESS"
+}
+
+###
+
+POST http://139.155.8.217/api/Biqilin/Notifyurl
+Content-Type: {{contentType}}
+
+{
+  "outOrderNo":"20210106095303476660",
   "orderStatus":"TRADE_SUCCESS"
 }
 

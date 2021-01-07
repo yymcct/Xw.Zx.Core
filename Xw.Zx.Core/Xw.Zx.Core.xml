@@ -1432,6 +1432,11 @@
             变动金额
             </summary>
         </member>
+        <member name="T:Xw.Zx.Core.Models.Model.BiqilinLog">
+            <summary>
+            碧麒麟订单日志表
+            </summary>
+        </member>
         <member name="T:Xw.Zx.Core.Models.Model.Order">
             <summary>
             订单表

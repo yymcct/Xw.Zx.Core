@@ -7,8 +7,8 @@ namespace Xw.Zx.Core.Service
 {
     
     public interface IBiqilinService
-    {    
-        string CreateQrcodePayUrl(Biqilin_Product biqilin_Product);
+    {
+        BiqilinRespone.QrcodePay CreateQrcodePayUrl(Biqilin_Product biqilin_Product);
 
         BiqilinRespone.JsapiPay CreateWeixinJsApi(Biqilin_Product biqilin_Product);
 

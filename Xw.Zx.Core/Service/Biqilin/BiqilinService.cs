@@ -20,7 +20,7 @@ namespace Xw.Zx.Core.Service
             _client.DefaultRequestHeaders.Add("Method", "Post");
             _biqilinOption = biqilinOption.CurrentValue;
         }
-        public string CreateQrcodePayUrl(Biqilin_Product biqilin_Product)
+        public BiqilinRespone.QrcodePay CreateQrcodePayUrl(Biqilin_Product biqilin_Product)
         {
             const string url = "https://pay.biqilin.com/api/pay/partner/qrcode_pay.do";
             //var key = GetToken(); 获取一次就不再改变           
@@ -40,8 +40,7 @@ namespace Xw.Zx.Core.Service
             dto.notify_url = "http://139.155.8.217/api/Biqilin/Notifyurl";
             dto.token = token; //key.token;
 
-            var res = Post<BiqilinRespone.QrcodePay>(url, dto.ToDic());
-            return res.codeUrl;
+            return Post<BiqilinRespone.QrcodePay>(url, dto.ToDic());      
         }
 
         public BiqilinRespone.JsapiPay CreateWeixinJsApi(Biqilin_Product biqilin_Product)
