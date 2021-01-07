@@ -85,7 +85,8 @@
       >
         提交
       </van-button>
-      <!-- <van-button
+      <van-button
+        v-if="!couponChecked"
         class="foot-btn"
         type="primary"
         round
@@ -95,7 +96,7 @@
         :disabled="order.orderState == 1"
       >
         立即付款
-      </van-button> -->
+      </van-button>
     </div>
     <template v-if="useAlipay">
       <alipayQrcode
@@ -172,7 +173,7 @@ export default {
       ).result;
 
       //下单时选择了优惠券方式,且有名下有优惠券
-      if(_this.coupon && _this.order.orderPaymentType ==4){
+      if (_this.coupon && _this.order.orderPaymentType == 4) {
         _this.couponChecked = true;
       }
     },

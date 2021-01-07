@@ -49,6 +49,7 @@
       <van-field
         v-model="overdueCycle"
         label="逾期期数"
+        required
         placeholder="请输入逾期期数"
         type="digit"
       />
@@ -69,13 +70,13 @@
         >
       </div>
     </div>
-    <!--  v-show="!option.btnShow"-->
+    <!--  -->
     <div class="result" v-show="!option.btnShow">
       <h2>计算结果</h2>
-      <!-- <p>
+      <p>
         <span class="result-lable">应付利息:&nbsp;</span>
         <span class="result-value">{{ yflx }}元</span>
-      </p> -->
+      </p>
       <p>
         <span class="result-lable">减免利息最小:&nbsp;</span>
         <span class="result-value2">{{ jmlx_min }}</span>
@@ -108,7 +109,7 @@ export default {
       borrowCompany: "",
       borrowAmount: "",
       cycle: 36,
-      cycleAmount: "",
+      cycleAmount: "",  
       repaymentCycle: "",
       overdueCycle: "0",
 
@@ -293,6 +294,31 @@ export default {
 
       return Math.round(jm);
     },
+    jsq_lx() {
+      let r = this.befor202008Month(); 
+      let daozhangjine = Number(this.borrowAmount);
+      let befor_lixi = this.jsq_yflx(
+        daozhangjine,
+        r.befor,
+        Number(this.cycleAmount),
+        24
+      );
+      this.maxlxLog += `8月20号前应付利息${befor_lixi.lx}<br\>`;
+      let after_lixi = this.jsq_yflx(
+        befor_lixi.shengyubenjin,
+        Number(this.cycle) - r.after,
+        Number(this.cycleAmount),
+        17
+      );
+      this.maxlxLog += `8月20号后应付利息${after_lixi.lx}<br\>`;
+      let yingfulixi = befor_lixi.lx + after_lixi.lx;
+      this.maxlxLog += `合计应付利息${yingfulixi}<br\>`;
+      var yuqi = this.jsq_yuqulx();
+      console.log(yuqi);
+      let jm =  yingfulixi + yuqi;
+      this.maxlxLog += `应付利息: ${yingfulixi} + ${yuqi} =${jm}<br\><br\>`;
+      return Math.round(jm);
+    },
     btnClikc() {
       this.maxlxLog = "";
       if (this.phone.length != 11) {
@@ -304,12 +330,7 @@ export default {
         return;
       }
 
-      
-      this.yflx = this.jsq_yflx(
-        this.borrowAmount,
-        this.cycle,
-        this.cycleAmount
-      );
+      this.yflx = this.jsq_lx();
       this.jmlx_min = this.jsq_minjmlx();
       this.jmlx_max = this.jsq_maxjmlx();
 
@@ -326,6 +347,7 @@ export default {
         MinReduce: this.jmlx_min,
         MaxReduce: this.jmlx_max,
       });
+
       this.option.btnShow = false;
     },
   },
