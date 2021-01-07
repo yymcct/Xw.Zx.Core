@@ -185,9 +185,15 @@ namespace Xw.Zx.Core.Areas.Manager
         {
             try
             {
-                if (!_context.Members.Any(m => m.Id == dto.InviteId))
+                var inviteMember = _context.Members.FirstOrDefault(m => m.Id == dto.InviteId);
+                if (inviteMember == null)
                 {
                     return new HbzsManagerResult(HbzsManagerResultCode.Invalid_Error, "邀请人不存在!");
+                }
+
+                if (inviteMember.InviteId == Member.Id)
+                {
+                    return new HbzsManagerResult(HbzsManagerResultCode.Invalid_Error, "不能互为上下级!");
                 }
 
                 var member = _context.Members.First(m => m.Id == dto.MemberId);
