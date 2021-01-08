@@ -12,5 +12,7 @@ namespace Xw.Zx.Core.Service
 
         BiqilinRespone.JsapiPay CreateWeixinJsApi(Biqilin_Product biqilin_Product);
 
+        BiqilinRespone.Query QueryOrder(string biqilinOrderNo);
+
     }
 }

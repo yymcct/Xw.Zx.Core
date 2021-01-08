@@ -96,6 +96,13 @@ namespace Xw.Zx.Core.Controllers
                     OpenId = openId
                 });
 
+                _context.BiqilinLogs.Add(new BiqilinLog
+                {
+                    OrderId = order.Id,
+                    BiqilinOrderNo = wxRespone.orderNo
+                });
+                _context.SaveChanges();
+
                 return new HbzsResult<JsapiPayResponeDto.JsapiPay>(_mapper.Map<JsapiPayResponeDto.JsapiPay>(wxRespone));
             }
             catch (Exception ex)
@@ -116,17 +123,33 @@ namespace Xw.Zx.Core.Controllers
         {
             _logger.LogWarning("biqilinNotifyDto:" + JsonConvert.SerializeObject(biqilinNotifyDto));
 
-            //TODO验签
 
             if (biqilinNotifyDto.orderStatus == "TRADE_SUCCESS")
             {
-                var timestamp = biqilinNotifyDto.outOrderNo;
-                _orderService.OrderPay(timestamp, OrderPaymentType.碧麒麟);
+                var query = _biqilinService.QueryOrder(biqilinNotifyDto.orderNo);
+                var waitPayOrder = _context.Orders.First(o => o.Timestamp == biqilinNotifyDto.outOrderNo);
+                if (CheckBiqilinOrder(waitPayOrder, query))
+                {
+                    _orderService.OrderPay(biqilinNotifyDto.outOrderNo, OrderPaymentType.碧麒麟);
+                }
             }
             await Response.WriteAsync(JsonConvert.SerializeObject(new
             {
                 flag = "1"
             }));
+        }
+
+        private bool CheckBiqilinOrder(Order order, BiqilinRespone.Query query)
+        {
+            if (order != null && query != null
+                && query.orderStatus == "TRADE_SUCCESS"
+                && query.outOrderNo == order.Timestamp
+                && (decimal.Parse(query.amount)) == order.Amount)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

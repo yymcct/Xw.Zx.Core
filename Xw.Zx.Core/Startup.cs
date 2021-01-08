@@ -7,6 +7,7 @@ using System.Runtime.Loader;
 using System.Threading.Tasks;
 using Alipay.AopSdk.AspnetCore;
 using AutoMapper;
+using Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -24,6 +25,7 @@ using Sieve.Services;
 using Swashbuckle.AspNetCore.Swagger;
 using Xw.Zx.Core.Config;
 using Xw.Zx.Core.Config.Swagger;
+using Xw.Zx.Core.HangfireJob;
 using Xw.Zx.Core.Models.Model;
 using Xw.Zx.Core.Service;
 using Xw.Zx.Core.Utility;
@@ -156,6 +158,11 @@ namespace Xw.Zx.Core
 
             services.AddProfit();
             services.AddOrderService();
+
+            #region Hangfire
+            services.AddScoped<BiqilinOrderSync>();
+            services.AddHangfire(x => x.UseSqlServerStorage(Configuration.GetSection("DbConnections:XwZx").Value));
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -218,6 +225,11 @@ namespace Xw.Zx.Core
                 }
 
             });
+
+            app.UseHangfireServer();//启动Hangfire服务
+            app.UseHangfireDashboard();//启动hangfire面板
+
+            RecurringJob.AddOrUpdate<BiqilinOrderSync>(i => i.Run(), "0 */30 * * * ?");
         }
 
 
