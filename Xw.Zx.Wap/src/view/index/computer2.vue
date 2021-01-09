@@ -46,13 +46,33 @@
         placeholder="请输入已还期数"
         type="digit"
       />
-      <van-field
+      <!-- <van-field
         v-model="overdueCycle"
         label="逾期期数"
         required
         placeholder="请输入逾期期数"
         type="digit"
+      /> -->
+      <van-field
+        readonly
+        clickable
+        required
+        label="最后还款"
+        :value="_lastRefundDate"
+        placeholder="选择城市"
+        @click="showPicker = true"
       />
+      <van-popup v-model="showPicker" round position="bottom">
+        <van-datetime-picker
+          v-model="lastRefundDate"
+          type="year-month"
+          title="选择最后还款时间"
+          :min-date="minDate"
+          :max-date="maxDate"
+          :formatter="formatter"
+          @confirm="pickerConfirmHandle"
+        />
+      </van-popup>
       <div class="content-btn" v-show="option.btnShow">
         <van-button
           type="primary"
@@ -100,7 +120,7 @@
 import api from "@/api/sqbApi";
 // import vueQr from "vue-qr";
 export default {
-  name: "",
+  name: "ddd",
   props: [""],
   data() {
     return {
@@ -109,9 +129,11 @@ export default {
       borrowCompany: "",
       borrowAmount: "",
       cycle: 36,
-      cycleAmount: "",  
+      cycleAmount: "",
       repaymentCycle: "",
       overdueCycle: "0",
+      lastRefundDate: new Date(),
+      showPicker: false,
 
       yflx: 0,
       jmlx_min: 0,
@@ -129,12 +151,19 @@ export default {
         sharePhone: "",
         showQrcode: false,
       },
+
+      minDate: new Date(2010, 0, 1),
+      maxDate: new Date(),
       maxlxLog: "",
     };
   },
 
   components: {},
-  computed: {},
+  computed: {
+    _lastRefundDate() {
+      return this.lastRefundDate.Format("yyyy-MM");
+    },
+  },
 
   beforeMount() {
     this.befor202008Month();
@@ -147,6 +176,14 @@ export default {
   },
 
   methods: {
+    formatter(type, val) {
+      if (type === "year") {
+        return `${val}年`;
+      } else if (type === "month") {
+        return `${val}月`;
+      }
+      return val;
+    },
     befor202008Month() {
       let monDiff = (endTime, startTime) => {
         startTime = startTime.split("-");
@@ -295,7 +332,7 @@ export default {
       return Math.round(jm);
     },
     jsq_lx() {
-      let r = this.befor202008Month(); 
+      let r = this.befor202008Month();
       let daozhangjine = Number(this.borrowAmount);
       let befor_lixi = this.jsq_yflx(
         daozhangjine,
@@ -315,7 +352,7 @@ export default {
       this.maxlxLog += `合计应付利息${yingfulixi}<br\>`;
       var yuqi = this.jsq_yuqulx();
       console.log(yuqi);
-      let jm =  yingfulixi + yuqi;
+      let jm = yingfulixi + yuqi;
       this.maxlxLog += `应付利息: ${yingfulixi} + ${yuqi} =${jm}<br\><br\>`;
       return Math.round(jm);
     },
@@ -349,6 +386,24 @@ export default {
       });
 
       this.option.btnShow = false;
+    },
+    pickerConfirmHandle() {
+      let monDiff = (endTime, startTime) => {
+        startTime = startTime.split("-");
+        // 得到月数
+        startTime = parseInt(startTime[0]) * 12 + parseInt(startTime[1]);
+        // 拆分年月日
+        endTime = endTime.split("-");
+        // 得到月数
+        endTime = parseInt(endTime[0]) * 12 + parseInt(endTime[1]);
+        var m = endTime - startTime;
+        return m;
+      };
+      this.showPicker = false;
+
+      this.overdueCycle =
+        monDiff(new Date().Format("yyyy-MM"), this._lastRefundDate) - 1;
+      if (this.overdueCycle < 0) this.overdueCycle = 0;
     },
   },
 
