@@ -20,6 +20,10 @@ namespace Xw.Zx.Core.Models.Model
 
         public DbSet<Member> Members { get; set; }
 
+        public DbSet<MemberIntegral> MemberIntegrals { get; set; }
+
+        public DbSet<MemberIntegralRecord> MemberIntegralRecords { get; set; }
+
         public DbSet<MemberBalanceLog> MemberBalanceLogs { get; set; }
 
         public DbSet<ApplyForZxMDto> ApplyForZxs { get; set; }
@@ -124,18 +128,34 @@ namespace Xw.Zx.Core.Models.Model
                .HasDefaultValue(false);
 
             modelBuilder.Entity<Member>()
-                           .HasQueryFilter(c => !c.IsDelete)
-                           .Property(c => c.IsDelete)
-                           .HasDefaultValue(false);
-
+                .HasQueryFilter(c => !c.IsDelete)
+                .Property(c => c.IsDelete)
+                .HasDefaultValue(false);
+    
             modelBuilder.Entity<Member>()
                .Property(c => c.Money)
                .HasDefaultValue(0m);
 
             modelBuilder.Entity<MemberBalanceLog>()
-                   .HasQueryFilter(c => !c.IsDelete)
-                   .Property(c => c.IsDelete)
-                   .HasDefaultValue(false);
+                .HasQueryFilter(c => !c.IsDelete)
+                .Property(c => c.IsDelete)
+                .HasDefaultValue(false);
+
+            modelBuilder.Entity<MemberIntegral>()
+               .HasQueryFilter(c => !c.IsDelete)
+               .Property(c => c.IsDelete)
+               .HasDefaultValue(false);
+        
+            modelBuilder.Entity<MemberIntegral>()
+               .HasOne(m=> m.Member);
+
+            modelBuilder.Entity<MemberIntegralRecord>()
+               .HasQueryFilter(c => !c.IsDelete)
+               .Property(c => c.IsDelete)
+               .HasDefaultValue(false);
+
+            modelBuilder.Entity<MemberIntegralRecord>()
+                .HasOne(m => m.Member);
 
 
             modelBuilder.Entity<ApplyForZxMDto>()
