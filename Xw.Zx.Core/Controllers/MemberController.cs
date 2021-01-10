@@ -25,16 +25,19 @@ namespace Xw.Zx.Core.Controllers
     {
         private readonly ILogger<MemberController> _logger;
         private readonly ISmsService _sms;
+        private readonly IMemberService _memberService;
         private readonly IMemberIntegralService _memberIntegralService;
         public MemberController(ILogger<MemberController> logger
             , XwZxContext xwZxContext
             , IMapper mapper
             , ISieveProcessor sieveProcessor
             , ISmsService sms
-            , IMemberIntegralService memberIntegralService) : base(xwZxContext, mapper, sieveProcessor)
+            , IMemberIntegralService memberIntegralService
+            , IMemberService memberService) : base(xwZxContext, mapper, sieveProcessor)
         {
             _logger = logger;
             _sms = sms;
+            _memberService = memberService;
             _memberIntegralService = memberIntegralService;
         }
 
@@ -107,9 +110,8 @@ namespace Xw.Zx.Core.Controllers
 
                 var result = SimulationLogin(loginDto);
                 if (result.statusCode == 200)
-                {
-                    var member = _context.Members.FirstOrDefault(m => m.UserName == loginDto.Account);
-                    result.Member = _mapper.Map<MemberDto>(member);
+                {           
+                    result.Member = _memberService.GetMemberByUserName(loginDto.Account);
                 }
                 else
                 {
@@ -182,7 +184,8 @@ namespace Xw.Zx.Core.Controllers
                     return new HbzsResult<LoginResponeDto>(HbzsResultCode.Invalid_Error, "账号或密码错误");
                 }
 
-                result.Member = _mapper.Map<MemberDto>(member);
+                result.Member = _memberService.GetMember(member.Id);
+          
                 return new HbzsResult<LoginResponeDto>(result);
             }
             catch (Exception ex)
@@ -239,7 +242,7 @@ namespace Xw.Zx.Core.Controllers
                     return new HbzsResult<LoginResponeDto>(HbzsResultCode.Invalid_Error, "账号或密码错误");
                 }
 
-                result.Member = _mapper.Map<MemberDto>(member);
+                result.Member = _memberService.GetMember(member.Id);
                 return new HbzsResult<LoginResponeDto>(result);
             }
             catch (Exception ex)
@@ -424,21 +427,8 @@ namespace Xw.Zx.Core.Controllers
         {
             try
             {
-                var user = _context.Members
-                    .First(m => m.Id == Member.Id && m.Disabled == false);
-
-                var memberDto = _mapper.Map<MemberDto>(user);
-
-                if (user.InviteId != 0)
-                {
-                    var inviteUser = _context.Members
-                       .FirstOrDefault(m => m.Id == user.InviteId && m.Disabled == false);
-                    if (inviteUser != null)
-                    {
-                        memberDto.InvitePhone = inviteUser.Phone;
-                    }
-                }
-                return new HbzsResult<MemberDto>(memberDto);
+                var dto = _memberService.GetMember(Member.Id);
+                return new HbzsResult<MemberDto>(dto);
             }
             catch (Exception ex)
             {
@@ -458,21 +448,8 @@ namespace Xw.Zx.Core.Controllers
         {
             try
             {
-                var user = _context.Members
-                    .First(m => m.Id == memberId && m.Disabled == false);
-
-                var memberDto = _mapper.Map<MemberDto>(user);
-
-                if (user.InviteId != 0)
-                {
-                    var inviteUser = _context.Members
-                       .FirstOrDefault(m => m.Id == user.InviteId && m.Disabled == false);
-                    if (inviteUser != null)
-                    {
-                        memberDto.InvitePhone = inviteUser.Phone;
-                    }
-                }
-                return new HbzsResult<MemberDto>(memberDto);
+                var dto = _memberService.GetMember(memberId);
+                return new HbzsResult<MemberDto>(dto);
             }
             catch (Exception ex)
             {
@@ -510,7 +487,7 @@ namespace Xw.Zx.Core.Controllers
 
                         _context.SaveChanges();
 
-                        var res = _mapper.Map<MemberDto>(member);
+                        var res = _memberService.GetMember(member.Id);
 
                         return new HbzsResult<MemberDto>(res);
                     }

@@ -6,7 +6,7 @@ using Xw.Zx.Core.Models.Model;
 
 namespace Xw.Zx.Core.Models.Dto
 {
-    public class LoginDto 
+    public class LoginDto
     {
         public string Account { get; set; }
 
@@ -56,9 +56,11 @@ namespace Xw.Zx.Core.Models.Dto
 
         public string IdentityCardNum { get; set; }
 
-        public string IdentityCardImgFront { get; set; } 
+        public string IdentityCardImgFront { get; set; }
 
         public string IdentityCardImgReverse { get; set; }
+
+        public int MemberIntegral { get; set; }
 
     }
     public class MyTeamDto

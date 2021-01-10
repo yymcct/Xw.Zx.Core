@@ -1,8 +1,10 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using AutoMapper;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Xw.Zx.Core.Models.Dto;
 using Xw.Zx.Core.Models.Model;
 
 namespace Xw.Zx.Core.Service
@@ -11,12 +13,51 @@ namespace Xw.Zx.Core.Service
     {
         private readonly ILogger<MemberService> _logger;
         public readonly XwZxContext _context;
+        public readonly IMapper _mapper;
+        private readonly IMemberIntegralService _memberIntegralService;
 
         public MemberService(ILogger<MemberService> logger
-            , XwZxContext xwZxContext)
+            , XwZxContext xwZxContext
+            , IMapper mapper
+            , IMemberIntegralService memberIntegralService)
         {
             _logger = logger;
             _context = xwZxContext;
+            _mapper = mapper;
+            _memberIntegralService = memberIntegralService;
+        }
+
+        public MemberDto GetMember(int memberId)
+        {
+            var member = _context.Members.FirstOrDefault(m => m.Id == memberId);
+
+            return ToMemberDto(member);
+        }
+        public MemberDto GetMemberByUserName(string username)
+        {
+            var member = _context.Members.FirstOrDefault(m => m.UserName == username);
+
+            return ToMemberDto(member);
+        }
+        private MemberDto ToMemberDto(Member member)
+        {
+            if (member == null) return null;
+
+            var dto = _mapper.Map<MemberDto>(member);
+
+            dto.MemberIntegral = _memberIntegralService.GetMemberIntegral(dto.Id).AvailableIntegrals;
+
+            if (dto.InviteId != 0)
+            {
+                var inviteUser = _context.Members
+                   .FirstOrDefault(m => m.Id == dto.InviteId && m.Disabled == false);
+                if (inviteUser != null)
+                {
+                    dto.InvitePhone = inviteUser.Phone;
+                }
+            }
+
+            return dto;
         }
 
         public Member GetInviterMember(int memberId)
