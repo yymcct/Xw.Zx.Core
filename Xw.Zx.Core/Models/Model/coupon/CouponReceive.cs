@@ -11,7 +11,8 @@ namespace Xw.Zx.Core.Models.Model
     public enum CouponUseState
     {
         未使用 = 0,
-        已使用 = 1
+        已使用 = 1,
+        兑换为积分=2
     }
 
     /// <summary>

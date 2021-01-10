@@ -145,13 +145,13 @@ namespace Xw.Zx.Core.Areas.Manager.Coupon
         /// <summary>
         /// 优惠券转积分
         /// </summary>
-        /// <param name="CouponId"></param>
+        /// <param name="couponReceiveId"></param>
         /// <returns></returns>
         [HttpPost]
         //[Authorize(Roles = nameof(MemberRole.Admin_Tongjibu))]
-        public MemberIntegral CouponToMemberIntegral(int CouponId)
+        public HbzsManagerResult<MemberIntegral> CouponToMemberIntegral(int couponReceiveId)
         {
-            return _CouponService.CouponToMemberIntegral(CouponId);
+            return new HbzsManagerResult<MemberIntegral>(_CouponService.CouponToMemberIntegral(couponReceiveId));
         }
     }
 }

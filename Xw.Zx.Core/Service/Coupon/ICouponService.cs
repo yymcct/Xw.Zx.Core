@@ -8,6 +8,6 @@ namespace Xw.Zx.Core.Service
 {
     public interface ICouponService
     {
-        MemberIntegral CouponToMemberIntegral(int CouponId);
+        MemberIntegral CouponToMemberIntegral(int couponReceiveId);
     }
 }

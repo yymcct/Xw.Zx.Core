@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,27 +20,35 @@ namespace Xw.Zx.Core.Service
             _memberIntegralService = memberIntegralService;
         }
 
-        public MemberIntegral CouponToMemberIntegral(int couponId)
+        public MemberIntegral CouponToMemberIntegral(int couponReceiveId)
         {
-            var couponReceive = _context.CouponReceives.FirstOrDefault(c => c.Id == couponId && c.CouponUseState == CouponUseState.未使用);
+
+            var couponReceive = _context
+                 .CouponReceives
+                 .Include(c => c.Coupon)
+                 .FirstOrDefault(c => c.Id == couponReceiveId && c.CouponUseState == CouponUseState.未使用);
 
             if (couponReceive == null)
             {
                 throw new ZzzException("此优惠券已使用或不存在！");
             }
 
+
+
             _memberIntegralService.AddMemberIntegral(new MemberIntegralRecord()
             {
                 MemberId = couponReceive.Memberid,
                 Integral = Convert.ToInt32(couponReceive.Coupon.Money * 100m),
                 TypeId = MemberIntegral.IntegralType.FromCoupon,
-                Remark = $"优惠券ID:{couponReceive.Id} 转积分"
+                Remark = $"使用优惠券ID:{couponReceive.Id} 兑换"
             });
 
-            couponReceive.IsDelete = true;
+            couponReceive.CouponUseState = CouponUseState.兑换为积分;
             _context.SaveChanges();
 
             return _memberIntegralService.GetMemberIntegral(couponReceive.Memberid);
+
+
         }
     }
 }

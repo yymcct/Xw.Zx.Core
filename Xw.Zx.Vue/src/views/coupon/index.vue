@@ -4,7 +4,7 @@
 
 <template>
   <section>
-    <search-bar @search="handleSearch" @add="handleAdd" />
+    <search-bar @search="handleSearch"  />
     <!--列表-->
     <el-table
       :data="couponItems"
@@ -61,9 +61,16 @@
         </template>
       </el-table-column>
 
-      <!-- <el-table-column label="操作" width="100px">
+      <el-table-column label="操作" width="100px">
         <template scope="scope">
-          <i
+          <el-button
+          v-if="scope.row.couponUseState==0"
+            type="text"
+            size="mini"
+            @click="handleCouponToMemberIntegral(scope.row)"
+            >兑换积分</el-button
+          >
+          <!-- <i
             class="el-icon-edit"
             style="margin: 0 5px; font-weight: bold; cursor: pointer"
             @click="handleEdit(scope.$index, scope.row)"
@@ -72,9 +79,9 @@
             class="el-icon-delete"
             style="margin: 0 5px; font-weight: bold; cursor: pointer"
             @click="handleDel(scope.$index, scope.row)"
-          ></i>
+          ></i> -->
         </template>
-      </el-table-column> -->
+      </el-table-column>
     </el-table>
 
     <!--工具条align='center'-->
@@ -144,15 +151,19 @@ export default {
       });
     },
     //显示编辑界面
-    handleEdit(index, row) {
-      this.edit.id = row.id;
-      this.edit.showEdit = true;
+    handleCouponToMemberIntegral(row) {
+      this.$confirm("确认将优惠券兑换为积分？", "提示", {}).then(() => {
+        api.coupon.couponToMemberIntegral(row.couponReceiveId).then((res) => {
+   
+          this.$message({
+            message: `兑换成功, 当前用户积分为${res.result.availableIntegrals}`,
+            type: "success",
+          });
+          this.getCouponItems();
+        });
+      });
     },
-    //显示新增界面
-    handleAdd() {
-      this.edit.id = 0;
-      this.edit.showEdit = true;
-    },
+
     // //删除
     // handleDel(index, row) {
     //   this.$confirm("确认删除?", "提示", { type: "warning" }).then(() => {
