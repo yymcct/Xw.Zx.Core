@@ -20,7 +20,8 @@ namespace Xw.Zx.Core.Models.Model
         微信 = 1,
         线下 = 2,
         碧麒麟=3,
-        全额优惠券=4
+        全额优惠券=4,
+        积分=5
     }
 
     /// <summary>

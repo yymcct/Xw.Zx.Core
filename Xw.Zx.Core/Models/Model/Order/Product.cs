@@ -21,6 +21,8 @@ namespace Xw.Zx.Core.Models.Model
 
         public string Content { get; set; } = "";
 
+        public bool CanUseMemberIntegral { get; set; }
+
         /// <summary>
         /// 销量
         /// </summary>

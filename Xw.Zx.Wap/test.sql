@@ -100,3 +100,7 @@ select * from Members where phone='18624938007'
  -- 测试碧麒麟支付
 
  select * from BiqilinLogs
+
+ -- 测试积分支付
+
+ -- update Products set CanUseMemberIntegral = 1 where id =

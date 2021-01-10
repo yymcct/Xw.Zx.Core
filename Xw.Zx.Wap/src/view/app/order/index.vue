@@ -43,14 +43,55 @@
         <p class="customer-content-remark">备注: {{ order.remark }}</p>
       </div>
     </div>
-    <div class="coupon" v-if="coupon">
+    <div class="coupon" v-if="coupon && memberIntegralChecked == false">
       <van-checkbox
         v-model="couponChecked"
         shape="square"
         checked-color="#ff5000"
+        :disabled="order.orderState == 1"
         >使用{{ coupon.coupon.name }}</van-checkbox
       >
     </div>
+
+    <div class="integral" v-if="memberIntegral && couponChecked == false">
+      <div class="integral-title">
+        <p>
+          使用积分
+          <span
+            ><van-icon name="info-o" /> 现有{{
+              memberIntegral.availableIntegrals
+            }}积分</span
+          >
+        </p>
+        <van-switch
+          v-model="memberIntegralChecked"
+          active-color="#FF5000"
+          inactive-color="#dcdee0"
+          size="24px"
+          :disabled="
+            order.orderState == 1 ||
+            memberIntegral.availableIntegrals < Number(order.amount) * 100
+          "
+        />
+      </div>
+      <div
+        class="integral-desc"
+        v-if="memberIntegral.availableIntegrals < Number(order.amount) * 100"
+      >
+        <p>
+          抵扣本单需 {{ Number(order.amount) * 100 }} 积分, 本单积分不足,
+          无法抵扣
+        </p>
+      </div>
+      <div class="integral-content" v-if="memberIntegralChecked">
+        <p>使用 {{ Number(order.amount) * 100 }} 积分</p>
+        <p>
+          抵扣<span>{{ order.amount }}</span
+          >元
+        </p>
+      </div>
+    </div>
+
     <div class="foot">
       <van-button
         class="foot-btn"
@@ -64,7 +105,7 @@
         删除订单
       </van-button>
       <van-button
-        v-if="!couponChecked"
+        v-if="couponChecked == false && memberIntegralChecked == false"
         class="foot-btn"
         type="primary"
         plain
@@ -89,7 +130,19 @@
         提交
       </van-button>
       <van-button
-        v-if="!couponChecked"
+        v-if="memberIntegralChecked"
+        class="foot-btn"
+        type="primary"
+        round
+        size="small"
+        color="linear-gradient(to right, #ff7a00, #ff5000)"
+        @click="memberIntegralPay"
+        :disabled="order.orderState == 1"
+      >
+        提交
+      </van-button>
+      <van-button
+        v-if="couponChecked == false && memberIntegralChecked == false"
         class="foot-btn"
         type="primary"
         round
@@ -135,7 +188,9 @@ export default {
       product: null,
       order: null,
       coupon: null,
+      memberIntegral: null,
       couponChecked: false,
+      memberIntegralChecked: false,
       loading: false,
       showQrcodePay: false,
       weixinjsApi: null,
@@ -175,6 +230,10 @@ export default {
         await api.coupon.getCouponByProductId(_this.order.productId)
       ).result;
 
+      if (_this.product.canUseMemberIntegral) {
+        _this.memberIntegral = (await api.member.getMemberIntegral()).result;
+      }
+
       //下单时选择了优惠券方式,且有名下有优惠券
       if (_this.coupon && _this.order.orderPaymentType == 4) {
         _this.couponChecked = true;
@@ -212,6 +271,13 @@ export default {
           this.$toast("支付成功");
           this.$router.push({ path: `/sqb/user/order` });
         });
+    },
+    memberIntegralPay() {
+      const _this = this;
+      api.order.memberIntegralPay(_this.order.id).then(() => {
+        this.$toast("支付成功");
+        this.$router.push({ path: `/sqb/user/order` });
+      });
     },
     payOrder() {
       const isWeixin = () =>
@@ -400,13 +466,53 @@ export default {
   }
   .coupon {
     margin-top: 20px;
-    // display: flex;
-    // flex-direction: row;
-    // justify-content: flex-end;
-    // align-items: center;
     background-color: #fff;
     padding: 10px;
     font-size: 16px;
+  }
+  .integral {
+    margin-top: 20px;
+
+    background-color: #fff;
+    padding: 10px;
+    font-size: 16px;
+    &-title {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+
+      p {
+        color: #333333;
+        font-weight: bold;
+        span {
+          font-size: 13px;
+        }
+      }
+    }
+    &-desc {
+      margin-top: 10px;
+      p {
+        color: #333333;
+        font-size: 13px;
+      }
+    }
+    &-content {
+      margin-top: 15px;
+      padding: 20px 0;
+      color: #333333;
+      font-size: 13px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px dashed #999999;
+      span {
+        margin: 0 5px;
+        font-size: 16px;
+        color: #ff5000;
+      }
+    }
   }
   .foot {
     position: fixed;

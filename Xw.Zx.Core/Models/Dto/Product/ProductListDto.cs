@@ -41,5 +41,7 @@ namespace Xw.Zx.Core.Models.Dto
 
         public string Content { get; set; }
 
+        public bool CanUseMemberIntegral { get; set; }
+
     }
 }

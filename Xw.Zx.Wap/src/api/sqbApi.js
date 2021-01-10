@@ -16,6 +16,7 @@ export default {
         isWhite: () => request.get('/api/member/IsWhite'),
         getMyTeam: () => request.get('/api/member/GetMyTeam'),
         getMyFirstTeamUser: (params) => request.get('/api/member/GetMyFirstTeamUser', { params: params }),
+        getMemberIntegral: () => request.get('/api/member/GetMemberIntegral'),        
     },
     computer: {
         postComputerUser: (params) => request.post('/api/LxComputer/PostUser', params)
@@ -29,7 +30,8 @@ export default {
         get: (params) => request.get(`/api/Order/${params}`),
         delete: (params) => request.post(`/api/Order/Delete?id=${params}`),
         gets: (params) => request.get('/api/Order', { params: params }),
-        couponPay: (orderId,couponreceiveId) => request.post(`/api/Order/CouponPay?orderId=${orderId}&couponreceiveId=${couponreceiveId}`)
+        couponPay: (orderId,couponreceiveId) => request.post(`/api/Order/CouponPay?orderId=${orderId}&couponreceiveId=${couponreceiveId}`),
+        memberIntegralPay: (orderId) => request.post(`/api/Order/MemberIntegralPay?orderId=${orderId}`)
     },
     alipay: {
         wapPay: (params) => request.post(`/api/Alipay/WapPay/${params.id}?returnurl=${params.returnUrl}`),

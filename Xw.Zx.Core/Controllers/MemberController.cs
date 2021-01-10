@@ -25,14 +25,17 @@ namespace Xw.Zx.Core.Controllers
     {
         private readonly ILogger<MemberController> _logger;
         private readonly ISmsService _sms;
+        private readonly IMemberIntegralService _memberIntegralService;
         public MemberController(ILogger<MemberController> logger
             , XwZxContext xwZxContext
             , IMapper mapper
             , ISieveProcessor sieveProcessor
-            , ISmsService sms) : base(xwZxContext, mapper, sieveProcessor)
+            , ISmsService sms
+            , IMemberIntegralService memberIntegralService) : base(xwZxContext, mapper, sieveProcessor)
         {
             _logger = logger;
             _sms = sms;
+            _memberIntegralService = memberIntegralService;
         }
 
         /// <summary>
@@ -443,7 +446,7 @@ namespace Xw.Zx.Core.Controllers
                 return new HbzsResult<MemberDto>(HbzsResultCode.Invalid_Error, ex.Message);
             }
         }
-        
+
         /// <summary>
         /// 获取其他人的个人详情. 需Admin权限
         /// </summary>
@@ -451,7 +454,7 @@ namespace Xw.Zx.Core.Controllers
         /// <returns></returns>
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public HbzsResult<MemberDto> GetMember([FromQuery]int memberId)
+        public HbzsResult<MemberDto> GetMember([FromQuery] int memberId)
         {
             try
             {
@@ -706,6 +709,17 @@ namespace Xw.Zx.Core.Controllers
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// 获取用户积分
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Authorize]
+        public HbzsResult<MemberIntegral> GetMemberIntegral()
+        {
+            return new HbzsResult<MemberIntegral>(_memberIntegralService.GetMemberIntegral(Member.Id));
         }
     }
 

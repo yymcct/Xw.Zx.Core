@@ -143,6 +143,22 @@ namespace Xw.Zx.Core.Controllers
         }
 
         [HttpPost("[action]")]
+        public HbzsResult MemberIntegralPay([FromQuery] int orderId)
+        {
+            try
+            {
+                _orderService.MemberIntegralPay(Member.Id, orderId);
+
+                return new HbzsResult("支付成功");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new HbzsResult(HbzsResultCode.Invalid_Error, ex.Message);
+            }
+        }
+
+        [HttpPost("[action]")]
         public HbzsResult<bool> Delete(int id)
         {
             try

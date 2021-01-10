@@ -27,5 +27,6 @@ namespace Xw.Zx.Core.Service
 
         void CouponOrderPay(int memberId, int orderId, int couponreceiveId);
 
+        void MemberIntegralPay(int memberId, int orderId);
     }
 }

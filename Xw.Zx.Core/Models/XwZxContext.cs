@@ -190,6 +190,11 @@ namespace Xw.Zx.Core.Models.Model
                            .HasQueryFilter(c => !c.IsDelete)
                            .Property(c => c.IsDelete)
                            .HasDefaultValue(false);
+
+            modelBuilder.Entity<Product>()              
+               .Property(c => c.CanUseMemberIntegral)
+               .HasDefaultValue(false);
+
             modelBuilder.Entity<Order>()
                            .HasQueryFilter(c => !c.IsDelete)
                            .Property(c => c.IsDelete)

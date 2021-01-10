@@ -5,7 +5,7 @@ import { router } from './router';
 import {
   Field, Toast, Loading,
   Button, NavBar, Image, Tab, Tabs, Picker, Popup, Dialog,
-  Icon, Cell, CellGroup,Checkbox, CheckboxGroup,DatetimePicker ,Stepper 
+  Icon, Cell, CellGroup,Checkbox, CheckboxGroup,DatetimePicker ,Stepper,Switch  
 } from "vant";
 import globalFun from '@/utils/globalFun'
 import store from './store'
@@ -41,6 +41,7 @@ Vue.use(Checkbox);
 Vue.use(CheckboxGroup);
 Vue.use(DatetimePicker);
 Vue.use(Stepper);
+Vue.use(Switch);
 
 
 
