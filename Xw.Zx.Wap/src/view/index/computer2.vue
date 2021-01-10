@@ -395,6 +395,7 @@ export default {
         sourcePhone: this.member.phone,
         MinReduce: this.jmlx_min,
         MaxReduce: this.jmlx_max,
+        lastRefundDate:this._lastRefundDate        
       });
 
       this.option.btnShow = false;
