@@ -62,13 +62,14 @@
         width="180px"
       ></el-table-column>
       <el-table-column prop="producName" label="商品名"></el-table-column>
+      <el-table-column prop="productCount" label="数量" width="60px"></el-table-column>
       <el-table-column prop="amount" label="支付金额" width="160px">
         <template slot-scope="scope">
           <span style=" font-weight: bold">{{
             scope.row.amount
           }}</span>
           <p style="color: #999999">
-            商品价格:  {{ scope.row.productAmount }}
+            订单合计:  {{ scope.row.productAmount }}
             <br/>
             支付通道: {{ scope.row.orderPaymentTypeName }}
           </p>

@@ -44,3 +44,18 @@ this.$message({
     type: "success",
 });
 ```
+ <el-link type="success" style="margin-left:5px;" @click="showMemberInfo(scope.row)">查看详情</el-link>
+
+      <member-info v-model="memberInfo.show" :memberId="memberInfo.memberId" />
+
+      import memberInfo from "@/components/memberInfo"
+
+      memberInfo: {
+        show: false,
+        memberId: 0,
+      },
+
+    showMemberInfo(row) {
+      this.memberInfo.memberId = row.id;
+      this.memberInfo.show = true;
+    },

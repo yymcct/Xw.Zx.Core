@@ -58,7 +58,8 @@ namespace Xw.Zx.Core.Areas.Manager
                              Timestamp = order.Timestamp,
                              Remark = order.Remark,
                              ProductAmount = order.ProductAmount,
-                             OrderState = order.OrderState
+                             OrderState = order.OrderState,
+                             ProductCount= order.ProductCount
                          };
 
                 var result = new OrderTotalMDto()

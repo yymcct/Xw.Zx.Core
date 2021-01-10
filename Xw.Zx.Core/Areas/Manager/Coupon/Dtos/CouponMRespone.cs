@@ -43,6 +43,8 @@ namespace Xw.Zx.Core.Areas.Manager.Coupon
 
             public string Phone { get; set; }
 
+            public int? MemberId { get; set; }
+
             public MemberVipType MemberVipType { get; set; }
 
             public string MemberVipTypeName { get; set; }

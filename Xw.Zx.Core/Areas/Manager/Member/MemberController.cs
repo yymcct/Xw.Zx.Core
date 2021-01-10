@@ -17,6 +17,8 @@ using Sieve.Services;
 using Microsoft.EntityFrameworkCore;
 using Xw.Zx.Core.Models.Model;
 using AutoMapper.QueryableExtensions;
+using Xw.Zx.Core.Service;
+using Xw.Zx.Core.Models.Dto;
 
 namespace Xw.Zx.Core.Areas.Manager
 {
@@ -27,13 +29,16 @@ namespace Xw.Zx.Core.Areas.Manager
     public class MemberController : ManagerBaseController
     {
         private readonly ILogger<MemberController> _logger;
+        private readonly IMemberService _memberService;
 
         public MemberController(ILogger<MemberController> logger
             , XwZxContext context
             , IMapper mapper
-            , ISieveProcessor sieveProcessor) : base(context, mapper, sieveProcessor)
+            , ISieveProcessor sieveProcessor
+            , IMemberService memberService) : base(context, mapper, sieveProcessor)
         {
             _logger = logger;
+            _memberService = memberService;
         }
         /// <summary>
         /// 获取用户
@@ -61,25 +66,16 @@ namespace Xw.Zx.Core.Areas.Manager
         /// <param name="memberId"></param>
         /// <returns></returns>
         [HttpGet]
-        public HbzsManagerResult<MemberMDto> GetMember([FromQuery] int memberId)
+        public HbzsManagerResult<MemberDto> GetMember([FromQuery] int memberId)
         {
             try
             {
-                var member = _context.Members.First(m => m.Id == memberId);
-
-                var memberDto = _mapper.Map<MemberMDto>(member);
-
-                var inviteMemer = _context.Members.First(m => m.Id == member.InviteId);
-
-                memberDto.InviteName = inviteMemer.RealName;
-                memberDto.InvitePhone = inviteMemer.Phone;
-
-                return new HbzsManagerResult<MemberMDto>(memberDto);
+                return new HbzsManagerResult<MemberDto>(_memberService.GetMember(memberId));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-                return new HbzsManagerResult<MemberMDto>(HbzsManagerResultCode.Invalid_Error, ex.Message);
+                return new HbzsManagerResult<MemberDto>(HbzsManagerResultCode.Invalid_Error, ex.Message);
             }
         }
 

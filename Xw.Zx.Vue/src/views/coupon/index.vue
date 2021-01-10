@@ -4,7 +4,7 @@
 
 <template>
   <section>
-    <search-bar @search="handleSearch"  />
+    <search-bar @search="handleSearch" />
     <!--列表-->
     <el-table
       :data="couponItems"
@@ -25,6 +25,9 @@
           <p style="color: #999999; font-weight: bold">
             {{ scope.row.memberVipTypeName }}
           </p>
+          <el-link type="success" @click="showMemberInfo(scope.row)"
+            >查看详情</el-link
+          >
         </template>
       </el-table-column>
 
@@ -64,7 +67,7 @@
       <el-table-column label="操作" width="100px">
         <template scope="scope">
           <el-button
-          v-if="scope.row.couponUseState==0"
+            v-if="scope.row.couponUseState == 0"
             type="text"
             size="mini"
             @click="handleCouponToMemberIntegral(scope.row)"
@@ -97,16 +100,19 @@
         background
       ></el-pagination>
     </el-col>
+    <member-info v-model="memberInfo.show" :memberId="memberInfo.memberId" />
   </section>
 </template>
 
 <script>
 import api from "@/api/app";
 import searchBar from "./searchBar";
-
+import memberInfo from "@/components/memberInfo";
 export default {
+  name: "coupon",
   components: {
     searchBar,
+    memberInfo,
   },
   data() {
     return {
@@ -122,6 +128,10 @@ export default {
       edit: {
         id: 0,
         showEdit: false,
+      },
+      memberInfo: {
+        show: false,
+        memberId: 0,
       },
     };
   },
@@ -154,7 +164,6 @@ export default {
     handleCouponToMemberIntegral(row) {
       this.$confirm("确认将优惠券兑换为积分？", "提示", {}).then(() => {
         api.coupon.couponToMemberIntegral(row.couponReceiveId).then((res) => {
-   
           this.$message({
             message: `兑换成功, 当前用户积分为${res.result.availableIntegrals}`,
             type: "success",
@@ -186,6 +195,13 @@ export default {
     editChange(cancel) {
       if (cancel != "cancel") {
         this.getCouponItems();
+      }
+    },
+
+    showMemberInfo(row) {
+      if (row.memberId) {
+        this.memberInfo.memberId = row.memberId;
+        this.memberInfo.show = true;
       }
     },
   },

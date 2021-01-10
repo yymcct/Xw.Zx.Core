@@ -54,6 +54,7 @@ namespace Xw.Zx.Core.Service
                 if (inviteUser != null)
                 {
                     dto.InvitePhone = inviteUser.Phone;
+                    dto.InviteName = inviteUser.RealName;
                 }
             }
 

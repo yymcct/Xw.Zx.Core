@@ -38,6 +38,8 @@ namespace Xw.Zx.Core.Models.Dto
         /// </summary>
         public int InviteId { get; set; } = 0;
 
+        public string InviteName { get; set; }
+
         public string InvitePhone { get; set; }
 
         public string RealName { get; set; }
@@ -60,7 +62,11 @@ namespace Xw.Zx.Core.Models.Dto
 
         public string IdentityCardImgReverse { get; set; }
 
+        public string BusinessCode { get; set; }
+
         public int MemberIntegral { get; set; }
+
+        public string Remark { get; set; }
 
     }
     public class MyTeamDto

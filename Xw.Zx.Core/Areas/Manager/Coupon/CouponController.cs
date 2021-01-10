@@ -135,7 +135,7 @@ namespace Xw.Zx.Core.Areas.Manager.Coupon
                 item.MemberVipType = member.MemberVipType;
                 item.MemberVipTypeName = member.MemberVipType.ToString();
                 item.CreateTime = r.CreateTime;
-
+                item.MemberId = member?.Id;
                 items.Add(item);
             }
             var total = _sieveProcessor.Apply(sieveModel, couponReceiveDb, null, true, true, false).Count();

@@ -70,16 +70,20 @@
           <p style="color: #999999; font-weight: bold">
             {{ scope.row.phone }}
           </p>
-          <p style="color: #999999; font-weight: bold" v-if="scope.row.businessCode">
+          <p
+            style="color: #999999; font-weight: bold"
+            v-if="scope.row.businessCode"
+          >
             编码: {{ scope.row.businessCode }}
           </p>
           <p style="color: #999999; font-weight: bold" v-if="scope.row.address">
             {{ scope.row.address }}
-          </p>          
+          </p>
           <p>
             <el-link type="primary" @click="showParentTree(scope.row)"
               >查看团队树</el-link
             >
+            <el-link type="success" style="margin-left:5px;" @click="showMemberInfo(scope.row)">查看详情</el-link>
           </p>
         </template>
       </el-table-column>
@@ -164,6 +168,7 @@
       :memberId="edit.memberId"
       @change="getMemberMDtos()"
     />
+    <member-info v-model="memberInfo.show" :memberId="memberInfo.memberId" />
     <update-vip
       :action="updateVipAction"
       :member="updateMember"
@@ -188,6 +193,7 @@ import chageInvite from "./chageInvite";
 import UpdateVip from "./updateVip";
 import parentTree from "@/components/parentTree";
 import giveCoupon from "./giveCoupon";
+import memberInfo from "@/components/memberInfo"
 export default {
   components: {
     editMember,
@@ -195,6 +201,7 @@ export default {
     chageInvite,
     parentTree,
     giveCoupon,
+    memberInfo
   },
   data() {
     return {
@@ -206,7 +213,7 @@ export default {
       },
 
       filters: {
-        keywords: '',
+        keywords: "",
         addTimeStart: null,
         addTimeEnd: null,
         vipType: "999",
@@ -220,6 +227,10 @@ export default {
       updateMember: null,
       updateVipAction: "none",
       edit: {
+        show: false,
+        memberId: 0,
+      },
+      memberInfo: {
         show: false,
         memberId: 0,
       },
@@ -294,6 +305,10 @@ export default {
     showParentTree(row) {
       this.parentTree.memberId = row.id;
       this.parentTree.show = true;
+    },
+    showMemberInfo(row) {
+      this.memberInfo.memberId = row.id;
+      this.memberInfo.show = true;
     },
     composeValue(item, data) {
       return {

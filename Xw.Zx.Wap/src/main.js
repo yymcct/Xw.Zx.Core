@@ -57,7 +57,7 @@ router.beforeEach((to, from, next) => {
   //from页面有a参数, 但是to页面没有
   if (to.meta && to.meta.private) {
     const user = globalFun.userInfoAPI.get();
-    console.log(user)
+    // console.log(user)
     if (!user) {
       next({
         path: '/sqb/login'

@@ -21,6 +21,8 @@ namespace Xw.Zx.Core.Areas.Manager
 
         public string ProducName { get; set; }
 
+        public int ProductCount { get; set; }
+
         public decimal Amount { get; set; }
 
         public decimal ProductAmount { get; set; }
