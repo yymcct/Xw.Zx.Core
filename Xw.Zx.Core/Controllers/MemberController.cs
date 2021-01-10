@@ -110,7 +110,7 @@ namespace Xw.Zx.Core.Controllers
 
                 var result = SimulationLogin(loginDto);
                 if (result.statusCode == 200)
-                {           
+                {
                     result.Member = _memberService.GetMemberByUserName(loginDto.Account);
                 }
                 else
@@ -185,7 +185,7 @@ namespace Xw.Zx.Core.Controllers
                 }
 
                 result.Member = _memberService.GetMember(member.Id);
-          
+
                 return new HbzsResult<LoginResponeDto>(result);
             }
             catch (Exception ex)
@@ -470,34 +470,30 @@ namespace Xw.Zx.Core.Controllers
         {
             try
             {
-                if (_context.SmsCheck.Where(p => p.Phone == Member.Phone && p.CheckState == SmsCheckState.已发送).FirstOrDefault()?.LastSendCode == postUserDto.SmsCheck)
+                if (!CheckSms(Member.Phone, postUserDto.SmsCheck))
                 {
-                    var smsCheck = _context.SmsCheck.Find(_context.SmsCheck.Where(p => p.Phone == Member.Phone).FirstOrDefault()?.Id);
-                    smsCheck.CheckState = SmsCheckState.已验证;
+                    throw new ZzzException("验证码错误");
+                }
 
-                    if (_context.Members.Any(m => m.Phone == Member.Phone))
+                if (_context.Members.Any(m => m.Phone == Member.Phone))
+                {
+                    var member = _mapper.Map(postUserDto, Member);
+                    if (string.IsNullOrEmpty(member.AliPayAccount))
                     {
-                        var member = _mapper.Map(postUserDto, Member);
-                        if (string.IsNullOrEmpty(member.AliPayAccount))
-                        {
-                            member.AliPayAccount = postUserDto.AliAccount.Trim();
-                        }
-
-                        _context.Entry(member).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-
-                        _context.SaveChanges();
-
-                        var res = _memberService.GetMember(member.Id);
-
-                        return new HbzsResult<MemberDto>(res);
+                        member.AliPayAccount = postUserDto.AliAccount.Trim();
                     }
-                    else
-                        throw new Exception("账号不存在");
+                    member.AliPayAccountName = postUserDto.AliPayAccountName.Trim();
+
+                    _context.Entry(member).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+
+                    _context.SaveChanges();
+
+                    var res = _memberService.GetMember(member.Id);
+
+                    return new HbzsResult<MemberDto>(res);
                 }
                 else
-                {
-                    throw new Exception("验证码错误");
-                }
+                    throw new Exception("账号不存在");
             }
             catch (Exception ex)
             {

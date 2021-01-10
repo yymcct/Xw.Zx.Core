@@ -363,7 +363,7 @@ namespace Xw.Zx.Core.Areas.Manager
                 payee_account = PayMember.AliPayAccount,
                 amount = withdrawDeposit.RealityAmount,
                 payer_show_name = $"{PayMember.Phone}申请提现",
-                payee_real_name = PayMember.RealName,
+                payee_real_name = PayMember.AliPayAccountName,
                 remark = "转账备注:债减减提现到账"
             };
 

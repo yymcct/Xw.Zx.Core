@@ -50,6 +50,8 @@ namespace Xw.Zx.Core.Models.Dto
 
         public string AliPayAccount { get; set; }
 
+        public string AliPayAccountName { get; set; }
+
         public string Email { get; set; }
 
         public int? QueryTimes { get; set; }
@@ -115,6 +117,8 @@ namespace Xw.Zx.Core.Models.Dto
         /// 支付宝账号
         /// </summary>
         public string AliAccount { get; set; }
+
+        public string AliPayAccountName { get; set; }
 
         /// <summary>
         /// 身份证号码
