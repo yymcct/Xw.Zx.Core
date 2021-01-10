@@ -24,7 +24,7 @@
       <customer
         v-if="product"
         v-model="showCustomer"
-        :productId="product.id"
+        :product="product"
       />
   </div>
 </template>

@@ -19,6 +19,8 @@ namespace Xw.Zx.Core.Models.Dto
 
         public string ProducName { get; set; }
 
+        public int ProductCount { get; set; }
+
         public decimal Amount { get; set; }
 
         public DateTime AddTime { get; set; }
@@ -56,12 +58,16 @@ namespace Xw.Zx.Core.Models.Dto
 
         public string CustomerPhone { get; set; }
 
+        public int ProductCount { get; set; }
+
         public string Remark { get; set; }
     }
 
     public class PostOrderDto
     {
         public int ProductId { get; set; }
+
+        public int ProductCount { get; set; }
 
         public string CustomerName { get; set; }
 

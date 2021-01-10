@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper" v-if="orders">
     <div class="bar">
       <van-nav-bar
         :title="$route.meta.title"
@@ -38,6 +38,9 @@
           <h1 class="product-content-info-name">
             {{ order.productDto.name }}
           </h1>
+          <p class="product-content-info-count">
+            数量: {{ order.productCount }}
+          </p>
           <p class="product-content-info-price">￥{{ order.amount }}</p>
           <div class="product-content-info-time">
             <p>{{ order.addTime }}</p>
@@ -48,7 +51,9 @@
               round
               plain
               size="mini"
-              @click.stop="$router.push({ path: `/sqb/product/content/chapter` })"
+              @click.stop="
+                $router.push({ path: `/sqb/product/content/chapter` })
+              "
             >
               查看课程
             </van-button>
@@ -138,10 +143,15 @@ export default {
         line-height: 20px;
         color: #333333;
         overflow: hidden;
-        height: 39px;
+        height: 20px;
+      }
+      &-count {
+        margin-top: 5px;
+        font-size: 15px;
+        color: #333333;
       }
       &-price {
-        margin: 8px 0px;
+        margin: 14px 0px;
         font-size: 18px;
         color: #ff5000;
         width: 100%;

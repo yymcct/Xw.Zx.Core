@@ -42,6 +42,8 @@ namespace Xw.Zx.Core.Models.Model
 
         public string ProducName { get; set; }
 
+        public int ProductCount { get; set; }
+
         /// <summary>
         /// 实际支付金额
         /// </summary>

@@ -65,7 +65,7 @@
       <van-popup v-model="showPicker" round position="bottom">
         <van-datetime-picker
           v-model="lastRefundDate"
-          type="year-month"
+          type="date"
           title="选择最后还款时间"
           :min-date="minDate"
           :max-date="maxDate"
@@ -107,7 +107,17 @@
         <span class="result-value2">{{ jmlx_max }}</span>
         <span class="result-value">元</span>
       </p>
-      <!-- <p style="font-size: 13px" v-html="maxlxLog"></p> -->
+      <p style="font-size: 13px" v-html="maxlxLog"></p>
+    </div>
+
+    <div class="content-btn" v-show="!option.btnShow">
+      <van-button
+        type="primary"
+        class="content-btn-btn"
+        color="linear-gradient(to right, #ff7a00, #ff5000)"
+        @click="btnRest"
+        >复位</van-button
+      >
     </div>
     <div class="footer">
       <img :src="require('@/assets/images/log.png')" alt="" />
@@ -125,12 +135,12 @@ export default {
   data() {
     return {
       name: "",
-      phone: "",
+      phone: "18624938008",
       borrowCompany: "",
-      borrowAmount: "",
+      borrowAmount: "150000",
       cycle: 36,
-      cycleAmount: "",
-      repaymentCycle: "",
+      cycleAmount: "6108",
+      repaymentCycle: "10",
       overdueCycle: "0",
       lastRefundDate: new Date(),
       showPicker: false,
@@ -161,7 +171,7 @@ export default {
   components: {},
   computed: {
     _lastRefundDate() {
-      return this.lastRefundDate.Format("yyyy-MM");
+      return this.lastRefundDate.Format("yyyy-MM-dd");
     },
   },
 
@@ -181,6 +191,8 @@ export default {
         return `${val}年`;
       } else if (type === "month") {
         return `${val}月`;
+      } else if (type === "day") {
+        return `${val}日`;
       }
       return val;
     },
@@ -386,6 +398,18 @@ export default {
       });
 
       this.option.btnShow = false;
+    },
+    btnRest() {
+      this.option.btnShow = true;
+      this.name = "";
+      this.phone = "";
+      this.borrowCompany = "";
+      this.borrowAmount = "";
+      this.cycle = 36;
+      this.cycleAmount = "";
+      this.repaymentCycle = "";
+      this.overdueCycle = "0";
+      this.lastRefundDate = new Date();
     },
     pickerConfirmHandle() {
       let monDiff = (endTime, startTime) => {

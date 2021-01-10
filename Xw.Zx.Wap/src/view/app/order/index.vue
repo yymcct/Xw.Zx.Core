@@ -22,6 +22,9 @@
           <h1 class="product-content-info-name">
             {{ product.name }}
           </h1>
+          <p class="product-content-info-count">
+            数量: {{ order.productCount }}
+          </p>
           <p class="product-content-info-price">￥{{ order.amount }}</p>
           <p class="product-content-info-time">{{ order.addTime }}</p>
         </div>
@@ -353,10 +356,15 @@ export default {
           line-height: 20px;
           color: #333333;
           overflow: hidden;
-          height: 39px;
+          height: 20px;
+        }
+        &-count {
+          margin-top: 5px;
+          font-size: 15px;
+          color: #333333;
         }
         &-price {
-          margin: 8px 0px;
+          margin: 14px 0px;
           font-size: 18px;
           color: #ff5000;
           width: 100%;

@@ -1,7 +1,6 @@
 <template>
-  <!-- 利息计算方式修订 -->
   <div class="wrapper">
-    <h1 class="head">贷款利息减免计算器 <span>V1.2版</span></h1>
+    <h1 class="head">贷款利息减免计算器</h1>
     <div class="content">
       <van-field v-model="name" label="姓名" placeholder="请输入姓名" />
       <van-field
@@ -42,14 +41,12 @@
       <van-field
         v-model="repaymentCycle"
         label="已还期数"
-        required
         placeholder="请输入已还期数"
         type="digit"
       />
       <van-field
         v-model="overdueCycle"
         label="逾期期数"
-        required
         placeholder="请输入逾期期数"
         type="digit"
       />
@@ -63,14 +60,13 @@
             borrowAmount == '' ||
             cycle == '' ||
             cycleAmount == '' ||
-            phone.length < 11 ||
-            repaymentCycle.length == 0
+            phone.length < 11
           "
           >开始计算</van-button
         >
       </div>
     </div>
-    <!--  -->
+
     <div class="result" v-show="!option.btnShow">
       <h2>计算结果</h2>
       <p>
@@ -87,7 +83,6 @@
         <span class="result-value2">{{ jmlx_max }}</span>
         <span class="result-value">元</span>
       </p>
-      <!-- <p style="font-size: 13px" v-html="maxlxLog"></p> -->
     </div>
     <div class="footer">
       <img :src="require('@/assets/images/log.png')" alt="" />
@@ -109,14 +104,9 @@ export default {
       borrowCompany: "",
       borrowAmount: "",
       cycle: 36,
-      cycleAmount: "",  
+      cycleAmount: "",
       repaymentCycle: "",
-      overdueCycle: "0",
-
-      yflx: 0,
-      jmlx_min: 0,
-      jmlx_max: 0,
-
+      overdueCycle: "",
       member: {
         linkMan: "xians",
         phone: "1876666666",
@@ -129,16 +119,37 @@ export default {
         sharePhone: "",
         showQrcode: false,
       },
-      maxlxLog: "",
     };
   },
 
-  components: {},
-  computed: {},
-
-  beforeMount() {
-    this.befor202008Month();
+  components: {
+    // vueQr
   },
+  computed: {
+    yflx: function () {
+      return parseInt(this.borrowAmount * 0.008 * this.cycle);
+    },
+    jmlx_min: function () {
+      let l = parseInt(
+        this.cycle * this.cycleAmount -
+          this.borrowAmount -
+          this.borrowAmount * 0.008 * this.cycle
+      );
+      if (l < 0) l = 0;
+      return l;
+    },
+    jmlx_max: function () {
+      let l = parseInt(
+        this.cycle * this.cycleAmount -
+          this.borrowAmount -
+          (this.borrowAmount * 0.008 * this.cycle) / 3
+      );
+      if (l < 0) l = 0;
+      return l;
+    },
+  },
+
+  beforeMount() {},
 
   mounted() {
     if (this.$route.query.p) {
@@ -147,180 +158,19 @@ export default {
   },
 
   methods: {
-    befor202008Month() {
-      let monDiff = (endTime, startTime) => {
-        startTime = startTime.split("-");
-        // 得到月数
-        startTime = parseInt(startTime[0]) * 12 + parseInt(startTime[1]);
-        // 拆分年月日
-        endTime = endTime.split("-");
-        // 得到月数
-        endTime = parseInt(endTime[0]) * 12 + parseInt(endTime[1]);
-        var m = endTime - startTime;
-        return m;
-      };
-      let r = {
-        befor: 0, //2020-08之前的期数
-        after: 0, //2020-08之后的期数
-      };
-      var d = new Date();
-      d.setMonth(d.getMonth() - Number(this.overdueCycle));
-      let lastHuankuan = d.Format("yyyy-MM-dd"); //最后一次还款
-
-      let cur_202008 = monDiff(lastHuankuan, "2020-08-19"); //当前时间到2020-08的期数
-      if (cur_202008 < 0) cur_202008 = 0;
-
-      let repaymentCycle = Number(this.repaymentCycle);
-      if (repaymentCycle > cur_202008) {
-        r.befor = repaymentCycle - cur_202008;
-        r.after = repaymentCycle - r.befor;
-      } else {
-        r.after = repaymentCycle;
-      }
-
-      console.log(r);
-      return r;
-    },
-
-    jsq_yflx(jixibenjin, qishu, meiyuehuankuan, lili) {
+    jsq(jixibenjin, qishu, meiyuehuankuan) {
       let yinhuanlixiTotal = 0;
       for (var i = 0; i < qishu; i++) {
-        let yinhuanlixi = (jixibenjin * lili) / 100 / 12;
+        let yinhuanlixi = (jixibenjin * 15.4) / 100 / 12;
         let yindibenji = meiyuehuankuan - yinhuanlixi;
+        console.log(jixibenjin, i + 1, yinhuanlixi, meiyuehuankuan, yindibenji);
 
         jixibenjin = jixibenjin - yindibenji;
-
-        if (yinhuanlixi > 0) {
-          yinhuanlixiTotal += yinhuanlixi;
-        }
+        yinhuanlixiTotal += yinhuanlixi;
       }
-      return {
-        lx: Math.round(yinhuanlixiTotal),
-        shengyubenjin: jixibenjin,
-      };
-    },
-    jsq_yuqulx() {
-      let monDiff = (endTime, startTime) => {
-        startTime = startTime.split("-");
-        // 得到月数
-        startTime = parseInt(startTime[0]) * 12 + parseInt(startTime[1]);
-        // 拆分年月日
-        endTime = endTime.split("-");
-        // 得到月数
-        endTime = parseInt(endTime[0]) * 12 + parseInt(endTime[1]);
-        var m = endTime - startTime;
-        return m;
-      };
-      let cur_202008 = monDiff(new Date().Format("yyyy-MM-dd"), "2020-08-19");
-      let beforyuqi = Number(this.overdueCycle) - cur_202008;
-      if (beforyuqi < 0) beforyuqi = 0;
-      let afteryuqi = Number(this.overdueCycle) - beforyuqi;
-
-      let lixi = this.jsq_yflx(
-        Number(this.borrowAmount),
-        Number(this.repaymentCycle),
-        Number(this.cycleAmount),
-        24
-      );
-
-      let beforyuqiAmount = ((lixi.shengyubenjin * 24) / 100 / 12) * beforyuqi;
-      let afteryuqiAmount = ((lixi.shengyubenjin * 17) / 100 / 12) * beforyuqi;
-      console.log(beforyuqiAmount, afteryuqiAmount);
-
-      console.log(
-        "逾期",
-        beforyuqi,
-        afteryuqi,
-        lixi,
-        beforyuqiAmount,
-        afteryuqiAmount
-      );
-      this.maxlxLog += `8月20号前逾期利息${beforyuqiAmount}<br\>`;
-      this.maxlxLog += `8月20号后逾期利息${afteryuqiAmount}<br\>`;
-      this.maxlxLog += `合计逾期利息${beforyuqiAmount + afteryuqiAmount}<br\>`;
-      return beforyuqiAmount + afteryuqiAmount;
-    },
-    jsq_minjmlx() {
-      let r = this.befor202008Month();
-      let hetongjine = Number(this.cycleAmount) * Number(this.cycle);
-      let daozhangjine = Number(this.borrowAmount);
-      let befor_lixi = this.jsq_yflx(
-        daozhangjine,
-        r.befor,
-        Number(this.cycleAmount),
-        24
-      );
-      this.maxlxLog += `8月20号前应付利息${befor_lixi.lx}<br\>`;
-      let after_lixi = this.jsq_yflx(
-        befor_lixi.shengyubenjin,
-        Number(this.cycle) - r.after,
-        Number(this.cycleAmount),
-        17
-      );
-      this.maxlxLog += `8月20号后应付利息${after_lixi.lx}<br\>`;
-      let yingfulixi = befor_lixi.lx + after_lixi.lx;
-      this.maxlxLog += `合计应付利息${yingfulixi}<br\>`;
-      var yuqi = this.jsq_yuqulx();
-      console.log(yuqi);
-      let jm = hetongjine - daozhangjine - yingfulixi - yuqi;
-      this.maxlxLog += `最大减免:${hetongjine} -${daozhangjine}-${yingfulixi} - ${yuqi} =${jm}<br\><br\>`;
-      return Math.round(jm);
-    },
-    jsq_maxjmlx() {
-      let r = this.befor202008Month();
-      let hetongjine = Number(this.cycleAmount) * Number(this.cycle);
-      let daozhangjine = Number(this.borrowAmount);
-      let befor_lixi = this.jsq_yflx(
-        daozhangjine,
-        r.befor,
-        Number(this.cycleAmount),
-        24
-      );
-      this.maxlxLog += `8月20号前应付利息${befor_lixi.lx}<br\>`;
-      let after_lixi = this.jsq_yflx(
-        befor_lixi.shengyubenjin,
-        r.after,
-        Number(this.cycleAmount),
-        17
-      );
-      this.maxlxLog += `8月20号后应付利息${after_lixi.lx}<br\>`;
-
-      let yingfulixi = befor_lixi.lx + after_lixi.lx;
-
-      this.maxlxLog += `合计应付利息${yingfulixi}<br\>`;
-      var yuqi = this.jsq_yuqulx();
-      let jm = hetongjine - daozhangjine - yingfulixi - yuqi;
-      this.maxlxLog += `最大减免:${hetongjine} -${daozhangjine}-${yingfulixi}-${yuqi} =${jm}<br\><br\>`;
-
-      return Math.round(jm);
-    },
-    jsq_lx() {
-      let r = this.befor202008Month(); 
-      let daozhangjine = Number(this.borrowAmount);
-      let befor_lixi = this.jsq_yflx(
-        daozhangjine,
-        r.befor,
-        Number(this.cycleAmount),
-        24
-      );
-      this.maxlxLog += `8月20号前应付利息${befor_lixi.lx}<br\>`;
-      let after_lixi = this.jsq_yflx(
-        befor_lixi.shengyubenjin,
-        Number(this.cycle) - r.after,
-        Number(this.cycleAmount),
-        17
-      );
-      this.maxlxLog += `8月20号后应付利息${after_lixi.lx}<br\>`;
-      let yingfulixi = befor_lixi.lx + after_lixi.lx;
-      this.maxlxLog += `合计应付利息${yingfulixi}<br\>`;
-      var yuqi = this.jsq_yuqulx();
-      console.log(yuqi);
-      let jm =  yingfulixi + yuqi;
-      this.maxlxLog += `应付利息: ${yingfulixi} + ${yuqi} =${jm}<br\><br\>`;
-      return Math.round(jm);
+      return Math.round(yinhuanlixiTotal);
     },
     btnClikc() {
-      this.maxlxLog = "";
       if (this.phone.length != 11) {
         this.option.errPhone = "手机号格式错误";
         return;
@@ -329,10 +179,6 @@ export default {
         this.option.errorMessage = "期数乘每期金额应大于到账总额";
         return;
       }
-
-      this.yflx = this.jsq_lx();
-      this.jmlx_min = this.jsq_minjmlx();
-      this.jmlx_max = this.jsq_maxjmlx();
 
       api.computer.postComputerUser({
         name: this.name,
@@ -347,7 +193,6 @@ export default {
         MinReduce: this.jmlx_min,
         MaxReduce: this.jmlx_max,
       });
-
       this.option.btnShow = false;
     },
   },
@@ -358,21 +203,18 @@ export default {
 <style lang='scss' scoped>
 .wrapper {
   background-color: #fff;
-  padding-bottom: 30px;
+  padding-bottom: 50px;
   .head {
-    background-color: #ff976a;
+    background-color: #ff852a;
     color: #fff;
     text-align: center;
     padding: 20px;
     font-size: 24px;
-    span {
-      font-size: 14px;
-    }
   }
   .content {
     overflow: hidden;
     margin: 10px;
-    border: 1px solid #ff976a;
+    border: 1px solid #ff5000;
     border-radius: 10px;
     background-color: #fff;
     &-btn {
@@ -387,7 +229,7 @@ export default {
   }
   .result {
     margin: 10px;
-    border: 1px solid #ff976a;
+    border: 1px solid #ff852a;
     padding: 20px 10px;
     border-radius: 10px;
     background-color: #fff;
@@ -420,7 +262,7 @@ export default {
     background-color: #fff;
     margin: 10px;
     padding-bottom: 10px;
-    border: 1px solid #ff976a;
+    border: 1px solid #ff852a;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -475,7 +317,7 @@ export default {
     background-color: #fff;
     margin: 10px;
     padding-bottom: 10px;
-    border: 1px solid #ff976a;
+    border: 1px solid #ff5000;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -526,14 +368,14 @@ export default {
     background-color: #fff;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 30px;
     padding: 10px 0;
     img {
       width: 150px;
     }
     span {
-      font-size: 15px;
-      color: #666;
+      font-size: 13px;
+      color: #999999;
       margin-top: 10px;
     }
   }
