@@ -21,7 +21,7 @@ namespace Xw.Zx.Core.Models.Model
     {
         public int Couponid { get; set; }
 
-        public int Memberid { get; set; }       
+        public int Memberid { get; set; }
 
         [Column(TypeName = "varchar(50)")]
         public string Code { get; set; }
@@ -31,5 +31,7 @@ namespace Xw.Zx.Core.Models.Model
 
         [Sieve(CanFilter = true, CanSort = true)]
         public CouponUseState CouponUseState { get; set; }
+
+        public Coupon Coupon { get; set; }
     }
 }

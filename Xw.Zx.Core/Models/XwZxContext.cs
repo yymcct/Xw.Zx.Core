@@ -244,6 +244,10 @@ namespace Xw.Zx.Core.Models.Model
                .HasQueryFilter(c => !c.IsDelete)
                .Property(c => c.IsDelete)
                .HasDefaultValue(false);
+
+            modelBuilder.Entity<CouponReceive>()
+              .HasOne(p => p.Coupon);
+
             modelBuilder.Entity<CouponUseLog>()
                .HasQueryFilter(c => !c.IsDelete)
                .Property(c => c.IsDelete)

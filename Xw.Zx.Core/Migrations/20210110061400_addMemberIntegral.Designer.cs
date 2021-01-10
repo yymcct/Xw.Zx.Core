@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Xw.Zx.Core.Models.Model;
 
 namespace Xw.Zx.Core.Migrations
 {
     [DbContext(typeof(XwZxContext))]
-    partial class XwZxContextModelSnapshot : ModelSnapshot
+    [Migration("20210110061400_addMemberIntegral")]
+    partial class addMemberIntegral
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -284,8 +286,6 @@ namespace Xw.Zx.Core.Migrations
                         .HasColumnType("nvarchar(500)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Couponid");
 
                     b.ToTable("CouponReceives");
                 });
@@ -936,14 +936,6 @@ namespace Xw.Zx.Core.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("WithdrawDepositLogs");
-                });
-
-            modelBuilder.Entity("Xw.Zx.Core.Models.Model.CouponReceive", b =>
-                {
-                    b.HasOne("Xw.Zx.Core.Models.Model.Coupon", "Coupon")
-                        .WithMany()
-                        .HasForeignKey("Couponid")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Xw.Zx.Core.Models.Model.MemberIntegral", b =>

@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xw.Zx.Core.Areas.Manager.Coupon.Dtos;
 using Xw.Zx.Core.Models.Model;
+using Xw.Zx.Core.Service;
 
 namespace Xw.Zx.Core.Areas.Manager.Coupon
 {
@@ -21,13 +22,15 @@ namespace Xw.Zx.Core.Areas.Manager.Coupon
     public class CouponController : ManagerBaseController
     {
         private readonly ILogger<CouponController> _logger;
-
+        private readonly ICouponService _CouponService;
         public CouponController(ILogger<CouponController> logger
            , XwZxContext context
            , IMapper mapper
-           , ISieveProcessor sieveProcessor) : base(context, mapper, sieveProcessor)
+           , ISieveProcessor sieveProcessor
+            , ICouponService couponService) : base(context, mapper, sieveProcessor)
         {
             _logger = logger;
+            _CouponService = couponService;
         }
 
         [HttpGet]
@@ -90,7 +93,7 @@ namespace Xw.Zx.Core.Areas.Manager.Coupon
         /// <returns></returns>
         [HttpGet]
         public HbzsManagerResult<IEnumerable<CouponMRespone.CouponItem>> GetCoupon([FromQuery] SieveModel sieveModel)
-        {          
+        {
             var couponReceiveDb = _context.CouponReceives;
             var couponReceives = _sieveProcessor.Apply(sieveModel, couponReceiveDb).ToList();
 
@@ -139,5 +142,16 @@ namespace Xw.Zx.Core.Areas.Manager.Coupon
             return new HbzsManagerResult<IEnumerable<CouponMRespone.CouponItem>>(items, total);
         }
 
+        /// <summary>
+        /// 优惠券转积分
+        /// </summary>
+        /// <param name="CouponId"></param>
+        /// <returns></returns>
+        [HttpPost]
+        //[Authorize(Roles = nameof(MemberRole.Admin_Tongjibu))]
+        public MemberIntegral CouponToMemberIntegral(int CouponId)
+        {
+            return _CouponService.CouponToMemberIntegral(CouponId);
+        }
     }
 }
