@@ -69,7 +69,7 @@ namespace Xw.Zx.Core.Controllers
         /// <summary>
         /// 获取某个人的利润记录      
         /// </summary>
-        /// <param name="sieveModel">可空</param>
+        /// <param name="memberId">可空</param>
         /// <returns></returns>
         [HttpGet]
         public HbzsResult<List<IncomeDetailDto>> GetPeronDetails(int memberId)

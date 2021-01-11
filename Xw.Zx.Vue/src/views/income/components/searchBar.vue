@@ -14,6 +14,12 @@
           ></el-input>
         </el-form-item>
         <el-form-item>
+          <el-input
+            v-model.trim="filters.orderTimestamp"
+            placeholder="订单单号"
+          ></el-input>
+        </el-form-item>
+        <el-form-item>
           <el-date-picker
             v-model="filters.startTimeStart"
             type="date"
@@ -46,6 +52,7 @@ export default {
     return {
       //TODO:删减查询条件
       filters: {
+        orderTimestamp:null,
         memberName: null,
         startTimeStart: null,
         startTimeEnd: null,
@@ -58,6 +65,9 @@ export default {
 
       if (this.filters.memberName)
         filtersStr += `MemberName==${this.filters.memberName},`;
+
+     if (this.filters.orderTimestamp)
+        filtersStr += `OrderTimestamp==${this.filters.orderTimestamp},`;
 
       if (this.filters.startTimeStart)
         filtersStr += `addTime>=${this.filters.startTimeStart},`;

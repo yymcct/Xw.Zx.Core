@@ -41,5 +41,14 @@ namespace Xw.Zx.Core.Config
 
             return res;
         }
+
+        public IQueryable<IncomeAccount> OrderTimestamp(IQueryable<IncomeAccount> source, string op, string[] values)
+        {
+            var timestamps = _context.Orders.Where(o => o.Timestamp.Contains(values[0])).Select(o => o.Id);
+   
+            var res = source.Where(c => timestamps.Contains(c.SourceOrderId));
+
+            return res;
+        }
     }
 }
