@@ -1,35 +1,9 @@
 <template>
-  <div
-    class="wrapper"
-    :style="{
-      background:
-        'url(' + require('@/assets/images/background.jpg') + ') no-repeat ',
-    }"
-  >
-    <div class="title">
-      <h1>你是否借过网贷或者小贷?</h1>
-      <p>如果有, 那您的福音来了</p>
-      <p>立即下载债减减, 算算你多还了多少</p>
-    </div>
-    <div class="download">
-      <a
-        href="http://139.155.8.217:8081/zzz20201012.apk"
-        download="zzz.apk"
-   
-        >点我下载债减减APP</a
-      >
-    </div>
-    <div class="desc">
-      <ul>
-        <li>
-          8月20日,
-          <span>最高人民法院</span>明确规定法律支持的利率是
-          <span>年化15.4%</span>
-        </li>
-        <li>由此带来的结果是大量的贷款机构的利率超过了司法保护上限</li>
-      </ul>
-    </div>
-      <share :show="isWeiXin" />
+  <div class="wrapper">
+    <a href="http://139.155.8.217:8081/zzz20201012.apk" download="zzz.apk">
+    <img :src="require('@/assets/images/bk2.jpg')" alt="">
+     </a>
+    <share :show="isWeiXin" />
   </div>
 </template>
 
@@ -41,11 +15,10 @@ export default {
   data() {
     return {
       isWeiXin: false,
-      
     };
   },
 
-  components: {share},
+  components: { share },
 
   computed: {},
 
