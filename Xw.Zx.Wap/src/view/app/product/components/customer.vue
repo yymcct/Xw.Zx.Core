@@ -29,9 +29,17 @@
                   (Number(product.price) * dto.productCount).toFixed(1)
                 }}
               </div>
-              <div class="product-content-info-total-count">
+              <div
+                class="product-content-info-total-count"
+                v-if="product.id == 9"
+              >
                 <span>数量:</span>
-                <van-stepper v-model="dto.productCount" min="1" max="999"   button-size="22px" />
+                <van-stepper
+                  v-model="dto.productCount"
+                  min="1"
+                  max="999"
+                  button-size="22px"
+                />
               </div>
             </div>
           </div>
@@ -220,7 +228,7 @@ export default {
           margin-top: 8px;
           display: flex;
           flex-direction: row;
-         // justify-content: flex-end;
+          // justify-content: flex-end;
           align-items: center;
         }
       }
