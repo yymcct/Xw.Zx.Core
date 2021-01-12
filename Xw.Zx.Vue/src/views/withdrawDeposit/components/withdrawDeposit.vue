@@ -62,6 +62,17 @@
           </p>
         </template>
       </el-table-column>
+      <el-table-column prop="amount" label="相关订单" width="200px" sortable>
+        <template slot-scope="scope">
+          <p
+            style="color: #999999; font-weight: bold"
+            v-for="(item, index) in scope.row.orderTimestamp"
+            :key="index"
+          >
+            {{ item }}
+          </p>
+        </template>
+      </el-table-column>
       <el-table-column
         prop="withdrawDepositStateName"
         label="状态"
@@ -73,10 +84,13 @@
           <p style="color: #999999; font-weight: bold">
             {{ scope.row.remark }}
           </p>
-          <p style="color: #999999;" v-for="(item,index) in scope.row.auditlogs" :key="index">
-             审核人: {{ item.realName }}  {{ item.createTime }}  {{ item.remark }}
+          <p
+            style="color: #999999"
+            v-for="(item, index) in scope.row.auditlogs"
+            :key="index"
+          >
+            审核人: {{ item.realName }} {{ item.createTime }} {{ item.remark }}
           </p>
-        
         </template>
       </el-table-column>
       <el-table-column

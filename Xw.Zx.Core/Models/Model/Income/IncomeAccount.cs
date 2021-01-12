@@ -19,7 +19,7 @@ namespace Xw.Zx.Core.Models.Model
         待审核 = 0,
         已发放 = 10,
         提现中 = 14,
-        已结算 = 17,
+        提现成功 = 17,
         已拒绝 = 20
     }
 

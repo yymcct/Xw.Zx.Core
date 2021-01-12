@@ -1585,6 +1585,11 @@
             失效时间
             </summary>
         </member>
+        <member name="T:Xw.Zx.Core.Models.Model.WithdrawDeposit">
+            <summary>
+            提现单
+            </summary>
+        </member>
         <member name="P:Xw.Zx.Core.Models.Model.WithdrawDeposit.Amount">
             <summary>
             申请提现金额

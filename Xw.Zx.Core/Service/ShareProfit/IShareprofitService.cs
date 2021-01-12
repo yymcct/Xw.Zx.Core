@@ -12,5 +12,7 @@ namespace Xw.Zx.Core.Service
 
 
         List<IncomeAccount> GetWaitWithdraws(int memberId);
+
+        void SetPaySucess(int withdrawId);
     }
 }

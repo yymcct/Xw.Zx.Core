@@ -24,5 +24,17 @@ namespace Xw.Zx.Core.Service
                     i.IncomeAccountState == IncomeAccountState.已发放 && i.MemberId == memberId)
                 .ToList();
         }
+
+        public void SetPaySucess(int withdrawId)
+        {
+            var incomes = _context.IncomeAccounts.Where(i => i.IncomeAccountState== IncomeAccountState.提现中 && i.WithdrawDepositId== withdrawId).ToList();
+
+            for (var i = 0; i < incomes.Count(); i++)
+            {
+                var income = incomes[i];
+                income.IncomeAccountState = IncomeAccountState.提现成功;
+            }
+            _context.SaveChanges();
+        }
     }
 }

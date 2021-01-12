@@ -2,6 +2,8 @@ select top 10 * from Members where phone='18624938007'
 
 --update Members set WxOpenId='' WHERE Phone='18624938007'
 
+select * from Members where id ='750'
+
 select top 10 * from Members where phone='14797716268'
 
 --delete Members where phone='18824938007'
@@ -40,10 +42,26 @@ select * from Orders order by id desc
 select * from Receivables order by id desc
 update IncomeAccounts set Auditime=GETDATE(),auditmemberId=72,IncomeAccountState=10 where IsDelete = 0
 -- 测试分润
-select * from Members where id =789   5000
+select * from Members where id =789  
 select * from Orders where Timestamp='20201224152821752346'
 select * from ShareProfitConfigs
 select top 100 * from IncomeAccounts order by id desc
+
+select MemberId, count(*) from IncomeAccounts where IsDelete=0 group by MemberId  order by count(*) desc
+select * from IncomeAccounts where MemberId = 750
+
+select * from WithdrawDeposits
+
+update WithdrawDeposits set WithdrawDepositState = 10 where id =167
+
+update Members set AliPayAccount='18624988888', AliPayAccountName='测试' where Id = 750
+
+--15982820184	heroswine520sh
+update IncomeAccounts set IncomeAccountState =10 where MemberId = 47
+
+
+
+
 
 -- memberID 784    InviteId 750 -> InviteId 47
 --update Orders set orderstate = 0  where Timestamp='20201222230655723972'

@@ -21,6 +21,7 @@ using Alipay.AopSdk.Core.Request;
 using Newtonsoft.Json;
 using Alipay.AopSdk.AspnetCore;
 using Alipay.AopSdk.Core.Response;
+using Xw.Zx.Core.Service;
 
 namespace Xw.Zx.Core.Areas.Manager
 {
@@ -35,14 +36,17 @@ namespace Xw.Zx.Core.Areas.Manager
     {
         private readonly ILogger<WithdrawDepositController> _logger;
         private readonly AlipayService _alipayService;
+        private readonly IShareprofitService _shareprofitService;
         public WithdrawDepositController(ILogger<WithdrawDepositController> logger
             , XwZxContext context
             , IMapper mapper
             , AlipayService alipayService
-            , ISieveProcessor sieveProcessor) : base(context, mapper, sieveProcessor)
+            , ISieveProcessor sieveProcessor
+            , IShareprofitService shareprofitService) : base(context, mapper, sieveProcessor)
         {
             _logger = logger;
             _alipayService = alipayService;
+            _shareprofitService = shareprofitService;
         }
 
         /// <summary>
@@ -100,6 +104,13 @@ namespace Xw.Zx.Core.Areas.Manager
                                 }).ToArray();
 
                     item.Auditlogs = logs;
+
+                    var orderTimestamp = (from order in _context.Orders
+                                          join income in _context.IncomeAccounts on order.Id equals income.SourceOrderId
+                                          where income.WithdrawDepositId == item.Id
+                                          select order.Timestamp).ToList();
+
+                    item.OrderTimestamp = orderTimestamp;
                 }
 
                 var total = _sieveProcessor.Apply(sieveModel, db, null, true, true, false).Count();
@@ -282,6 +293,10 @@ namespace Xw.Zx.Core.Areas.Manager
                                 Remark = $"{detailMemnber.RealName}[{detailMemnber.Phone}]提现:{detail.Amount}元, 手续费:{detail.WithdrawCharge}"
                             });
                             detailMemnber.Money -= detail.Amount;
+
+                            _shareprofitService.SetPaySucess(detail.Id);
+
+
                             _context.SaveChanges();
 
                             transaction.Commit();

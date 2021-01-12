@@ -9,6 +9,11 @@ namespace Xw.Zx.Core.Areas.Manager
 {
     public class WithdrawDepositMDto
     {
+        public WithdrawDepositMDto()
+        {
+            OrderTimestamp = new List<string>();
+        }
+
         [Sieve(CanFilter = true, CanSort = true)]
         public int Id { get; set; }
 
@@ -45,6 +50,8 @@ namespace Xw.Zx.Core.Areas.Manager
 
         public string WithdrawDepositStateName { get; set; }
 
+
+        public List<string> OrderTimestamp { get; set; }
 
         public class Auditlog
         {

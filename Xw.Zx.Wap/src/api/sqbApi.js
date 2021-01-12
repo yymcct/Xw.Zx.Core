@@ -53,6 +53,7 @@ export default {
         getDetails: () => request.get('/api/WithdrawDeposit/GetWithdrawDepositdetails'),
         getAuditDetails: () => request.get('/api/WithdrawDeposit/GetAuditWithdrawDepositdetails'),
         auditwithdrawDeposit: (params) => request.post('/api/WithdrawDeposit/AuditWithdrawDepositdetail', params),
+        postWithdrawDepositByShareProfitId: (params) => request.post('/api/WithdrawDeposit/PostWithdrawDepositByShareProfitId', params),
     },
     updateVipAuthCode: {
         use: (code) => request.post(`/api/UpdateVipAuthCode/Use?code=${code}`),

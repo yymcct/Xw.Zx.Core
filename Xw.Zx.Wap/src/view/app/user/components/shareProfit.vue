@@ -13,7 +13,7 @@
       <div class="incomes" v-if="incomes.length > 0">
         <van-checkbox-group v-model="checkResult">
           <template v-for="(item, index) in incomes">
-            <div class="income-item" @click="go(item)" :key="index">
+            <div class="income-item" :key="index">
               <div class="income-item-content">
                 <div class="income-item-content-left">
                   <div class="title">
@@ -34,6 +34,16 @@
             </div>
           </template>
         </van-checkbox-group>
+        <div class="btn">
+          <van-button
+            class="btn-btn"
+            type="primary"
+            round
+            color="linear-gradient(to right, #ff7a00, #ff5000)"
+            @click="txhandle"
+            >提现 {{ btnText }} 元</van-button
+          >
+        </div>
       </div>
     </van-popup>
   </div>
@@ -51,7 +61,7 @@ export default {
   },
   data() {
     return {
-      show: true,
+      show: false,
       loading: false,
       incomes: [],
       checkResult: [],
@@ -60,7 +70,20 @@ export default {
 
   components: {},
 
-  computed: {},
+  computed: {
+    btnText: function () {
+      let amount = 0;
+      var _this = this;
+      _this.checkResult.map((r) => {
+        let income = _this.incomes.find((i) => {
+          return i.id == r;
+        });
+        amount += income.amount;
+      });
+
+      return amount;
+    },
+  },
 
   beforeMount() {
     this.init();
@@ -74,7 +97,20 @@ export default {
         this.incomes = res.result;
       });
     },
+    txhandle() {          
+      api.withdrawDeposit
+        .postWithdrawDepositByShareProfitId({
+          ShareProfitId: this.checkResult,
+        })
+        .then((res) => {
+          this.$toast(res.msg);
+          this.close();
+        })
+        .catch();
+    },
     close() {
+      this.incomes = [];
+      this.checkResult= [];
       this.$emit("input", false);
     },
   },
@@ -82,7 +118,10 @@ export default {
   watch: {
     value: {
       handler(val) {
-        this.show = val;
+        if (val != this.show) this.show = val;
+        if(val){
+           this.init();
+        }
       },
     },
   },
@@ -154,6 +193,14 @@ h2 {
       font-size: 12px;
       border-top: 1px dashed #ebedf0;
       line-height: 16px;
+    }
+  }
+
+  .btn {
+    text-align: center;
+    padding: 20px;
+    &-btn {
+      width: 80%;
     }
   }
 }
