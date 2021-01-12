@@ -61,6 +61,13 @@
             <param name="sieveModel"></param>
             <returns></returns>
         </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.Coupon.CouponController.CouponToMemberIntegral(System.Int32)">
+            <summary>
+            优惠券转积分
+            </summary>
+            <param name="couponReceiveId"></param>
+            <returns></returns>
+        </member>
         <member name="P:Xw.Zx.Core.Areas.Manager.Coupon.CouponMRespone.CouponItem.CreateTime">
             <summary>
             领取时间
@@ -435,7 +442,7 @@
             <summary>
             获取某个人的利润记录      
             </summary>
-            <param name="sieveModel">可空</param>
+            <param name="memberId">可空</param>
             <returns></returns>
         </member>
         <member name="M:Xw.Zx.Core.Controllers.IncomeController.GetIncomeInfo">
@@ -575,6 +582,12 @@
             对已认证的客户, 取消认证(需Admin 权限)
             </summary>
             <param name="memberId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.MemberController.GetMemberIntegral">
+            <summary>
+            获取用户积分
+            </summary>
             <returns></returns>
         </member>
         <member name="M:Xw.Zx.Core.Controllers.SqbAppController.GetAndroidVersion">
@@ -1387,6 +1400,11 @@
             付款人的邀请人ID, 如果是直接收益则为0
             </summary>
         </member>
+        <member name="P:Xw.Zx.Core.Models.Model.LxComputer.lastRefundDate">
+            <summary>
+            最后还款时间
+            </summary>
+        </member>
         <member name="T:Xw.Zx.Core.Models.Model.MailSrcBank">
             <summary>
             存放的原始邮件
@@ -1430,6 +1448,26 @@
         <member name="P:Xw.Zx.Core.Models.Model.MemberBalanceLog.Amount">
             <summary>
             变动金额
+            </summary>
+        </member>
+        <member name="T:Xw.Zx.Core.Models.Model.MemberIntegral">
+            <summary>
+            用户积分表
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.MemberIntegral.HistoryIntegrals">
+            <summary>
+            历史积分
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.MemberIntegral.AvailableIntegrals">
+            <summary>
+            可用积分
+            </summary>
+        </member>
+        <member name="T:Xw.Zx.Core.Models.Model.MemberIntegralRecord">
+            <summary>
+            用户积分明细表
             </summary>
         </member>
         <member name="T:Xw.Zx.Core.Models.Model.BiqilinLog">
@@ -1607,6 +1645,26 @@
             查询支付宝订单
             </summary>
             <param name="tradeNo">商家自定义的订单号</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Service.IMemberIntegralService.AddMemberIntegral(Xw.Zx.Core.Models.Model.MemberIntegralRecord)">
+            <summary>
+            用户积分记录增加
+            </summary>
+            <param name="model"></param>
+        </member>
+        <member name="M:Xw.Zx.Core.Service.IMemberIntegralService.GetMemberIntegral(System.Int32)">
+            <summary>
+            根据用户ID获取用户的积分信息
+            </summary>
+            <param name="memberId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Service.IMemberIntegralService.GetMemberIntegrals(System.Collections.Generic.IEnumerable{System.Int32})">
+            <summary>
+            根据用户ID获取用户的积分信息
+            </summary>
+            <param name="memberIds"></param>
             <returns></returns>
         </member>
         <member name="M:Xw.Zx.Core.Service.IOrderService.GetOrder(System.Int32)">

@@ -136,6 +136,10 @@ namespace Xw.Zx.Core.Models.Model
                .Property(c => c.Money)
                .HasDefaultValue(0m);
 
+            modelBuilder.Entity<Member>()
+               .Property(c => c.UpdateTime)
+               .HasDefaultValue(DateTime.Now);
+
             modelBuilder.Entity<MemberBalanceLog>()
                 .HasQueryFilter(c => !c.IsDelete)
                 .Property(c => c.IsDelete)

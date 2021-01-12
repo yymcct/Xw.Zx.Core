@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sieve.Attributes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -42,6 +43,7 @@ namespace Xw.Zx.Core.Models.Model
     }
     public class Member : ModelBase
     {
+        [Sieve(CanFilter = true, CanSort = true)]
         public int Id { get; set; }
         /// <summary>
         /// 邀请人ID, 上线
@@ -98,7 +100,11 @@ namespace Xw.Zx.Core.Models.Model
         public string WxUnionId { get; set; }
 
         //创建日期
+        [Sieve(CanFilter = true, CanSort = true)]
         public DateTime CreateDate { get; set; } = DateTime.Now;
+
+        [Sieve(CanFilter = true, CanSort = true)]
+        public DateTime UpdateTime { get; set; } = DateTime.Now;
 
         //是否已删除
         public bool Disabled { get; set; } = false;

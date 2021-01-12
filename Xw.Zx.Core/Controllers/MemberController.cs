@@ -484,6 +484,8 @@ namespace Xw.Zx.Core.Controllers
                     }
                     member.AliPayAccountName = postUserDto.AliPayAccountName.Trim();
 
+                    member.UpdateTime = DateTime.Now;
+
                     _context.Entry(member).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 
                     _context.SaveChanges();

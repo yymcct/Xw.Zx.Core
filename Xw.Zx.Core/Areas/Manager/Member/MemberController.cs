@@ -137,6 +137,8 @@ namespace Xw.Zx.Core.Areas.Manager
             member.MemberVipType = membermdto.MemberVipType;
             member.Address = membermdto.Address;
 
+            member.UpdateTime = DateTime.Now;
+
             _context.Entry(member).State = EntityState.Modified;
 
             _context.SaveChanges();
@@ -194,6 +196,7 @@ namespace Xw.Zx.Core.Areas.Manager
 
                 var member = _context.Members.First(m => m.Id == dto.MemberId);
                 member.InviteId = dto.InviteId;
+                member.UpdateTime = DateTime.Now;
                 _context.SaveChanges();
 
                 return new HbzsManagerResult(HbzsManagerResultCode.Sucess, "");
