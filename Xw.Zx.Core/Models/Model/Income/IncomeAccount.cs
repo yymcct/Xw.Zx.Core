@@ -18,6 +18,8 @@ namespace Xw.Zx.Core.Models.Model
     {
         待审核 = 0,
         已发放 = 10,
+        提现中 = 14,
+        已结算 = 17,
         已拒绝 = 20
     }
 
@@ -27,6 +29,8 @@ namespace Xw.Zx.Core.Models.Model
         public int Id { get; set; }
 
         public int MemberId { get; set; }
+
+        public int WithdrawDepositId { get; set; }
 
         [Column(TypeName = "decimal(8, 2)")]
         public decimal Amount { get; set; }

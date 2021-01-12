@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Xw.Zx.Core.Models.Model;
 
 namespace Xw.Zx.Core.Migrations
 {
     [DbContext(typeof(XwZxContext))]
-    partial class XwZxContextModelSnapshot : ModelSnapshot
+    [Migration("20210112120907_editImcome2")]
+    partial class editImcome2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

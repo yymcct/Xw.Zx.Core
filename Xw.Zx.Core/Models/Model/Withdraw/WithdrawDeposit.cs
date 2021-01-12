@@ -15,6 +15,9 @@ namespace Xw.Zx.Core.Models.Model
         提现成功 = 20,
         提现失败 = 30
     }
+    /// <summary>
+    /// 提现单
+    /// </summary>
     public class WithdrawDeposit : ModelBase
     {
         [Sieve(CanFilter = true, CanSort = true)]

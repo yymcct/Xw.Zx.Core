@@ -38,21 +38,24 @@
         </van-button>
       </div>
     </div>
+    <share-profit v-model="showShareProfit" />
   </div>
 </template>
 
 <script>
 import api from "@/api/sqbApi";
+import shareProfit from "./components/shareProfit";
 export default {
-  name: "",
+  name: "income",
   props: [""],
   data() {
     return {
       incomeInfo: null,
+      showShareProfit: false,
     };
   },
 
-  components: {},
+  components: { shareProfit },
 
   computed: {},
 
@@ -68,11 +71,12 @@ export default {
     tixian() {
       if (this.incomeInfo.canGet < 0.1) {
         this.$toast("您还没有收益");
+        return;
       }
-
-      this.$router.push(
-        `/sqb/user/withdrawdeposit?canget=${this.incomeInfo.canGet}`
-      );
+      this.showShareProfit = true;
+      // this.$router.push(
+      //   `/sqb/user/withdrawdeposit?canget=${this.incomeInfo.canGet}`
+      // );
     },
   },
 
@@ -87,7 +91,7 @@ export default {
   .head {
     background-color: white;
     padding: 20px 10px;
-    
+
     &-invite {
       color: #333;
     }
@@ -102,10 +106,9 @@ export default {
         margin-right: 30px;
         color: rgb(250, 81, 2);
       }
-      
     }
   }
-  .list{
+  .list {
     margin-top: 10px;
   }
 }

@@ -46,6 +46,7 @@ export default {
     income: {
         getIncomeInfo: () => request.get('/api/Income/GetIncomeInfo'),
         getDetails: (params) => request.get('/api/Income/GetDetails', { params: params }),
+        getWaitWithdraws: () => request.get('/api/Income/GetWaitWithdraws'),
     },
     withdrawDeposit: {
         withdrawDeposit: (params) => request.post('/api/WithdrawDeposit/PostWithdrawDeposit', params),
