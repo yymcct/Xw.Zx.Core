@@ -87,6 +87,20 @@ namespace Xw.Zx.Core.Models.Model
         /// 利息计算
         /// </summary>
         public DbSet<LxComputer> LxComputers { get; set; }
+
+        /// <summary>
+        /// 原生公众号分账 接收人表
+        /// </summary>
+        public DbSet<WechatSubLedgerReceivers> WechatSubLedgerReceivers { get; set; }
+        /// <summary>
+        /// 查询订单表
+        /// </summary>
+        public DbSet<WechatOrders> WechatOrders { get; set; }
+        /// <summary>
+        /// 分账明细
+        /// </summary>
+        public DbSet<WechatSubDetail> WechatSubDetail { get; set; }
+
         #endregion
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -177,6 +191,18 @@ namespace Xw.Zx.Core.Models.Model
                            .Property(c => c.IsDelete)
                            .HasDefaultValue(false);
             modelBuilder.Entity<LxComputer>()
+                           .HasQueryFilter(c => !c.IsDelete)
+                           .Property(c => c.IsDelete)
+                           .HasDefaultValue(false);
+            modelBuilder.Entity<WechatSubLedgerReceivers>()
+                           .HasQueryFilter(c => !c.IsDelete)
+                           .Property(c => c.IsDelete)
+                           .HasDefaultValue(false); 
+            modelBuilder.Entity<WechatOrders>()
+                           .HasQueryFilter(c => !c.IsDelete)
+                           .Property(c => c.IsDelete)
+                           .HasDefaultValue(false);
+            modelBuilder.Entity<WechatSubDetail>()
                            .HasQueryFilter(c => !c.IsDelete)
                            .Property(c => c.IsDelete)
                            .HasDefaultValue(false);
