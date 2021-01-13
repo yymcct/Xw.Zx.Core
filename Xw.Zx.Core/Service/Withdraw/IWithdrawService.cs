@@ -8,5 +8,6 @@ namespace Xw.Zx.Core.Service
     public interface IWithdrawService
     {
         void AddWithdrawByShareprofits(Member member, List<int> shareprofitIds);
+
     }
 }

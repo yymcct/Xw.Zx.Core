@@ -13,6 +13,12 @@
           ></el-input>
         </el-form-item>
         <el-form-item>
+          <el-input
+            v-model.trim="filters.orderTimestamp"
+            placeholder="订单单号"
+          ></el-input>
+        </el-form-item>
+        <el-form-item>
           <el-date-picker
             v-model="filters.addTimeStart"
             type="date"
@@ -31,9 +37,7 @@
           ></el-date-picker>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="handleSearch"
-            >查询</el-button
-          >
+          <el-button type="primary" @click="handleSearch">查询</el-button>
         </el-form-item>
       </el-form>
     </el-col>
@@ -47,6 +51,7 @@ export default {
     return {
       //TODO:删减查询条件
       filters: {
+        orderTimestamp: null,
         withdrawDepositState: 999,
         keyword: null,
         addTimeStart: null,
@@ -59,7 +64,8 @@ export default {
       let filtersStr = "";
       if (this.filters.keyword)
         filtersStr += `(Remark|RealName|Phone|AliPayAccount)@=${this.filters.keyword},`;
-
+      if (this.filters.orderTimestamp)
+        filtersStr += `OrderTimestamp==${this.filters.orderTimestamp},`;
       if (this.filters.addTimeStart)
         filtersStr += `AddTime>=${this.filters.addTimeStart},`;
 

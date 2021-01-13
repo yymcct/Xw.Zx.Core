@@ -664,6 +664,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Xw.Zx.Core.Controllers.WithdrawDepositController.PostWithdrawDepositByShareProfitId(Xw.Zx.Core.Models.Dto.WithdrawDepositRquest.shareProfitDto)">
+            <summary>
+            根据分润单生成提现单
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
         <member name="M:Xw.Zx.Core.Controllers.WithdrawDepositController.GetWithdrawDepositdetails(Sieve.Models.SieveModel)">
             <summary>
             获取申请单

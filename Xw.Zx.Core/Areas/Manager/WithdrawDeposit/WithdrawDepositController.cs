@@ -137,25 +137,25 @@ namespace Xw.Zx.Core.Areas.Manager
                 throw new Exception("申请人账户异常,无法处理!");
             }
 
-            //TODO 系统校验
-            var IncomTotal = _context.IncomeAccounts
-                .Where(b => b.MemberId == detail.MemberId && b.IncomeAccountState == IncomeAccountState.已发放)
-                .Sum(b => b.Amount);
+            ////TODO 系统校验
+            //var IncomTotal = _context.IncomeAccounts
+            //    .Where(b => b.MemberId == detail.MemberId && b.IncomeAccountState == IncomeAccountState.已发放)
+            //    .Sum(b => b.Amount);
 
-            var WithdrawDeposit = _context.WithdrawDeposits
-                    .Where(b => b.MemberId == detail.MemberId
-                            && b.WithdrawDepositState == WithdrawDepositState.提现成功)
-                    .Sum(b => b.Amount);
+            //var WithdrawDeposit = _context.WithdrawDeposits
+            //        .Where(b => b.MemberId == detail.MemberId
+            //                && b.WithdrawDepositState == WithdrawDepositState.提现成功)
+            //        .Sum(b => b.Amount);
 
-            var canGet = IncomTotal - WithdrawDeposit;
-            if (detail.Amount < 1m || detail.Amount > canGet)
-            {
-                detail.WithdrawDepositState = WithdrawDepositState.提现失败;
-                detail.Remark = "提现的金额过大或过小, 无法处理";
-                _context.SaveChanges();
+            //var canGet = IncomTotal - WithdrawDeposit;
+            //if (detail.Amount < 1m || detail.Amount > canGet)
+            //{
+            //    detail.WithdrawDepositState = WithdrawDepositState.提现失败;
+            //    detail.Remark = "提现的金额过大或过小, 无法处理";
+            //    _context.SaveChanges();
 
-                throw new Exception("提现的金额过大或过小, 无法处理");
-            }
+            //    throw new Exception("提现的金额过大或过小, 无法处理");
+            //}
 
             return true;
         }
@@ -308,8 +308,9 @@ namespace Xw.Zx.Core.Areas.Manager
                     else
                     {
                         detail.Remark = paylog.sub_msg;
-                        detail.WithdrawDepositState = WithdrawDepositState.提现失败;
+                        //detail.WithdrawDepositState = WithdrawDepositState.提现失败;
 
+                        withdrawLog.Remark += paylog.sub_msg;
                         withdrawLog.WithdrawDepositState = WithdrawDepositState.提现失败;
                         _context.WithdrawDepositLogs.Add(withdrawLog);
 
