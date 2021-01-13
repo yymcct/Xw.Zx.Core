@@ -2,6 +2,7 @@
 using Sieve.Services;
 
 using System.Linq;
+using Xw.Zx.Core.Areas.Manager;
 using Xw.Zx.Core.Models.Model;
 
 namespace Xw.Zx.Core.Config
@@ -47,6 +48,23 @@ namespace Xw.Zx.Core.Config
             var timestamps = _context.Orders.Where(o => o.Timestamp.Contains(values[0])).Select(o => o.Id);
    
             var res = source.Where(c => timestamps.Contains(c.SourceOrderId));
+
+            return res;
+        }
+
+        public IQueryable<IncomeAccount> IncomeAccounStateSucess(IQueryable<IncomeAccount> source, string op, string[] values)
+        {
+            return source.Where(i => i.IncomeAccountState == IncomeAccountState.已发放 || i.IncomeAccountState == IncomeAccountState.提现中
+                        || i.IncomeAccountState == IncomeAccountState.提现成功);
+        }
+
+        public IQueryable<WithdrawDepositMDto> OrderTimestamp(IQueryable<WithdrawDepositMDto> source, string op, string[] values)
+        {
+            var timestamps = _context.Orders.Where(o => o.Timestamp.Contains(values[0])).Select(o => o.Id);
+
+            var withdrawDepositIds = _context.IncomeAccounts.Where(i => timestamps.Contains(i.SourceOrderId)).Select(i => i.WithdrawDepositId);
+
+            var res = source.Where(c => withdrawDepositIds.Contains(c.Id));
 
             return res;
         }

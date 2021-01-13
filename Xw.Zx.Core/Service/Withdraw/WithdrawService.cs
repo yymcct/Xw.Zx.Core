@@ -20,33 +20,38 @@ namespace Xw.Zx.Core.Service
             var incomes = _context.IncomeAccounts
                 .Where(i => i.IncomeAccountState == IncomeAccountState.已发放
                 && i.MemberId == member.Id
-                && shareprofitIds.Contains(i.Id)).ToArray();
+                && shareprofitIds.Contains(i.Id)).ToArray();      
 
-            if (incomes.Length == 0) return;
-
-            var amount = incomes.Sum(i => i.Amount);
-            var charge = decimal.Parse((amount * 0.15m / 100).ToString("#0.00"));
-            var withdrawDeposit = new WithdrawDeposit()
-            {
-                MemberId = member.Id,
-                Amount = amount,
-                WithdrawCharge = charge,
-                RealityAmount = amount - charge
-            };
-
-            _context.Entry<WithdrawDeposit>(withdrawDeposit).State = Microsoft.EntityFrameworkCore.EntityState.Added;
-            _context.SaveChanges();
-            _context.Entry(withdrawDeposit);
-
+            
             for (var i = 0; i < incomes.Length; i++)
             {
-                var income = incomes[i];
-                income.IncomeAccountState = IncomeAccountState.提现中;
-                income.WithdrawDepositId = withdrawDeposit.Id;
+                AddWithdraw(incomes[i]);
             }
-            _context.SaveChanges();
+
+
+            void AddWithdraw(IncomeAccount incomeAccount)
+            {
+                var amount = incomeAccount.Amount;
+                var charge = decimal.Parse((amount * 0.15m / 100).ToString("#0.00"));
+                var withdrawDeposit = new WithdrawDeposit()
+                {
+                    MemberId = member.Id,
+                    Amount = amount,
+                    WithdrawCharge = charge,
+                    RealityAmount = amount - charge
+                };
+
+                _context.Entry<WithdrawDeposit>(withdrawDeposit).State = Microsoft.EntityFrameworkCore.EntityState.Added;
+                _context.SaveChanges();
+                _context.Entry(withdrawDeposit);
+
+                incomeAccount.IncomeAccountState = IncomeAccountState.提现中;
+                incomeAccount.WithdrawDepositId = withdrawDeposit.Id;
+
+                _context.SaveChanges();
+            }
+
         }
 
-       
     }
 }

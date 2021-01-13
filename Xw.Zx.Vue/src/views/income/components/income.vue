@@ -193,7 +193,7 @@ export default {
       if (this.menu == "waitAudit") {
         this.requestParams.filters += `IncomeAccountState==0,`;
       } else if (this.menu == "sucess") {
-        this.requestParams.filters += `IncomeAccountState==10,`;
+        this.requestParams.filters += `IncomeAccounStateSucess==10,`;
       } else if (this.menu == "fail") {
         this.requestParams.filters += `IncomeAccountState==20,`;
       }

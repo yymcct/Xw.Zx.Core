@@ -110,6 +110,11 @@ namespace Xw.Zx.Core.Controllers
 
         }
 
+        /// <summary>
+        /// 根据分润单生成提现单
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         [HttpPost]
         public HbzsResult PostWithdrawDepositByShareProfitId([FromBody] WithdrawDepositRquest.shareProfitDto dto)
         {
@@ -120,7 +125,6 @@ namespace Xw.Zx.Core.Controllers
                 {
                     return new HbzsResult(HbzsResultCode.Invalid_Error, "请前往[我的],补全个人信息后再申请提现!");
                 }
-
 
                 _withdrawService.AddWithdrawByShareprofits(Member, dto.ShareProfitId);
 
