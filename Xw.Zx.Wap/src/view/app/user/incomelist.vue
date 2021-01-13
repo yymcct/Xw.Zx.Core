@@ -40,7 +40,9 @@ export default {
   computed: {},
 
   beforeMount() {
-    api.income.getDetails().then((res) => {
+    api.income.getDetails({
+      sorts:'-id'
+    }).then((res) => {
       this.incomeDetail = res.result;
     });
   },

@@ -1,0 +1,61 @@
+>>>.el-scrollbar__bar{
+  &.is-vertical{
+    width:5px;
+        background: #05336b;
+  }
+}
+>>>.el-scrollbar__wrap{
+  overflow-y: auto;
+  overflow-x:hidden;
+}
+>>>.el-scrollbar__thumb {
+  /*////可设置滚动条颜色*/
+  background: #ccc;
+}
+.el-table td, .el-table th.is-leaf{
+  border-color: #87b9f5;
+}
+.el-table--border, .el-table--group{
+  border-color: #87b9f5;
+}
+.el-table--border::after, .el-table--group::after, .el-table::before{
+  background: #87b9f5;
+}
+>>>.el-table__fixed-right{
+  border-color: #87b9f5;
+}
+>>>.el-table__fixed::before,>>>.el-table__fixed-right::before{
+  background-color: #87b9f5!important;
+}
+.table-fixed {
+  >>>.el-table__fixed-right {
+  height: 100% !important; //设置高优先，以覆盖内联样式
+  }
+}
+.el-table__fixed-right::before, .el-table__fixed::before{
+  background-color: #87b9f5!important;
+}
+.el-input .el-input__inner{
+  border-color: #bbb;
+}
+
+// el-dialog: 左删除 右取消
+.el-dialog__wrapper .el-dialog .el-dialog__footer {
+  padding-bottom: 60px !important;
+  
+}
+.el-dialog__footer .el-button {
+  float: right !important;
+}
+.el-dialog__footer button:nth-child(2) {
+  margin-right: 10px !important;
+  margin-left: 10px !important;
+}
+//messageBox button: 左删除 右取消
+.el-message-box__btns .el-button--small {
+  float: right !important;
+}
+.el-message-box__btns button:nth-child(2) {
+  margin-right: 10px !important;
+  margin-left: 10px !important;
+}

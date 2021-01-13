@@ -27,6 +27,11 @@
           placeholder="提现账户,设置后不能修改"
         />
         <van-field
+          v-model="dto.aliPayAccountName"
+          label="支付宝姓名"
+          placeholder="支付宝绑定的真实姓名,填错无法提现"
+        />
+        <van-field
           v-model="memberVipType"
           label="级别"
           placeholder="级别"
@@ -96,6 +101,7 @@ export default {
       dto: {
         realName: "",
         aliAccount: "",
+        aliPayAccountName: "",
         smsCheck: "",
       },
       aliAccountReadonly: false,
@@ -131,6 +137,7 @@ export default {
       this.dto.realName = res.result.realName;
       if (res.result.aliPayAccount) {
         this.dto.aliAccount = res.result.aliPayAccount;
+        this.dto.aliPayAccountName = res.result.aliPayAccountName;
         this.aliAccountReadonly = true;
       }
     });
@@ -157,6 +164,10 @@ export default {
       }
       if (this.dto.aliAccount.length == 0) {
         this.$toast("请填写支付宝账号");
+        return;
+      }
+      if (this.dto.aliPayAccountName.length == 0) {
+        this.$toast("请填写支付宝绑定姓名");
         return;
       }
       if (this.dto.smsCheck.length != 4) {

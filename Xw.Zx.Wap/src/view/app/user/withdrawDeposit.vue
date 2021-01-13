@@ -11,10 +11,12 @@
       <van-field
         v-model="getamount"
         label="提现金额"
-        placeholder="请输入提现金额,最小2.1元"
+        placeholder="请输入提现金额,最小1.0元"
       />
       <div class="border">
-        <span class="sxf">提现手续费: 2元/笔</span>
+        <span class="sxf"
+          >重要提示: 提现手续费 = 提现金额 * 0.15% (支付宝收取)</span
+        >
       </div>
     </div>
     <div class="foot">
@@ -61,29 +63,35 @@ export default {
       const _this = this;
       if (
         parseFloat(this.canget) < parseFloat(this.getamount) ||
-        parseFloat(this.getamount) < parseFloat(2.1)
+        parseFloat(this.getamount) < parseFloat(1.0)
       ) {
-        this.$toast(`最大提现金额为${this.canget}元, 最小为2.1元`);
+        this.$toast(`最大提现金额为${this.canget}元, 最小为1.0元`);
         return;
       }
-      _this.loading = true;
-      api.withdrawDeposit
-        .withdrawDeposit({
-          Amount: _this.getamount,
-        })
-        .then((res) => {
-          _this.loading = false;
-          _this.$dialog
-            .alert({
-              message: res.msg,
-            })
-            .then(() => {
-              _this.$router.go(-1);
-            });
-        })
-        .catch(() => {
-          _this.loading = false;
-        });
+
+      var charge = (this.getamount*15/10000).toFixed(2);
+      var msg = `提现金额:${this.getamount}, 手续费:${charge}, 到账金额:${this.getamount-charge}`;
+      this.$dialog.confirm({
+        message: msg,
+        beforeClose: (action, done) => {
+          if (action === "confirm") {
+            api.withdrawDeposit
+              .withdrawDeposit({
+                Amount: _this.getamount,
+              })
+              .then(() => {
+                done();
+                _this.$toast.success("提交成功!");
+                _this.$router.go(-1);
+              })
+              .catch(() => {
+                done();
+              });
+          } else {
+            done();
+          }
+        },
+      });
     },
   },
 
@@ -95,7 +103,7 @@ export default {
   span {
     font-size: 14px;
     color: #999;
-    margin: 0 15px;
+    margin: 10px 15px;
   }
 }
 .foot {

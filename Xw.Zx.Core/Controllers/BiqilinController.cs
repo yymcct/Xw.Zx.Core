@@ -21,22 +21,23 @@ namespace Xw.Zx.Core.Controllers
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Config.Swagger.HiddenApi]
     public class BiqilinController : BaseController
     {
         private readonly ILogger<BiqilinController> _logger;
         private readonly IBiqilinService _biqilinService;
-        private readonly IWapOrderPayService _wapOrderPayService;
+        private readonly IOrderService _orderService;
 
         public BiqilinController(ILogger<BiqilinController> logger
             , XwZxContext xwZxContext
             , IMapper mapper
             , ISieveProcessor sieveProcessor
             , IBiqilinService biqilinService
-            , IWapOrderPayService wapOrderPayService) : base(xwZxContext, mapper, sieveProcessor)
+            , IOrderService orderService) : base(xwZxContext, mapper, sieveProcessor)
         {
             _logger = logger;
             _biqilinService = biqilinService;
-            _wapOrderPayService = wapOrderPayService;
+            _orderService = orderService;
         }
 
         /// <summary>
@@ -52,7 +53,7 @@ namespace Xw.Zx.Core.Controllers
                                                 && o.OrderState == OrderState.待付款
                                                 && o.Id == biqilinDto.OrderId);
 
-                var url = _biqilinService.CreateQrcodePayUrl(new Biqilin_Product()
+                var res = _biqilinService.CreateQrcodePayUrl(new Biqilin_Product()
                 {
                     Name = order.ProducName,
                     Timestamp = order.Timestamp,
@@ -60,7 +61,14 @@ namespace Xw.Zx.Core.Controllers
                     Biqilin_PayType = biqilinDto.Biqilin_PayType
                 });
 
-                return new HbzsResult<string>(url);
+                _context.BiqilinLogs.Add(new BiqilinLog
+                {
+                    OrderId = order.Id,
+                    BiqilinOrderNo = res.orderNo
+                });
+                _context.SaveChanges();
+
+                return new HbzsResult<string>(res.codeUrl);
             }
             catch (Exception ex)
             {
@@ -88,6 +96,13 @@ namespace Xw.Zx.Core.Controllers
                     OpenId = openId
                 });
 
+                _context.BiqilinLogs.Add(new BiqilinLog
+                {
+                    OrderId = order.Id,
+                    BiqilinOrderNo = wxRespone.orderNo
+                });
+                _context.SaveChanges();
+
                 return new HbzsResult<JsapiPayResponeDto.JsapiPay>(_mapper.Map<JsapiPayResponeDto.JsapiPay>(wxRespone));
             }
             catch (Exception ex)
@@ -108,17 +123,33 @@ namespace Xw.Zx.Core.Controllers
         {
             _logger.LogWarning("biqilinNotifyDto:" + JsonConvert.SerializeObject(biqilinNotifyDto));
 
-            //TODO验签
 
             if (biqilinNotifyDto.orderStatus == "TRADE_SUCCESS")
             {
-                var timestamp = biqilinNotifyDto.outOrderNo;
-                _wapOrderPayService.SucessHandle(timestamp, OrderPaymentType.碧麒麟);
+                var query = _biqilinService.QueryOrder(biqilinNotifyDto.orderNo);
+                var waitPayOrder = _context.Orders.First(o => o.Timestamp == biqilinNotifyDto.outOrderNo);
+                if (CheckBiqilinOrder(waitPayOrder, query))
+                {
+                    _orderService.OrderPay(biqilinNotifyDto.outOrderNo, OrderPaymentType.碧麒麟);
+                }
             }
             await Response.WriteAsync(JsonConvert.SerializeObject(new
             {
                 flag = "1"
             }));
+        }
+
+        private bool CheckBiqilinOrder(Order order, BiqilinRespone.Query query)
+        {
+            if (order != null && query != null
+                && query.orderStatus == "TRADE_SUCCESS"
+                && query.outOrderNo == order.Timestamp
+                && (decimal.Parse(query.amount)) == order.Amount)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

@@ -56,6 +56,24 @@ Content-Type: application/x-www-form-urlencoded
 
 charset=UTF-8&seller_email=19202490@qq.com&subject=补差价拍此处&sign=I41td3Rbvlt21ka6pZNJortIqzO/36Nz4QLZtu25+nGTZ+7UB7uT9TtXXvdhpZv3TdD1ELoUHuiLEakAeoGsk61jz0vQlgr4NlAr+XqBXldPKVrueOcNS87L27/+zqZ9f/QGsispHQdFrvPNDQukvvV9CaWKqFPtBc8GVqgO+MVpVJxuLqN2w6sro4m24FqnwiuQD0Z69bDI1rW4kOoueBb2vkAtMXkzPfbOdLprTAxIC3mfFkr4tYCDbiGyGnSmFbDGsYIKnVYuM6gR6EUv+EIyN+rpKbSVbfjgx3zois0VG9pLZVRCipX54ZQiGYDl9Gd1Re2NzsFy4wbZ3E6iVw==&body=补差价拍此处&buyer_id=2088102054494074&invoice_amount=0.10&notify_id=2020101000222223454094071439424061&fund_bill_list=[{"amount"="0.10","fundChannel"="ALIPAYACCOUNT"}]&notify_type=trade_status_sync&trade_status=TRADE_SUCCESS&receipt_amount=0.10&buyer_pay_amount=0.10&app_id=2017121200619628&sign_type=RSA2&seller_id=2088921018323595&gmt_payment=2020-10-10 22=34=53&notify_time=2020-10-10 22=34=54&version=1.0&out_trade_no=20201010223429193119&total_amount=0.10&trade_no=2020101022001494071401731570&auth_app_id=2017121200619628&buyer_logon_id=yym***@163.com&point_amount=0.00
 
+###
+POST {{baseUrl}}/api/Biqilin/Notifyurl
+Content-Type: {{contentType}}
+
+{
+  "outOrderNo":"20210106093229312077",
+  "orderStatus":"TRADE_SUCCESS"
+}
+
+###
+
+POST http://139.155.8.217/api/Biqilin/Notifyurl
+Content-Type: {{contentType}}
+
+{
+  "outOrderNo":"20210106095303476660",
+  "orderStatus":"TRADE_SUCCESS"
+}
 
 ### 获取二维码
 Post {{baseUrl}}/api/Alipay/ScanCodeGen/1783

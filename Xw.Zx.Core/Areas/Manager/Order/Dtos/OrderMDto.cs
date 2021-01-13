@@ -21,7 +21,11 @@ namespace Xw.Zx.Core.Areas.Manager
 
         public string ProducName { get; set; }
 
+        public int ProductCount { get; set; }
+
         public decimal Amount { get; set; }
+
+        public decimal ProductAmount { get; set; }
 
         [Sieve(CanFilter = true)]
         public DateTime AddTime { get; set; } = DateTime.Now;
@@ -41,5 +45,11 @@ namespace Xw.Zx.Core.Areas.Manager
         public string OrderPaymentTypeName { get; set; }
         [Sieve(CanFilter = true)]
         public string Timestamp { get; set; }
+
+        [Sieve(CanFilter = true)]
+        public string Remark { get; set; }
+
+        [Sieve(CanFilter = true)]
+        public OrderState OrderState { get; set; }
     }
 }

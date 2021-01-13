@@ -15,18 +15,6 @@ namespace Xw.Zx.Core.Areas.Manager
         [Sieve(CanFilter = true)]
         public string RoleName { get; set; }
 
-        //密码
-        public string Password { get; set; }
-
-        //昵称
-        [Sieve(CanFilter = true)]
-        public string Nick { get; set; }
-
-        //头像
-        public string Photo { get; set; }
-
-        //生日
-        public DateTime BirthDay { get; set; } = DateTime.Now;
         //电话
         [Sieve(CanFilter = true)]
         public string Phone { get; set; }
@@ -52,14 +40,21 @@ namespace Xw.Zx.Core.Areas.Manager
         [Sieve(CanFilter = true)]
         public string AliPayAccount { get; set; }
 
-        [Sieve(CanFilter = true)]
-        public int? QueryTimes { get; set; }
-
         public int InviteId { get; set; }
 
         [Sieve(CanFilter = true)]
         public string InviteName { get; set; }
         [Sieve(CanFilter = true)]
         public string InvitePhone { get; set; }
+
+        [Sieve(CanFilter = true)]
+        public string BusinessCode { get; set; }
+
+        [Sieve(CanFilter = true)]
+        public string Address { get; set; }
+        /// <summary>
+        /// 身份证号
+        /// </summary>
+        public string IdentityCardNum { get; set; }
     }
 }

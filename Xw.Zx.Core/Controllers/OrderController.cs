@@ -74,7 +74,7 @@ namespace Xw.Zx.Core.Controllers
                 if (order.MemberId != Member.Id)
                 {
                     return new HbzsResult<OrderDto>(HbzsResultCode.Invalid_Error, "您无权限查看!");
-                }               
+                }
 
                 var dto = _mapper.Map<OrderDto>(order);
 
@@ -101,12 +101,15 @@ namespace Xw.Zx.Core.Controllers
                     MemberPhone = Member.Phone,
                     ProductId = product.Id,
                     ProducName = product.Name,
+                    ProductCount = postOrderDto.ProductCount,
+                    ProductAmount = product.Price * postOrderDto.ProductCount,
                     CustomerName = postOrderDto.CustomerName,
                     CustomerPhone = postOrderDto.CustomerPhone,
-                    Amount = product.Price,
+                    Remark = postOrderDto.Remark,
+                    Amount = product.Price * postOrderDto.ProductCount,
                     AddTime = DateTime.Now,
                     OrderState = OrderState.待付款,
-                    OrderPaymentType = OrderPaymentType.支付宝
+                    OrderPaymentType = postOrderDto.OrderPaymentType
                 };
                 _context.Add(order);
                 _context.SaveChanges();
@@ -120,6 +123,38 @@ namespace Xw.Zx.Core.Controllers
             {
                 _logger.LogError(ex.Message);
                 return new HbzsResult<OrderDto>(HbzsResultCode.Invalid_Error, "产品不存在");
+            }
+        }
+
+        [HttpPost("[action]")]
+        public HbzsResult CouponPay([FromQuery] int orderId, int couponreceiveId)
+        {
+            try
+            {
+                _orderService.CouponOrderPay(Member.Id, orderId, couponreceiveId);
+
+                return new HbzsResult("支付成功");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new HbzsResult(HbzsResultCode.Invalid_Error, "产品不存在");
+            }
+        }
+
+        [HttpPost("[action]")]
+        public HbzsResult MemberIntegralPay([FromQuery] int orderId)
+        {
+            try
+            {
+                _orderService.MemberIntegralPay(Member.Id, orderId);
+
+                return new HbzsResult("支付成功");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new HbzsResult(HbzsResultCode.Invalid_Error, ex.Message);
             }
         }
 

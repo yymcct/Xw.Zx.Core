@@ -21,6 +21,7 @@ using Alipay.AopSdk.Core.Request;
 using Newtonsoft.Json;
 using Alipay.AopSdk.AspnetCore;
 using Alipay.AopSdk.Core.Response;
+using Xw.Zx.Core.Service;
 
 namespace Xw.Zx.Core.Areas.Manager
 {
@@ -30,19 +31,22 @@ namespace Xw.Zx.Core.Areas.Manager
     /// </summary>
     [ApiController]
     [Route("manager/[controller]/[action]")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Policy = "Admins")]
     public class WithdrawDepositController : ManagerBaseController
     {
         private readonly ILogger<WithdrawDepositController> _logger;
         private readonly AlipayService _alipayService;
+        private readonly IShareprofitService _shareprofitService;
         public WithdrawDepositController(ILogger<WithdrawDepositController> logger
             , XwZxContext context
             , IMapper mapper
             , AlipayService alipayService
-            , ISieveProcessor sieveProcessor) : base(context, mapper, sieveProcessor)
+            , ISieveProcessor sieveProcessor
+            , IShareprofitService shareprofitService) : base(context, mapper, sieveProcessor)
         {
             _logger = logger;
             _alipayService = alipayService;
+            _shareprofitService = shareprofitService;
         }
 
         /// <summary>
@@ -51,7 +55,7 @@ namespace Xw.Zx.Core.Areas.Manager
         /// <param name="sieveModel"></param>
         /// <returns></returns>
         [HttpGet]
-        public HbzsManagerResult<WithdrawDepositTotalMDto> GetWithdrawDeposits([FromQuery]SieveModel sieveModel)
+        public HbzsManagerResult<WithdrawDepositTotalMDto> GetWithdrawDeposits([FromQuery] SieveModel sieveModel)
         {
             try
             {
@@ -60,7 +64,6 @@ namespace Xw.Zx.Core.Areas.Manager
                          select new WithdrawDepositMDto
                          {
                              Id = withdrawdeposit.Id,
-
                              MemberId = withdrawdeposit.MemberId,
                              Amount = withdrawdeposit.Amount,
                              AddTime = withdrawdeposit.AddTime,
@@ -69,20 +72,46 @@ namespace Xw.Zx.Core.Areas.Manager
                              RealName = member.RealName,
                              Phone = member.Phone,
                              AliPayAccount = member.AliPayAccount,
+                             MemberVipType = member.MemberVipType,
+                             MemberVipTypeName = member.MemberVipType.ToString(),
+                             Address = member.Address,
+                             BusinessCode = member.BusinessCode,
                              WithdrawDepositStateName = withdrawdeposit.WithdrawDepositState.ToString(),
+                             WithdrawCharge = withdrawdeposit.WithdrawCharge,
+                             RealityAmount = withdrawdeposit.RealityAmount,
                          };
-
-                var list = _sieveProcessor.Apply(sieveModel, db).ToList();
 
 
                 var result = new WithdrawDepositTotalMDto()
                 {
                     WithdrawDepositMDtos = _sieveProcessor.Apply(sieveModel, db).ToList(),
-                    QueryTotal = _sieveProcessor.Apply(sieveModel, db.Where(w => w.WithdrawDepositState == WithdrawDepositState.通过), null, true, true, false).Sum(o => o.Amount),
-                    AllTotal = db.Where(w => w.WithdrawDepositState == WithdrawDepositState.通过).Sum(o => o.Amount),
-                    OrderTotal = _context.Orders.Where(o => o.OrderState == OrderState.已付款).Sum(w => w.Amount),
+                    //  QueryTotal = _sieveProcessor.Apply(sieveModel, db.Where(w => w.WithdrawDepositState == WithdrawDepositState.提现成功), null, true, true, false).Sum(o => o.Amount),
+                    //  AllTotal = db.Where(w => w.WithdrawDepositState == WithdrawDepositState.提现成功).Sum(o => o.Amount),
+                    //  OrderTotal = _context.Orders.Where(o => o.OrderState == OrderState.已付款).Sum(w => w.Amount),
                 };
-                result.Balance = result.OrderTotal - result.AllTotal;
+                // result.Balance = result.OrderTotal - result.AllTotal;
+
+                foreach (var item in result.WithdrawDepositMDtos)
+                {
+                    var logs = (from member in _context.Members
+                                join log in _context.WithdrawDepositLogs on member.Id equals log.AddUserId
+                                where log.WithdrawDepositId == item.Id
+                                select new WithdrawDepositMDto.Auditlog
+                                {
+                                    RealName = member.RealName,
+                                    Remark = log.Remark,
+                                    CreateTime = log.CreateTime
+                                }).ToArray();
+
+                    item.Auditlogs = logs;
+
+                    var orderTimestamp = (from order in _context.Orders
+                                          join income in _context.IncomeAccounts on order.Id equals income.SourceOrderId
+                                          where income.WithdrawDepositId == item.Id
+                                          select order.Timestamp).ToList();
+
+                    item.OrderTimestamp = orderTimestamp;
+                }
 
                 var total = _sieveProcessor.Apply(sieveModel, db, null, true, true, false).Count();
                 return new HbzsManagerResult<WithdrawDepositTotalMDto>(result, total);
@@ -94,89 +123,241 @@ namespace Xw.Zx.Core.Areas.Manager
             }
         }
 
+
+
+        private bool CheckDetailMember(WithdrawDeposit detail, Member detailMemnber)
+        {
+            if (detail == null)
+            {
+                throw new Exception("单据状态异常,无法处理!");
+            }
+
+            if (detailMemnber.Disabled == true || string.IsNullOrEmpty(detailMemnber.AliPayAccount))
+            {
+                throw new Exception("申请人账户异常,无法处理!");
+            }
+
+            //TODO 系统校验
+            var IncomTotal = _context.IncomeAccounts
+                .Where(b => b.MemberId == detail.MemberId && b.IncomeAccountState == IncomeAccountState.已发放)
+                .Sum(b => b.Amount);
+
+            var WithdrawDeposit = _context.WithdrawDeposits
+                    .Where(b => b.MemberId == detail.MemberId
+                            && b.WithdrawDepositState == WithdrawDepositState.提现成功)
+                    .Sum(b => b.Amount);
+
+            var canGet = IncomTotal - WithdrawDeposit;
+            if (detail.Amount < 1m || detail.Amount > canGet)
+            {
+                detail.WithdrawDepositState = WithdrawDepositState.提现失败;
+                detail.Remark = "提现的金额过大或过小, 无法处理";
+                _context.SaveChanges();
+
+                throw new Exception("提现的金额过大或过小, 无法处理");
+            }
+
+            return true;
+        }
+
         /// <summary>
-        /// 通过或拒绝
+        /// 统计部审核通过
         /// </summary>
-        /// <param name="dto"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
         [HttpPost]
-        public HbzsManagerResult AuditWithdrawDepositdetail([FromBody]PostAuditWithdrawDepositdetailDto dto)
+        [Authorize(Roles = nameof(MemberRole.Admin_Tongjibu))]
+        public HbzsManagerResult TongjibuAudit([FromQuery] int id, [FromBody] IncomeAccountMRequest.Audit audit)
         {
             try
             {
 
-                var detail = _context.WithdrawDeposits.First(w => w.Timestamp == dto.Timestamp);
+                var detail = _context.WithdrawDeposits.First(w => w.Id == id && w.WithdrawDepositState == WithdrawDepositState.申请提现);
                 var detailMemnber = _context.Members.First(m => m.Id == detail.MemberId);
 
-                if (!AppsettingsUtility.CanCreateUpdateVipCodePhone.Any(p => p == Member.Phone))
+                if (CheckDetailMember(detail, detailMemnber))
                 {
-                    return new HbzsManagerResult(HbzsManagerResultCode.Invalid_Error, "账户无权限!");
-                }
+                    _context.WithdrawDepositLogs.Add(new WithdrawDepositLog()
+                    {
+                        WithdrawDepositId = id,
+                        AddUserId = Member.Id,
+                        Remark = "审核意见: " + (string.IsNullOrEmpty(audit.Remark) ? "无" : audit.Remark),
+                        WithdrawDepositState = WithdrawDepositState.统计部审核,
+                    });
 
-                if (detail.WithdrawDepositState != WithdrawDepositState.申请中)
-                {
-                    return new HbzsManagerResult(HbzsManagerResultCode.Invalid_Error, "单据状态异常,无法处理!");
-                }
-
-                if (detailMemnber.Disabled == true)
-                {
-                    return new HbzsManagerResult(HbzsManagerResultCode.Invalid_Error, "申请人账户异常,无法处理!");
-                }
-
-                var IncomTotal = _context.IncomeAccounts
-                    .Where(b => b.MemberId == detail.MemberId)
-                    .Sum(b => b.Amount);
-
-                var WithdrawDeposit = _context.WithdrawDeposits
-                        .Where(b => b.MemberId == detail.MemberId
-                                && b.WithdrawDepositState == WithdrawDepositState.通过)
-                        .Sum(b => b.Amount);
-
-                var canGet = IncomTotal - WithdrawDeposit;
-                if (detail.Amount < 2.09m || detail.Amount > canGet)
-                {
-                    detail.WithdrawDepositState = WithdrawDepositState.拒绝;
-                    detail.Remark = "提现的金额过大或过小, 无法处理";
+                    detail.WithdrawDepositState = WithdrawDepositState.统计部审核;
                     _context.SaveChanges();
-                    return new HbzsManagerResult(HbzsManagerResultCode.Sucess, "提现的金额过大或过小, 无法处理");
-                }
 
-                if (dto.IsPass == false)
-                {
-                    detail.WithdrawDepositState = WithdrawDepositState.拒绝;
-                    _context.SaveChanges();
+
                     return new HbzsManagerResult(HbzsManagerResultCode.Sucess, "");
                 }
 
+                return new HbzsManagerResult(HbzsManagerResultCode.Sucess, "");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex.Message);
+                return new HbzsManagerResult(HbzsManagerResultCode.Invalid_Error, ex.Message);
+            }
+        }
 
-                //转账
-                var paylog = Alipayment(detail, detailMemnber);
+        /// <summary>
+        /// 审核通过
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>        
+        [HttpPost]
+        [Authorize(Roles = nameof(MemberRole.Admin_Caiwu))]
+        public HbzsManagerResult CaiwuAudit([FromQuery] int id, [FromBody] IncomeAccountMRequest.Audit audit)
+        {
+            try
+            {
+                var detail = _context.WithdrawDeposits.First(w => w.Id == id && w.WithdrawDepositState == WithdrawDepositState.统计部审核);
+                var detailMemnber = _context.Members.First(m => m.Id == detail.MemberId);
 
-                if (paylog.code != "10000")
+                if (CheckDetailMember(detail, detailMemnber))
                 {
-                    detail.Remark = paylog.sub_msg;
-                    detail.WithdrawDepositState = WithdrawDepositState.失败;
-                    _context.SaveChanges();
-
-                    return new HbzsManagerResult(HbzsManagerResultCode.Invalid_Error, paylog.sub_msg);
-                }
-
-
-                using (var transaction = _context.Database.BeginTransaction())
-                {
-                    detail.WithdrawDepositState = WithdrawDepositState.通过;
-
-                    _context.Payments.Add(new Payment()
+                    _context.WithdrawDepositLogs.Add(new WithdrawDepositLog()
                     {
-                        OrderId = detail.Id,
-                        MemberId = Member.Id,
-                        Amount = detail.Amount
+                        WithdrawDepositId = id,
+                        AddUserId = Member.Id,
+                        Remark = "审核意见: " + (string.IsNullOrEmpty(audit.Remark) ? "无" : audit.Remark),
+                        WithdrawDepositState = WithdrawDepositState.财务部审核,
                     });
 
+                    detail.WithdrawDepositState = WithdrawDepositState.财务部审核;
                     _context.SaveChanges();
 
-                    transaction.Commit();
+
+                    return new HbzsManagerResult(HbzsManagerResultCode.Sucess, "");
                 }
+
+                return new HbzsManagerResult(HbzsManagerResultCode.Sucess, "");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex.Message);
+                return new HbzsManagerResult(HbzsManagerResultCode.Invalid_Error, ex.Message);
+            }
+        }
+        /// <summary>
+        /// 付款
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Authorize(Roles = nameof(MemberRole.Admin_CaiwuManager))]
+        public HbzsManagerResult Pay([FromQuery] int id, [FromBody] IncomeAccountMRequest.Audit audit)
+        {
+            try
+            {
+                var detail = _context.WithdrawDeposits.First(w => w.Id == id && w.WithdrawDepositState == WithdrawDepositState.财务部审核);
+                var detailMemnber = _context.Members.First(m => m.Id == detail.MemberId);
+
+                if (CheckDetailMember(detail, detailMemnber))
+                {
+                    var withdrawLog = new WithdrawDepositLog()
+                    {
+                        WithdrawDepositId = id,
+                        AddUserId = Member.Id,
+                        Remark = "审核意见: " + (string.IsNullOrEmpty(audit.Remark) ? "无" : audit.Remark),
+                        WithdrawDepositState = WithdrawDepositState.提现成功,
+                    };
+
+                    //转账
+                    var paylog = Alipayment(detail, detailMemnber);
+
+                    if (paylog.code == "10000")
+                    {
+                        using (var transaction = _context.Database.BeginTransaction())
+                        {
+                            detail.WithdrawDepositState = WithdrawDepositState.提现成功;
+
+                            _context.Payments.Add(new Payment()
+                            {
+                                OrderId = detail.Id,
+                                MemberId = Member.Id,
+                                Amount = detail.Amount
+                            });
+
+                            _context.WithdrawDepositLogs.Add(withdrawLog);
+
+                            _context.MemberBalanceLogs.Add(new MemberBalanceLog()
+                            {
+                                Memberid = detailMemnber.Id,
+                                memberMoneySource = MemberMoneySource.提现,
+                                SourceId = detail.Id,
+                                Amount = detail.Amount,
+                                OriginalMoney = detailMemnber.Money,
+                                CurMoney = detailMemnber.Money - detail.Amount,
+                                Remark = $"{detailMemnber.RealName}[{detailMemnber.Phone}]提现:{detail.Amount}元, 手续费:{detail.WithdrawCharge}"
+                            });
+                            detailMemnber.Money -= detail.Amount;
+
+                            _shareprofitService.SetPaySucess(detail.Id);
+
+
+                            _context.SaveChanges();
+
+                            transaction.Commit();
+                        }
+
+
+                        return new HbzsManagerResult(HbzsManagerResultCode.Sucess, "");
+                    }
+                    else
+                    {
+                        detail.Remark = paylog.sub_msg;
+                        detail.WithdrawDepositState = WithdrawDepositState.提现失败;
+
+                        withdrawLog.WithdrawDepositState = WithdrawDepositState.提现失败;
+                        _context.WithdrawDepositLogs.Add(withdrawLog);
+
+                        _context.SaveChanges();
+
+                        return new HbzsManagerResult(HbzsManagerResultCode.Invalid_Error, paylog.sub_msg);
+                    }
+                }
+
+                return new HbzsManagerResult(HbzsManagerResultCode.Sucess, "");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex.Message);
+                return new HbzsManagerResult(HbzsManagerResultCode.Invalid_Error, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin_Tongjibu,Admin_Caiwu, Admin_CaiwuManager")]
+        //[Authorize(Roles =  nameof(MemberRole.Admin_Tongjibu))]
+        //[Authorize(Roles = nameof(MemberRole.Admin_Caiwu))]
+        //[Authorize(Roles = nameof(MemberRole.Admin_CaiwuManager))]
+        public HbzsManagerResult Fail([FromQuery] int id, [FromBody] IncomeAccountMRequest.Audit audit)
+        {
+            try
+            {
+
+                var detail = _context.WithdrawDeposits.First(w => w.Id == id && (w.WithdrawDepositState == WithdrawDepositState.申请提现 || w.WithdrawDepositState == WithdrawDepositState.统计部审核 || w.WithdrawDepositState == WithdrawDepositState.财务部审核));
+                var detailMemnber = _context.Members.First(m => m.Id == detail.MemberId);
+
+                if (detail == null)
+                {
+                    throw new Exception("单据状态异常,无法处理!");
+                }
+
+                var withdrawLog = new WithdrawDepositLog()
+                {
+                    WithdrawDepositId = id,
+                    AddUserId = Member.Id,
+                    Remark = "审核意见: " + audit.Remark,
+                    WithdrawDepositState = WithdrawDepositState.提现失败,
+                };
+
+                _context.WithdrawDepositLogs.Add(withdrawLog);
+
+                detail.WithdrawDepositState = WithdrawDepositState.提现失败;
+                _context.SaveChanges();
 
                 return new HbzsManagerResult(HbzsManagerResultCode.Sucess, "");
             }
@@ -195,10 +376,10 @@ namespace Xw.Zx.Core.Areas.Manager
                 out_biz_no = withdrawDeposit.Timestamp,
                 payee_type = "ALIPAY_LOGONID",
                 payee_account = PayMember.AliPayAccount,
-                amount = withdrawDeposit.Amount - 2,
+                amount = withdrawDeposit.RealityAmount,
                 payer_show_name = $"{PayMember.Phone}申请提现",
-                payee_real_name = PayMember.RealName,
-                remark = "转账备注:送钱包提现"
+                payee_real_name = PayMember.AliPayAccountName,
+                remark = "转账备注:债减减提现到账"
             };
 
             AlipayFundTransToaccountTransferRequest request = new AlipayFundTransToaccountTransferRequest();
@@ -227,7 +408,7 @@ namespace Xw.Zx.Core.Areas.Manager
                 var result = new GetAuditWithdrawDepositdetailDto()
                 {
                     IncomeDetails = _context.IncomeAccounts
-                                    .Where(i => i.MemberId == memberId)
+                                    .Where(i => i.MemberId == memberId && i.IncomeAccountState == IncomeAccountState.已发放)
                                     .OrderBy(i => i.AddTime)
                                     .Select(i => new IncomeDetail
                                     {
@@ -250,11 +431,11 @@ namespace Xw.Zx.Core.Areas.Manager
                                     }).ToList(),
 
                     IncomeTotal = _context.IncomeAccounts
-                                .Where(i => i.MemberId == memberId)
+                                .Where(i => i.MemberId == memberId && i.IncomeAccountState == IncomeAccountState.已发放)
                                 .Sum(i => i.Amount),
 
                     WithdrawDeposit = _context.WithdrawDeposits
-                                .Where(i => i.MemberId == memberId && i.WithdrawDepositState == WithdrawDepositState.通过)
+                                .Where(i => i.MemberId == memberId && i.WithdrawDepositState == WithdrawDepositState.提现成功)
                                 .Sum(i => i.Amount),
                 };
 

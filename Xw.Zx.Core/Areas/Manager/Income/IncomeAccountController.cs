@@ -22,7 +22,7 @@ namespace Xw.Zx.Core.Areas.Manager
 
     [ApiController]
     [Route("manager/[controller]/[action]")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Policy = "Admins")]
     public class IncomeAccountController : ManagerBaseController
     {
         private readonly ILogger<IncomeAccountController> _logger;
@@ -40,54 +40,11 @@ namespace Xw.Zx.Core.Areas.Manager
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public HbzsManagerResult<List<IncomeAccountMDto>> GetIncomeAccounts([FromQuery]SieveModel sieveModel)
+        public HbzsManagerResult<List<IncomeAccountMDto>> GetIncomeAccounts([FromQuery] SieveModel sieveModel)
         {
             try
             {
-
-                //var db = from member in _context.Members
-                //         join income in _context.IncomeAccounts on member.Id equals income.MemberId into joinTmp
-                //         from tmp in joinTmp.DefaultIfEmpty()
-                //         join withdrawDeposit in _context.WithdrawDeposits on member.Id equals withdrawDeposit.MemberId into wjoinTmp
-                //         from wtmp in wjoinTmp.DefaultIfEmpty()
-                //         where member.MemberVipType != MemberVipType.普通
-                //         group tmp by new
-                //         {
-                //             member.Id,
-                //             member.RealName,
-                //             member.Phone,
-                //             member.MemberVipType,
-                //             iAmount = tmp.Amount,
-                //             wAmount = wtmp.Amount
-                //         } into groupkeywords
-                //         select new IncomeAccountMDto
-                //         {
-                //             MemberId = groupkeywords.Key.Id,
-
-                //             MemberName = groupkeywords.Key.RealName,
-                //             MemberPhone = groupkeywords.Key.Phone,
-                //             MemberVipType = groupkeywords.Key.MemberVipType,
-                //             MemberVipTypeName = groupkeywords.Key.MemberVipType.ToString(),
-                //             ZhijieTotla = groupkeywords.Where(g => g.IncomeAccountType == IncomeAccountType.直接收益).Sum(g => g.Amount),
-
-                //             JianjieTotla = groupkeywords.Where(g => g.IncomeAccountType == IncomeAccountType.间接收益).Sum(g => g.Amount),
-
-                //             ChajiTotla = groupkeywords.Where(g => g.IncomeAccountType == IncomeAccountType.级差收益).Sum(g => g.Amount),
-
-                //             //IncomeTotal = groupkeywords.Sum(g =>g.w),
-
-                //             //WithdrawDepositTotal = groupkeywords.amo,
-
-                //             //Balance = _context.IncomeAccounts
-                //             //                            .Where(i => i.MemberId == member.Id)
-                //             //                            .Sum(i => i.Amount) -
-                //             //                            _context.WithdrawDeposits
-                //             //                            .Where(w => w.WithdrawDepositState == WithdrawDepositState.通过 && w.MemberId == member.Id)
-                //             //                            .Sum(w => w.Amount)
-                //         };
-
-
-                var db = from member in _context.Members.Where(m => m.MemberVipType != MemberVipType.普通)
+                var db = from member in _context.Members.Where(m => m.MemberVipType != MemberVipType.客户)
                          select new IncomeAccountMDto
                          {
                              MemberId = member.Id,
@@ -96,23 +53,23 @@ namespace Xw.Zx.Core.Areas.Manager
                              MemberVipType = member.MemberVipType,
                              MemberVipTypeName = member.MemberVipType.ToString(),
                              ZhijieTotla = _context.IncomeAccounts
-                                            .Where(i => i.MemberId == member.Id && i.IncomeAccountType == IncomeAccountType.直接收益)
+                                            .Where(i => i.MemberId == member.Id && i.IncomeAccountType == IncomeAccountType.直接收益 && i.IncomeAccountState == IncomeAccountState.已发放)
                                             .Sum(i => new decimal?(i.Amount)),
 
                              JianjieTotla = _context.IncomeAccounts
-                                            .Where(i => i.MemberId == member.Id && i.IncomeAccountType == IncomeAccountType.间接收益)
+                                            .Where(i => i.MemberId == member.Id && i.IncomeAccountType == IncomeAccountType.间接收益 && i.IncomeAccountState == IncomeAccountState.已发放)
                                             .Sum(i => new decimal?(i.Amount)),
 
                              ChajiTotla = _context.IncomeAccounts
-                                            .Where(i => i.MemberId == member.Id && i.IncomeAccountType == IncomeAccountType.级差收益)
+                                            .Where(i => i.MemberId == member.Id && i.IncomeAccountType == IncomeAccountType.级差收益 && i.IncomeAccountState == IncomeAccountState.已发放)
                                             .Sum(i => new decimal?(i.Amount)),
 
                              IncomeTotal = _context.IncomeAccounts
-                                            .Where(i => i.MemberId == member.Id)
+                                            .Where(i => i.MemberId == member.Id && i.IncomeAccountState == IncomeAccountState.已发放)
                                             .Sum(i => new decimal?(i.Amount)),
 
                              WithdrawDepositTotal = _context.WithdrawDeposits
-                                            .Where(w => w.WithdrawDepositState == WithdrawDepositState.通过 && w.MemberId == member.Id)
+                                            .Where(w => w.WithdrawDepositState == WithdrawDepositState.提现成功 && w.MemberId == member.Id)
                                             .Sum(w => new decimal?(w.Amount)),
                          };
 
@@ -138,5 +95,106 @@ namespace Xw.Zx.Core.Areas.Manager
             }
         }
 
+
+        /// <summary>
+        /// 获取详情
+        /// </summary>
+        /// <param name="sieveModel"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public HbzsManagerResult<IEnumerable<IncomeAccountMRespone.Income>> GetIncomes([FromQuery] SieveModel sieveModel)
+        {
+            var db = _context.IncomeAccounts;
+            var incomes = _sieveProcessor.Apply(sieveModel, db).ToList();
+
+            var memberIds = incomes.Select(i => i.MemberId).ToArray();
+            var members = _context.Members.Where(m => memberIds.Contains(m.Id)).ToArray();
+
+            var auditMemberIds = incomes.Select(i => i.AuditMemberId).ToArray();
+            var auditMembers = _context.Members.Where(m => auditMemberIds.Contains(m.Id)).ToArray();
+
+            var orderIds = incomes.Select(i => i.SourceOrderId).ToArray();
+            var orders = _context.Orders.Where(o => orderIds.Contains(o.Id));
+
+            var items = new List<IncomeAccountMRespone.Income>();
+            foreach (var r in incomes)
+            {
+                var item = new IncomeAccountMRespone.Income();
+                item.Id = r.Id;
+                item.MemberId = r.MemberId;
+                var member = members.First(m => m.Id == r.MemberId);
+                item.MemberName = member.RealName;
+                item.MemberPhone = member.Phone;
+                item.Amount = r.Amount;
+                var order = orders.First(o => o.Id == r.SourceOrderId);
+                item.SourceOrderId = order.Id;
+                item.SourceOrderTimestamp = order.Timestamp;
+                item.SourceOrderMemberId = order.MemberId;
+                item.SourceOrderMemberPhone = order.MemberPhone;
+                item.SourceOrderProducName = order.ProducName;
+                item.SourceOrderProductAmount = order.Amount;
+                item.SourceOrderAddTime = order.AddTime;
+                item.SourceOrderOrderPaymentType = order.OrderPaymentType;
+                item.SourceOrderOrderPaymentTypeName = order.OrderPaymentType.ToString();
+                item.IncomeAccountType = r.IncomeAccountType;
+                item.IncomeAccountTypeName = r.IncomeAccountType.ToString();
+                item.Remark = r.Remark;
+                item.IncomeAccountState = r.IncomeAccountState;
+                item.IncomeAccountStateName = r.IncomeAccountState.ToString();
+                item.AuditMemberId = r.AuditMemberId;
+                item.AuditMemberName = auditMembers.FirstOrDefault(m => m.Id == r.AuditMemberId)?.RealName;
+                item.Auditime = r.Auditime;
+                item.AddTime = r.AddTime;
+
+                items.Add(item);
+            }
+            var total = _sieveProcessor.Apply(sieveModel, db, null, true, true, false).Count();
+            return new HbzsManagerResult<IEnumerable<IncomeAccountMRespone.Income>>(items, total);
+        }
+
+        [HttpPost]
+        public HbzsManagerResult AuditSucess([FromQuery] int id, [FromBody] IncomeAccountMRequest.Audit audit)
+        {
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                var income = _context.IncomeAccounts.First(i => i.IncomeAccountState == IncomeAccountState.待审核 && i.Id == id);
+                income.IncomeAccountState = IncomeAccountState.已发放;
+                income.Auditime = DateTime.Now;
+                income.AuditMemberId = Member.Id;
+                income.Remark += $"; {Member.RealName}[{Member.Phone}]审核" + "; 审核意见:" + (string.IsNullOrEmpty(audit.Remark) ? "无" : audit.Remark);
+
+                var yyzxMember = _context.Members.First(m => m.Disabled == false && m.Id == income.MemberId);
+
+                _context.MemberBalanceLogs.Add(new MemberBalanceLog()
+                {
+                    Memberid = yyzxMember.Id,
+                    memberMoneySource = MemberMoneySource.分润,
+                    SourceId = income.SourceOrderId,
+                    Amount = income.Amount,
+                    OriginalMoney = yyzxMember.Money,
+                    CurMoney = yyzxMember.Money + income.Amount,
+                    Remark = income.Remark
+                });
+
+                yyzxMember.Money += income.Amount;
+
+                _context.SaveChanges();
+                transaction.Commit();
+            }
+
+            return new HbzsManagerResult(HbzsManagerResultCode.Sucess, "提交成功");
+        }
+
+        [HttpPost]
+        public HbzsManagerResult AuditFail([FromQuery] int id, [FromBody] IncomeAccountMRequest.Audit audit)
+        {
+            var income = _context.IncomeAccounts.First(i => i.IncomeAccountState == IncomeAccountState.待审核 && i.Id == id);
+            income.IncomeAccountState = IncomeAccountState.已拒绝;
+            income.Auditime = DateTime.Now;
+            income.AuditMemberId = Member.Id;
+            income.Remark += "; 审核意见: " + audit.Remark;
+            _context.SaveChanges();
+            return new HbzsManagerResult(HbzsManagerResultCode.Sucess, "提交成功");
+        }
     }
 }

@@ -25,14 +25,20 @@ namespace Xw.Zx.Core.Controllers
     {
         private readonly ILogger<MemberController> _logger;
         private readonly ISmsService _sms;
+        private readonly IMemberService _memberService;
+        private readonly IMemberIntegralService _memberIntegralService;
         public MemberController(ILogger<MemberController> logger
             , XwZxContext xwZxContext
             , IMapper mapper
             , ISieveProcessor sieveProcessor
-            , ISmsService sms) : base(xwZxContext, mapper, sieveProcessor)
+            , ISmsService sms
+            , IMemberIntegralService memberIntegralService
+            , IMemberService memberService) : base(xwZxContext, mapper, sieveProcessor)
         {
             _logger = logger;
             _sms = sms;
+            _memberService = memberService;
+            _memberIntegralService = memberIntegralService;
         }
 
         /// <summary>
@@ -45,10 +51,16 @@ namespace Xw.Zx.Core.Controllers
         {
             try
             {
+                if (!CheckSms(user.Phone, user.SmsCheck))
+                {
+                    throw new Exception($"验证码错误!");
+                }
+
                 if (string.IsNullOrEmpty(user.RealName)) throw new Exception("请填写姓名");
                 if (!ValidateHelper.IsMobile(user.Phone)) throw new Exception("请填写手机号");
                 if (string.IsNullOrEmpty(user.Password)) throw new Exception("请填写密码");
                 if (_context.Members.Any(p => p.Phone == user.Phone)) throw new Exception("请勿重复注册");
+
 
                 var InviteUser = _context.Members.FirstOrDefault(m => m.Id == user.InviteId && m.Disabled == false);
                 if (InviteUser == null)
@@ -67,7 +79,7 @@ namespace Xw.Zx.Core.Controllers
                     InviteId = InviteUser.Id,
                     Email = "",
                     QueryTimes = 0,
-                    WxOpenId= user.OpenId
+                    WxOpenId = user.OpenId
                 };
 
                 var member = _context.Members.Add(model);
@@ -99,8 +111,7 @@ namespace Xw.Zx.Core.Controllers
                 var result = SimulationLogin(loginDto);
                 if (result.statusCode == 200)
                 {
-                    var member = _context.Members.FirstOrDefault(m => m.UserName == loginDto.Account);
-                    result.Member = _mapper.Map<MemberDto>(member);
+                    result.Member = _memberService.GetMemberByUserName(loginDto.Account);
                 }
                 else
                 {
@@ -173,7 +184,8 @@ namespace Xw.Zx.Core.Controllers
                     return new HbzsResult<LoginResponeDto>(HbzsResultCode.Invalid_Error, "账号或密码错误");
                 }
 
-                result.Member = _mapper.Map<MemberDto>(member);
+                result.Member = _memberService.GetMember(member.Id);
+
                 return new HbzsResult<LoginResponeDto>(result);
             }
             catch (Exception ex)
@@ -188,7 +200,7 @@ namespace Xw.Zx.Core.Controllers
                 {
                     throw new Exception($"该微信{weixinBindDto.OpenId}已绑定有用户，请先解绑. ");
                 }
-                else if ((!string.IsNullOrEmpty(member.WxOpenId)) &&member.WxOpenId != weixinBindDto.OpenId && member.Phone == weixinBindDto.Phone)
+                else if ((!string.IsNullOrEmpty(member.WxOpenId)) && member.WxOpenId != weixinBindDto.OpenId && member.Phone == weixinBindDto.Phone)
                 {
                     throw new Exception($"该手机{weixinBindDto.Phone}已绑定有用户，请先解绑.");
                 }
@@ -230,7 +242,7 @@ namespace Xw.Zx.Core.Controllers
                     return new HbzsResult<LoginResponeDto>(HbzsResultCode.Invalid_Error, "账号或密码错误");
                 }
 
-                result.Member = _mapper.Map<MemberDto>(member);
+                result.Member = _memberService.GetMember(member.Id);
                 return new HbzsResult<LoginResponeDto>(result);
             }
             catch (Exception ex)
@@ -329,17 +341,12 @@ namespace Xw.Zx.Core.Controllers
         /// <returns></returns>
         [HttpGet]
         [Authorize]
-        public HbzsResult<List<MyTeamUserDto>> GetMyFirstTeamUser(int memberId, int filter)
+        public HbzsResult<List<MyTeamUserDto>> GetMyFirstTeamUser()
         {
             try
             {
                 var db = _context.Members
-                          .Where(m => m.Disabled == false && m.InviteId == memberId);
-
-                if (filter == 1)
-                {
-                    db = db.Where(m => _context.BankCards.Any(b => b.Disabled == false && b.MemberId == m.Id) == false);
-                }
+                          .Where(m => m.Disabled == false && m.InviteId == Member.Id);
 
                 var users = _mapper.Map<List<MyTeamUserDto>>(db.ToList());
 
@@ -420,21 +427,8 @@ namespace Xw.Zx.Core.Controllers
         {
             try
             {
-                var user = _context.Members
-                    .First(m => m.Id == Member.Id && m.Disabled == false);
-
-                var memberDto = _mapper.Map<MemberDto>(user);
-
-                if (user.InviteId != 0)
-                {
-                    var inviteUser = _context.Members
-                       .FirstOrDefault(m => m.Id == user.InviteId && m.Disabled == false);
-                    if (inviteUser != null)
-                    {
-                        memberDto.InvitePhone = inviteUser.Phone;
-                    }
-                }
-                return new HbzsResult<MemberDto>(memberDto);
+                var dto = _memberService.GetMember(Member.Id);
+                return new HbzsResult<MemberDto>(dto);
             }
             catch (Exception ex)
             {
@@ -442,6 +436,28 @@ namespace Xw.Zx.Core.Controllers
                 return new HbzsResult<MemberDto>(HbzsResultCode.Invalid_Error, ex.Message);
             }
         }
+
+        /// <summary>
+        /// 获取其他人的个人详情. 需Admin权限
+        /// </summary>
+        /// <param name="memberId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public HbzsResult<MemberDto> GetMember([FromQuery] int memberId)
+        {
+            try
+            {
+                var dto = _memberService.GetMember(memberId);
+                return new HbzsResult<MemberDto>(dto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new HbzsResult<MemberDto>(HbzsResultCode.Invalid_Error, ex.Message);
+            }
+        }
+
 
         /// <summary>
         /// 修改用户基本信息
@@ -454,34 +470,32 @@ namespace Xw.Zx.Core.Controllers
         {
             try
             {
-                if (_context.SmsCheck.Where(p => p.Phone == Member.Phone && p.CheckState == SmsCheckState.已发送).FirstOrDefault()?.LastSendCode == postUserDto.SmsCheck)
+                if (!CheckSms(Member.Phone, postUserDto.SmsCheck))
                 {
-                    var smsCheck = _context.SmsCheck.Find(_context.SmsCheck.Where(p => p.Phone == Member.Phone).FirstOrDefault()?.Id);
-                    smsCheck.CheckState = SmsCheckState.已验证;
+                    throw new ZzzException("验证码错误");
+                }
 
-                    if (_context.Members.Any(m => m.Phone == Member.Phone))
+                if (_context.Members.Any(m => m.Phone == Member.Phone))
+                {
+                    var member = _mapper.Map(postUserDto, Member);
+                    if (string.IsNullOrEmpty(member.AliPayAccount))
                     {
-                        var member = _mapper.Map(postUserDto, Member);
-                        if (string.IsNullOrEmpty(member.AliPayAccount))
-                        {
-                            member.AliPayAccount = postUserDto.AliAccount.Trim();
-                        }
-
-                        _context.Entry(member).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-
-                        _context.SaveChanges();
-
-                        var res = _mapper.Map<MemberDto>(member);
-
-                        return new HbzsResult<MemberDto>(res);
+                        member.AliPayAccount = postUserDto.AliAccount.Trim();
                     }
-                    else
-                        throw new Exception("账号不存在");
+                    member.AliPayAccountName = postUserDto.AliPayAccountName.Trim();
+
+                    member.UpdateTime = DateTime.Now;
+
+                    _context.Entry(member).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+
+                    _context.SaveChanges();
+
+                    var res = _memberService.GetMember(member.Id);
+
+                    return new HbzsResult<MemberDto>(res);
                 }
                 else
-                {
-                    throw new Exception("验证码错误");
-                }
+                    throw new Exception("账号不存在");
             }
             catch (Exception ex)
             {
@@ -607,6 +621,55 @@ namespace Xw.Zx.Core.Controllers
             }
         }
 
+        /// <summary>
+        /// 认证客户(需Admin 权限)
+        /// </summary>
+        /// <param name="memberId"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public HbzsResult Identity([FromQuery] int memberId)
+        {
+            try
+            {
+                var member = _context.Members.First(m => m.Id == memberId);
+                member.MemberIdentityState = MemberIdentityState.已认证;
+                _context.SaveChanges();
+                return new HbzsResult("已认证");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new HbzsResult(HbzsResultCode.Invalid_Error, "未找到用户");
+            }
+        }
+
+        /// <summary>
+        /// 对已认证的客户, 取消认证(需Admin 权限)
+        /// </summary>
+        /// <param name="memberId"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public HbzsResult UnIdentity([FromQuery] int memberId)
+        {
+            try
+            {
+                var member = _context.Members.First(m => m.Id == memberId);
+                member.MemberIdentityState = MemberIdentityState.未认证;
+                _context.SaveChanges();
+                return new HbzsResult("已取消认证");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new HbzsResult(HbzsResultCode.Invalid_Error, "未找到用户");
+            }
+        }
+
+
+
+
         private bool CheckSms(string phone, int code)
         {
             var smscheckInfo = _context
@@ -621,6 +684,17 @@ namespace Xw.Zx.Core.Controllers
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// 获取用户积分
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Authorize]
+        public HbzsResult<MemberIntegral> GetMemberIntegral()
+        {
+            return new HbzsResult<MemberIntegral>(_memberIntegralService.GetMemberIntegral(Member.Id));
         }
     }
 

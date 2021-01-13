@@ -202,6 +202,117 @@ namespace Xw.Zx.Core.Migrations
                     b.ToTable("BankCards");
                 });
 
+            modelBuilder.Entity("Xw.Zx.Core.Models.Model.BiqilinLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BiqilinOrderNo");
+
+                    b.Property<DateTime>("CreateTime");
+
+                    b.Property<bool>("IsDelete")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
+
+                    b.Property<int>("OrderId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BiqilinLogs");
+                });
+
+            modelBuilder.Entity("Xw.Zx.Core.Models.Model.Coupon", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreateTime");
+
+                    b.Property<int>("CurCount");
+
+                    b.Property<DateTime>("EndTime");
+
+                    b.Property<bool>("IsDelete")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
+
+                    b.Property<decimal>("Money")
+                        .HasColumnType("decimal(8, 2)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("ProductId");
+
+                    b.Property<string>("Remark")
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime>("StartTime");
+
+                    b.Property<int>("TotalCount");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Coupons");
+                });
+
+            modelBuilder.Entity("Xw.Zx.Core.Models.Model.CouponReceive", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Code")
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<int>("CouponUseState");
+
+                    b.Property<int>("Couponid");
+
+                    b.Property<DateTime>("CreateTime");
+
+                    b.Property<bool>("IsDelete")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
+
+                    b.Property<int>("Memberid");
+
+                    b.Property<string>("Remark")
+                        .HasColumnType("nvarchar(500)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Couponid");
+
+                    b.ToTable("CouponReceives");
+                });
+
+            modelBuilder.Entity("Xw.Zx.Core.Models.Model.CouponUseLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CouponReceiveid");
+
+                    b.Property<DateTime>("CreateTime");
+
+                    b.Property<bool>("IsDelete")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
+
+                    b.Property<int>("Orderid");
+
+                    b.Property<int>("Productid");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CouponUseLogs");
+                });
+
             modelBuilder.Entity("Xw.Zx.Core.Models.Model.IncomeAccount", b =>
                 {
                     b.Property<int>("Id")
@@ -212,6 +323,12 @@ namespace Xw.Zx.Core.Migrations
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(8, 2)");
+
+                    b.Property<int>("AuditMemberId");
+
+                    b.Property<DateTime>("Auditime");
+
+                    b.Property<int>("IncomeAccountState");
 
                     b.Property<int>("IncomeAccountType");
 
@@ -228,6 +345,8 @@ namespace Xw.Zx.Core.Migrations
                     b.Property<int>("SourceOrderMemberId");
 
                     b.Property<int>("SourceOrderMemberInviteId");
+
+                    b.Property<int>("WithdrawDepositId");
 
                     b.HasKey("Id");
 
@@ -265,6 +384,8 @@ namespace Xw.Zx.Core.Migrations
                     b.Property<string>("Phone");
 
                     b.Property<string>("RepaymentCycle");
+
+                    b.Property<string>("lastRefundDate");
 
                     b.Property<string>("sourcePhone");
 
@@ -341,7 +462,13 @@ namespace Xw.Zx.Core.Migrations
 
                     b.Property<string>("AliPayAccount");
 
+                    b.Property<string>("AliPayAccountName")
+                        .HasColumnType("varchar(50)");
+
                     b.Property<DateTime>("BirthDay");
+
+                    b.Property<string>("BusinessCode")
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("CityCode");
 
@@ -351,6 +478,15 @@ namespace Xw.Zx.Core.Migrations
 
                     b.Property<string>("Email");
 
+                    b.Property<string>("IdentityCardImgFront")
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("IdentityCardImgReverse")
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("IdentityCardNum")
+                        .HasColumnType("varchar(20)");
+
                     b.Property<int>("InviteId");
 
                     b.Property<bool>("IsDelete")
@@ -359,7 +495,14 @@ namespace Xw.Zx.Core.Migrations
 
                     b.Property<DateTime>("LastLoginDate");
 
+                    b.Property<int>("MemberIdentityState");
+
                     b.Property<int>("MemberVipType");
+
+                    b.Property<decimal>("Money")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal(8, 2)")
+                        .HasDefaultValue(0m);
 
                     b.Property<string>("Nick");
 
@@ -391,6 +534,10 @@ namespace Xw.Zx.Core.Migrations
 
                     b.Property<int>("TopRegionId");
 
+                    b.Property<DateTime>("UpdateTime")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(new DateTime(2021, 1, 12, 20, 9, 7, 253, DateTimeKind.Local).AddTicks(3200));
+
                     b.Property<string>("UserName");
 
                     b.Property<string>("WxOpenId");
@@ -402,6 +549,91 @@ namespace Xw.Zx.Core.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Members");
+                });
+
+            modelBuilder.Entity("Xw.Zx.Core.Models.Model.MemberBalanceLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(8, 2)");
+
+                    b.Property<DateTime>("CreateTime");
+
+                    b.Property<decimal>("CurMoney")
+                        .HasColumnType("decimal(8, 2)");
+
+                    b.Property<bool>("IsDelete")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
+
+                    b.Property<int>("Memberid");
+
+                    b.Property<decimal>("OriginalMoney")
+                        .HasColumnType("decimal(8, 2)");
+
+                    b.Property<string>("Remark")
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int>("SourceId");
+
+                    b.Property<int>("memberMoneySource");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MemberBalanceLogs");
+                });
+
+            modelBuilder.Entity("Xw.Zx.Core.Models.Model.MemberIntegral", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AvailableIntegrals");
+
+                    b.Property<int>("HistoryIntegrals");
+
+                    b.Property<bool>("IsDelete")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
+
+                    b.Property<int>("MemberId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MemberId");
+
+                    b.ToTable("MemberIntegrals");
+                });
+
+            modelBuilder.Entity("Xw.Zx.Core.Models.Model.MemberIntegralRecord", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreateTime");
+
+                    b.Property<int>("Integral");
+
+                    b.Property<bool>("IsDelete")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
+
+                    b.Property<int>("MemberId");
+
+                    b.Property<string>("Remark");
+
+                    b.Property<int>("TypeId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MemberId");
+
+                    b.ToTable("MemberIntegralRecords");
                 });
 
             modelBuilder.Entity("Xw.Zx.Core.Models.Model.Order", b =>
@@ -437,7 +669,15 @@ namespace Xw.Zx.Core.Migrations
 
                     b.Property<string>("ProducName");
 
+                    b.Property<decimal>("ProductAmount")
+                        .HasColumnType("decimal(8, 2)");
+
+                    b.Property<int>("ProductCount");
+
                     b.Property<int>("ProductId");
+
+                    b.Property<string>("Remark")
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("Timestamp");
 
@@ -475,6 +715,10 @@ namespace Xw.Zx.Core.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("CanUseMemberIntegral")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
 
                     b.Property<bool>("Check");
 
@@ -518,6 +762,25 @@ namespace Xw.Zx.Core.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Receivables");
+                });
+
+            modelBuilder.Entity("Xw.Zx.Core.Models.Model.ShareProfitConfig", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("IsDelete")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
+
+                    b.Property<int>("ProductId");
+
+                    b.Property<int>("ShareProfitTemplateId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ShareProfitConfigs");
                 });
 
             modelBuilder.Entity("Xw.Zx.Core.Models.Model.SmsCheck", b =>
@@ -583,7 +846,7 @@ namespace Xw.Zx.Core.Migrations
 
                     b.Property<int>("MemberVipType")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(10);
+                        .HasDefaultValue(0);
 
                     b.Property<int>("OwinId");
 
@@ -646,15 +909,72 @@ namespace Xw.Zx.Core.Migrations
 
                     b.Property<int>("MemberId");
 
-                    b.Property<string>("Remark");
+                    b.Property<decimal>("RealityAmount")
+                        .HasColumnType("decimal(8, 2)");
+
+                    b.Property<string>("Remark")
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("Timestamp");
+
+                    b.Property<decimal>("WithdrawCharge")
+                        .HasColumnType("decimal(8, 2)");
 
                     b.Property<int>("WithdrawDepositState");
 
                     b.HasKey("Id");
 
                     b.ToTable("WithdrawDeposits");
+                });
+
+            modelBuilder.Entity("Xw.Zx.Core.Models.Model.WithdrawDepositLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AddUserId");
+
+                    b.Property<DateTime>("CreateTime");
+
+                    b.Property<bool>("IsDelete")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("Remark")
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int>("WithdrawDepositId");
+
+                    b.Property<int>("WithdrawDepositState");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WithdrawDepositLogs");
+                });
+
+            modelBuilder.Entity("Xw.Zx.Core.Models.Model.CouponReceive", b =>
+                {
+                    b.HasOne("Xw.Zx.Core.Models.Model.Coupon", "Coupon")
+                        .WithMany()
+                        .HasForeignKey("Couponid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Xw.Zx.Core.Models.Model.MemberIntegral", b =>
+                {
+                    b.HasOne("Xw.Zx.Core.Models.Model.Member", "Member")
+                        .WithMany()
+                        .HasForeignKey("MemberId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Xw.Zx.Core.Models.Model.MemberIntegralRecord", b =>
+                {
+                    b.HasOne("Xw.Zx.Core.Models.Model.Member", "Member")
+                        .WithMany()
+                        .HasForeignKey("MemberId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

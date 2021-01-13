@@ -55,6 +55,7 @@
       <el-table-column prop="cycleAmount" label="每期金额" width="100px" sortable></el-table-column>
       <el-table-column prop="repaymentCycle" label="已还期数" width="100px" sortable></el-table-column>
       <el-table-column prop="overdueCycle" label="逾期期数" width="100px" sortable></el-table-column>
+      <el-table-column prop="lastRefundDate" label="最后还款" width="100px" sortable></el-table-column>
       <el-table-column prop="minReduce" label="最小减免" width="100px" sortable></el-table-column>
       <el-table-column prop="maxReduce" label="最大减免" width="100px" sortable></el-table-column>
       <el-table-column prop="addTime" label="添加时间" width="100px" sortable></el-table-column>

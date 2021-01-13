@@ -1,9 +1,9 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper" v-if="user">
     <hb-layout :active="1">
       <div class="banner">
         <img
-          :src="require('@/assets/images/home/banner.png')"
+          :src="require('@/assets/images/home/banner.jpg')"
           style="display: block; width: 100%; height: auto"
         />
       </div>
@@ -24,11 +24,14 @@
         <van-cell title="手机" :value="user.phone" />
         <van-cell title="姓名" :value="user.realName" />
         <van-cell title="支付宝" :value="user.aliPayAccount" />
-        <van-cell title="级别" :value="memberVipType" />
+        <van-cell title="级别" :value="user.memberVipTypeName" />
+        <van-cell title="积分" :value="user.memberIntegral" />
       </div>
       <van-cell-group>
+        <van-cell title="我的团队" is-link to="/sqb/user/myteam" />
         <van-cell title="我的收益" is-link to="/sqb/user/income" />
         <van-cell title="我的订单" is-link to="/sqb/user/order" />
+        <van-cell title="我的优惠券" is-link to="/sqb/user/coupon" />
         <van-cell title="联系客服" is-link to="/sqb/user/kefu" />
         <van-cell title="立刻分享" is-link to="/sqb/user/share" />
         <!-- <van-cell title="个人信息" is-link to="/sqb/user/user" /> -->
@@ -75,21 +78,7 @@ export default {
   computed: {
     ...mapGetters({
       user: "user/user",
-    }),
-    memberVipType: function () {
-      switch (this.user.memberVipType) {
-        case 0:
-          return "普通";
-        case 10:
-          return "会员";
-        case 20:
-          return "合伙人";
-        case 30:
-          return "运营中心";
-        default:
-          return "";
-      }
-    },
+    }),   
   },
 
   beforeMount() {
@@ -119,6 +108,12 @@ export default {
   },
 
   watch: {},
+  activated() {
+    api.member.getSelf().then((res) => {
+      this.$globalFun.userInfoAPI.updateMember(res.result);
+      this.$store.commit("user/setUser", res.result);
+    });
+  },
 };
 </script>
 <style lang='scss' scoped>

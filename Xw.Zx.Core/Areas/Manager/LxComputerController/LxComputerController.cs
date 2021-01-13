@@ -16,7 +16,7 @@ namespace Xw.Zx.Core.Areas.Manager
 {
     [ApiController]
     [Route("manager/[controller]/[action]")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Policy = "Admins")]
     public class LxComputerController : ManagerBaseController
     {
         private readonly ILogger<MemberController> _logger;

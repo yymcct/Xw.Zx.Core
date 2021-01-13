@@ -6,6 +6,15 @@ using Xw.Zx.Core.Models.Model;
 
 namespace Xw.Zx.Core.Models.Dto
 {
+
+    public class WithdrawDepositRquest
+    {
+        public class shareProfitDto
+        {
+           public List<int> ShareProfitId { get; set; }
+        }
+    }
+
     public class WithdrawDepositDto
     {
     }

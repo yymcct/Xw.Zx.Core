@@ -4,6 +4,288 @@
         <name>Xw.Zx.Core</name>
     </assembly>
     <members>
+        <member name="M:Xw.Zx.Core.Areas.Manager.ApplyForZxController.GetApplyForZxs(Sieve.Models.SieveModel)">
+            <summary>
+            TODO
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.ApplyForZxController.DeleteApplyForZx(System.Int32)">
+            <summary>
+            TODO
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="F:Xw.Zx.Core.Areas.Manager.HbzsManagerResultCode.Remote_Service_Error">
+            <summary>
+            远程服务错误
+            </summary>
+        </member>
+        <member name="F:Xw.Zx.Core.Areas.Manager.HbzsManagerResultCode.Invalid_Error">
+            <summary>
+            参数校验错误
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.HbzsManagerResult.StatusCode">
+            <summary>
+            状态码
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.HbzsManagerResult.Msg">
+            <summary>
+            消息
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.HbzsManagerResult`1.StatusCode">
+            <summary>
+            状态码
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.HbzsManagerResult`1.Msg">
+            <summary>
+            消息
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.Coupon.CouponController.GiveCoupon(Xw.Zx.Core.Areas.Manager.Coupon.Dtos.CouponMRequest.GiveCoupon)">
+            <summary>
+            发送优惠券
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.Coupon.CouponController.GetCoupon(Sieve.Models.SieveModel)">
+            <summary>
+            根据用户ID查
+            </summary>
+            <param name="sieveModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.Coupon.CouponController.CouponToMemberIntegral(System.Int32)">
+            <summary>
+            优惠券转积分
+            </summary>
+            <param name="couponReceiveId"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.Coupon.CouponMRespone.CouponItem.CreateTime">
+            <summary>
+            领取时间
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.IncomeAccountController.GetIncomeAccounts(Sieve.Models.SieveModel)">
+            <summary>
+            TODO
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.IncomeAccountController.GetIncomes(Sieve.Models.SieveModel)">
+            <summary>
+            获取详情
+            </summary>
+            <param name="sieveModel"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMDto.ZhijieTotla">
+            <summary>
+            直接收益
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMDto.JianjieTotla">
+            <summary>
+            间接收益
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMDto.ChajiTotla">
+            <summary>
+            差级
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMDto.IncomeTotal">
+            <summary>
+            收益合计
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMDto.WithdrawDepositTotal">
+            <summary>
+            提现合计
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMDto.Balance">
+            <summary>
+            待提现
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMRespone.Income.MemberId">
+            <summary>
+            受益人ID
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMRespone.Income.Amount">
+            <summary>
+            收益金额
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMRespone.Income.SourceOrderId">
+            <summary>
+            产生收益的单据ID
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.MemberMDto.IdentityCardNum">
+            <summary>
+            身份证号
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.MemberController.GetUser">
+            <summary>
+            获取用户
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.MemberController.GetMember(System.Int32)">
+            <summary>
+            TODO
+            </summary>
+            <param name="memberId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.MemberController.GetMembers(Sieve.Models.SieveModel)">
+            <summary>
+            TODO
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.MemberController.PostMember(System.Int32,Xw.Zx.Core.Areas.Manager.PostMemberMDto)">
+            <summary>
+            修改会员信息
+            </summary>
+            <param name="id"></param>
+            <param name="membermdto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.MemberController.DeleteMember(System.Int32)">
+            <summary>
+            TODO
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.MemberController.PostChangeInvite(Xw.Zx.Core.Areas.Manager.PostChangeInviteDto)">
+            <summary>
+            TODO
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.MemberController.GetParent(System.Int32)">
+            <summary>
+            获取直属上级,和团队长
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.OrderMRespone.Info.OrderWaitPay">
+            <summary>
+            待付款订单
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.OrderMRespone.Info.OrderSucess">
+            <summary>
+            支付成功订单
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.OrderMRespone.Info.IncomeWaitAudit">
+            <summary>
+            分润待审核
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.OrderMRespone.Info.IncomeSucess">
+            <summary>
+            分润成功
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.OrderMRespone.Info.IncomeFail">
+            <summary>
+            分润失败
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.Manager.OrderMRespone.Info.WithdrawApplyFor">
+            <summary>
+            申请提现
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.OrderController.GetOrders(Sieve.Models.SieveModel)">
+            <summary>
+            TODO
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.SysParamController.SetValue(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <param name="val"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.UpdateVipAuthCodeController.GetUpdateVipAuthCodes(Sieve.Models.SieveModel)">
+            <summary>
+            TODO
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.UpdateVipAuthCodeController.PostUpdateVipAuthCode(Xw.Zx.Core.Areas.Manager.PostUpdateVipAuthCodeMDto)">
+            <summary>
+            TODO
+            </summary>
+            <param name="updatevipauthcodemdto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.UpdateVip.UpdateVipController.UpdateVip(Xw.Zx.Core.Areas.Manager.UpdateVip.PostUpdateVipMDto)">
+            <summary>
+            升级VIP
+            </summary>
+            <param name="postUpdateVipMDto"></param>
+        </member>
+        <member name="T:Xw.Zx.Core.Areas.Manager.WithdrawDepositController">
+            <summary>
+            TODO
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.WithdrawDepositController.GetWithdrawDeposits(Sieve.Models.SieveModel)">
+            <summary>
+            TODO
+            </summary>
+            <param name="sieveModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.WithdrawDepositController.TongjibuAudit(System.Int32,Xw.Zx.Core.Areas.Manager.IncomeAccountMRequest.Audit)">
+            <summary>
+            统计部审核通过
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.WithdrawDepositController.CaiwuAudit(System.Int32,Xw.Zx.Core.Areas.Manager.IncomeAccountMRequest.Audit)">
+            <summary>
+            审核通过
+            </summary>
+            <param name="id"></param>
+            <returns></returns>        
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.WithdrawDepositController.Pay(System.Int32,Xw.Zx.Core.Areas.Manager.IncomeAccountMRequest.Audit)">
+            <summary>
+            付款
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.WithdrawDepositController.GetAuditWithdrawDepositdetails(System.Int32)">
+            <summary>
+            获取明细
+            </summary>
+            <param name="memberId"></param>
+            <returns></returns>
+        </member>
         <member name="T:Xw.Zx.Core.Config.ApplicationSieveProcessor">
             <summary>
             配置mapper
@@ -15,11 +297,36 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Xw.Zx.Core.Controllers.AlipayController.WapPay(System.Int32,System.String)">
+            <summary>
+            阿里pay
+            </summary>
+            <param name="orderId"></param>
+            <param name="returnUrl"></param>
+            <returns></returns>
+        </member>
         <member name="M:Xw.Zx.Core.Controllers.AlipayController.Notifyurl">
             <summary>
             支付宝支付成功回调地址 
-            TODO: 校验是否是来自于支付宝的域名
             </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.AlipayController.WapNotifyurl">
+            <summary>
+            回调
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.AlipayController.WithdrawDeposit">
+            <summary>
+            TODO
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.AlipayController.ScanCodeGen(System.Int32)">
+            <summary>
+            当面付
+            </summary>
+            <param name="orderId"></param>
+            <returns></returns>
         </member>
         <member name="M:Xw.Zx.Core.Controllers.ApplyForZxController.PostApply(Xw.Zx.Core.Models.Dto.PostApplyDto)">
             <summary>
@@ -110,6 +417,20 @@
             TODO: 校验是否是来自于支付宝的域名
             </summary>
         </member>
+        <member name="M:Xw.Zx.Core.Controllers.FileUploadController.Files(Microsoft.AspNetCore.Http.IFormCollection)">
+            <summary>
+            上传文件,一次可以提交多个文件 支持格式:".png", ".jpg", ".jpeg", ".gif", ".bmp", ".mp4"
+            </summary>
+            <param name="formCollection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.FileUploadController.IdentityCard(Microsoft.AspNetCore.Http.IFormCollection)">
+            <summary>
+            上传身份证专用接口 支持格式:".png", ".jpg", ".jpeg"
+            </summary>
+            <param name="formCollection"></param>
+            <returns></returns>
+        </member>
         <member name="M:Xw.Zx.Core.Controllers.IncomeController.GetDetails(Sieve.Models.SieveModel)">
             <summary>
             获取自己名下收益明细, 可检索, 排序, 分页      
@@ -121,7 +442,7 @@
             <summary>
             获取某个人的利润记录      
             </summary>
-            <param name="sieveModel">可空</param>
+            <param name="memberId">可空</param>
             <returns></returns>
         </member>
         <member name="M:Xw.Zx.Core.Controllers.IncomeController.GetIncomeInfo">
@@ -203,7 +524,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Xw.Zx.Core.Controllers.MemberController.GetMyFirstTeamUser(System.Int32,System.Int32)">
+        <member name="M:Xw.Zx.Core.Controllers.MemberController.GetMyFirstTeamUser">
             <summary>
             获取未绑定银行卡的用户
             filter:0 全部 1:待绑卡
@@ -214,6 +535,13 @@
             <summary>
             获取个人信息, 需要认证
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.MemberController.GetMember(System.Int32)">
+            <summary>
+            获取其他人的个人详情. 需Admin权限
+            </summary>
+            <param name="memberId"></param>
             <returns></returns>
         </member>
         <member name="M:Xw.Zx.Core.Controllers.MemberController.PostMember(Xw.Zx.Core.Models.Dto.PostUserDto)">
@@ -239,6 +567,26 @@
         <member name="M:Xw.Zx.Core.Controllers.MemberController.PostChangePasswordBySmsCode(Xw.Zx.Core.Models.Dto.ChangePassWordDto)">
             <summary>
             发送验证码重置密码
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.MemberController.Identity(System.Int32)">
+            <summary>
+            认证客户(需Admin 权限)
+            </summary>
+            <param name="memberId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.MemberController.UnIdentity(System.Int32)">
+            <summary>
+            对已认证的客户, 取消认证(需Admin 权限)
+            </summary>
+            <param name="memberId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.MemberController.GetMemberIntegral">
+            <summary>
+            获取用户积分
             </summary>
             <returns></returns>
         </member>
@@ -877,6 +1225,36 @@
             收益时间
             </summary>
         </member>
+        <member name="P:Xw.Zx.Core.Models.Dto.MemberDto.InviteId">
+            <summary>
+            邀请人ID
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Dto.PostUserDto.RealName">
+            <summary>
+            真实姓名
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Dto.PostUserDto.AliAccount">
+            <summary>
+            支付宝账号
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Dto.PostUserDto.IdentityCardNum">
+            <summary>
+            身份证号码
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Dto.PostUserDto.IdentityCardImgFront">
+            <summary>
+            身份证正面照 存照片的url:形如 /UpLoad/IdentityCard/20202/1.jpg
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Dto.PostUserDto.IdentityCardImgReverse">
+            <summary>
+            身份证反面照 
+            </summary>
+        </member>
         <member name="P:Xw.Zx.Core.Models.Dto.ProductListDto.SalesVolume">
             <summary>
             销量
@@ -977,6 +1355,36 @@
             滞纳金, 同步时进行更新
             </summary>
         </member>
+        <member name="T:Xw.Zx.Core.Models.Model.Coupon">
+            <summary>
+            优惠券表
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.Coupon.ProductId">
+            <summary>
+            指定产品ID
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.Coupon.TotalCount">
+            <summary>
+            合计数量
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.Coupon.CurCount">
+            <summary>
+            当前数量
+            </summary>
+        </member>
+        <member name="T:Xw.Zx.Core.Models.Model.CouponReceive">
+            <summary>
+            优惠券表领取表
+            </summary>
+        </member>
+        <member name="T:Xw.Zx.Core.Models.Model.CouponUseLog">
+            <summary>
+            优惠券表领取表
+            </summary>
+        </member>
         <member name="P:Xw.Zx.Core.Models.Model.IncomeAccount.SourceOrderId">
             <summary>
             产生收益的单据ID
@@ -992,6 +1400,11 @@
             付款人的邀请人ID, 如果是直接收益则为0
             </summary>
         </member>
+        <member name="P:Xw.Zx.Core.Models.Model.LxComputer.lastRefundDate">
+            <summary>
+            最后还款时间
+            </summary>
+        </member>
         <member name="T:Xw.Zx.Core.Models.Model.MailSrcBank">
             <summary>
             存放的原始邮件
@@ -1002,9 +1415,79 @@
             邀请人ID, 上线
             </summary>
         </member>
+        <member name="P:Xw.Zx.Core.Models.Model.Member.BusinessCode">
+            <summary>
+            运营中心的编码
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.Member.IdentityCardNum">
+            <summary>
+            身份证号
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.Member.IdentityCardImgFront">
+            <summary>
+            身份证正面照
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.Member.IdentityCardImgReverse">
+            <summary>
+            身份证反面照
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.Member.MemberIdentityState">
+            <summary>
+            认证状态
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.Member.Money">
+            <summary>
+            用户余额表
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.MemberBalanceLog.Amount">
+            <summary>
+            变动金额
+            </summary>
+        </member>
+        <member name="T:Xw.Zx.Core.Models.Model.MemberIntegral">
+            <summary>
+            用户积分表
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.MemberIntegral.HistoryIntegrals">
+            <summary>
+            历史积分
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.MemberIntegral.AvailableIntegrals">
+            <summary>
+            可用积分
+            </summary>
+        </member>
+        <member name="T:Xw.Zx.Core.Models.Model.MemberIntegralRecord">
+            <summary>
+            用户积分明细表
+            </summary>
+        </member>
+        <member name="T:Xw.Zx.Core.Models.Model.BiqilinLog">
+            <summary>
+            碧麒麟订单日志表
+            </summary>
+        </member>
         <member name="T:Xw.Zx.Core.Models.Model.Order">
             <summary>
             订单表
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.Order.Amount">
+            <summary>
+            实际支付金额
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.Order.ProductAmount">
+            <summary>
+            商品金额
             </summary>
         </member>
         <member name="T:Xw.Zx.Core.Models.Model.Payment">
@@ -1102,6 +1585,26 @@
             失效时间
             </summary>
         </member>
+        <member name="T:Xw.Zx.Core.Models.Model.WithdrawDeposit">
+            <summary>
+            提现单
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.WithdrawDeposit.Amount">
+            <summary>
+            申请提现金额
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.WithdrawDeposit.WithdrawCharge">
+            <summary>
+            提现手续费
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.WithdrawDeposit.RealityAmount">
+            <summary>
+            实际提现金额
+            </summary>
+        </member>
         <member name="P:Xw.Zx.Core.Models.Model.XwZxContext.SysParams">
             <summary>
             系统参数表
@@ -1149,6 +1652,26 @@
             <param name="tradeNo">商家自定义的订单号</param>
             <returns></returns>
         </member>
+        <member name="M:Xw.Zx.Core.Service.IMemberIntegralService.AddMemberIntegral(Xw.Zx.Core.Models.Model.MemberIntegralRecord)">
+            <summary>
+            用户积分记录增加
+            </summary>
+            <param name="model"></param>
+        </member>
+        <member name="M:Xw.Zx.Core.Service.IMemberIntegralService.GetMemberIntegral(System.Int32)">
+            <summary>
+            根据用户ID获取用户的积分信息
+            </summary>
+            <param name="memberId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Service.IMemberIntegralService.GetMemberIntegrals(System.Collections.Generic.IEnumerable{System.Int32})">
+            <summary>
+            根据用户ID获取用户的积分信息
+            </summary>
+            <param name="memberIds"></param>
+            <returns></returns>
+        </member>
         <member name="M:Xw.Zx.Core.Service.IOrderService.GetOrder(System.Int32)">
             <summary>
             获取订单详情, 会检查订单状态
@@ -1162,6 +1685,16 @@
             </summary>
             <param name="orderId"></param>
             <returns></returns>
+        </member>
+        <member name="T:Xw.Zx.Core.Service.ShareProfit.ShareProfit2">
+            <summary>
+            反润50%
+            </summary>
+        </member>
+        <member name="T:Xw.Zx.Core.Service.ShareProfit.ShareProfit3">
+            <summary>
+            反润7000
+            </summary>
         </member>
         <member name="M:Xw.Zx.Core.Service.IUpDateVip1Service.AliPayMentSucessHandle(System.Collections.Generic.Dictionary{System.String,System.String})">
             <summary>
@@ -1229,176 +1762,6 @@
             查找上级vip 依次: 一代 二代  运营中心
             </summary>
             <param name="member"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Xw.Zx.Core.Areas.Manager.ApplyForZxController.GetApplyForZxs(Sieve.Models.SieveModel)">
-            <summary>
-            TODO
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Xw.Zx.Core.Areas.Manager.ApplyForZxController.DeleteApplyForZx(System.Int32)">
-            <summary>
-            TODO
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="F:Xw.Zx.Core.Areas.Manager.HbzsManagerResultCode.Remote_Service_Error">
-            <summary>
-            远程服务错误
-            </summary>
-        </member>
-        <member name="F:Xw.Zx.Core.Areas.Manager.HbzsManagerResultCode.Invalid_Error">
-            <summary>
-            参数校验错误
-            </summary>
-        </member>
-        <member name="P:Xw.Zx.Core.Areas.Manager.HbzsManagerResult.StatusCode">
-            <summary>
-            状态码
-            </summary>
-        </member>
-        <member name="P:Xw.Zx.Core.Areas.Manager.HbzsManagerResult.Msg">
-            <summary>
-            消息
-            </summary>
-        </member>
-        <member name="P:Xw.Zx.Core.Areas.Manager.HbzsManagerResult`1.StatusCode">
-            <summary>
-            状态码
-            </summary>
-        </member>
-        <member name="P:Xw.Zx.Core.Areas.Manager.HbzsManagerResult`1.Msg">
-            <summary>
-            消息
-            </summary>
-        </member>
-        <member name="M:Xw.Zx.Core.Areas.Manager.IncomeAccountController.GetIncomeAccounts(Sieve.Models.SieveModel)">
-            <summary>
-            TODO
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMDto.ZhijieTotla">
-            <summary>
-            直接收益
-            </summary>
-        </member>
-        <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMDto.JianjieTotla">
-            <summary>
-            间接收益
-            </summary>
-        </member>
-        <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMDto.ChajiTotla">
-            <summary>
-            差级
-            </summary>
-        </member>
-        <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMDto.IncomeTotal">
-            <summary>
-            收益合计
-            </summary>
-        </member>
-        <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMDto.WithdrawDepositTotal">
-            <summary>
-            提现合计
-            </summary>
-        </member>
-        <member name="P:Xw.Zx.Core.Areas.Manager.IncomeAccountMDto.Balance">
-            <summary>
-            待提现
-            </summary>
-        </member>
-        <member name="M:Xw.Zx.Core.Areas.Manager.MemberController.GetUser">
-            <summary>
-            获取用户
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Xw.Zx.Core.Areas.Manager.MemberController.GetMembers(Sieve.Models.SieveModel)">
-            <summary>
-            TODO
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Xw.Zx.Core.Areas.Manager.MemberController.PostMember(Xw.Zx.Core.Areas.Manager.PostMemberMDto)">
-            <summary>
-            TODO
-            </summary>
-            <param name="membermdto"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Xw.Zx.Core.Areas.Manager.MemberController.DeleteMember(System.Int32)">
-            <summary>
-            TODO
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Xw.Zx.Core.Areas.Manager.MemberController.GetParent(System.Int32)">
-            <summary>
-            获取直属上级,和团队长
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Xw.Zx.Core.Areas.Manager.OrderController.GetOrders(Sieve.Models.SieveModel)">
-            <summary>
-            TODO
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Xw.Zx.Core.Areas.Manager.SysParamController.SetValue(System.String,System.String)">
-            <summary>
-            
-            </summary>
-            <param name="name"></param>
-            <param name="val"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Xw.Zx.Core.Areas.Manager.UpdateVipAuthCodeController.GetUpdateVipAuthCodes(Sieve.Models.SieveModel)">
-            <summary>
-            TODO
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Xw.Zx.Core.Areas.Manager.UpdateVipAuthCodeController.PostUpdateVipAuthCode(Xw.Zx.Core.Areas.Manager.PostUpdateVipAuthCodeMDto)">
-            <summary>
-            TODO
-            </summary>
-            <param name="updatevipauthcodemdto"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Xw.Zx.Core.Areas.Manager.UpdateVip.UpdateVipController.UpdateVip(Xw.Zx.Core.Areas.Manager.UpdateVip.PostUpdateVipMDto)">
-            <summary>
-            升级VIP
-            </summary>
-            <param name="postUpdateVipMDto"></param>
-        </member>
-        <member name="T:Xw.Zx.Core.Areas.Manager.WithdrawDepositController">
-            <summary>
-            TODO
-            </summary>
-        </member>
-        <member name="M:Xw.Zx.Core.Areas.Manager.WithdrawDepositController.GetWithdrawDeposits(Sieve.Models.SieveModel)">
-            <summary>
-            TODO
-            </summary>
-            <param name="sieveModel"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Xw.Zx.Core.Areas.Manager.WithdrawDepositController.AuditWithdrawDepositdetail(Xw.Zx.Core.Areas.Manager.PostAuditWithdrawDepositdetailDto)">
-            <summary>
-            通过或拒绝
-            </summary>
-            <param name="dto"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Xw.Zx.Core.Areas.Manager.WithdrawDepositController.GetAuditWithdrawDepositdetails(System.Int32)">
-            <summary>
-            获取明细
-            </summary>
-            <param name="memberId"></param>
             <returns></returns>
         </member>
     </members>

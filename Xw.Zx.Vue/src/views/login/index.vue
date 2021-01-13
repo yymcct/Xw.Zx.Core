@@ -53,6 +53,7 @@ export default {
           getUser().then(res => {
             var user = res.result;
             sessionStorage.setItem("user", JSON.stringify(user));
+            _this.$store.commit("user/setUser", user);
             _this.$router.push({ path: "/member" });
           });
         }

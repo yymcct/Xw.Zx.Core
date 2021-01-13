@@ -5,34 +5,35 @@
     </div>
 
     <div class="login">
-      <van-field v-model="user.phone" label="手机" placeholder="请输入手机号" />
+      <van-field
+        v-model="user.phone"
+        required
+        :formatter="$fieldFormatter"
+        label="手机"
+        placeholder="请输入手机号"
+      />
+      <sms-code-field
+        v-model="user.smsCheck"
+        :formatter="$fieldFormatter"
+        :phone="user.phone"
+      />
       <van-field
         v-model="user.password"
+        required
+        :formatter="$fieldFormatter"
         type="password"
         label="密码"
         placeholder="请输入密码"
       />
       <van-field
         v-model="user.password2"
+        required
+        :formatter="$fieldFormatter"
         type="password"
         label="密码"
         placeholder="请再次输入密码"
       />
-      <van-field
-        v-model="user.smsCheck"
-        label="验证码"
-        placeholder="请输入验证码"
-      >
-        <template #button>
-          <van-button
-            size="small"
-            type="primary"
-            color="linear-gradient(to right, #ff7a00, #ff5000)"
-            @click="sendSms"
-            >发送验证码</van-button
-          >
-        </template>
-      </van-field>
+
       <van-button
         class="login-btn"
         type="primary"
@@ -52,6 +53,7 @@
 
 <script>
 import api from "@/api/sqbApi";
+import smsCodeField from "@/components/smsCodeField";
 export default {
   name: "",
   props: [""],
@@ -65,7 +67,7 @@ export default {
     };
   },
 
-  components: {},
+  components: { smsCodeField },
 
   computed: {},
 
@@ -74,16 +76,6 @@ export default {
   mounted() {},
 
   methods: {
-    sendSms() {
-      const _this = this;
-      api.member
-        .smscode({
-          phone: _this.user.phone,
-        })
-        .then(() => {
-          this.$toast("验证码已发送");
-        });
-    },
     bindLogin() {
       const _this = this;
       if (this.user.phone.length != 11) {

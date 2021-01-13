@@ -16,9 +16,29 @@ const routes = [
         }
     }, 
     {
+        path: '/sqb/computer0_1',
+        component: () =>
+            import(/* webpackChunkName: "sqb" */ './view/index/computer0_1'),
+        meta: {
+            title: '计算器', 
+            keepAlive: false,
+            private:false
+        }
+    },
+    {
         path: '/sqb/computer1',
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/index/computer1'),
+        meta: {
+            title: '计算器', 
+            keepAlive: false,
+            private:false
+        }
+    },
+    {
+        path: '/sqb/computer2',
+        component: () =>
+            import(/* webpackChunkName: "sqb" */ './view/index/computer2'),
         meta: {
             title: '计算器', 
             keepAlive: false,
@@ -241,6 +261,26 @@ const routes = [
             import(/* webpackChunkName: "sqb" */ './view/app/user/order'),
         meta: {
             title: '我的订单', 
+            keepAlive: false,
+            private:true
+        }
+    },
+    {
+        path: '/sqb/user/coupon',
+        component: () =>
+            import(/* webpackChunkName: "sqb" */ './view/app/user/coupon'),
+        meta: {
+            title: '我的优惠券', 
+            keepAlive: false,
+            private:true
+        }
+    },
+        {
+        path: '/sqb/user/coupon/:id',
+        component: () =>
+            import(/* webpackChunkName: "sqb" */ './view/app/user/couponContent'),
+        meta: {
+            title: '我的优惠券', 
             keepAlive: false,
             private:true
         }

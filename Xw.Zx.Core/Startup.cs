@@ -7,6 +7,7 @@ using System.Runtime.Loader;
 using System.Threading.Tasks;
 using Alipay.AopSdk.AspnetCore;
 using AutoMapper;
+using Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -23,6 +24,8 @@ using Sieve.Models;
 using Sieve.Services;
 using Swashbuckle.AspNetCore.Swagger;
 using Xw.Zx.Core.Config;
+using Xw.Zx.Core.Config.Swagger;
+using Xw.Zx.Core.HangfireJob;
 using Xw.Zx.Core.Models.Model;
 using Xw.Zx.Core.Service;
 using Xw.Zx.Core.Utility;
@@ -48,10 +51,11 @@ namespace Xw.Zx.Core
             //Swagger
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "送钱宝", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = "债减减", Version = "v1" });
                 var basePath = Path.GetDirectoryName(typeof(Program).Assembly.Location);//获取应用程序所在目录（绝对，不受工作目录影响，建议采用此方法获取路径）
                 var xmlPath = Path.Combine(basePath, "Xw.Zx.Core.xml");
                 c.IncludeXmlComments(xmlPath);
+                c.DocumentFilter<HiddenApiFilter>();
             });
             #endregion
 
@@ -59,9 +63,20 @@ namespace Xw.Zx.Core
 
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-                .AddJsonOptions(options => { options.SerializerSettings.DateFormatString = "yyyy-MM-dd"; });
+                .AddJsonOptions(options => { options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss"; });
 
-
+            #region 权限配置
+            //App
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admins",
+                     policy => policy.RequireRole(nameof(MemberRole.Admin)
+                            , nameof(MemberRole.Admin_Tongjibu)
+                            , nameof(MemberRole.Admin_Caiwu)
+                            , nameof(MemberRole.Admin_CaiwuPayChange)
+                            , nameof(MemberRole.Admin_CaiwuManager)));
+            });
+            #endregion
 
             #region 跨域
             services.AddCors(options =>
@@ -136,9 +151,18 @@ namespace Xw.Zx.Core
             #endregion
 
 
+
             new AppsettingsUtility().Initial(Configuration);
 
             services.AddHttpClient();
+
+            services.AddProfit();
+            services.AddOrderService();
+
+            #region Hangfire
+            services.AddScoped<BiqilinOrderSync>();
+            services.AddHangfire(x => x.UseSqlServerStorage(Configuration.GetSection("DbConnections:XwZx").Value));
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -201,6 +225,11 @@ namespace Xw.Zx.Core
                 }
 
             });
+
+            app.UseHangfireServer();//启动Hangfire服务
+            app.UseHangfireDashboard();//启动hangfire面板
+
+            RecurringJob.AddOrUpdate<BiqilinOrderSync>(i => i.Run(), "0 */30 * * * ?");
         }
 
 

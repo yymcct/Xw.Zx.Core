@@ -14,6 +14,7 @@ using Sieve.Models;
 using Sieve.Services;
 using Xw.Zx.Core.Models.Dto;
 using Xw.Zx.Core.Models.Model;
+using Xw.Zx.Core.Service;
 
 namespace Xw.Zx.Core.Controllers
 {
@@ -23,13 +24,15 @@ namespace Xw.Zx.Core.Controllers
     public class IncomeController : BaseController
     {
         private readonly ILogger<IncomeController> _logger;
+        private readonly IShareprofitService _shareprofitService;
         public IncomeController(ILogger<IncomeController> logger
             , XwZxContext xwZxContext
             , IMapper mapper
+            , IShareprofitService shareprofitService
             , ISieveProcessor sieveProcessor) : base(xwZxContext, mapper, sieveProcessor)
         {
             _logger = logger;
-
+            _shareprofitService = shareprofitService;
         }
 
         /// <summary>
@@ -38,13 +41,13 @@ namespace Xw.Zx.Core.Controllers
         /// <param name="sieveModel">可空</param>
         /// <returns></returns>
         [HttpGet]
-        public HbzsResult<List<IncomeDetailDto>> GetDetails([FromQuery]SieveModel sieveModel)
+        public HbzsResult<List<IncomeDetailDto>> GetDetails([FromQuery] SieveModel sieveModel)
         {
             try
             {
                 var db = _context.IncomeAccounts
                     .AsNoTracking()
-                    .Where(b => b.MemberId == Member.Id);
+                    .Where(b => b.MemberId == Member.Id && b.IncomeAccountState == IncomeAccountState.已发放);
 
                 var details = _sieveProcessor
                     .Apply(sieveModel, db)
@@ -69,7 +72,7 @@ namespace Xw.Zx.Core.Controllers
         /// <summary>
         /// 获取某个人的利润记录      
         /// </summary>
-        /// <param name="sieveModel">可空</param>
+        /// <param name="memberId">可空</param>
         /// <returns></returns>
         [HttpGet]
         public HbzsResult<List<IncomeDetailDto>> GetPeronDetails(int memberId)
@@ -78,10 +81,10 @@ namespace Xw.Zx.Core.Controllers
             {
                 var db = _context.IncomeAccounts
                     .AsNoTracking()
-                    .Where(b => b.MemberId == memberId);
+                    .Where(b => b.MemberId == memberId && b.IncomeAccountState == IncomeAccountState.已发放);
 
                 var details = _sieveProcessor
-                    .Apply(new SieveModel(),db)
+                    .Apply(new SieveModel(), db)
                     .ToList();
 
                 var res = _mapper.Map<List<IncomeDetailDto>>(details);
@@ -91,7 +94,7 @@ namespace Xw.Zx.Core.Controllers
                     r.IncomeAccountTypeName = r.IncomeAccountType.ToString();
                     return r;
                 })
-                    .OrderByDescending(item=>item.AddTime)
+                    .OrderByDescending(item => item.AddTime)
                     .ToList();
 
                 return new HbzsResult<List<IncomeDetailDto>>(res);
@@ -113,12 +116,12 @@ namespace Xw.Zx.Core.Controllers
             try
             {
                 var IncomTotal = _context.IncomeAccounts
-                    .Where(b => b.MemberId == Member.Id)
+                    .Where(b => b.MemberId == Member.Id && b.IncomeAccountState == IncomeAccountState.已发放)
                     .Sum(b => b.Amount);
 
                 var WithdrawDeposit = _context.WithdrawDeposits
                         .Where(b => b.MemberId == Member.Id
-                                && b.WithdrawDepositState == WithdrawDepositState.通过)
+                                && b.WithdrawDepositState == WithdrawDepositState.提现成功)
                         .Sum(b => b.Amount);
 
                 var res = new IncomInfo()
@@ -136,6 +139,20 @@ namespace Xw.Zx.Core.Controllers
                 return new HbzsResult<IncomInfo>(HbzsResultCode.Invalid_Error, ex.Message);
             }
         }
-    
+
+        [HttpGet]
+        public HbzsResult<IEnumerable<IncomeAccount>> GetWaitWithdraws()
+        {
+            try
+            {
+                var res = _shareprofitService.GetWaitWithdraws(Member.Id);
+
+                return new HbzsResult<IEnumerable<IncomeAccount>>(res);
+            }
+            catch (Exception ex)
+            {
+                return new HbzsResult<IEnumerable<IncomeAccount>>(HbzsResultCode.Invalid_Error, ex.Message);
+            }
+        }
     }
 }

@@ -33,16 +33,19 @@ namespace Xw.Zx.Core.Controllers
         private readonly ILogger<WithdrawDepositController> _logger;
         private readonly AlipayService _alipayService;
         private readonly IUpDateVip1Service _upDateVip1Service;
+        private readonly IWithdrawService _withdrawService;
         public WithdrawDepositController(ILogger<WithdrawDepositController> logger
             , XwZxContext xwZxContext
             , IMapper mapper
             , ISieveProcessor sieveProcessor
             , AlipayService alipayService
-            , IUpDateVip1Service upDateVip1Service) : base(xwZxContext, mapper, sieveProcessor)
+            , IUpDateVip1Service upDateVip1Service
+            , IWithdrawService withdrawService) : base(xwZxContext, mapper, sieveProcessor)
         {
             _logger = logger;
             _alipayService = alipayService;
             _upDateVip1Service = upDateVip1Service;
+            _withdrawService = withdrawService;
         }
 
         /// <summary>
@@ -50,11 +53,11 @@ namespace Xw.Zx.Core.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public HbzsResult PostWithdrawDeposit([FromBody]PostWithdrawDepositDto postWithdrawDepositDto)
+        public HbzsResult PostWithdrawDeposit([FromBody] PostWithdrawDepositDto postWithdrawDepositDto)
         {
             try
             {
-                if (Member.MemberVipType == MemberVipType.普通 || Member.Disabled == true)
+                if (Member.MemberVipType == MemberVipType.客户 || Member.Disabled == true)
                 {
                     return new HbzsResult(HbzsResultCode.Invalid_Error, "您的账户异常, 请人工处理!");
                 }
@@ -65,34 +68,62 @@ namespace Xw.Zx.Core.Controllers
                 }
 
                 if (_context.WithdrawDeposits.Any(w => w.MemberId == Member.Id
-                     && w.WithdrawDepositState == WithdrawDepositState.申请中))
+                     && w.WithdrawDepositState == WithdrawDepositState.申请提现))
                 {
                     return new HbzsResult(HbzsResultCode.Sucess, "我们已收到您的申请,正在处理中,请稍后");
                 }
 
                 var IncomTotal = _context.IncomeAccounts
-                        .Where(b => b.MemberId == Member.Id)
+                        .Where(b => b.MemberId == Member.Id && b.IncomeAccountState == IncomeAccountState.已发放)
                         .Sum(b => b.Amount);
 
                 var WithdrawDeposit = _context.WithdrawDeposits
                         .Where(b => b.MemberId == Member.Id
-                                && b.WithdrawDepositState == WithdrawDepositState.通过)
+                                && b.WithdrawDepositState == WithdrawDepositState.提现成功)
                         .Sum(b => b.Amount);
 
                 var canGet = IncomTotal - WithdrawDeposit;
 
-                if (postWithdrawDepositDto.Amount < 2.1m || postWithdrawDepositDto.Amount > canGet)
+                if (postWithdrawDepositDto.Amount < 1.0m || postWithdrawDepositDto.Amount > canGet)
                 {
-                    return new HbzsResult(HbzsResultCode.Sucess, "提现的金额过大或过小, 无法处理");
+                    return new HbzsResult(HbzsResultCode.Invalid_Error, "提现的金额过大或过小, 无法处理");
                 }
+
+                var charge = decimal.Parse((postWithdrawDepositDto.Amount * 0.15m / 100).ToString("#0.00"));
 
                 var withdrawDeposit = new WithdrawDeposit()
                 {
                     MemberId = Member.Id,
                     Amount = postWithdrawDepositDto.Amount,
+                    WithdrawCharge = charge,
+                    RealityAmount = postWithdrawDepositDto.Amount - charge
                 };
                 _context.WithdrawDeposits.Add(withdrawDeposit);
                 _context.SaveChanges();
+                return new HbzsResult(HbzsResultCode.Sucess, "我们已收到您的申请,正在处理中,请稍后");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex.Message);
+                return new HbzsResult(HbzsResultCode.Invalid_Error, ex.Message);
+            }
+
+        }
+
+        [HttpPost]
+        public HbzsResult PostWithdrawDepositByShareProfitId([FromBody] WithdrawDepositRquest.shareProfitDto dto)
+        {
+            try
+            {
+
+                if (string.IsNullOrEmpty(Member.AliPayAccountName) || string.IsNullOrEmpty(Member.AliPayAccount))
+                {
+                    return new HbzsResult(HbzsResultCode.Invalid_Error, "请前往[我的],补全个人信息后再申请提现!");
+                }
+
+
+                _withdrawService.AddWithdrawByShareprofits(Member, dto.ShareProfitId);
+
                 return new HbzsResult(HbzsResultCode.Sucess, "我们已收到您的申请,正在处理中,请稍后");
             }
             catch (Exception ex)
@@ -110,7 +141,7 @@ namespace Xw.Zx.Core.Controllers
         /// <param name="sieveModel"></param>
         /// <returns></returns>
         [HttpGet]
-        public HbzsResult<List<GetWithdrawDepositDetailsDto>> GetWithdrawDepositdetails([FromQuery]SieveModel sieveModel)
+        public HbzsResult<List<GetWithdrawDepositDetailsDto>> GetWithdrawDepositdetails([FromQuery] SieveModel sieveModel)
         {
             try
             {
@@ -140,7 +171,7 @@ namespace Xw.Zx.Core.Controllers
         /// <param name="sieveModel"></param>
         /// <returns></returns>
         [HttpGet]
-        public HbzsResult<List<GetAuditWithdrawDepositDetailsDto>> GetAuditWithdrawDepositdetails([FromQuery]SieveModel sieveModel)
+        public HbzsResult<List<GetAuditWithdrawDepositDetailsDto>> GetAuditWithdrawDepositdetails([FromQuery] SieveModel sieveModel)
         {
             try
             {
@@ -181,11 +212,10 @@ namespace Xw.Zx.Core.Controllers
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPost]
-        public HbzsResult AuditWithdrawDepositdetail([FromBody]AuditWithdrawDepositdetailDto dto)
+        public HbzsResult AuditWithdrawDepositdetail([FromBody] AuditWithdrawDepositdetailDto dto)
         {
             try
             {
-
                 var detail = _context.WithdrawDeposits.First(w => w.Timestamp == dto.Timestamp);
                 var detailMemnber = _context.Members.First(m => m.Id == detail.MemberId);
 
@@ -194,7 +224,7 @@ namespace Xw.Zx.Core.Controllers
                     return new HbzsResult(HbzsResultCode.Invalid_Error, "账户无权限!");
                 }
 
-                if (detail.WithdrawDepositState != WithdrawDepositState.申请中)
+                if (detail.WithdrawDepositState != WithdrawDepositState.申请提现)
                 {
                     return new HbzsResult(HbzsResultCode.Invalid_Error, "单据状态异常,无法处理!");
                 }
@@ -205,18 +235,18 @@ namespace Xw.Zx.Core.Controllers
                 }
 
                 var IncomTotal = _context.IncomeAccounts
-                    .Where(b => b.MemberId == detail.MemberId)
+                    .Where(b => b.MemberId == detail.MemberId && b.IncomeAccountState == IncomeAccountState.已发放)
                     .Sum(b => b.Amount);
 
                 var WithdrawDeposit = _context.WithdrawDeposits
                         .Where(b => b.MemberId == detail.MemberId
-                                && b.WithdrawDepositState == WithdrawDepositState.通过)
+                                && b.WithdrawDepositState == WithdrawDepositState.提现成功)
                         .Sum(b => b.Amount);
 
                 var canGet = IncomTotal - WithdrawDeposit;
                 if (detail.Amount < 2.09m || detail.Amount > canGet)
                 {
-                    detail.WithdrawDepositState = WithdrawDepositState.拒绝;
+                    detail.WithdrawDepositState = WithdrawDepositState.提现失败;
                     detail.Remark = "提现的金额过大或过小, 无法处理";
                     _context.SaveChanges();
                     return new HbzsResult(HbzsResultCode.Sucess, "提现的金额过大或过小, 无法处理");
@@ -224,7 +254,7 @@ namespace Xw.Zx.Core.Controllers
 
                 if (dto.IsPass == false)
                 {
-                    detail.WithdrawDepositState = WithdrawDepositState.拒绝;
+                    detail.WithdrawDepositState = WithdrawDepositState.提现失败;
                     _context.SaveChanges();
                     return new HbzsResult(HbzsResultCode.Sucess);
                 }
@@ -236,7 +266,7 @@ namespace Xw.Zx.Core.Controllers
                 if (paylog.code != "10000")
                 {
                     detail.Remark = paylog.sub_msg;
-                    detail.WithdrawDepositState = WithdrawDepositState.失败;
+                    detail.WithdrawDepositState = WithdrawDepositState.提现失败;
                     _context.SaveChanges();
 
                     return new HbzsResult(HbzsResultCode.Invalid_Error, paylog.sub_msg);
@@ -245,7 +275,7 @@ namespace Xw.Zx.Core.Controllers
 
                 using (var transaction = _context.Database.BeginTransaction())
                 {
-                    detail.WithdrawDepositState = WithdrawDepositState.通过;
+                    detail.WithdrawDepositState = WithdrawDepositState.提现成功;
 
                     _context.Payments.Add(new Payment()
                     {

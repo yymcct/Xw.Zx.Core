@@ -23,7 +23,7 @@ namespace Xw.Zx.Core.Areas.Manager
 
     [ApiController]
     [Route("manager/[controller]/[action]")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Policy = "Admins")]
     public class UpdateVipAuthCodeController : ManagerBaseController
     {
         private readonly ILogger<UpdateVipAuthCodeController> _logger;
@@ -92,7 +92,8 @@ namespace Xw.Zx.Core.Areas.Manager
                 }
 
 
-                if (Member.MemberVipType == MemberVipType.普通) throw new Exception("普通会员不能拥有升级码");
+                if (Member.MemberVipType == MemberVipType.客户) throw new Exception("普通会员不能拥有升级码");
+
 
                 var random = new Random();
                 for (int i = 0; i < updatevipauthcodemdto.Cnt; i++)

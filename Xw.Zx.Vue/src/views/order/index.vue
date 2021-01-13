@@ -62,11 +62,17 @@
         width="180px"
       ></el-table-column>
       <el-table-column prop="producName" label="商品名"></el-table-column>
-      <el-table-column prop="amount" label="金额" width="100px">
+      <el-table-column prop="productCount" label="数量" width="60px"></el-table-column>
+      <el-table-column prop="amount" label="支付金额" width="160px">
         <template slot-scope="scope">
           <span style="color: #ff5000; font-weight: bold">{{
             scope.row.amount
           }}</span>
+          <p style="color: #999999">
+            订单合计:  {{ scope.row.productAmount }}
+            <br/>
+            支付通道: {{ scope.row.orderPaymentTypeName }}
+          </p>
         </template>
       </el-table-column>
       <el-table-column prop="realName" label="姓名" width="130px">
@@ -75,26 +81,52 @@
           <p style="color: #999999; font-weight: bold">
             {{ scope.row.memberPhone }}
           </p>
+
           <p>
-            <el-link type="primary" @click="getParent(scope.row)"
-              >查看关系树</el-link
+            <el-link type="primary" @click="showParentTree(scope.row)"
+              >查看团队树</el-link
             >
           </p>
         </template>
       </el-table-column>
-      <el-table-column prop="realName" label="客户姓名" width="130px">
+      <el-table-column prop="realName" label="客户姓名" width="180px">
         <template slot-scope="scope">
-          <p style="font-weight: bold">{{ scope.row.customerName }}</p>
-          <p style="color: #999999; font-weight: bold">
-            {{ scope.row.customerPhone }}
+          <el-popover trigger="hover" placement="top">
+            <p style="font-weight: bold">{{ scope.row.customerName }}</p>
+            <p style="color: #999999; font-weight: bold">
+              {{ scope.row.customerPhone }}
+            </p>
+            <p style="color: #999999" v-if="scope.row.remark">
+              备注: {{ scope.row.remark }}
+            </p>
+            <div slot="reference" class="name-wrapper">
+              <p style="font-weight: bold">{{ scope.row.customerName }}</p>
+              <p style="color: #999999; font-weight: bold">
+                {{ scope.row.customerPhone }}
+              </p>
+              <p
+                style="
+                  color: #999999;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                "
+                v-if="scope.row.remark"
+              >
+                备注: {{ scope.row.remark }}
+              </p>
+            </div>
+          </el-popover>
+        </template>
+      </el-table-column>
+      <el-table-column prop="addTime" label="时间" width="120px">
+        <template slot-scope="scope">
+          <p>{{ scope.row.addTime.split(" ")[0] }}</p>
+          <p style="color: #999999; font-size: 14px">
+            {{ scope.row.addTime.split(" ")[1] }}
           </p>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="addTime"
-        label="时间"
-        width="120px"
-      ></el-table-column>
     </el-table>
 
     <!--工具条align='center'-->
@@ -116,11 +148,10 @@
 </template>
 
 <script>
-
-import parent from "./parent"
-import { api_getOrderMDtos, api_delOrderMDto } from "../../api/api";
+import parent from "@/components/parentTree";
+import { api_getOrderMDtos } from "../../api/api";
 export default {
-  components: {parent},
+  components: { parent },
   data() {
     return {
       requestParams: {
@@ -137,10 +168,10 @@ export default {
       orderMDtos: null,
       total: 0,
       listLoading: false,
-      parent:{
-        showParent:false,
-        memberId:0
-      }
+      parent: {
+        showParent: false,
+        memberId: 0,
+      },
     };
   },
   methods: {
@@ -155,7 +186,7 @@ export default {
     getOrderMDtos() {
       this.listLoading = true;
       this.page = 1;
-      this.requestParams.filters = "";
+      this.requestParams.filters = "OrderState==1,";
 
       if (this.filters.keyword)
         this.requestParams.filters += `(Timestamp|RealName|MemberPhone|customerName|customerPhone)@=${this.filters.keyword},`;
@@ -171,7 +202,7 @@ export default {
         this.total = respone.total;
       });
     },
-    getParent(val) {
+    showParentTree(val) {
       this.parent.showParent = true;
       this.parent.memberId = val.memberId;
     },

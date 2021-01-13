@@ -20,7 +20,31 @@ namespace Xw.Zx.Core.Service
             _client.DefaultRequestHeaders.Add("Method", "Post");
             _biqilinOption = biqilinOption.CurrentValue;
         }
-        public string CreateQrcodePayUrl(Biqilin_Product biqilin_Product)
+        public BiqilinRespone.Query QueryOrder(string biqilinOrderNo)
+        {
+            try
+            {
+                const string url = "https://pay.biqilin.com/api/pay/query/partner/store_single2.do";
+                //var key = GetToken(); 获取一次就不再改变           
+                var token = "326b5d06397c08c379b447f1917d6ce38db006d43c31da324b4358eda54911f8";
+                var dto = new Biqilinrequest.Query(_biqilinOption);
+                dto.merchant_account = _biqilinOption.MerchantAccount;
+                dto.out_store_name = "债减减";
+                dto.out_cashier_name = "APP";
+                dto.order_no = biqilinOrderNo;
+                dto.partner_code = _biqilinOption.PartnerCode;
+                dto.token = token; //key.token;
+
+                return Post<BiqilinRespone.Query>(url, dto.ToDic());
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+        }
+
+        public BiqilinRespone.QrcodePay CreateQrcodePayUrl(Biqilin_Product biqilin_Product)
         {
             const string url = "https://pay.biqilin.com/api/pay/partner/qrcode_pay.do";
             //var key = GetToken(); 获取一次就不再改变           
@@ -40,8 +64,7 @@ namespace Xw.Zx.Core.Service
             dto.notify_url = "http://139.155.8.217/api/Biqilin/Notifyurl";
             dto.token = token; //key.token;
 
-            var res = Post<BiqilinRespone.QrcodePay>(url, dto.ToDic());
-            return res.codeUrl;
+            return Post<BiqilinRespone.QrcodePay>(url, dto.ToDic());
         }
 
         public BiqilinRespone.JsapiPay CreateWeixinJsApi(Biqilin_Product biqilin_Product)

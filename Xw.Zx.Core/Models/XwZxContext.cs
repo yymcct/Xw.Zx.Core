@@ -20,6 +20,12 @@ namespace Xw.Zx.Core.Models.Model
 
         public DbSet<Member> Members { get; set; }
 
+        public DbSet<MemberIntegral> MemberIntegrals { get; set; }
+
+        public DbSet<MemberIntegralRecord> MemberIntegralRecords { get; set; }
+
+        public DbSet<MemberBalanceLog> MemberBalanceLogs { get; set; }
+
         public DbSet<ApplyForZxMDto> ApplyForZxs { get; set; }
 
         #region 邮箱
@@ -55,6 +61,8 @@ namespace Xw.Zx.Core.Models.Model
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
 
+        public DbSet<BiqilinLog> BiqilinLogs { get; set; }
+
         public DbSet<Payment> Payments { get; set; }
 
         public DbSet<Receivable> Receivables { get; set; }
@@ -65,10 +73,13 @@ namespace Xw.Zx.Core.Models.Model
         //用户提现表
         public DbSet<WithdrawDeposit> WithdrawDeposits { get; set; }
 
+        public DbSet<WithdrawDepositLog> WithdrawDepositLogs { get; set; }
+
         //支付宝支付记录表
         public DbSet<AlipayLog> AlipayLogs { get; set; }
-        #endregion
 
+        public DbSet<ShareProfitConfig> ShareProfitConfigs { get; set; }
+        #endregion
 
         #region 其他 
         /// <summary>
@@ -89,6 +100,13 @@ namespace Xw.Zx.Core.Models.Model
         public DbSet<LxComputer> LxComputers { get; set; }
         #endregion
 
+        #region 优惠券
+        public DbSet<Coupon> Coupons { get; set; }
+        public DbSet<CouponReceive> CouponReceives { get; set; }
+        public DbSet<CouponUseLog> CouponUseLogs { get; set; }
+        #endregion
+
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //optionsBuilder.UseSqlite("Data Source=blogging.db");
@@ -102,16 +120,48 @@ namespace Xw.Zx.Core.Models.Model
 
             modelBuilder.Entity<UpdateVipAuthCode>()
                   .Property(o => o.MemberVipType)
-                  .HasDefaultValue(MemberVipType.会员);
+                  .HasDefaultValue(MemberVipType.客户);
 
             modelBuilder.Entity<SysParam>()
                .HasQueryFilter(c => !c.IsDelete)
                .Property(c => c.IsDelete)
                .HasDefaultValue(false);
+
             modelBuilder.Entity<Member>()
-                           .HasQueryFilter(c => !c.IsDelete)
-                           .Property(c => c.IsDelete)
-                           .HasDefaultValue(false);
+                .HasQueryFilter(c => !c.IsDelete)
+                .Property(c => c.IsDelete)
+                .HasDefaultValue(false);
+    
+            modelBuilder.Entity<Member>()
+               .Property(c => c.Money)
+               .HasDefaultValue(0m);
+
+            modelBuilder.Entity<Member>()
+               .Property(c => c.UpdateTime)
+               .HasDefaultValue(DateTime.Now);
+
+            modelBuilder.Entity<MemberBalanceLog>()
+                .HasQueryFilter(c => !c.IsDelete)
+                .Property(c => c.IsDelete)
+                .HasDefaultValue(false);
+
+            modelBuilder.Entity<MemberIntegral>()
+               .HasQueryFilter(c => !c.IsDelete)
+               .Property(c => c.IsDelete)
+               .HasDefaultValue(false);
+        
+            modelBuilder.Entity<MemberIntegral>()
+               .HasOne(m=> m.Member);
+
+            modelBuilder.Entity<MemberIntegralRecord>()
+               .HasQueryFilter(c => !c.IsDelete)
+               .Property(c => c.IsDelete)
+               .HasDefaultValue(false);
+
+            modelBuilder.Entity<MemberIntegralRecord>()
+                .HasOne(m => m.Member);
+
+
             modelBuilder.Entity<ApplyForZxMDto>()
                            .HasQueryFilter(c => !c.IsDelete)
                            .Property(c => c.IsDelete)
@@ -144,6 +194,11 @@ namespace Xw.Zx.Core.Models.Model
                            .HasQueryFilter(c => !c.IsDelete)
                            .Property(c => c.IsDelete)
                            .HasDefaultValue(false);
+
+            modelBuilder.Entity<Product>()              
+               .Property(c => c.CanUseMemberIntegral)
+               .HasDefaultValue(false);
+
             modelBuilder.Entity<Order>()
                            .HasQueryFilter(c => !c.IsDelete)
                            .Property(c => c.IsDelete)
@@ -164,6 +219,12 @@ namespace Xw.Zx.Core.Models.Model
                            .HasQueryFilter(c => !c.IsDelete)
                            .Property(c => c.IsDelete)
                            .HasDefaultValue(false);
+
+            modelBuilder.Entity<WithdrawDepositLog>()
+                           .HasQueryFilter(c => !c.IsDelete)
+                           .Property(c => c.IsDelete)
+                           .HasDefaultValue(false);
+
             modelBuilder.Entity<AlipayLog>()
                            .HasQueryFilter(c => !c.IsDelete)
                            .Property(c => c.IsDelete)
@@ -180,6 +241,31 @@ namespace Xw.Zx.Core.Models.Model
                            .HasQueryFilter(c => !c.IsDelete)
                            .Property(c => c.IsDelete)
                            .HasDefaultValue(false);
+            modelBuilder.Entity<ShareProfitConfig>()
+                           .HasQueryFilter(c => !c.IsDelete)
+                           .Property(c => c.IsDelete)
+                           .HasDefaultValue(false);
+            modelBuilder.Entity<Coupon>()
+               .HasQueryFilter(c => !c.IsDelete)
+               .Property(c => c.IsDelete)
+               .HasDefaultValue(false);
+            modelBuilder.Entity<CouponReceive>()
+               .HasQueryFilter(c => !c.IsDelete)
+               .Property(c => c.IsDelete)
+               .HasDefaultValue(false);
+
+            modelBuilder.Entity<CouponReceive>()
+              .HasOne(p => p.Coupon);
+
+            modelBuilder.Entity<CouponUseLog>()
+               .HasQueryFilter(c => !c.IsDelete)
+               .Property(c => c.IsDelete)
+               .HasDefaultValue(false);
+
+            modelBuilder.Entity<BiqilinLog>()
+               .HasQueryFilter(c => !c.IsDelete)
+               .Property(c => c.IsDelete)
+               .HasDefaultValue(false);
         }
     }
 }

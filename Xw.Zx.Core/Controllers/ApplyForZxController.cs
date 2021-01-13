@@ -80,9 +80,9 @@ namespace Xw.Zx.Core.Controllers
 
             try
             {
-                if (Member.MemberVipType < MemberVipType.服务站)
+                if (Member.MemberVipType < MemberVipType.分公司)
                 {
-                    return new HbzsResult<List<ApplyDto>>(HbzsResultCode.Invalid_Error, "请升级服务站及以上级别查看");
+                    return new HbzsResult<List<ApplyDto>>(HbzsResultCode.Invalid_Error, "请升级分公司及以上级别查看");
                 }
                 if (string.IsNullOrEmpty(Member.CityCode))
                 {

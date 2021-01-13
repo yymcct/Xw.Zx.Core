@@ -68,7 +68,7 @@ namespace Xw.Zx.Core.Controllers
         /// <param name="memberVipType"></param>
         /// <returns></returns>
         [HttpGet]
-        public HbzsResult Create([FromQuery] int memberid, int cnt, MemberVipType memberVipType = MemberVipType.会员)
+        public HbzsResult Create([FromQuery] int memberid, int cnt, MemberVipType memberVipType = MemberVipType.客户)
         {
             try
             {
@@ -78,7 +78,7 @@ namespace Xw.Zx.Core.Controllers
                 }
 
                 var member = _context.Members.First(m => m.Id == memberid);
-                if (member.MemberVipType == MemberVipType.普通) throw new Exception("普通会员不能拥有升级码");
+                if (member.MemberVipType == MemberVipType.客户) throw new Exception("普通会员不能拥有升级码");
 
                 var random = new Random();
                 for (int i = 0; i < cnt; i++)

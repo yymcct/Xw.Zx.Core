@@ -3,17 +3,26 @@
 #@baseUrl = http://localhost:52878
 #@baseUrl = http://192.168.0.214:5000
 #@baseUrl = http://122.114.157.240:8822
-@token = eyJhbGciOiJSUzI1NiIsImtpZCI6ImJiYTlkZGEyNGJmY2QxNDE1ODYxMGIyMTE4YWJlMTQ5IiwidHlwIjoiSldUIn0.eyJuYmYiOjE1NjcyNDM2NDQsImV4cCI6MTU2NzI3MjQ0NCwiaXNzIjoiaHR0cDovLzEyMi4xMTQuMTU3LjI0MDo4ODIyIiwiYXVkIjpbImh0dHA6Ly8xMjIuMTE0LjE1Ny4yNDA6ODgyMi9yZXNvdXJjZXMiLCJBcHBBcGkiXSwiY2xpZW50X2lkIjoiQXBwLk1hbmFnZXIuUm8iLCJzdWIiOiIxMDIiLCJhdXRoX3RpbWUiOjE1NjcyNDM2NDQsImlkcCI6IiIsInJvbGUiOiIzIiwic2NvcGUiOlsiQXBwQXBpIl0sImFtciI6WyJjdXN0b20iXX0.FwkxofDSb98DEIbelCEHOafzTOT9cA2phJ3NttnfOJYkbklTWXKuRcYL_dugUS7FXHgicQArZkxsy9DWTa61ko4MA8zvGytppV6UZ6iFb5ec0nbypzdMOWgRwITs_judJZ7N-8mGWQH2brsM5r27YvVRJacBWi1KSuShluvtwFiY0_CpxP-8JuvBWnpMfiWeF6VfG2tTWLnGhuN6T1U8rJ7uxWO617FpSMD6ZzH8t3MNo5CRFZGqe22b1fefTAEiPNq2ohwGQUHsa32U1msJ5MLXGHIuCHWOC7qz050TlxJf7lcmgM9F8mfX1sMELB7f9sZHSPSWHYQxCj3DfoMD5w
+@token = eyJhbGciOiJSUzI1NiIsImtpZCI6ImJiYTlkZGEyNGJmY2QxNDE1ODYxMGIyMTE4YWJlMTQ5IiwidHlwIjoiSldUIn0.eyJuYmYiOjE2MDc0NzY0MDIsImV4cCI6MTYxNjExNjQwMiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo2MzgzNiIsImF1ZCI6WyJodHRwOi8vbG9jYWxob3N0OjYzODM2L3Jlc291cmNlcyIsIkFwcEFwaSJdLCJjbGllbnRfaWQiOiJBcHAuTWFuYWdlci5SbyIsInN1YiI6IjcyIiwiYXV0aF90aW1lIjoxNjA3NDc2NDAyLCJpZHAiOiIiLCJyb2xlIjoiQWRtaW4iLCJzY29wZSI6WyJBcHBBcGkiXSwiYW1yIjpbImN1c3RvbSJdfQ.oKBL9QZZTSqd9U2KVedcPMH9be8pwmxn91tEbW5VEDqoxJxuv_0lkvqulxwUoeA760kQO28OvZyyK7Lz6spoGjFH3NWt0SCGol3M6pjW5EpnXoGPqF8RErOrGygZm9OIkTu8-OwdcPTfK66CSSGmQ34EkM_BTuOWMQTSUlLmOdENOlqbsK2uPWx1DkikYlFwSisY4_vhLxMWkdG-G6miOaCvVHzp8lKRMxJL2uipa9a90ruByiNrAIZRaZsvzClUgt3thaDGw96D-UOFrGSlStnvoV1cbvMbIEh4f_ViTqRdP1M91_hMLvSpuZxdEizfFaabG6k3ZVTY644X-fP8kA
 @contentType = application/json
 
 # 获取公用token 
 POST {{baseUrl}}/connect/token HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 
-grant_type=password&client_id=App.Manager.Ro&client_secret=DEsjpJFtokIOhMKuE6BVMczYUEEyPGTOLrur3PXw26VMLNwKOfAKFZZgR2vVJDKG&username=wengkui&password=wengkui3456
+grant_type=password&client_id=App.Manager.Ro&client_secret=DEsjpJFtokIOhMKuE6BVMczYUEEyPGTOLrur3PXw26VMLNwKOfAKFZZgR2vVJDKG&username=18624938007&password=123456
 
 ###############################################AutoSendMessages###############################################
 ### 获取已审核信息
 GET {{baseUrl}}/api/Values/Get
 #Authorization: Bearer {{token}}
 ###
+
+
+### 
+GET {{baseUrl}}/api/Member/GetMember?memberid=72
+Authorization: Bearer {{token}}
+
+###
+POST {{baseUrl}}/api/Member/Identity?memiberid=72
+Authorization: Bearer {{token}}

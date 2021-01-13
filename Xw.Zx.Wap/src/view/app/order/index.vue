@@ -22,24 +22,76 @@
           <h1 class="product-content-info-name">
             {{ product.name }}
           </h1>
+          <p class="product-content-info-count">
+            数量: {{ order.productCount }}
+          </p>
           <p class="product-content-info-price">￥{{ order.amount }}</p>
           <p class="product-content-info-time">{{ order.addTime }}</p>
         </div>
       </div>
     </div>
-    <div class="coupon" v-if="userCouponCode">
-      <van-field v-model="couponCode" placeholder="请输入兑换卷" />
-      <van-button
-        class="foot-btn"
-        color="#ff5000"
-        round
-        plain
-        size="mini"
-        @click="couponCodeHandle"
-      >
-        使用
-      </van-button>
+    <div
+      class="customer"
+      v-if="order.customerName || order.customerPhone || order.remark"
+    >
+      <div class="customer-title">
+        <p>客户信息</p>
+      </div>
+      <div class="customer-content">
+        <p>姓名: {{ order.customerName }}</p>
+        <p>电话: {{ order.customerPhone }}</p>
+        <p class="customer-content-remark">备注: {{ order.remark }}</p>
+      </div>
     </div>
+    <div class="coupon" v-if="coupon && memberIntegralChecked == false">
+      <van-checkbox
+        v-model="couponChecked"
+        shape="square"
+        checked-color="#ff5000"
+        :disabled="order.orderState == 1"
+        >使用{{ coupon.coupon.name }}</van-checkbox
+      >
+    </div>
+
+    <div class="integral" v-if="memberIntegral && couponChecked == false">
+      <div class="integral-title">
+        <p>
+          使用积分
+          <span
+            ><van-icon name="info-o" /> 现有{{
+              memberIntegral.availableIntegrals
+            }}积分</span
+          >
+        </p>
+        <van-switch
+          v-model="memberIntegralChecked"
+          active-color="#FF5000"
+          inactive-color="#dcdee0"
+          size="24px"
+          :disabled="
+            order.orderState == 1 ||
+            memberIntegral.availableIntegrals < Number(order.amount) * 100
+          "
+        />
+      </div>
+      <div
+        class="integral-desc"
+        v-if="memberIntegral.availableIntegrals < Number(order.amount) * 100"
+      >
+        <p>
+          抵扣本单需 {{ Number(order.amount) * 100 }} 积分, 本单积分不足,
+          无法抵扣
+        </p>
+      </div>
+      <div class="integral-content" v-if="memberIntegralChecked">
+        <p>使用 {{ Number(order.amount) * 100 }} 积分</p>
+        <p>
+          抵扣<span>{{ order.amount }}</span
+          >元
+        </p>
+      </div>
+    </div>
+
     <div class="foot">
       <van-button
         class="foot-btn"
@@ -53,6 +105,7 @@
         删除订单
       </van-button>
       <van-button
+        v-if="couponChecked == false && memberIntegralChecked == false"
         class="foot-btn"
         type="primary"
         plain
@@ -65,6 +118,31 @@
         扫码付款
       </van-button>
       <van-button
+        v-if="couponChecked && coupon"
+        class="foot-btn"
+        type="primary"
+        round
+        size="small"
+        color="linear-gradient(to right, #ff7a00, #ff5000)"
+        @click="couponPay"
+        :disabled="order.orderState == 1"
+      >
+        提交
+      </van-button>
+      <van-button
+        v-if="memberIntegralChecked"
+        class="foot-btn"
+        type="primary"
+        round
+        size="small"
+        color="linear-gradient(to right, #ff7a00, #ff5000)"
+        @click="memberIntegralPay"
+        :disabled="order.orderState == 1"
+      >
+        提交
+      </van-button>
+      <van-button
+        v-if="couponChecked == false && memberIntegralChecked == false"
         class="foot-btn"
         type="primary"
         round
@@ -109,9 +187,11 @@ export default {
       useAlipay: false,
       product: null,
       order: null,
+      coupon: null,
+      memberIntegral: null,
+      couponChecked: false,
+      memberIntegralChecked: false,
       loading: false,
-      couponCode: "",
-      userCouponCode: false,
       showQrcodePay: false,
       weixinjsApi: null,
     };
@@ -145,6 +225,19 @@ export default {
       ).result;
 
       _this.useAlipay = (await api.alipay.firstUseAlipay()).result;
+
+      _this.coupon = (
+        await api.coupon.getCouponByProductId(_this.order.productId)
+      ).result;
+
+      if (_this.product.canUseMemberIntegral) {
+        _this.memberIntegral = (await api.member.getMemberIntegral()).result;
+      }
+
+      //下单时选择了优惠券方式,且有名下有优惠券
+      if (_this.coupon && _this.order.orderPaymentType == 4) {
+        _this.couponChecked = true;
+      }
     },
     delOrder() {
       const _this = this;
@@ -168,6 +261,22 @@ export default {
             done();
           }
         },
+      });
+    },
+    couponPay() {
+      const _this = this;
+      api.order
+        .couponPay(_this.order.id, _this.coupon.couponReceiveId)
+        .then(() => {
+          this.$toast("支付成功");
+          this.$router.push({ path: `/sqb/user/order` });
+        });
+    },
+    memberIntegralPay() {
+      const _this = this;
+      api.order.memberIntegralPay(_this.order.id).then(() => {
+        this.$toast("支付成功");
+        this.$router.push({ path: `/sqb/user/order` });
       });
     },
     payOrder() {
@@ -207,10 +316,11 @@ export default {
               signType: _this.weixinjsApi.jsSignType, //微信签名方式：
               paySign: _this.weixinjsApi.jsPaySign, //微信签名
             },
-            function (res) {     
+            function (res) {
               //使用以下方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
               if (res.err_msg == "get_brand_wcpay_request:ok") {
-                window.location.href="http://jsq.lawss360.com/sqb/order/"+ _this.order.id;
+                window.location.href =
+                  "http://jsq.lawss360.com/sqb/order/" + _this.order.id;
                 //onSuccessMsg();
               } else {
                 //弹出之后，苹果手机会卡死
@@ -256,7 +366,6 @@ export default {
         this.init();
       }
     },
-    couponCodeHandle() {},
   },
 
   watch: {},
@@ -313,10 +422,15 @@ export default {
           line-height: 20px;
           color: #333333;
           overflow: hidden;
-          height: 39px;
+          height: 20px;
+        }
+        &-count {
+          margin-top: 5px;
+          font-size: 15px;
+          color: #333333;
         }
         &-price {
-          margin: 8px 0px;
+          margin: 14px 0px;
           font-size: 18px;
           color: #ff5000;
           width: 100%;
@@ -329,14 +443,76 @@ export default {
       }
     }
   }
-  .coupon {
+  .customer {
     margin-top: 20px;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
     background-color: #fff;
     padding: 10px;
+    color: #999999;
+    font-size: 15px;
+    line-height: 26px;
+    &-title {
+      p {
+        color: #333333;
+        font-size: 15px;
+        font-weight: bold;
+      }
+    }
+    &-content {
+      margin: 5px 10px 0px 10px;
+      &-remark {
+        font-size: 14px;
+      }
+    }
+  }
+  .coupon {
+    margin-top: 20px;
+    background-color: #fff;
+    padding: 10px;
+    font-size: 16px;
+  }
+  .integral {
+    margin-top: 20px;
+
+    background-color: #fff;
+    padding: 10px;
+    font-size: 16px;
+    &-title {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+
+      p {
+        color: #333333;
+        font-weight: bold;
+        span {
+          font-size: 13px;
+        }
+      }
+    }
+    &-desc {
+      margin-top: 10px;
+      p {
+        color: #333333;
+        font-size: 13px;
+      }
+    }
+    &-content {
+      margin-top: 15px;
+      padding: 20px 0;
+      color: #333333;
+      font-size: 13px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px dashed #999999;
+      span {
+        margin: 0 5px;
+        font-size: 16px;
+        color: #ff5000;
+      }
+    }
   }
   .foot {
     position: fixed;

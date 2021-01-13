@@ -16,11 +16,11 @@ namespace Xw.Zx.Core.Service
 {
     public class UpDateVip1Service : IUpDateVip1Service
     {
-        private readonly ILogger<AlipayController> _logger;
+        private readonly ILogger<UpDateVip1Service> _logger;
         private readonly AlipayService _alipayService;
         public readonly XwZxContext _context;
         public readonly IMapper _mapper;
-        public UpDateVip1Service(ILogger<AlipayController> logger
+        public UpDateVip1Service(ILogger<UpDateVip1Service> logger
             , XwZxContext xwZxContext
             , IMapper mapper
             , AlipayService alipayService)
@@ -112,14 +112,14 @@ namespace Xw.Zx.Core.Service
 
             switch (memberVipType)
             {
-                case MemberVipType.Vip会员:
-                    producName = "升级会员"; break;
-                case MemberVipType.创客:
-                    producName = "升级创客"; break;
-                case MemberVipType.服务站:
-                    producName = "升级服务站"; break;
-                case MemberVipType.运营商:
-                    producName = "升级运营商"; break;
+                case MemberVipType.业务经理:
+                    producName = "升级业务经理"; break;
+                case MemberVipType.大区经理:
+                    producName = "升级大区经理"; break;
+                case MemberVipType.运营中心:
+                    producName = "升级运营中心"; break;
+                case MemberVipType.分公司:
+                    producName = "升级分公司"; break;
             }
 
             return _context.Products.First(p => p.Name == producName);
@@ -181,10 +181,10 @@ namespace Xw.Zx.Core.Service
             //变更会员状态
             switch (order.ProducName)
             {
-                case "升级会员": member.MemberVipType = MemberVipType.Vip会员; break;
-                case "升级创客": member.MemberVipType = MemberVipType.创客; break;
-                case "升级服务站": member.MemberVipType = MemberVipType.服务站; break;
-                case "升级运营商": member.MemberVipType = MemberVipType.运营商; break;
+                case "升级业务经理": member.MemberVipType = MemberVipType.业务经理; break;
+                case "升级运营中心": member.MemberVipType = MemberVipType.运营中心; break;
+                case "升级大区经理": member.MemberVipType = MemberVipType.大区经理; break;
+                case "升级分公司": member.MemberVipType = MemberVipType.分公司; break;
             }
             _context.Entry(member).State = EntityState.Modified;
 
@@ -203,7 +203,7 @@ namespace Xw.Zx.Core.Service
 
             switch (member.MemberVipType)
             {
-                case MemberVipType.普通:
+                case MemberVipType.客户:
                     switch (order.ProducName)
                     {
                         case "升级会员": UserToVip(order); break;
@@ -212,7 +212,7 @@ namespace Xw.Zx.Core.Service
                         case "升级运营商": UserToYunyinshang(order); break;
                     }
                     break;
-                case MemberVipType.Vip会员:
+                case MemberVipType.业务经理:
                     switch (order.ProducName)
                     {
                         case "升级会员": new Exception("Vip会员不能升级为Vip会员"); break;
@@ -221,7 +221,7 @@ namespace Xw.Zx.Core.Service
                         case "升级运营商": VipToYunyinshang(order); break;
                     }
                     break;
-                case MemberVipType.创客:
+                case MemberVipType.运营中心:
                     switch (order.ProducName)
                     {
                         case "升级会员": new Exception("创客不能升级为Vip会员"); break;
@@ -230,7 +230,7 @@ namespace Xw.Zx.Core.Service
                         case "升级运营商": ChuangkeToYunyinshang(order); break;
                     }
                     break;
-                case MemberVipType.服务站:
+                case MemberVipType.大区经理:
                     switch (order.ProducName)
                     {
                         case "升级会员": new Exception("服务站不能升级为Vip会员"); break;
@@ -332,7 +332,7 @@ namespace Xw.Zx.Core.Service
 
             if (oneInvite != null)
             {
-                if (oneInvite.MemberVipType == MemberVipType.Vip会员)
+                if (oneInvite.MemberVipType == MemberVipType.业务经理)
                 {
                     _context.IncomeAccounts.Add(new IncomeAccount()
                     {
@@ -345,9 +345,9 @@ namespace Xw.Zx.Core.Service
                         Remark = $"{member.Phone}升级创客,一代分润:{order.Amount}*10%={order.Amount * 0.1m}",
                     });
                 }
-                else if (oneInvite.MemberVipType == MemberVipType.创客
-                   || oneInvite.MemberVipType == MemberVipType.服务站
-                   || oneInvite.MemberVipType == MemberVipType.运营商)
+                else if (oneInvite.MemberVipType == MemberVipType.大区经理
+                   || oneInvite.MemberVipType == MemberVipType.运营中心
+                   || oneInvite.MemberVipType == MemberVipType.大区经理)
                 {
                     _context.IncomeAccounts.Add(new IncomeAccount()
                     {
@@ -364,9 +364,9 @@ namespace Xw.Zx.Core.Service
 
             if (twoInvite != null)
             {
-                if (twoInvite.MemberVipType == MemberVipType.创客
-                    || twoInvite.MemberVipType == MemberVipType.服务站
-                    || twoInvite.MemberVipType == MemberVipType.运营商)
+                if (twoInvite.MemberVipType == MemberVipType.业务经理
+                    || twoInvite.MemberVipType == MemberVipType.大区经理
+                    || twoInvite.MemberVipType == MemberVipType.运营中心)
                 {
                     _context.IncomeAccounts.Add(new IncomeAccount()
                     {
@@ -427,8 +427,8 @@ namespace Xw.Zx.Core.Service
             if (order.Amount == 0) return;
             if (oneInvite != null)
             {
-                if (oneInvite.MemberVipType == MemberVipType.Vip会员
-                    || oneInvite.MemberVipType == MemberVipType.创客)
+                if (oneInvite.MemberVipType == MemberVipType.业务经理
+                    || oneInvite.MemberVipType == MemberVipType.运营中心)
 
                 {
                     _context.IncomeAccounts.Add(new IncomeAccount()
@@ -442,8 +442,8 @@ namespace Xw.Zx.Core.Service
                         Remark = $"{member.Phone}升级服务站,一代分润:{order.Amount}*10%={order.Amount * 0.1m}",
                     });
                 }
-                else if (oneInvite.MemberVipType == MemberVipType.服务站
-                   || oneInvite.MemberVipType == MemberVipType.运营商)
+                else if (oneInvite.MemberVipType == MemberVipType.运营中心
+                   || oneInvite.MemberVipType == MemberVipType.大区经理)
                 {
                     _context.IncomeAccounts.Add(new IncomeAccount()
                     {
@@ -460,8 +460,8 @@ namespace Xw.Zx.Core.Service
 
             if (twoInvite != null)
             {
-                if (twoInvite.MemberVipType == MemberVipType.服务站
-                    || twoInvite.MemberVipType == MemberVipType.运营商)
+                if (twoInvite.MemberVipType == MemberVipType.运营中心
+                    || twoInvite.MemberVipType == MemberVipType.大区经理)
                 {
                     _context.IncomeAccounts.Add(new IncomeAccount()
                     {
@@ -567,13 +567,13 @@ namespace Xw.Zx.Core.Service
             do
             {
                 tmpMember = _context.Members.Find(tmpMember.InviteId);
-                if (tmpMember.MemberVipType == MemberVipType.运营商)
+                if (tmpMember.MemberVipType == MemberVipType.业务经理)
                     YunYinShang = tmpMember;
 
-                if (tmpMember.MemberVipType == MemberVipType.服务站)
+                if (tmpMember.MemberVipType == MemberVipType.大区经理)
                     FuWuZhan = tmpMember;
 
-                if (tmpMember.MemberVipType == MemberVipType.创客)
+                if (tmpMember.MemberVipType == MemberVipType.运营中心)
                     HeHuoRen = tmpMember;
 
                 if (YunYinShang != null && FuWuZhan != null && HeHuoRen != null)
@@ -609,13 +609,13 @@ namespace Xw.Zx.Core.Service
             {
                 tmpMember = _context.Members.Find(tmpMember.InviteId);
 
-                if (tmpMember.MemberVipType == MemberVipType.创客)
+                if (tmpMember.MemberVipType == MemberVipType.业务经理)
                     chuangKe = tmpMember;
 
-                if (tmpMember.MemberVipType == MemberVipType.服务站)
+                if (tmpMember.MemberVipType == MemberVipType.大区经理)
                     fuWuZhan = tmpMember;
 
-                if (tmpMember.MemberVipType == MemberVipType.运营商)
+                if (tmpMember.MemberVipType == MemberVipType.运营中心)
                     yunYinShang = tmpMember;
 
                 if (yunYinShang != null && fuWuZhan != null && chuangKe != null)

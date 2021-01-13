@@ -30,5 +30,10 @@ namespace Xw.Zx.Core.Models.Model
         public string sourcePhone { get; set; }
         public string MinReduce { get; set; } = "0";
         public string MaxReduce { get; set; } = "0";
+
+        /// <summary>
+        /// 最后还款时间
+        /// </summary>
+        public string lastRefundDate { get; set; }
     }
 }

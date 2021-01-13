@@ -45,6 +45,25 @@ namespace Xw.Zx.Core.Controllers
                     .ProjectTo<ProductListDto>(_mapper.ConfigurationProvider)
                     .ToList();
 
+                var productIDs = res.Select(p => p.Id).ToList();
+
+                var counts = (from order in _context.Orders
+                              where productIDs.Contains(order.ProductId)
+                              group order by order.ProductId into g
+                              select new
+                              {
+                                  productId = g.Key,
+                                  count = g.Count()
+                              }).ToArray();
+
+                for (var i = 0; i < res.Count; i++)
+                {
+                    var pSalesVolume = counts.FirstOrDefault(p => p.productId == res[i].Id);
+
+                    res[i].SalesVolume = 100 + (pSalesVolume == null ? 0 : pSalesVolume.count);
+                }
+
+
                 var total = _sieveProcessor
                     .Apply(sieveModel, db, applyPagination: false)
                     .Count();

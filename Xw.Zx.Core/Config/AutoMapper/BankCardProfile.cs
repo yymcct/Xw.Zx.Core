@@ -18,9 +18,10 @@ namespace Xw.Zx.Core.Config.AutoMapper
             
             CreateMap<BankCard, BankInfoDto>();
             
-            CreateMap<Member, MyTeamUserDto>();
+            CreateMap<Member, MyTeamUserDto>().ForMember(dest => dest.MemberVipTypeName, opt => opt.MapFrom(src => src.MemberVipType.ToString()));
 
-            CreateMap<Member, MemberDto>();
+            CreateMap<Member, MemberDto>()
+                .ForMember(dest => dest.MemberVipTypeName, opt => opt.MapFrom(src => src.MemberVipType.ToString()));
 
             CreateMap<BankBillDetail, BankBillDetailDto>();
             
@@ -36,6 +37,10 @@ namespace Xw.Zx.Core.Config.AutoMapper
                 .ForMember(dest => dest.WithdrawDepositStateName, opt=>opt.MapFrom(src=>src.WithdrawDepositState.ToString()));
 
             CreateMap<LxComputer, LxComputerMDto>();
+
+            CreateMap<Member, QueryMemberDto>();
+
+            CreateMap<Member, MemberTreeNodeDto.Member>();
         }
     }
 }

@@ -1,9 +1,13 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
+import store from './store'
 import './plugins/element.js'
 import axios from 'axios'
 import 'font-awesome/css/font-awesome.min.css'
+import '../theme/index.css'
+import ElementUI from 'element-ui'
+Vue.use(ElementUI)
 
 import VideoPlayer from 'vue-video-player'
 require('video.js/dist/video-js.css')
@@ -95,5 +99,6 @@ Vue.prototype.glfileUploadUrl=`${process.env.VUE_APP_BASE_API}/manager/FileUploa
 
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')

@@ -9,7 +9,7 @@ namespace Xw.Zx.Core.Models.Dto
     public class ProductListDto
     {
         [Sieve(CanFilter = true, CanSort = true)]
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         public string Name { get; set; }
 
@@ -18,7 +18,7 @@ namespace Xw.Zx.Core.Models.Dto
         /// <summary>
         /// 销量
         /// </summary>
-        public string SalesVolume { get; set; }
+        public int SalesVolume { get; set; }
 
         public decimal Price { get; set; }
 
@@ -35,11 +35,13 @@ namespace Xw.Zx.Core.Models.Dto
         /// <summary>
         /// 销量
         /// </summary>
-        public string SalesVolume { get; set; }
+        public int SalesVolume { get; set; }
 
         public decimal Price { get; set; }
 
         public string Content { get; set; }
+
+        public bool CanUseMemberIntegral { get; set; }
 
     }
 }

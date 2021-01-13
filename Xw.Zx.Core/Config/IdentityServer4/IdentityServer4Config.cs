@@ -44,9 +44,6 @@ namespace Xw.Zx.Core.Config
                         "http://localhost:8080/",
                          "http://localhost:8081",
                          "http://localhost:8082",
-                        "http://192.168.0.214:10000",
-                        "http://39.98.67.44:8080",
-                        "http://sqb.tunnel.sirgo.top:80"
                     },
                     AccessTokenLifetime = 3600*24*100,//3600 seconds / 1 hour
                 }

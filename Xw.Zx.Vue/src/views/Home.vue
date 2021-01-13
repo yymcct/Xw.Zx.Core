@@ -1,21 +1,27 @@
 <template>
   <el-row class="container">
     <el-col :span="24" class="header">
-      <el-col :span="10" class="logo" :class="collapsed?'logo-collapse-width':'logo-width'">
+      <el-col
+        :span="10"
+        class="logo"
+        :class="collapsed ? 'logo-collapse-width' : 'logo-width'"
+      >
         <div @click.prevent="collapse">
           <template v-if="collapsed">宝</template>
-          <template v-else>{{collapsed?'':sysName}}</template>
+          <template v-else>{{ collapsed ? "" : sysName }}</template>
         </div>
       </el-col>
       <el-col :span="4" class="userinfo">
         <el-dropdown trigger="hover">
-          <span class="el-dropdown-link userinfo-inner">          
-            {{sysUserName}}
+          <span class="el-dropdown-link userinfo-inner">
+            {{ sysUserName }}
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>我的消息</el-dropdown-item>
             <el-dropdown-item>设置</el-dropdown-item>
-            <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
+            <el-dropdown-item divided @click.native="logout"
+              >退出登录</el-dropdown-item
+            >
           </el-dropdown-menu>
         </el-dropdown>
       </el-col>
@@ -26,30 +32,35 @@
           <el-menu
             default-active="1-4-1"
             class="el-menu-vertical-demo"
-            router 
+            router
             menu-trigger="hover"
-            background-color="#eef1f6"
-            active-text-color="#04ac74"
+            active-text-color="#ff5000"
             :collapse="collapsed"
           >
-            <template v-for="(item,index) in $router.options.routes">
-              <el-submenu :index="index+''" :key="index" v-if="!item.leaf && !item.hidden">
+            <template v-for="(item, index) in $router.options.routes">
+              <el-submenu
+                :index="index + ''"
+                :key="index"
+                v-if="!item.leaf && !item.hidden"
+              >
                 <template slot="title">
                   <i :class="item.iconCls"></i>
-                  <span slot="title">{{item.name}}</span>
+                  <span slot="title">{{ item.name }}</span>
                 </template>
-                <el-menu-item
-                  class="menu-item"
-                  v-for="child in item.children"
-                  :index="child.path"
-                  :key="child.path"
-                  v-if="!child.hidden"
-                >{{child.name}}</el-menu-item>
+                <template v-for="child in item.children">
+                  <el-menu-item
+                    class="menu-item"
+                    :index="child.path"
+                    :key="child.path"
+                    v-if="!child.hidden"
+                    >{{ child.name }}</el-menu-item
+                  >
+                </template>
               </el-submenu>
-              <el-menu-item v-if="item.leaf&&item.children.length>0" :index="item.children[0].path">
+              <!-- <el-menu-item v-if="item.leaf&&item.children.length>0" :index="item.children[0].path" >
                 <i :class="item.iconCls"></i>
                 {{item.children[0].name}}
-              </el-menu-item>
+              </el-menu-item> -->
             </template>
           </el-menu>
         </el-scrollbar>
@@ -57,9 +68,13 @@
       <section class="content-container">
         <div class="grid-content bg-purple-light">
           <el-col :span="24" class="breadcrumb-container">
-            <strong class="title">{{$route.name}}</strong>
+            <strong class="title">{{ $route.name }}</strong>
             <el-breadcrumb separator="/" class="breadcrumb-inner">
-              <el-breadcrumb-item v-for="item in $route.matched" :key="item.path">{{ item.name }}</el-breadcrumb-item>
+              <el-breadcrumb-item
+                v-for="item in $route.matched"
+                :key="item.path"
+                >{{ item.name }}</el-breadcrumb-item
+              >
             </el-breadcrumb>
           </el-col>
           <el-col :span="24" class="content-wrapper">
@@ -89,22 +104,17 @@ export default {
         delivery: false,
         type: [],
         resource: "",
-        desc: ""
-      }
+        desc: "",
+      },
     };
   },
   methods: {
-    onSubmit() {
-    },
-    handleopen() {
+    onSubmit() {},
+    handleopen() {},
+    handleclose() {},
 
-    },
-    handleclose() {
-
-    },
-    handleselect: function(a, b) {},
     //退出登录
-    logout: function() {
+    logout: function () {
       var _this = this;
       this.$confirm("确认退出吗?", "提示", {
         //type: 'warning'
@@ -116,14 +126,14 @@ export default {
         .catch(() => {});
     },
     //折叠导航栏
-    collapse: function() {
+    collapse: function () {
       this.collapsed = !this.collapsed;
     },
     showMenu(i, status) {
       this.$refs.menuCollapsed.getElementsByClassName(
         "submenu-hook-" + i
       )[0].style.display = status ? "block" : "none";
-    }
+    },
   },
   mounted() {
     var user = sessionStorage.getItem("user");
@@ -133,7 +143,7 @@ export default {
       this.sysUserName = user.realName || "";
       this.sysUserAvatar = user.photo || "";
     }
-  }
+  },
 };
 </script>
 
@@ -146,7 +156,7 @@ export default {
   .header {
     height: 40px;
     line-height: 40px;
-    background: #04ac74;
+    background: #ff5100ad;
     color: #fff;
     .userinfo {
       text-align: right;
@@ -211,7 +221,7 @@ export default {
       .el-menu-item {
         background: #dbe2e9 !important;
       }
-       .el-menu-item:hover {
+      .el-menu-item:hover {
         background: #c6cdd3 !important;
       }
     }

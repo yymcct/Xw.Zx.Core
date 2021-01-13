@@ -20,5 +20,7 @@ namespace Xw.Zx.Core.Areas.Manager
         public string sourcePhone { get; set; }
         public string MinReduce { get; set; }
         public string MaxReduce { get; set; }
+        public string lastRefundDate { get; set; }
+        
     }
 }

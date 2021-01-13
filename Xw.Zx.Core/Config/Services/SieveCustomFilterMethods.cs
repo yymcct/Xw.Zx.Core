@@ -2,25 +2,53 @@
 using Sieve.Services;
 
 using System.Linq;
+using Xw.Zx.Core.Models.Model;
 
 namespace Xw.Zx.Core.Config
 {
     public class SieveCustomFilterMethods : ISieveCustomFilterMethods
     {
-        //private readonly HbzsContext _Hbzscontext;
-        ////public IQueryable<Products> HomeRecommendProduct(IQueryable<Products> source, string op, string[] values)
-        ////    => source.Where(p => true).OrderByDescending(p => p.ProCount);
-        //public SieveCustomFilterMethods(HbzsContext context)
-        //{
-        //    _Hbzscontext = context;
-        //}
+        private readonly XwZxContext _context;
+        //public IQueryable<Products> HomeRecommendProduct(IQueryable<Products> source, string op, string[] values)
+        //    => source.Where(p => true).OrderByDescending(p => p.ProCount);
+        public SieveCustomFilterMethods(XwZxContext context)
+        {
+            _context = context;
+        }
 
-        //public IQueryable<VProduct> CategoryId(IQueryable<VProduct> source, string op, string[] values)
-        //{
-        //    var RemoteCategoryId = _Hbzscontext.Categories.First(c => c.CategoryId == int.Parse(values[0])).RemoteCategoryId;
-        //    var res = source.Where(p => p.IteamClassId == RemoteCategoryId);
+        public IQueryable<CouponReceive> MemberName(IQueryable<CouponReceive> source, string op, string[] values)
+        {
+            var member = _context.Members.FirstOrDefault(m => m.RealName.Contains(values[0]) || m.Phone.Contains(values[0]));
+            if (member == null)
+            {
+                return source.Where(c => 1 != 1);
+            }
 
-        //    return res;
-        //}
+            var res = source.Where(c => c.Memberid == member.Id);
+
+            return res;
+        }
+
+        public IQueryable<IncomeAccount> MemberName(IQueryable<IncomeAccount> source, string op, string[] values)
+        {
+            var member = _context.Members.FirstOrDefault(m => m.RealName.Contains(values[0]) || m.Phone.Contains(values[0]));
+            if (member == null)
+            {
+                return source.Where(c => 1 != 1);
+            }
+
+            var res = source.Where(c => c.MemberId == member.Id);
+
+            return res;
+        }
+
+        public IQueryable<IncomeAccount> OrderTimestamp(IQueryable<IncomeAccount> source, string op, string[] values)
+        {
+            var timestamps = _context.Orders.Where(o => o.Timestamp.Contains(values[0])).Select(o => o.Id);
+   
+            var res = source.Where(c => timestamps.Contains(c.SourceOrderId));
+
+            return res;
+        }
     }
 }

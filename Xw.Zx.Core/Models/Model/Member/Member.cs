@@ -1,0 +1,158 @@
+﻿using Sieve.Attributes;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Xw.Zx.Core.Models.Model
+{
+    public enum MemberRole
+    {
+        [Description("APP用户")]
+        AppUser = 0,
+        [Description("后台管理员")]
+        Admin = 100, //后台基础管理员
+        [Description("后台统计部管理员")]
+        Admin_Tongjibu = 200,
+        [Description("后台财务部")]
+        Admin_Caiwu =300,
+        [Description("财务部经理")]
+        Admin_CaiwuManager = 301,
+        [Description("财务部通道")]
+        Admin_CaiwuPayChange = 301
+    }
+    public enum MemberSex
+    {
+        男 = 1,
+        女 = 2,
+    }
+    public enum MemberIdentityState
+    {
+        未认证 = 0,
+        已认证 = 1
+    }
+    public enum MemberVipType
+    {
+        客户 = 0,
+        业务经理 = 10,
+        运营中心 = 20,
+        大区经理 = 30,
+        分公司 = 40,
+    }
+    public class Member : ModelBase
+    {
+        [Sieve(CanFilter = true, CanSort = true)]
+        public int Id { get; set; }
+        /// <summary>
+        /// 邀请人ID, 上线
+        /// </summary>
+        public int InviteId { get; set; } = 0;
+
+        public MemberVipType MemberVipType { get; set; } = MemberVipType.客户;
+
+        public int RoleId
+        { get; set; } = 0;
+
+        public string RoleName { get; set; } = "AppUser";
+
+        //用户名
+        public string UserName { get; set; }
+        //密码
+        public string Password { get; set; }
+        //密码加盐
+        public string PasswordSalt { get; set; }
+        //真实姓名
+        public string RealName { get; set; } = "";
+        //昵称
+        public string Nick { get; set; }
+        //头像
+        public string Photo { get; set; }
+        //性别
+        public MemberSex Sex { get; set; } = MemberSex.男;
+        //生日
+        public DateTime BirthDay { get; set; }
+        //电话
+        public string Phone { get; set; }
+        //Email
+        public string Email { get; set; }
+        //QQ
+        public string QQ { get; set; }
+        //职业
+        public string Occupation { get; set; }
+        //省份ID
+        public int TopRegionId { get; set; }
+        //省市区ID
+        public int RegionId { get; set; }
+
+        //城市码
+        public string CityCode { get; set; } = "";
+        //街道地址
+        public string Address { get; set; } = "";
+
+        //微信OpendID
+        public string WxOpenId { get; set; }
+
+        //开发平台Openid
+        public string WxUnionOpenId { get; set; }
+        //开发平台Unionid
+        public string WxUnionId { get; set; }
+
+        //创建日期
+        [Sieve(CanFilter = true, CanSort = true)]
+        public DateTime CreateDate { get; set; } = DateTime.Now;
+
+        [Sieve(CanFilter = true, CanSort = true)]
+        public DateTime UpdateTime { get; set; } = DateTime.Now;
+
+        //是否已删除
+        public bool Disabled { get; set; } = false;
+        //最后登录日期
+        public DateTime LastLoginDate { get; set; }
+        //备注
+        public string Remark { get; set; } = "";
+
+        public string AliPayAccount { get; set; } = "";
+
+        [Column(TypeName = "varchar(50)")]
+        public string AliPayAccountName { get; set; } = "";
+        //查询次数
+        public int? QueryTimes { get; set; }
+
+        /// <summary>
+        /// 运营中心的编码
+        /// </summary>
+        [Column(TypeName = "varchar(50)")]
+        public string BusinessCode { get; set; } = "";
+
+        /// <summary>
+        /// 身份证号
+        /// </summary>
+        [Column(TypeName = "varchar(20)")]
+        public string IdentityCardNum { get; set; } = "";
+
+        /// <summary>
+        /// 身份证正面照
+        /// </summary>
+        [Column(TypeName = "varchar(200)")]
+        public string IdentityCardImgFront { get; set; } = "";
+
+        /// <summary>
+        /// 身份证反面照
+        /// </summary>
+        [Column(TypeName = "varchar(200)")]
+        public string IdentityCardImgReverse { get; set; } = "";
+
+        /// <summary>
+        /// 认证状态
+        /// </summary>
+        public MemberIdentityState MemberIdentityState { get; set; }
+
+        /// <summary>
+        /// 用户余额表
+        /// </summary>
+        [Column(TypeName = "decimal(8, 2)")]
+        public decimal Money { get; set; }
+    }
+}
