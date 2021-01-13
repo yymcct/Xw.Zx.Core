@@ -157,7 +157,7 @@ export default {
         return;
       }
       if (this.user.phone.length != 11) {
-        this.$toast("手机号不正确");
+        this.$toast("手机号不正确,请检查是否有空格");
         return;
       }
       if (this.user.smsCheck.length != 4) {
@@ -169,7 +169,7 @@ export default {
         return;
       }
       if (this.user.invitePhone.length != 11) {
-        this.$toast("邀请人电话不正确");
+        this.$toast("邀请人电话不正确,请检查是否有空格");
         return;
       }
       if (this.user.password != this.user.password2) {
