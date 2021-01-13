@@ -47,6 +47,12 @@
     <Compile Include="Areas\Manager\UpdateVipAuthCode\UpdateVipAuthCodeController.cs" />
     <Compile Include="Areas\Manager\UpdateVip\PostUpdateVipMDto.cs" />
     <Compile Include="Areas\Manager\UpdateVip\UpdateVipController.cs" />
+    <Compile Include="Areas\Manager\WechatSubLedger\Dto\PostRequestDealWithSubLedgerApiPsDto.cs" />
+    <Compile Include="Areas\Manager\WechatSubLedger\Dto\PostWechatSubLedgerListInfoDto.cs" />
+    <Compile Include="Areas\Manager\WechatSubLedger\Dto\WechatQueryOrderPsDto.cs" />
+    <Compile Include="Areas\Manager\WechatSubLedger\Dto\WechatSubLedgerRequestPsDto.cs" />
+    <Compile Include="Areas\Manager\WechatSubLedger\Dto\WechatSubLedgerQueryResultReceiverPsDto.cs" />
+    <Compile Include="Areas\Manager\WechatSubLedger\WechatSubLedgerController.cs" />
     <Compile Include="Areas\Manager\WithdrawDeposit\Dtos\AuditWithdrawDepositdetailDto.cs" />
     <Compile Include="Areas\Manager\WithdrawDeposit\Dtos\GetAuditWithdrawDepositdetailDto.cs" />
     <Compile Include="Areas\Manager\WithdrawDeposit\Dtos\WithdrawDepositMDto.cs" />
