@@ -32,7 +32,16 @@ namespace Xw.Zx.Core.Service.ShareProfit
             {
                 var order = _context.Orders.First(o => o.Id == orderId);
                 var member = _context.Members.First(o => o.Id == order.MemberId);
-                var yyzxMember = _member.GetYunyinzhongxinMember(member);
+                Member yyzxMember = null;
+
+                if (member.MemberVipType == MemberVipType.运营中心)
+                {
+                    yyzxMember = member;
+                }
+                else
+                {
+                    yyzxMember = _member.GetYunyinzhongxinMember(member);
+                }
 
                 if (yyzxMember != null)
                 {

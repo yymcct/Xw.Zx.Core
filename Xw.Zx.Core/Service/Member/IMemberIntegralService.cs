@@ -27,5 +27,10 @@ namespace Xw.Zx.Core.Service
         /// <param name="memberIds"></param>
         /// <returns></returns>
         List<MemberIntegral> GetMemberIntegrals(IEnumerable<int> memberIds);
+
+        int AmountToIntegral(decimal amount);
+        decimal IntegralToAmount(int amount);
+
+
     }
 }

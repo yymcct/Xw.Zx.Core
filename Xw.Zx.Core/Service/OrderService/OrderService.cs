@@ -126,7 +126,7 @@ namespace Xw.Zx.Core.Service
             }
             var memberIntegral = _memberIntegralService.GetMemberIntegral(order.MemberId);
 
-            if (memberIntegral.AvailableIntegrals < Convert.ToInt32(order.Amount * 100))
+            if (memberIntegral.AvailableIntegrals <  _memberIntegralService.AmountToIntegral(order.Amount))
             {
                 throw new ZzzException("积分不足, 无法完成请求");
             }
@@ -135,7 +135,7 @@ namespace Xw.Zx.Core.Service
             _memberIntegralService.AddMemberIntegral(new MemberIntegralRecord
             {
                 MemberId = order.MemberId,
-                Integral = Convert.ToInt32(0 - order.Amount * 100),
+                Integral = 0- _memberIntegralService.AmountToIntegral(order.Amount),
                 TypeId = MemberIntegral.IntegralType.Trader,
                 Remark = $"用于单号{order.Id}的支付"
             });

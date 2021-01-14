@@ -62,6 +62,8 @@ namespace Xw.Zx.Core.Service
             _context.SaveChanges();
         }
 
+     
+
         public MemberIntegral GetMemberIntegral(int memberId)
         {
             var model = _context.MemberIntegrals.FirstOrDefault(a => a.MemberId == memberId);
@@ -76,6 +78,16 @@ namespace Xw.Zx.Core.Service
         {
             var model = _context.MemberIntegrals.Where(a => memberIds.Contains(a.MemberId)).ToList();
             return model;
+        }
+
+        public decimal IntegralToAmount(int integral)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int AmountToIntegral(decimal amount)
+        {
+            return Convert.ToInt32(amount * 10);
         }
     }
 }

@@ -38,7 +38,7 @@ namespace Xw.Zx.Core.Service
             _memberIntegralService.AddMemberIntegral(new MemberIntegralRecord()
             {
                 MemberId = couponReceive.Memberid,
-                Integral = Convert.ToInt32(couponReceive.Coupon.Money * 100m),
+                Integral = _memberIntegralService.AmountToIntegral(couponReceive.Coupon.Money),
                 TypeId = MemberIntegral.IntegralType.FromCoupon,
                 Remark = $"使用优惠券ID:{couponReceive.Id} 兑换"
             });
