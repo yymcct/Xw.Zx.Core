@@ -1560,9 +1560,16 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.WechatSubLedgerController.GetWechatOrderList(Sieve.Models.SieveModel)">
+            <summary>
+            查询  已获取到的 订单信息
+            </summary>
+            <param name="sieveModel"></param>
+            <returns></returns>
+        </member>
         <member name="M:Xw.Zx.Core.Areas.Manager.WechatSubLedgerController.GetWechatPayOrder(Xw.Zx.Core.Areas.Manager.WechatQueryOrderPsDto)">
              <summary>
-            获取微信支付订单
+            根据微信订单号/商户订单号  从微信平台 获取订单信息
              </summary>
              <param name="ordernum"></param>
              <returns></returns>

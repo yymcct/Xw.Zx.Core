@@ -63,7 +63,27 @@ namespace Xw.Zx.Core.Areas.Manager
         }
 
         /// <summary>
-        ///获取微信支付订单
+        /// 查询  已获取到的 订单信息
+        /// </summary>
+        /// <param name="sieveModel"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public HbzsManagerResult<List<WechatOrders>> GetWechatOrderList([FromQuery] SieveModel sieveModel) {
+            try
+            {
+                var list = _sieveProcessor.Apply(sieveModel, _context.WechatOrders).ToList();
+                var total = _sieveProcessor.Apply(sieveModel, _context.WechatOrders, null, true, true, false).Count();
+                return new HbzsManagerResult<List<WechatOrders>>(list, total);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new HbzsManagerResult<List<WechatOrders>>(HbzsManagerResultCode.Invalid_Error, ex.Message);
+            }
+        }
+
+        /// <summary>
+        ///根据微信订单号/商户订单号  从微信平台 获取订单信息
         /// </summary>
         /// <param name="ordernum"></param>
         /// <returns></returns>
@@ -106,7 +126,7 @@ namespace Xw.Zx.Core.Areas.Manager
                 WxPayData result = WxPayApi.OrderQuery(data);//提交订单查询请求给API，接收返回数据
                 if (result == null)
                     throw new Exception("未查询到订单信息");
-                if (result.GetValue("result_code").ToString().ToUpper() != "SUCCESS")                
+                if (result.GetValue("return_code").ToString().ToUpper() != "SUCCESS")
                     throw new Exception(result.GetValue("return_msg").ToString());
                 if (result.GetValue("result_code").ToString().ToUpper() != "SUCCESS")
                         throw new Exception(result.GetValue("err_code_des").ToString()); 
@@ -121,7 +141,8 @@ namespace Xw.Zx.Core.Areas.Manager
                 string tranovertime = result.GetValue("time_end").ToString();
                 DateTime dt = DateTime.ParseExact(tranovertime, "yyyyMMddHHmmss", System.Globalization.CultureInfo.CurrentCulture);
                 od.TranTime = dt;
-                od.SubCharge =Math.Floor(od.Amount * (1-WxPayConfig.Config.Rate)*WxPayConfig.Config.MaxRate*100)/100;
+                decimal je = Math.Floor(od.Amount * (1 - WxPayConfig.Config.Rate)*100)/100;
+                od.SubCharge =Math.Floor(je*WxPayConfig.Config.MaxRate*100)/100;
 
                 _context.WechatOrders.Add(od);
                 _context.SaveChanges();
@@ -165,7 +186,7 @@ namespace Xw.Zx.Core.Areas.Manager
 
                 if (result == null)
                     throw new Exception("获取分账结果异常");
-                if (result.GetValue("result_code").ToString().ToUpper() != "SUCCESS")
+                if (result.GetValue("return_code").ToString().ToUpper() != "SUCCESS")
                     throw new Exception(result.GetValue("return_msg").ToString());
                 if (result.GetValue("result_code").ToString().ToUpper() != "SUCCESS")
                     throw new Exception(result.GetValue("err_code_des").ToString());

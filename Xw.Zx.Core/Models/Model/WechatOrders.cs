@@ -13,21 +13,27 @@ namespace Xw.Zx.Core.Models.Model
         [Sieve(CanFilter = true, CanSort = true)]
         public int Id { get; set; }
 
+        [Sieve(CanFilter = true)]
         [Column(TypeName = "varchar(50)")]
         public string TransactionID { get; set; }
 
+        [Sieve(CanFilter = true)]
         [Column(TypeName = "varchar(50)")]
         public string Out_Order_No { get; set; }
 
+        [Sieve(CanFilter = true, CanSort = true)]
         [Column(TypeName = "decimal(18,2)")]
         public decimal Amount { get; set; }
 
+        [Sieve(CanFilter = true, CanSort = true)]
         [Column(TypeName = "decimal(18,2)")]
         public decimal SubCharge { get; set; }
 
+        [Sieve(CanFilter = true, CanSort = true)]
         [Column(TypeName = "datetime")]
         public DateTime TranTime { get; set; }
 
+        [Sieve(CanFilter = true)]
         [Column(TypeName = "varchar(50)")]
         public string PayState { get; set; }
 
