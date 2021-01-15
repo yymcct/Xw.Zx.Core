@@ -15,7 +15,11 @@ namespace Xw.Zx.Core.Config.AutoMapper
     {
         public Fuwu()
         {                                         
-            CreateMap<Member, MemberRespone.Member>().ForMember(dest => dest.MemberVipTypeName, opt => opt.MapFrom(src => src.MemberVipType.ToString()));        
+            CreateMap<Member, MemberRespone.Member>().ForMember(dest => dest.MemberVipTypeName, opt => opt.MapFrom(src => src.MemberVipType.ToString()));
+
+            CreateMap<Product, ProductRespone.Product>();
+
+            CreateMap<Order, OrderRespone.Order>();
         }
     }
 }
