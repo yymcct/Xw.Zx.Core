@@ -63,12 +63,11 @@ namespace Xw.Zx.Core.PreWechatHelper
             string url = "https://api.mch.weixin.qq.com/pay/profitsharingquery";
 
             //检测必填参数
-            if (!inputObj.IsSet("out_order_no") || !inputObj.IsSet("transaction_id") || !inputObj.IsSet("receivers"))
+            if (!inputObj.IsSet("out_order_no") || !inputObj.IsSet("transaction_id"))
             {
                 throw new WxPayException("单次分账完结接口中，交易订单号，商户分账单号,接收人 不能为空！");
             }
 
-            inputObj.SetValue("appid", WxPayConfig.Config.Appid);//公众账号ID
             inputObj.SetValue("mch_id", WxPayConfig.Config.Mchid);//商户号
             inputObj.SetValue("nonce_str", WxPayApi.GenerateNonceStr());//随机字符串
             inputObj.SetValue("sign_type", WxPayData.SIGN_TYPE_HMAC_SHA256);//签名类型
