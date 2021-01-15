@@ -18,6 +18,9 @@ namespace Xw.Zx.Core.PreWechatHelper
         /// <returns></returns>
         public static WxPayData DealWithSubLedgerSigle(WxPayData inputObj, int timeOut = 6)
         {
+            //https://pay.weixin.qq.com/wiki/doc/api/allocation.php?chapter=27_1&index=1
+         
+
             string url = "https://api.mch.weixin.qq.com/secapi/pay/profitsharing";
 
             //检测必填参数
@@ -60,6 +63,7 @@ namespace Xw.Zx.Core.PreWechatHelper
         /// <returns></returns>
         public static WxPayData ProfitSharingQuery(WxPayData inputObj, int timeOut = 6)
         {
+            //https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=9_2
             string url = "https://api.mch.weixin.qq.com/pay/profitsharingquery";
 
             //检测必填参数
