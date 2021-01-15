@@ -18,6 +18,8 @@ namespace Xw.Zx.Core.Models.Model
         /// </summary>
         public DbSet<SysParam> SysParams { get; set; }
 
+        public DbSet<SysLog> SysLogs { get; set; }
+
         public DbSet<Member> Members { get; set; }
 
         public DbSet<MemberIntegral> MemberIntegrals { get; set; }
@@ -137,6 +139,11 @@ namespace Xw.Zx.Core.Models.Model
                   .HasDefaultValue(MemberVipType.客户);
 
             modelBuilder.Entity<SysParam>()
+               .HasQueryFilter(c => !c.IsDelete)
+               .Property(c => c.IsDelete)
+               .HasDefaultValue(false);
+
+            modelBuilder.Entity<SysLog>()
                .HasQueryFilter(c => !c.IsDelete)
                .Property(c => c.IsDelete)
                .HasDefaultValue(false);

@@ -219,7 +219,7 @@ namespace Xw.Zx.Core.Areas.Manager
                     rr.SubTime = DateTime.Now;
                     _context.WechatSubDetail.Add(rr);
                 }
-                ord.SubState = "申请中";//申请中, 分账完成  分账失败
+                ord.SubState =  WechatOrders.WechatOrderState.申请中;//申请中, 分账完成  分账失败
                 _context.Entry(ord).State = EntityState.Modified;
                 _context.SaveChanges();
                 #endregion
@@ -272,7 +272,7 @@ namespace Xw.Zx.Core.Areas.Manager
                     throw new Exception("系统未记录该订单信息");
 
                 WechatOrdersDetailsDto resultList = null;
-                if (od.SubState == "分账完成")
+                if (od.SubState ==  WechatOrders.WechatOrderState.分账完成)
                 {
                     resultList = _mapper.Map<WechatOrdersDetailsDto>(od);
                     resultList.Receivers = _context.WechatSubDetail.Where(c => c.TransactionID == ordernums.transaction_id && c.Last_Out_Order_No == ordernums.out_order_no).ToList();
@@ -308,9 +308,9 @@ namespace Xw.Zx.Core.Areas.Manager
                 //(只要有一个人 分账成功 我就标记 订单 分账完成)//申请中, 分账完成  分账失败
                 int successCount = _context.WechatSubDetail.Count(c=> c.Last_Out_Order_No == ordernums.out_order_no && c.TransactionID == ordernums.transaction_id && c.SubState.ToUpper()== "SUCCESS");
                 if(successCount>0)
-                 od.SubState = "分账完成";
+                 od.SubState =  WechatOrders.WechatOrderState.分账完成;
                 else
-                    od.SubState = "分账失败";
+                    od.SubState =  WechatOrders.WechatOrderState.分账失败;
                 _context.Entry(od).State = EntityState.Modified;
                 _context.SaveChanges();
                 #endregion

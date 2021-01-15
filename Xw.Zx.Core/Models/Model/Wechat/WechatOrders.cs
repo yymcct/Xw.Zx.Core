@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Xw.Zx.Core.Models.Model
 {
-    public class WechatOrders:ModelBase
+    public partial class WechatOrders : ModelBase
     {
 
         [Sieve(CanFilter = true, CanSort = true)]
@@ -39,9 +39,20 @@ namespace Xw.Zx.Core.Models.Model
 
         [Sieve(CanFilter = true)]
         [Column(TypeName = "varchar(50)")]
-        public string SubState { get; set; }
+        public WechatOrderState SubState { get; set; } = WechatOrderState.待申请;
 
         [Column(TypeName = "varchar(256)")]
         public string PayDescription { get; set; }
+    }
+
+    public partial class WechatOrders
+    {
+        public enum WechatOrderState
+        {
+            待申请 = 0,
+            申请中 = 10,
+            分账完成 = 20,
+            分账失败 = 30
+        }
     }
 }

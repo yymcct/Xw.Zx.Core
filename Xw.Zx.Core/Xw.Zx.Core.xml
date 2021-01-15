@@ -246,6 +246,40 @@
             </summary>
             <param name="postUpdateVipMDto"></param>
         </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.WechatSubLedgerController.GetWechatSubLedgerReceivers">
+            <summary>
+            获取分账接收人
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.WechatSubLedgerController.GetWechatOrderList(Sieve.Models.SieveModel)">
+            <summary>
+            查询  已获取到的 订单信息
+            </summary>
+            <param name="sieveModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.WechatSubLedgerController.GetWechatPayOrder(Xw.Zx.Core.Areas.Manager.WechatQueryOrderPsDto)">
+             <summary>
+            根据微信订单号/商户订单号  从微信平台 获取订单信息
+             </summary>
+             <param name="ordernums"></param>
+             <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.WechatSubLedgerController.DealWithSubLedger(Xw.Zx.Core.Areas.Manager.PostRequestDealWithSubLedgerApiPsDto)">
+            <summary>
+            处理分账
+            </summary>
+            <param name="postRequestDealWithSubLedgerApiPsDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.WechatSubLedgerController.QuerySubLedgerResult(Xw.Zx.Core.Areas.Manager.WechatQueryOrderPsDto)">
+            <summary>
+            查询分账结果（详情）
+            </summary>
+            <param name="ordernums"></param>
+            <returns></returns>
+        </member>
         <member name="T:Xw.Zx.Core.Areas.Manager.WithdrawDepositController">
             <summary>
             TODO
@@ -285,6 +319,21 @@
             </summary>
             <param name="memberId"></param>
             <returns></returns>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.PostProfitsharingFinishDto.transaction_id">
+            <summary>
+            交易订单号
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.PostProfitsharingFinishDto.last_out_order_no">
+            <summary>
+            商户分账单号
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Areas.PostProfitsharingFinishDto.description">
+            <summary>
+            分账完结描述
+            </summary>
         </member>
         <member name="T:Xw.Zx.Core.Config.ApplicationSieveProcessor">
             <summary>
@@ -1592,6 +1641,46 @@
             失效时间
             </summary>
         </member>
+        <member name="P:Xw.Zx.Core.Models.Model.WechatSubDetail.Return_OrderID">
+            <summary>
+            分账返回的 分账单号
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.WechatSubDetail.SubType">
+            <summary>
+            分账接收人 类型
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.WechatSubDetail.SubAccount">
+            <summary>
+            分账接收人账户
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.WechatSubDetail.SubName">
+            <summary>
+            分账 接收人名
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.WechatSubDetail.SubAmount">
+            <summary>
+            分账 金额
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.WechatSubDetail.SubTime">
+            <summary>
+            分账时间
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.WechatSubDetail.SubState">
+            <summary>
+            分账 结果
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.WechatSubDetail.PayDescription">
+            <summary>
+            分账描述
+            </summary>
+        </member>
         <member name="T:Xw.Zx.Core.Models.Model.WithdrawDeposit">
             <summary>
             提现单
@@ -1651,6 +1740,152 @@
             <summary>
             利息计算
             </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.XwZxContext.WechatSubLedgerReceivers">
+            <summary>
+            原生公众号分账 接收人表
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.XwZxContext.WechatOrders">
+            <summary>
+            查询订单表
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.XwZxContext.WechatSubDetail">
+            <summary>
+            分账明细
+            </summary>
+        </member>
+        <member name="T:Xw.Zx.Core.PreWechatHelper.HttpService">
+            <summary>
+            http连接基础类，负责底层的http通信
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.PreWechatHelper.WxPayApi.DealWithSubLedgerSigle(Xw.Zx.Core.PreWechatHelper.WxPayData,System.Int32)">
+            <summary>
+            单次 分账
+            </summary>
+            <param name="inputObj"></param>
+            <param name="timeOut"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.PreWechatHelper.WxPayApi.ProfitSharingQuery(Xw.Zx.Core.PreWechatHelper.WxPayData,System.Int32)">
+            <summary>
+            单次 分账查询结果
+            </summary>
+            <param name="inputObj"></param>
+            <param name="timeOut"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.PreWechatHelper.WxPayApi.ProfitsharingFinish(Xw.Zx.Core.PreWechatHelper.WxPayData,System.Int32)">
+            <summary>
+            完结分账  这里暂时不用
+            </summary>
+            <param name="inputObj"></param>
+            <param name="timeOut"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.PreWechatHelper.WxPayApi.OrderQuery(Xw.Zx.Core.PreWechatHelper.WxPayData,System.Int32)">
+               
+            查询订单
+            @param WxPayData inputObj 提交给查询订单API的参数
+            @param int timeOut 超时时间
+            @throws WxPayException
+            @return 成功时返回订单查询结果，其他抛异常
+        </member>
+        <member name="M:Xw.Zx.Core.PreWechatHelper.WxPayApi.ReportCostTime(System.String,System.Int32,Xw.Zx.Core.PreWechatHelper.WxPayData)">
+            
+            测速上报
+            @param string interface_url 接口URL
+            @param int timeCost 接口耗时
+            @param WxPayData inputObj参数数组
+        </member>
+        <member name="M:Xw.Zx.Core.PreWechatHelper.WxPayApi.Report(Xw.Zx.Core.PreWechatHelper.WxPayData,System.Int32)">
+            
+            测速上报接口实现
+            @param WxPayData inputObj 提交给测速上报接口的参数
+            @param int timeOut 测速上报接口超时时间
+            @throws WxPayException
+            @return 成功时返回测速上报接口返回的结果，其他抛异常
+        </member>
+        <member name="M:Xw.Zx.Core.PreWechatHelper.WxPayApi.GenerateOutTradeNo">
+                    * 根据当前系统时间加随机序列来生成订单号
+                     * @return 订单号
+        </member>
+        <member name="M:Xw.Zx.Core.PreWechatHelper.WxPayApi.GenerateTimeStamp">
+                    * 生成时间戳，标准北京时间，时区为东八区，自1970年1月1日 0点0分0秒以来的秒数
+                     * @return 时间戳
+        </member>
+        <member name="M:Xw.Zx.Core.PreWechatHelper.WxPayApi.GenerateNonceStr">
+            生成随机串，随机串包含字母或数字
+            @return 随机串
+        </member>
+        <member name="T:Xw.Zx.Core.PreWechatHelper.WxPayData">
+            <summary>
+            微信支付协议接口数据类，所有的API接口通信都依赖这个数据结构，
+            在调用接口之前先填充各个字段的值，然后进行接口通信，
+            这样设计的好处是可扩展性强，用户可随意对协议进行更改而不用重新设计数据结构，
+            还可以随意组合出不同的协议数据包，不用为每个协议设计一个数据包结构
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.PreWechatHelper.WxPayData.SetValue(System.String,System.Object)">
+                    * 设置某个字段的值
+                    * @param key 字段名
+                     * @param value 字段值
+        </member>
+        <member name="M:Xw.Zx.Core.PreWechatHelper.WxPayData.GetValue(System.String)">
+                    * 根据字段名获取某个字段的值
+                    * @param key 字段名
+                     * @return key对应的字段值
+        </member>
+        <member name="M:Xw.Zx.Core.PreWechatHelper.WxPayData.IsSet(System.String)">
+            判断某个字段是否已设置
+            @param key 字段名
+            @return 若字段key已被设置，则返回true，否则返回false
+        </member>
+        <member name="M:Xw.Zx.Core.PreWechatHelper.WxPayData.ToXml">
+             @将Dictionary转成xml
+             @return 经转换得到的xml串
+             @throws WxPayException
+            
+        </member>
+        <member name="M:Xw.Zx.Core.PreWechatHelper.WxPayData.FromXml(System.String)">
+            @将xml转为WxPayData对象并返回对象内部的数据
+            @param string 待转换的xml串
+            @return 经转换得到的Dictionary
+            @throws WxPayException
+        </member>
+        <member name="M:Xw.Zx.Core.PreWechatHelper.WxPayData.ToUrl">
+            @Dictionary格式转化成url参数格式
+            @ return url格式串, 该串不包含sign字段值
+        </member>
+        <member name="M:Xw.Zx.Core.PreWechatHelper.WxPayData.ToJson">
+                    * @Dictionary格式化成Json
+                     * @return json串数据
+        </member>
+        <member name="M:Xw.Zx.Core.PreWechatHelper.WxPayData.ToPrintStr">
+            @values格式化成能在Web页面上显示的结果（因为web页面上不能直接输出xml格式的字符串）
+        </member>
+        <member name="M:Xw.Zx.Core.PreWechatHelper.WxPayData.MakeSign(System.String)">
+            @生成签名，详见签名生成算法
+            @return 签名, sign字段不参加签名
+        </member>
+        <member name="M:Xw.Zx.Core.PreWechatHelper.WxPayData.MakeSign">
+            @生成签名，详见签名生成算法
+            @return 签名, sign字段不参加签名 SHA256
+        </member>
+        <member name="M:Xw.Zx.Core.PreWechatHelper.WxPayData.CheckSign(System.String)">
+            
+            检测签名是否正确
+            正确返回true，错误抛异常
+        </member>
+        <member name="M:Xw.Zx.Core.PreWechatHelper.WxPayData.CheckSign">
+            
+            检测签名是否正确
+            正确返回true，错误抛异常
+        </member>
+        <member name="M:Xw.Zx.Core.PreWechatHelper.WxPayData.GetValues">
+            @获取Dictionary
         </member>
         <member name="M:Xw.Zx.Core.Service.IAlipaySdkService.Query(System.String)">
             <summary>

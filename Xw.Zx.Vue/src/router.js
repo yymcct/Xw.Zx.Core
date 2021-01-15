@@ -158,6 +158,19 @@ export default new Router({
             name: '利息计算器'
         }
         ]
+    },
+    {
+        path: '/',
+        name: '微信',
+        component: Home,
+        iconCls: 'el-icon-tickets',
+        children: [{
+            path: '/weixin/subledger',
+            component: () =>
+                import('./views/weixin/subledger/index'),
+            name: '微信分账'
+        }
+        ]
     }
     ]
 })

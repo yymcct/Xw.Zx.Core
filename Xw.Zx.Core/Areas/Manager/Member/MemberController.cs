@@ -195,8 +195,19 @@ namespace Xw.Zx.Core.Areas.Manager
                 }
 
                 var member = _context.Members.First(m => m.Id == dto.MemberId);
+                var log = $"{member.Id}的上级{member.InviteId}变更为{dto.InviteId}";
                 member.InviteId = dto.InviteId;
                 member.UpdateTime = DateTime.Now;
+
+
+                _context.SysLogs.Add(new SysLog()
+                {
+                    logType = SysLog.LogType.修改上级,
+                    Log = log,
+                    AdminId = Member.Id,
+                    AdminName = Member.RealName
+                });
+
                 _context.SaveChanges();
 
                 return new HbzsManagerResult(HbzsManagerResultCode.Sucess, "");

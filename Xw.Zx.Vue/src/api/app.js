@@ -18,7 +18,7 @@ export default {
         getCouponList: () => request.get(`/manager/Coupon/GetCouponList`),
         giveCoupon: (params) => request.post(`/manager/Coupon/GiveCoupon`, params),
         getCoupon: (params) => request.get(`/manager/Coupon/GetCoupon`, { params: params }),
-        couponToMemberIntegral: (params) => request.post(`/manager/Coupon/CouponToMemberIntegral?couponReceiveId=${params}` ),
+        couponToMemberIntegral: (params) => request.post(`/manager/Coupon/CouponToMemberIntegral?couponReceiveId=${params}`),
     },
     income: {
         getCoupon: (params) => request.get(`/manager/IncomeAccount/GetIncomes`, { params: params }),
@@ -33,6 +33,13 @@ export default {
         fail: (id, params) => request.post(`/manager/WithdrawDeposit/Fail?id=${id}`, params),
     },
     order: {
-        getInfo: (params) => request.get('/manager/order/getInfo', { params: params }),       
+        getInfo: (params) => request.get('/manager/order/getInfo', { params: params }),
+    }, 
+    weixinSubLedger: {
+        getWechatSubLedgerReceivers: () => request.get(`/manager/WechatSubLedger/GetWechatSubLedgerReceivers`),
+        getWechatOrderList: (params) => request.get('/manager/WechatSubLedger/GetWechatOrderList', { params: params }),
+        getWechatPayOrder: (params) => request.get('/manager/WechatSubLedger/GetWechatPayOrder', { params: params }),
+        dealWithSubLedger: (params) => request.post('/manager/WechatSubLedger/DealWithSubLedger', params),
+        querySubLedgerResult: (params) => request.get('/manager/WechatSubLedger/QuerySubLedgerResult', { params: params }),
     }
 }

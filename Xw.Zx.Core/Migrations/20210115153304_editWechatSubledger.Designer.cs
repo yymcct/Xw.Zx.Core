@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Xw.Zx.Core.Models.Model;
 
 namespace Xw.Zx.Core.Migrations
 {
     [DbContext(typeof(XwZxContext))]
-    partial class XwZxContextModelSnapshot : ModelSnapshot
+    [Migration("20210115153304_editWechatSubledger")]
+    partial class editWechatSubledger
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -536,7 +538,7 @@ namespace Xw.Zx.Core.Migrations
 
                     b.Property<DateTime>("UpdateTime")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2021, 1, 15, 23, 49, 41, 509, DateTimeKind.Local).AddTicks(9115));
+                        .HasDefaultValue(new DateTime(2021, 1, 15, 23, 33, 3, 463, DateTimeKind.Local).AddTicks(5407));
 
                     b.Property<string>("UserName");
 
@@ -802,31 +804,6 @@ namespace Xw.Zx.Core.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SmsCheck");
-                });
-
-            modelBuilder.Entity("Xw.Zx.Core.Models.Model.SysLog", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AdminId");
-
-                    b.Property<string>("AdminName");
-
-                    b.Property<DateTime>("CreateTime");
-
-                    b.Property<bool>("IsDelete")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(false);
-
-                    b.Property<string>("Log");
-
-                    b.Property<int>("logType");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SysLogs");
                 });
 
             modelBuilder.Entity("Xw.Zx.Core.Models.Model.SysParam", b =>
