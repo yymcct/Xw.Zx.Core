@@ -86,6 +86,11 @@ Post {{baseUrl}}/api/Biqilin/CreateQrcodePayUrl?orderId=1783
 Authorization: Bearer {{token}}
 Content-Type: {{contentType}}
 
+### 测试服务接口
+GET {{baseUrl}}/fuwu/product?sorts=-id&page=1&pagesize=10
+###
+GET {{baseUrl}}/fuwu/order?sorts=-id&page=1&pagesize=10
+
 
 
 
