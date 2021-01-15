@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Xw.Zx.Core.Areas.Manager
+{
+    public class WechatSubLedgerQueryResultReceiverPsDto
+    {
+        public string type { get; set; }
+        public string account { get; set; }
+        public int amount { get; set; }
+        public string description { get; set; }
+        public string result { get; set; }
+        public string finish_time { get; set; }
+    }
+}

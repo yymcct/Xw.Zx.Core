@@ -60,6 +60,7 @@ namespace Xw.Zx.Core
             #endregion
 
             services.Configure<BiqilinOption>(Configuration.GetSection("Biqilin"));
+            PreWechatHelper.WxPayConfig.Init(Configuration);
 
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
@@ -92,7 +93,7 @@ namespace Xw.Zx.Core
             });
             #endregion
 
-            #region 数据库     
+            #region 数据库
             services.AddDbContext<XwZxContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetSection("DbConnections:XwZx").Value);
@@ -172,7 +173,7 @@ namespace Xw.Zx.Core
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            PreWechatHelper.WxPayConfig.ContenxtPaht = env.ContentRootPath;
             app.UseIdentityServer();
 
             app.UseAuthentication();
