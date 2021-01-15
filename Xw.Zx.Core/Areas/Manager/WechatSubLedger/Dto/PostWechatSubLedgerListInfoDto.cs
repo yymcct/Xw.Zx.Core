@@ -7,10 +7,11 @@ namespace Xw.Zx.Core.Areas.Manager
 {
     public class PostWechatSubLedgerListInfoDto
     {
-        public string SubType { get; set; }
         public string Account { get; set; }
-        public string Describe { get; set; }
-        public string Name { get; set; }
         public int Amount { get; set; }
+
+        //public string SubType { get; set; }
+        //public string Describe { get; set; }
+        //public string Name { get; set; }
     }
 }

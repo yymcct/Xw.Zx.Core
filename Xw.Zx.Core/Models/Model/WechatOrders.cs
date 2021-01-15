@@ -37,6 +37,10 @@ namespace Xw.Zx.Core.Models.Model
         [Column(TypeName = "varchar(50)")]
         public string PayState { get; set; }
 
+        [Sieve(CanFilter = true)]
+        [Column(TypeName = "varchar(50)")]
+        public string SubState { get; set; }
+
         [Column(TypeName = "varchar(256)")]
         public string PayDescription { get; set; }
     }

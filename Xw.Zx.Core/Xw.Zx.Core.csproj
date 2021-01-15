@@ -49,6 +49,7 @@
     <Compile Include="Areas\Manager\UpdateVip\UpdateVipController.cs" />
     <Compile Include="Areas\Manager\WechatSubLedger\Dto\PostRequestDealWithSubLedgerApiPsDto.cs" />
     <Compile Include="Areas\Manager\WechatSubLedger\Dto\PostWechatSubLedgerListInfoDto.cs" />
+    <Compile Include="Areas\Manager\WechatSubLedger\Dto\WechatOrders.cs" />
     <Compile Include="Areas\Manager\WechatSubLedger\Dto\WechatQueryOrderPsDto.cs" />
     <Compile Include="Areas\Manager\WechatSubLedger\Dto\WechatSubLedgerRequestPsDto.cs" />
     <Compile Include="Areas\Manager\WechatSubLedger\Dto\WechatSubLedgerQueryResultReceiverPsDto.cs" />

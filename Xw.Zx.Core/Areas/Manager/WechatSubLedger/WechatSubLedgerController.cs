@@ -37,6 +37,7 @@ namespace Xw.Zx.Core.Areas.Manager
     {
         private readonly ILogger<WithdrawDepositController> _logger;
         private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IMapper _mapper;
         private string certpath = "";
         public WechatSubLedgerController(ILogger<WithdrawDepositController> logger
             , XwZxContext context
@@ -44,6 +45,7 @@ namespace Xw.Zx.Core.Areas.Manager
             , ISieveProcessor sieveProcessor) : base(context, mapper, sieveProcessor)
         {
             _logger = logger;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -85,10 +87,10 @@ namespace Xw.Zx.Core.Areas.Manager
         /// <summary>
         ///根据微信订单号/商户订单号  从微信平台 获取订单信息
         /// </summary>
-        /// <param name="ordernum"></param>
+        /// <param name="ordernums"></param>
         /// <returns></returns>
         [HttpGet]
-        public HbzsManagerResult<WechatOrders> GetWechatPayOrder([FromQuery] WechatQueryOrderPsDto ordernums)
+        public HbzsManagerResult<List<WechatOrders>> GetWechatPayOrder([FromQuery] WechatQueryOrderPsDto ordernums)
         {
             try
             {
@@ -102,21 +104,20 @@ namespace Xw.Zx.Core.Areas.Manager
                     tranid = ordernums.transaction_id;
                     List<WechatOrders> dd = _context.WechatOrders.Where<WechatOrders>(c => c.TransactionID == tranid).ToList<WechatOrders>();
                     if (dd != null && dd.Count > 0)
-                        return new HbzsManagerResult<WechatOrders>(dd[0]);
+                        return new HbzsManagerResult<List<WechatOrders>>(dd);
                 }
                 if (!string.IsNullOrWhiteSpace(ordernums.out_order_no))
                 {
                     outorderno = ordernums.out_order_no;
                     List<WechatOrders> dd = _context.WechatOrders.Where<WechatOrders>(c => c.Out_Order_No == outorderno).ToList<WechatOrders>();
                     if (dd != null && dd.Count > 0)
-                        return new HbzsManagerResult<WechatOrders>(dd[0]);
+                        return new HbzsManagerResult<List<WechatOrders>>(dd);
                 }
 
-                WxPayData data = new WxPayData();
-                //优先
+                WxPayData data = new WxPayData();                
                 if (!string.IsNullOrEmpty(tranid))
                 {
-                    data.SetValue("transaction_id", tranid);
+                    data.SetValue("transaction_id", tranid);//优先
                 }
                 else
                 {
@@ -146,11 +147,11 @@ namespace Xw.Zx.Core.Areas.Manager
 
                 _context.WechatOrders.Add(od);
                 _context.SaveChanges();
-                return new HbzsManagerResult<WechatOrders>(_context.WechatOrders.Where<WechatOrders>(c => c.TransactionID == od.TransactionID).FirstOrDefault());                
+                return new HbzsManagerResult<List<WechatOrders>>(_context.WechatOrders.Where<WechatOrders>(c => c.TransactionID == od.TransactionID).ToList());                
             }
             catch (Exception ex)
             {
-                return new HbzsManagerResult<WechatOrders>(HbzsManagerResultCode.Invalid_Error, ex.Message);
+                return new HbzsManagerResult<List<WechatOrders>>(HbzsManagerResultCode.Invalid_Error, ex.Message);
             }
         }
 
@@ -163,11 +164,21 @@ namespace Xw.Zx.Core.Areas.Manager
         public HbzsManagerResult<string> DealWithSubLedger([FromBody] PostRequestDealWithSubLedgerApiPsDto postRequestDealWithSubLedgerApiPsDto) {
             try
             {
-                List<WechatSubLedgerRequestReceivePsDto> receivers = CheckSubLederRequestPs(postRequestDealWithSubLedgerApiPsDto);
+                if (postRequestDealWithSubLedgerApiPsDto == null)
+                    throw new Exception("请求参数 无效");
+                if (string.IsNullOrWhiteSpace(postRequestDealWithSubLedgerApiPsDto.out_order_no))
+                    throw new Exception("微信订单号 或 商户分账单号 不能为空");
+                WechatOrders ord = _context.WechatOrders.FirstOrDefault(c=>c.Out_Order_No== postRequestDealWithSubLedgerApiPsDto.out_order_no);
+                if (ord == null)
+                    throw new Exception("未查到该商户订单！");
+                if (postRequestDealWithSubLedgerApiPsDto.SubLedgerListInfo == null || postRequestDealWithSubLedgerApiPsDto.SubLedgerListInfo.Count <= 0)
+                    throw new Exception("接收人分账信息无效");
+
+                List<WechatSubLedgerRequestReceivePsDto> receivers = CheckSubLederRequestPs(ord, postRequestDealWithSubLedgerApiPsDto.SubLedgerListInfo);
                 //拼接 信息
                 WxPayData data = new WxPayData();
-                data.SetValue("transaction_id", postRequestDealWithSubLedgerApiPsDto.transaction_id);
-                data.SetValue("out_order_no", postRequestDealWithSubLedgerApiPsDto.out_order_no);
+                data.SetValue("transaction_id", ord.TransactionID);
+                data.SetValue("out_order_no", ord.Out_Order_No);
                 List<WxDataSubLedgerReceivePsDto> receiversInfo = new List<WxDataSubLedgerReceivePsDto>();
                 foreach (WechatSubLedgerRequestReceivePsDto r in receivers) {
                     WxDataSubLedgerReceivePsDto dd = new WxDataSubLedgerReceivePsDto();
@@ -196,83 +207,121 @@ namespace Xw.Zx.Core.Areas.Manager
                 foreach (WechatSubLedgerRequestReceivePsDto r in receivers)
                 {
                     WechatSubDetail rr = new WechatSubDetail();
-                    rr.Last_Out_Order_No = postRequestDealWithSubLedgerApiPsDto.out_order_no;
-                    rr.TransactionID = postRequestDealWithSubLedgerApiPsDto.transaction_id;
+                    rr.Last_Out_Order_No = ord.Out_Order_No;
+                    rr.TransactionID = ord.TransactionID;
                     rr.Return_OrderID = fzdh;
                     rr.SubAccount = r.account;
                     rr.SubAmount = (decimal)r.amount / 100;//分 需要 变成元
                     rr.SubName = _context.WechatSubLedgerReceivers.FirstOrDefault(c => c.Account == r.account).Name;
                     rr.PayDescription = r.description;
                     rr.SubType = r.type;
-                    rr.SubState = "";
+                    rr.SubState = "申请中"; 
                     rr.SubTime = DateTime.Now;
                     _context.WechatSubDetail.Add(rr);
                 }
+                ord.SubState = "申请中";//申请中, 分账完成  分账失败
+                _context.Entry(ord).State = EntityState.Modified;
                 _context.SaveChanges();
                 #endregion
 
-                #region 查询分账结果
-                WxPayData dataquery = new WxPayData();
-                data.SetValue("transaction_id", postRequestDealWithSubLedgerApiPsDto.transaction_id);
-                data.SetValue("out_order_no", postRequestDealWithSubLedgerApiPsDto.out_order_no);
-                /*----------------调用接口-------------------------*/
-                WxPayData queryresult = WxPayApi.ProfitSharingQuery(dataquery);
-                if (queryresult == null)
-                    throw new Exception("分账已申请通过，未查到分账结果");
-                if(queryresult.GetValue("return_code").ToString().ToUpper() != "SUCCESS")
-                    throw new Exception(result.GetValue("return_msg").ToString());
-                if (result.GetValue("result_code").ToString().ToUpper() != "SUCCESS")
-                    throw new Exception(result.GetValue("err_code_des").ToString());
-
-                //分账申请接收成功
-                string receiversStr = queryresult.GetValue("receivers").ToString();
-                List<WechatSubLedgerQueryResultReceiverPsDto> ps = JsonConvert.DeserializeObject<List<WechatSubLedgerQueryResultReceiverPsDto>>(receiversStr);
-                foreach (var r in ps) {
-                    WechatSubDetail rr = _context.WechatSubDetail
-                        .FirstOrDefault(c=>c.Last_Out_Order_No== postRequestDealWithSubLedgerApiPsDto.out_order_no && c.TransactionID== postRequestDealWithSubLedgerApiPsDto.transaction_id && c.SubAccount==r.account);
-                    rr.SubState = r.result;
-                    rr.SubTime= DateTime.ParseExact(r.finish_time, "yyyyMMddHHmmss", System.Globalization.CultureInfo.CurrentCulture);
-                    _context.Entry(rr).State = EntityState.Modified;
-                    _context.SaveChanges();
-                }
-                #endregion
-
-                return new HbzsManagerResult<string>(HbzsManagerResultCode.Sucess, "已处理");
+                return new HbzsManagerResult<string>(HbzsManagerResultCode.Sucess, "已申请分账");
             }
             catch (Exception ex) {
                 return new HbzsManagerResult<string>(HbzsManagerResultCode.Invalid_Error,ex.Message);
             }
         }
-
-        List<WechatSubLedgerRequestReceivePsDto> CheckSubLederRequestPs(PostRequestDealWithSubLedgerApiPsDto ps) {
-            if (ps == null)
-                throw new Exception("请求参数 无效");
-            if (string.IsNullOrWhiteSpace(ps.transaction_id)
-                || string.IsNullOrWhiteSpace(ps.out_order_no))
-                throw new Exception("微信订单号 或 商户分账单号 不能为空");
-            string tranid = ps.transaction_id;
-            string outorderid = ps.out_order_no;
-
-            if (ps.SubLedgerListInfo == null
-                || ps.SubLedgerListInfo.Count <= 0)
-                throw new Exception("接收人分账信息无效");
-
+        List<WechatSubLedgerRequestReceivePsDto> CheckSubLederRequestPs(WechatOrders orders, List<PostWechatSubLedgerListInfoDto> rceiverps)
+        {
             List<WechatSubLedgerRequestReceivePsDto> receiverPs = new List<WechatSubLedgerRequestReceivePsDto>();
-            foreach (PostWechatSubLedgerListInfoDto r in ps.SubLedgerListInfo)
+            foreach (PostWechatSubLedgerListInfoDto r in rceiverps)
             {
-                if (string.IsNullOrWhiteSpace(r.SubType) || string.IsNullOrWhiteSpace(r.Account)
-                    || r.Amount <= 0 || string.IsNullOrWhiteSpace(r.Describe))
-                    continue;
+                if (string.IsNullOrWhiteSpace(r.Account) || r.Amount <= 0)
+                    throw new Exception("");
+                WechatSubLedgerReceivers jsr = _context.WechatSubLedgerReceivers.FirstOrDefault(c => c.Account == r.Account);
+                if (jsr == null)
+                    throw new Exception("请核对接收人信息，发现一接收人未配置");
                 WechatSubLedgerRequestReceivePsDto rr = new WechatSubLedgerRequestReceivePsDto();
                 rr.account = r.Account;
                 rr.amount = r.Amount;
-                rr.description = r.Describe;
-                rr.type = r.SubType;
+                rr.description = string.IsNullOrWhiteSpace(jsr.Describe) ? "分给个人" : jsr.Describe;
+                rr.type = string.IsNullOrWhiteSpace(jsr.SubType) ? "分给个人" : jsr.SubType;
                 receiverPs.Add(rr);
             }
             if (receiverPs.Count <= 0)
                 throw new Exception("分账人信息 有误");
+            decimal je = receiverPs.Sum(c => c.amount);
+            if (je > orders.SubCharge)
+                throw new Exception("所分金额 合计过大");
             return receiverPs;
+        }
+
+        /// <summary>
+        /// 查询分账结果（详情）
+        /// </summary>
+        /// <param name="ordernums"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public HbzsManagerResult<WechatOrdersDetailsDto> QuerySubLedgerResult([FromQuery] WechatQueryOrderPsDto ordernums) {
+            try
+            {
+                if (ordernums == null || (string.IsNullOrWhiteSpace(ordernums.out_order_no) && string.IsNullOrWhiteSpace(ordernums.transaction_id)))
+                    throw new Exception("请输入微信订单号和商户订单号");
+
+                WechatOrders od = _context.WechatOrders.FirstOrDefault(c=>c.TransactionID == ordernums.transaction_id && c.Out_Order_No == ordernums.out_order_no);
+                if (od == null)
+                    throw new Exception("系统未记录该订单信息");
+
+                WechatOrdersDetailsDto resultList = null;
+                if (od.SubState == "分账完成")
+                {
+                    resultList = _mapper.Map<WechatOrdersDetailsDto>(od);
+                    resultList.Receivers = _context.WechatSubDetail.Where(c => c.TransactionID == ordernums.transaction_id && c.Last_Out_Order_No == ordernums.out_order_no).ToList();
+                    return new HbzsManagerResult<WechatOrdersDetailsDto>(resultList);
+                }
+
+                #region 查询分账结果
+                WxPayData dataquery = new WxPayData();
+                dataquery.SetValue("transaction_id", ordernums.transaction_id);
+                dataquery.SetValue("out_order_no", ordernums.out_order_no);
+                /*----------------调用接口-------------------------*/
+                WxPayData queryresult = WxPayApi.ProfitSharingQuery(dataquery);
+                if (queryresult == null)
+                    throw new Exception("分账已申请通过，未查到分账结果");
+                if (queryresult.GetValue("return_code").ToString().ToUpper() != "SUCCESS")
+                    throw new Exception(queryresult.GetValue("return_msg").ToString());
+                if (queryresult.GetValue("result_code").ToString().ToUpper() != "SUCCESS")
+                    throw new Exception(queryresult.GetValue("err_code_des").ToString());
+                if (queryresult.GetValue("status").ToString().ToUpper() != "FINISHED")
+                    throw new Exception("分账处理中");
+
+                //分账申请接收成功
+                string receiversStr = queryresult.GetValue("receivers").ToString();
+                List<WechatSubLedgerQueryResultReceiverPsDto> ps = JsonConvert.DeserializeObject<List<WechatSubLedgerQueryResultReceiverPsDto>>(receiversStr);
+                foreach (var r in ps)
+                {
+                    WechatSubDetail rr = _context.WechatSubDetail.FirstOrDefault(c => c.Last_Out_Order_No == ordernums.out_order_no && c.TransactionID == ordernums.transaction_id && c.SubAccount == r.account);
+                    rr.SubState = r.result;
+                    rr.SubTime = DateTime.ParseExact(r.finish_time, "yyyyMMddHHmmss", System.Globalization.CultureInfo.CurrentCulture);
+                    _context.Entry(rr).State = EntityState.Modified;
+                    _context.SaveChanges();
+                }
+                //(只要有一个人 分账成功 我就标记 订单 分账完成)//申请中, 分账完成  分账失败
+                int successCount = _context.WechatSubDetail.Count(c=> c.Last_Out_Order_No == ordernums.out_order_no && c.TransactionID == ordernums.transaction_id && c.SubState.ToUpper()== "SUCCESS");
+                if(successCount>0)
+                 od.SubState = "分账完成";
+                else
+                    od.SubState = "分账失败";
+                _context.Entry(od).State = EntityState.Modified;
+                _context.SaveChanges();
+                #endregion
+
+                resultList = _mapper.Map<WechatOrdersDetailsDto>(od);
+                resultList.Receivers = _context.WechatSubDetail.Where(c => c.TransactionID == ordernums.transaction_id && c.Last_Out_Order_No == ordernums.out_order_no).ToList();
+                return new HbzsManagerResult<WechatOrdersDetailsDto>(resultList);
+            }
+            catch (Exception ex) {
+                return new HbzsManagerResult<WechatOrdersDetailsDto>(HbzsManagerResultCode.Invalid_Error, ex.Message);
+            }
         }
 
         public ActionResult PayNotifyUrl() {

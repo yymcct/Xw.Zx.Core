@@ -1571,7 +1571,7 @@
              <summary>
             根据微信订单号/商户订单号  从微信平台 获取订单信息
              </summary>
-             <param name="ordernum"></param>
+             <param name="ordernums"></param>
              <returns></returns>
         </member>
         <member name="M:Xw.Zx.Core.Areas.Manager.WechatSubLedgerController.DealWithSubLedger(Xw.Zx.Core.Areas.Manager.PostRequestDealWithSubLedgerApiPsDto)">
@@ -1579,6 +1579,13 @@
             处理分账
             </summary>
             <param name="postRequestDealWithSubLedgerApiPsDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.WechatSubLedgerController.QuerySubLedgerResult(Xw.Zx.Core.Areas.Manager.WechatQueryOrderPsDto)">
+            <summary>
+            查询分账结果（详情）
+            </summary>
+            <param name="ordernums"></param>
             <returns></returns>
         </member>
         <member name="T:Xw.Zx.Core.Areas.Manager.WithdrawDepositController">
