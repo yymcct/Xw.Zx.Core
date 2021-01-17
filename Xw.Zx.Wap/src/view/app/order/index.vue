@@ -70,21 +70,21 @@
           size="24px"
           :disabled="
             order.orderState == 1 ||
-            memberIntegral.availableIntegrals < Number(order.amount) * 100
+            memberIntegral.availableIntegrals < Number(order.amount) * 10
           "
         />
       </div>
       <div
         class="integral-desc"
-        v-if="memberIntegral.availableIntegrals < Number(order.amount) * 100"
+        v-if="memberIntegral.availableIntegrals < Number(order.amount) * 10"
       >
         <p>
-          抵扣本单需 {{ Number(order.amount) * 100 }} 积分, 本单积分不足,
+          抵扣本单需 {{ Number(order.amount) * 10 }} 积分, 本单积分不足,
           无法抵扣
         </p>
       </div>
       <div class="integral-content" v-if="memberIntegralChecked">
-        <p>使用 {{ Number(order.amount) * 100 }} 积分</p>
+        <p>使用 {{ Number(order.amount) * 10 }} 积分</p>
         <p>
           抵扣<span>{{ order.amount }}</span
           >元
