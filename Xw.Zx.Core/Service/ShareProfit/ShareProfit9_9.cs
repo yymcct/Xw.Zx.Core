@@ -44,7 +44,7 @@ namespace Xw.Zx.Core.Service.ShareProfit
                         SourceOrderMemberId = order.MemberId,
                         SourceOrderMemberInviteId = inviter.Id,
                         IncomeAccountType = IncomeAccountType.直接收益,
-                        IncomeAccountState = IncomeAccountState.待审核,
+                        IncomeAccountState = IncomeAccountState.已发放,
                         Remark = remark,
                     });
 
