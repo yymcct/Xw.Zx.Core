@@ -2,7 +2,6 @@
 
 <template>
   <section>
-    <!--TODO:删减编辑界面数据-->
     <el-dialog
       title="更换推荐人"
       :visible.sync="dialogVisible"

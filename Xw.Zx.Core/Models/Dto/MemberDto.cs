@@ -27,6 +27,8 @@ namespace Xw.Zx.Core.Models.Dto
     {
         public int Id { get; set; }
 
+        public string RoleName { get; set; }
+
         public MemberVipType MemberVipType { get; set; }
 
         public string MemberVipTypeName { get; set; }

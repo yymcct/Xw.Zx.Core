@@ -69,9 +69,7 @@
       </el-table-column>
       <el-table-column label="操作" width="100px">
         <template scope="scope">
-          <el-button      
-            type="text"
-            @click="handleSub(scope.row)"
+          <el-button type="text" @click="handleSub(scope.row)"
             >申请分账
           </el-button>
           <!-- <i
@@ -102,23 +100,22 @@
       ></el-pagination>
     </el-col>
 
-    <!--TODO:删减编辑界面数据-->
-    <edit-dialog
-      v-model="edit.showEdit"
-      :id="edit.id"
+    <apply-dialog
+      v-model="apply.show"
+      :id="apply.id"
       @change="editChange"
-    ></edit-dialog>
+    ></apply-dialog>
   </section>
 </template>
 
 <script>
 import api from "@/api/app";
 import searchBar from "./searchBar";
-import editDialog from "./edit";
+import applyDialog from "./apply";
 export default {
   components: {
     searchBar,
-    editDialog,
+    applyDialog,
   },
   data() {
     return {
@@ -131,9 +128,10 @@ export default {
       wechatOrderss: [],
       total: 0,
       loading: false,
-      edit: {
+      apply: {
         id: 0,
-        showEdit: false,
+        show: false,
+        amount: 0,
       },
     };
   },
@@ -168,6 +166,7 @@ export default {
     handleEdit(index, row) {
       this.edit.id = row.id;
       this.edit.showEdit = true;
+      this.edit.amount = Number(row.amount);
     },
     //显示新增界面
     handleSearchSingleOrder(out_Order_No) {
@@ -185,8 +184,9 @@ export default {
           this.loading = false;
         });
     },
-    handleSub(row){
-
+    handleSub(row) {
+      this.apply.show = true;
+      this.apply.id = row.out_order_no;
     },
 
     editChange(cancel) {

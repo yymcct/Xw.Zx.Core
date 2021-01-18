@@ -125,4 +125,7 @@ select * from Members where phone='18624938007'
  select * from Orders where id =2847
  select * from Orders where id = 2839
  select * from IncomeAccounts where SourceOrderId=2839
- select * from 
+
+
+-- 测试手机端切换通道
+select * from members where RoleName='Admin_CaiwuPayChange'

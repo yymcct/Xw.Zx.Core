@@ -10,19 +10,19 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/index/computer'),
         meta: {
-            title: '计算器', 
+            title: '计算器',
             keepAlive: false,
-            private:false
+            private: false
         }
-    }, 
+    },
     {
         path: '/sqb/computer0_1',
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/index/computer0_1'),
         meta: {
-            title: '计算器', 
+            title: '计算器',
             keepAlive: false,
-            private:false
+            private: false
         }
     },
     {
@@ -30,9 +30,9 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/index/computer1'),
         meta: {
-            title: '计算器', 
+            title: '计算器',
             keepAlive: false,
-            private:false
+            private: false
         }
     },
     {
@@ -40,9 +40,9 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/index/computer2'),
         meta: {
-            title: '计算器', 
+            title: '计算器',
             keepAlive: false,
-            private:false
+            private: false
         }
     },
     {
@@ -50,9 +50,9 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/computer/index'),
         meta: {
-            title: '计算器', 
+            title: '计算器',
             keepAlive: false,
-            private:false
+            private: false
         }
     },
     {
@@ -60,9 +60,9 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/computer/computer'),
         meta: {
-            title: '计算器', 
+            title: '计算器',
             keepAlive: false,
-            private:false
+            private: false
         }
     },
     {
@@ -70,9 +70,9 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/music/index'),
         meta: {
-            title: '法律债务处理大礼包课程-债减减', 
+            title: '法律债务处理大礼包课程-债减减',
             keepAlive: false,
-            private:false
+            private: false
         }
     },
     {
@@ -80,9 +80,9 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/music/chapter'),
         meta: {
-            title: '法律债务处理大礼包课程-债减减', 
+            title: '法律债务处理大礼包课程-债减减',
             keepAlive: false,
-            private:false
+            private: false
         }
     },
     {
@@ -90,9 +90,9 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/home/index'),
         meta: {
-            title: '首页', 
+            title: '首页',
             keepAlive: true,
-            private:false
+            private: false
         }
     },
     {
@@ -100,9 +100,9 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/computer/index'),
         meta: {
-            title: '利息减免计算器', 
+            title: '利息减免计算器',
             keepAlive: true,
-            private:false
+            private: false
         }
     },
     {
@@ -110,9 +110,9 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/product/index'),
         meta: {
-            title: '产品', 
+            title: '产品',
             keepAlive: false,
-            private:false
+            private: false
         }
     },
     {
@@ -120,9 +120,9 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/product/content/chapter'),
         meta: {
-            title: '法律债务处理大礼包课程-债减减', 
+            title: '法律债务处理大礼包课程-债减减',
             keepAlive: false,
-            private:false
+            private: false
         }
     },
     {
@@ -130,9 +130,9 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/order/index'),
         meta: {
-            title: '订单详情', 
+            title: '订单详情',
             keepAlive: false,
-            private:true
+            private: true
         }
     },
     {
@@ -140,9 +140,9 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/user/index'),
         meta: {
-            title: '我的', 
+            title: '我的',
             keepAlive: true,
-            private:true
+            private: true
         }
     },
     {
@@ -150,9 +150,9 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/user/share'),
         meta: {
-            title: '分享债减减', 
+            title: '分享债减减',
             keepAlive: false,
-            private:false
+            private: false
         }
     },
     {
@@ -160,9 +160,9 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/user/download'),
         meta: {
-            title: '下载债减减', 
+            title: '下载债减减',
             keepAlive: false,
-            private:false
+            private: false
         }
     },
     {
@@ -170,9 +170,9 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/user/kefu'),
         meta: {
-            title: '我的', 
+            title: '我的',
             keepAlive: false,
-            private:false
+            private: false
         }
     },
     {
@@ -180,9 +180,9 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/user/myteam'),
         meta: {
-            title: '我的团队', 
+            title: '我的团队',
             keepAlive: false,
-            private:true
+            private: true
         }
     },
     {
@@ -190,9 +190,9 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/user/income'),
         meta: {
-            title: '我的收益', 
+            title: '我的收益',
             keepAlive: false,
-            private:true
+            private: true
         }
     },
     {
@@ -200,9 +200,9 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/user/incomeAudit'),
         meta: {
-            title: '审核提现', 
+            title: '审核提现',
             keepAlive: false,
-            private:true
+            private: true
         }
     },
     {
@@ -210,9 +210,9 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/user/withdrawDeposit'),
         meta: {
-            title: '提现', 
+            title: '提现',
             keepAlive: false,
-            private:true
+            private: true
         }
     },
     {
@@ -220,9 +220,9 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/user/withdrawDepositList'),
         meta: {
-            title: '提现详情', 
+            title: '提现详情',
             keepAlive: false,
-            private:true
+            private: true
         }
     },
     {
@@ -230,9 +230,9 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/user/incomelist'),
         meta: {
-            title: '收益详情', 
+            title: '收益详情',
             keepAlive: false,
-            private:true
+            private: true
         }
     },
     {
@@ -240,9 +240,9 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/user/code'),
         meta: {
-            title: '兑换码', 
+            title: '兑换码',
             keepAlive: false,
-            private:true
+            private: true
         }
     },
     {
@@ -250,9 +250,9 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/user/user'),
         meta: {
-            title: '编辑个人信息', 
+            title: '编辑个人信息',
             keepAlive: false,
-            private:true
+            private: true
         }
     },
     {
@@ -260,9 +260,9 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/user/order'),
         meta: {
-            title: '我的订单', 
+            title: '我的订单',
             keepAlive: false,
-            private:true
+            private: true
         }
     },
     {
@@ -270,19 +270,29 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/user/coupon'),
         meta: {
-            title: '我的优惠券', 
+            title: '我的优惠券',
             keepAlive: false,
-            private:true
+            private: true
         }
     },
-        {
+    {
         path: '/sqb/user/coupon/:id',
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/user/couponContent'),
         meta: {
-            title: '我的优惠券', 
+            title: '我的优惠券',
             keepAlive: false,
-            private:true
+            private: true
+        }
+    },
+    {
+        path: '/sqb/user/paychange',
+        component: () =>
+            import(/* webpackChunkName: "sqb" */ './view/app/user/paychange'),
+        meta: {
+            title: '切换支付通道',
+            keepAlive: false,
+            private: true
         }
     },
     {
@@ -290,9 +300,9 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/login/login'),
         meta: {
-            title: '登录', 
+            title: '登录',
             keepAlive: false,
-            private:false
+            private: false
         }
     },
     {
@@ -300,9 +310,9 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/login/reg'),
         meta: {
-            title: '注册', 
+            title: '注册',
             keepAlive: false,
-            private:false
+            private: false
         }
     },
     {
@@ -310,9 +320,9 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/login/pwd'),
         meta: {
-            title: '重置密码', 
+            title: '重置密码',
             keepAlive: false,
-            private:false
+            private: false
         }
     },
     {
@@ -320,9 +330,9 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/login/weixin'),
         meta: {
-            title: '微信登录', 
+            title: '微信登录',
             keepAlive: false,
-            private:false
+            private: false
         }
     },
     {
@@ -330,9 +340,9 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/login/bind'),
         meta: {
-            title: '绑定', 
+            title: '绑定',
             keepAlive: false,
-            private:false
+            private: false
         }
     },
     {
