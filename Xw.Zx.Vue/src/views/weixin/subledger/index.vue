@@ -65,12 +65,24 @@
       <el-table-column prop="subState" label="分账状态" width="100px" sortable>
         <template scope="scope">
           <p v-if="scope.row.subState == 0">待审请</p>
+          <p v-if="scope.row.subState == 10">申请中</p>
+          <p v-if="scope.row.subState == 0">分账完成</p>
+          <p v-if="scope.row.subState == 0">分账失败</p>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="100px">
         <template scope="scope">
-          <el-button type="text" @click="handleSub(scope.row)"
+          <el-button
+            type="text"
+            @click="handleSub(scope.row)"
+            v-if="scope.row.subState == 0"
             >申请分账
+          </el-button>
+          <el-button
+            type="text"
+            @click="showSub(scope.row)"
+            v-if="scope.row.subState == 10"
+            >查看分账结果
           </el-button>
           <!-- <i
             class="el-icon-edit"
@@ -102,7 +114,8 @@
 
     <apply-dialog
       v-model="apply.show"
-      :id="apply.id"
+      :out_order_no="apply.id"
+      :amount="apply.amount"
       @change="editChange"
     ></apply-dialog>
   </section>
@@ -113,6 +126,7 @@ import api from "@/api/app";
 import searchBar from "./searchBar";
 import applyDialog from "./apply";
 export default {
+  name: "WechatOrders",
   components: {
     searchBar,
     applyDialog,
@@ -129,7 +143,7 @@ export default {
       total: 0,
       loading: false,
       apply: {
-        id: 0,
+        id: "0",
         show: false,
         amount: 0,
       },
@@ -162,13 +176,7 @@ export default {
           this.total = respone.total;
         });
     },
-    //显示编辑界面
-    handleEdit(index, row) {
-      this.edit.id = row.id;
-      this.edit.showEdit = true;
-      this.edit.amount = Number(row.amount);
-    },
-    //显示新增界面
+
     handleSearchSingleOrder(out_Order_No) {
       this.loading = true;
       api.weixinSubLedger
@@ -186,9 +194,14 @@ export default {
     },
     handleSub(row) {
       this.apply.show = true;
-      this.apply.id = row.out_order_no;
+      this.apply.id = row.out_Order_No;
+      this.apply.amount = Number(row.amount);
     },
-
+    showSub(row) {
+      // this.apply.show = true;
+      // this.apply.id = row.out_Order_No;
+      // this.apply.amount = Number(row.amount);
+    },
     editChange(cancel) {
       if (cancel != "cancel") {
         this.getWechatOrderss();

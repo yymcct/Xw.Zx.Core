@@ -242,7 +242,7 @@ namespace Xw.Zx.Core.Areas.Manager
                     throw new Exception("请核对接收人信息，发现一接收人未配置");
                 WechatSubLedgerRequestReceivePsDto rr = new WechatSubLedgerRequestReceivePsDto();
                 rr.account = r.Account;
-                rr.amount = r.Amount;
+                rr.amount = (decimal)r.Amount/100;
                 rr.description = string.IsNullOrWhiteSpace(jsr.Describe) ? "分给个人" : jsr.Describe;
                 rr.type = string.IsNullOrWhiteSpace(jsr.SubType) ? "分给个人" : jsr.SubType;
                 receiverPs.Add(rr);
