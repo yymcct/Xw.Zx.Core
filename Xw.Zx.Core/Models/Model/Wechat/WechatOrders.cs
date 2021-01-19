@@ -38,7 +38,7 @@ namespace Xw.Zx.Core.Models.Model
         public string PayState { get; set; }
 
         [Sieve(CanFilter = true)]
-        [Column(TypeName = "varchar(50)")]
+        [Column(TypeName = "int")]
         public WechatOrderState SubState { get; set; } = WechatOrderState.待申请;
 
         [Column(TypeName = "varchar(256)")]

@@ -67,7 +67,7 @@ namespace Xw.Zx.Core.PreWechatHelper
                 //是否使用证书
                 if (isUseCert)
                 {
-                    string certpath = WxPayConfig.ContenxtPaht + WxPayConfig.Config.SecretPath;
+                    string certpath =  WxPayConfig.Config.SecretPath;
 
                     X509Certificate2 cert = new X509Certificate2(certpath, WxPayConfig.Config.SecretPassword);
                     request.ClientCertificates.Add(cert);

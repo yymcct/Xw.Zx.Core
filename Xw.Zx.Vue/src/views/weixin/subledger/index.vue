@@ -41,7 +41,7 @@
       ></el-table-column>
       <el-table-column
         prop="subCharge"
-        label="分账额"
+        label="可分账额"
         width="100px"
         sortable
       ></el-table-column>
@@ -66,8 +66,8 @@
         <template scope="scope">
           <p v-if="scope.row.subState == 0">待审请</p>
           <p v-if="scope.row.subState == 10">申请中</p>
-          <p v-if="scope.row.subState == 0">分账完成</p>
-          <p v-if="scope.row.subState == 0">分账失败</p>
+          <p v-if="scope.row.subState == 20">分账完成</p>
+          <p v-if="scope.row.subState == 30">分账失败</p>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="100px">
@@ -81,7 +81,7 @@
           <el-button
             type="text"
             @click="showSub(scope.row)"
-            v-if="scope.row.subState == 10"
+            v-if="scope.row.subState == 10 || scope.row.subState == 20"
             >查看分账结果
           </el-button>
           <!-- <i
@@ -117,7 +117,13 @@
       :out_order_no="apply.id"
       :amount="apply.amount"
       @change="editChange"
-    ></apply-dialog>
+    />
+
+    <query-apply-dialog
+      v-model="queryApply.show"
+      :out_order_no="queryApply.id"
+      @change="editChange"
+    />
   </section>
 </template>
 
@@ -125,11 +131,13 @@
 import api from "@/api/app";
 import searchBar from "./searchBar";
 import applyDialog from "./apply";
+import queryApplyDialog from "./queryApply";
 export default {
   name: "WechatOrders",
   components: {
     searchBar,
     applyDialog,
+    queryApplyDialog,
   },
   data() {
     return {
@@ -143,6 +151,11 @@ export default {
       total: 0,
       loading: false,
       apply: {
+        id: "0",
+        show: false,
+        amount: 0,
+      },
+      queryApply: {
         id: "0",
         show: false,
         amount: 0,
@@ -198,14 +211,11 @@ export default {
       this.apply.amount = Number(row.amount);
     },
     showSub(row) {
-      // this.apply.show = true;
-      // this.apply.id = row.out_Order_No;
-      // this.apply.amount = Number(row.amount);
+      this.queryApply.show = true;
+      this.queryApply.id = row.out_Order_No;
     },
     editChange(cancel) {
-      if (cancel != "cancel") {
-        this.getWechatOrderss();
-      }
+      this.getWechatOrderss();
     },
   },
 };

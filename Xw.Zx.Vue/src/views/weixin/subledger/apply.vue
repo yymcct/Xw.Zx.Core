@@ -44,7 +44,7 @@
         <el-row> </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="cancelSubmit">取消</el-button>
+        <el-button @click="dialogVisible = false">取消</el-button>
         <el-button type="primary" @click="editSubmit">提交</el-button>
       </div>
     </el-dialog>
@@ -61,7 +61,7 @@ export default {
     value: Boolean,
     out_order_no: {
       type: String,
-      default: "SH20200915215509564442",
+      default: "",
     },
     amount: {
       type: Number,
@@ -151,22 +151,20 @@ export default {
         api.weixinSubLedger.dealWithSubLedger(dto).then((res) => {
           this.$message({
             message: res.msg,
-            type: "error",
+            type: "sucess",
           });
+
+          this.dialogVisible = false;
         });
-        this.dialogVisible = false;
-        this.$emit("input", false);
-        this.$emit("change");
       });
     },
     cancelSubmit: function () {
-      this.dialogVisible = false;
       this.$emit("input", false);
+      this.$emit("change");
+      console.log("234");
     },
   },
-  mounted() {
-    this.initApply();
-  },
+  mounted() {},
 };
 </script>
 
