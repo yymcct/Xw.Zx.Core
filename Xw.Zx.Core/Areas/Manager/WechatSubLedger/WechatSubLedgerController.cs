@@ -409,10 +409,10 @@ namespace Xw.Zx.Core.Areas.Manager
         GetThirdQueryOrdersResultDto GetThirdOrders(DateTime startTime,DateTime endTime,int curpage) {
 
             string key = "flu6L9KdZEA9HtdClxp9BcGNjE2QMNdZPXZtLmzho6k";
-            string timestr = Convert.ToInt64((DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, 0)).TotalSeconds).ToString();
+            string timestr = Convert.ToInt64((DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0)).TotalSeconds).ToString();
             string sign = CreateMD5(timestr + key);
-            string kssj = Convert.ToInt64((startTime - new DateTime(1970, 1, 1, 0, 0, 0, 0)).TotalSeconds).ToString();
-            string jzsj = Convert.ToInt64((endTime - new DateTime(1970, 1, 1, 0, 0, 0, 0)).TotalSeconds).ToString();
+            string kssj = Convert.ToInt64((startTime - new DateTime(1970, 1, 1, 8, 0, 0, 0)).TotalSeconds).ToString();
+            string jzsj = Convert.ToInt64((endTime - new DateTime(1970, 1, 1, 8, 0, 0, 0)).TotalSeconds).ToString();
             int mpage = curpage;
             int pgsize = 50;
             string url = $"http://zjj.xtsuo.cn/api/evshopapi.php?i=1&time={timestr}&pwd={sign}&startime={kssj}&endtime={jzsj}&page={mpage}&psize={pgsize}";
@@ -432,12 +432,9 @@ namespace Xw.Zx.Core.Areas.Manager
         {
             long tsp = 0;
             long.TryParse(timeStamp,out tsp);
-            long begtime = tsp * 10000000;
-            DateTime dt_1970 = new DateTime(1970, 1, 1, 0, 0, 0);
-            long tricks_1970 = dt_1970.Ticks;//1970年1月1日刻度
-            long time_tricks = tricks_1970 + begtime;//日志日期刻度
-            DateTime dt = new DateTime(time_tricks);//转化为DateTime
-            return dt;
+            System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
+            startTime = startTime.AddSeconds(tsp);
+            return startTime;
         }
         private string CreateMD5(string input)
         {
