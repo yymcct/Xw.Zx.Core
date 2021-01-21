@@ -7,6 +7,6 @@ namespace Xw.Zx.Core.Service
 {
     public interface IXtsuoService
     {
-        public bool SyncXtsuoOrders(XtsuoOrdersRequestDto getThirdQueryOrdersRequestPsDto);
+         bool SyncXtsuoOrders(XtsuoOrdersRequestDto getThirdQueryOrdersRequestPsDto);
     }
 }

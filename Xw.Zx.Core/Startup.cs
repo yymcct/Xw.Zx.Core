@@ -232,7 +232,7 @@ namespace Xw.Zx.Core
             app.UseHangfireDashboard();//启动hangfire面板
 
             RecurringJob.AddOrUpdate<BiqilinOrderSync>(i => i.Run(), "0 */30 * * * ?");
-            RecurringJob.AddOrUpdate<XtsuoOrderSync>(i => i.Run(), Cron.Hourly(10));
+            RecurringJob.AddOrUpdate<XtsuoOrderSync>(i => i.Run(), "0 */25 * * * ?");
         }
 
 

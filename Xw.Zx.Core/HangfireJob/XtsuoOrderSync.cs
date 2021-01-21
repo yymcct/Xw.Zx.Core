@@ -25,7 +25,7 @@ namespace Xw.Zx.Core.HangfireJob
 
         public void Run()
         {
-
+            //TODO  重构从数据库重读取最近一次同步的时间
             _xtsuoService.SyncXtsuoOrders(new XtsuoOrdersRequestDto()
             {
                 StartTime = DateTime.Now.AddHours(-2),
