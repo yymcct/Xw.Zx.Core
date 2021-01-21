@@ -36,6 +36,7 @@ namespace Xw.Zx.Core.Areas.Fuwu.Member
         {
             try
             {
+
                 var db = _context.Members;
 
                 var res = _sieveProcessor

@@ -162,6 +162,7 @@ namespace Xw.Zx.Core
 
             #region Hangfire
             services.AddScoped<BiqilinOrderSync>();
+            services.AddScoped<XtsuoOrderSync>();
             services.AddHangfire(x => x.UseSqlServerStorage(Configuration.GetSection("DbConnections:XwZx").Value));
             #endregion
         }
@@ -231,6 +232,7 @@ namespace Xw.Zx.Core
             app.UseHangfireDashboard();//启动hangfire面板
 
             RecurringJob.AddOrUpdate<BiqilinOrderSync>(i => i.Run(), "0 */30 * * * ?");
+            RecurringJob.AddOrUpdate<XtsuoOrderSync>(i => i.Run(), Cron.Hourly(10));
         }
 
 

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Xw.Zx.Core.Areas.Manager
+namespace Xw.Zx.Core.Service
 {
     #region  从商城 哪个 后台 查询 订单的 Dto
-    public class GetThirdQueryOrdersRequestPsDto
+    public class XtsuoOrdersRequestDto
     { 
          public DateTime? StartTime { get; set; }
          public DateTime? EndTime { get; set; }
