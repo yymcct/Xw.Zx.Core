@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Xw.Zx.Core.Helper;
 using Xw.Zx.Core.Models.Dto;
 using Xw.Zx.Core.Models.Model;
 using Xw.Zx.Core.Service;
@@ -93,6 +94,12 @@ namespace Xw.Zx.Core.Controllers
         {
             try
             {
+                if (postOrderDto.ProductId == 0 || postOrderDto.ProductCount == 0)
+                {
+
+                    throw new ZzzException("产品数量或产品ID不能为0");
+                }
+
                 var product = _context.Products.First(p => p.Check == true && p.Id == postOrderDto.ProductId);
                 var order = new Order()
                 {
