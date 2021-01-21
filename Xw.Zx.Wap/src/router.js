@@ -346,6 +346,16 @@ const routes = [
         }
     },
     {
+        path: '/sqb/notice/20210121',
+        component: () =>
+            import(/* webpackChunkName: "sqb" */ './view/app/notice/20210121'),
+        meta: {
+            title: '公告',
+            keepAlive: false,
+            private: false
+        }
+    },
+    {
         path: '*',
         redirect: '/sqb/home'
     },

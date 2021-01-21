@@ -4,7 +4,7 @@ import App from './App.vue'
 import { router } from './router';
 import {
   Field, Toast, Loading,
-  Button, NavBar, Image, Tab, Tabs, Picker, Popup, Dialog,
+  Button, NavBar, Image, Tab, Tabs, Picker, Popup, Dialog,NoticeBar ,
   Icon, Cell, CellGroup, Checkbox, CheckboxGroup, DatetimePicker, Stepper, Switch
   , RadioGroup, Radio
 } from "vant";
@@ -45,6 +45,7 @@ Vue.use(Stepper);
 Vue.use(Switch);
 Vue.use(RadioGroup);
 Vue.use(Radio);
+Vue.use(NoticeBar);
 
 
 

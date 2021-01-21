@@ -7,12 +7,18 @@
           style="display: block; width: 100%; height: auto"
         />
       </div>
+      <van-notice-bar
+        left-icon="volume-o"
+        scrollable 
+        @click="$router.push({ path: `/sqb/notice/20210121`})"
+        text="近日不法人员未获我司授权, 违规宣传, 严重损害广大客户权益, 我司特申明通知, 详情请点击查看"
+      />
       <div class="product">
         <div class="product-title">
           <img :src="require('@/assets/images/home/fire.png')" alt="" />
           <h2>推荐服务</h2>
         </div>
-        <div class="product-content">          
+        <div class="product-content">
           <product
             class="product-content-product"
             v-for="(item, index) in products"
@@ -66,38 +72,36 @@ export default {
 };
 </script>
 <style lang='scss' scoped>
-.wrapper{
+.wrapper {
   padding-bottom: 60px;
-.product {
-  &-title {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    font-size: 16px;
-    background-color: #fff;
-    color: #ff5000;
-    padding: 10px;
-    img {
-      height: 22px;
-      margin-right: 5px;
+  .product {
+    &-title {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      font-size: 16px;
+      background-color: #fff;
+      color: #ff5000;
+      padding: 10px;
+      img {
+        height: 22px;
+        margin-right: 5px;
+      }
     }
-  }
-  &-content {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    
-    align-items: flex-start;
-    padding: 10px;
-    &-product{
-      width: 172.5px;
-      margin-bottom: 10px;
+    &-content {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-between;
+
+      align-items: flex-start;
+      padding: 10px;
+      &-product {
+        width: 172.5px;
+        margin-bottom: 10px;
+      }
     }
   }
 }
-
-}
-
 </style>
