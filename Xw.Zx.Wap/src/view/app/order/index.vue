@@ -141,7 +141,7 @@
       >
         提交
       </van-button>
-      <van-button
+      <!-- <van-button
         v-if="couponChecked == false && memberIntegralChecked == false"
         class="foot-btn"
         type="primary"
@@ -152,7 +152,7 @@
         :disabled="order.orderState == 1"
       >
         立即付款
-      </van-button>
+      </van-button> -->
     </div>
     <template v-if="useAlipay">
       <alipayQrcode

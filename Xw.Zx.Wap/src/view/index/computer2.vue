@@ -134,13 +134,13 @@ export default {
   props: [""],
   data() {
     return {
-      name: "",
+      name: "技术测试",
       phone: "18624938008",
       borrowCompany: "",
-      borrowAmount: "150000",
+      borrowAmount: "180000",
       cycle: 36,
-      cycleAmount: "6108",
-      repaymentCycle: "10",
+      cycleAmount: "8233",
+      repaymentCycle: "11",
       overdueCycle: "0",
       lastRefundDate: new Date(),
       showPicker: false,

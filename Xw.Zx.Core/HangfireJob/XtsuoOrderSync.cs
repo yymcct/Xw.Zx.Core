@@ -30,7 +30,6 @@ namespace Xw.Zx.Core.HangfireJob
         {
             var startTime = _context.WechatOrders.Max(w => w.TranTime);
 
-            //TODO  重构从数据库重读取最近一次同步的时间
             _xtsuoService.SyncXtsuoOrders(new XtsuoOrdersRequestDto()
             {
                 StartTime = startTime,
