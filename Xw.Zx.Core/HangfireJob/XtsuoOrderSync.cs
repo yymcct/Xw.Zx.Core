@@ -13,22 +13,27 @@ namespace Xw.Zx.Core.HangfireJob
     {
         private readonly ILogger<XtsuoOrderSync> _logger;
         private readonly IXtsuoService _xtsuoService;
+        private readonly XwZxContext _context;
 
         public XtsuoOrderSync(
             ILogger<XtsuoOrderSync> logger
-            , IXtsuoService xtsuoService)
+            , IXtsuoService xtsuoService
+            , XwZxContext xwZxContext)
         {
             _logger = logger;
             _xtsuoService = xtsuoService;
+            _context = xwZxContext;
         }
 
 
         public void Run()
         {
+            var startTime = _context.WechatOrders.Max(w => w.TranTime);
+
             //TODO  重构从数据库重读取最近一次同步的时间
             _xtsuoService.SyncXtsuoOrders(new XtsuoOrdersRequestDto()
             {
-                StartTime = DateTime.Now.AddHours(-2),
+                StartTime = startTime,
                 EndTime = DateTime.Now
             });
         }
