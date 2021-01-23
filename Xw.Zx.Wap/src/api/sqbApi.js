@@ -62,5 +62,8 @@ export default {
         getCoupons: (params) => request.get('/api/Coupon/GetCoupons', { params: params }),
         getCoupon: (id) => request.get(`/api/Coupon/GetCoupon?couponReceiveId=${id}`),
         getCouponByProductId: (id) => request.get(`/api/Coupon/GetCouponByProductId?productId=${id}`),      
+    },
+    report:{
+        get: () => request.get(`/api/Report/`),
     }
 }
