@@ -23,6 +23,10 @@
         </div>
         <van-cell title="手机" :value="user.phone" />
         <van-cell title="姓名" :value="user.realName" />
+        <van-cell
+          title="邀请人"
+          :value="user.inviteName + '' + user.invitePhone"
+        />
         <van-cell title="支付宝" :value="user.aliPayAccount" />
         <van-cell title="级别" :value="user.memberVipTypeName" />
         <van-cell title="积分" :value="user.memberIntegral" />
@@ -35,17 +39,23 @@
         <van-cell title="联系客服" is-link to="/sqb/user/kefu" />
         <van-cell title="立刻分享" is-link to="/sqb/user/share" />
         <van-cell
+          title="交易报表"
+          is-link
+          to="/sqb/report/boss"
+          v-if="user.phone == '18688448080' || user.phone == '18624938007'"
+        />
+        <van-cell
           title="支付通道"
           is-link
           to="/sqb/user/paychange"
           v-if="user.roleName == 'Admin_CaiwuPayChange'"
         />
-        <van-cell
+        <!-- <van-cell
           v-if="isWhite"
           title="审核提现"
           is-link
           to="/sqb/user/incomeaudit"
-        />
+        /> -->
       </van-cell-group>
       <div class="foot">
         <van-button

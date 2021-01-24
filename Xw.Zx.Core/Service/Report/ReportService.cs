@@ -17,17 +17,17 @@ namespace Xw.Zx.Core.Service
         }
         public ReportDto GetReport()
         {
-            var sql = $"select CONVERT(Nvarchar, AddTime, 111) as [Time], sum(Amount) as [money] " +
+            var sql = $"select CONVERT(Nvarchar, AddTime, 111) as [Time], sum(Amount) as [money] , count(*) as [count] " +
                 $"from Orders " +
-                $"where IsDelete=0 and OrderState =1 and DATEDIFF(day, GETDATE(), addtime) > -30 " +
+                $"where IsDelete=0 and OrderState =1 and DATEDIFF(day, GETDATE(), addtime) > -15 " +
                 $"group by CONVERT(Nvarchar, AddTime, 111) " +
                 $"order by CONVERT(Nvarchar, AddTime, 111)";
 
             var appQuery = _context.Database.SqlQuery<ReportDto.Query>(sql);
 
-            var xtsuoQuerySql = $" select CONVERT(Nvarchar, TranTime, 111)as [Time], sum(Amount)as [money] " +
+            var xtsuoQuerySql = $" select CONVERT(Nvarchar, TranTime, 111)as [Time], sum(Amount)as [money] , count(*) as [count] " +
                 $"from WechatOrders " +
-                $"where DATEDIFF(day, GETDATE(), TranTime) > -30 " +
+                $"where DATEDIFF(day, GETDATE(), TranTime) > -15 " +
                 $"group by CONVERT(Nvarchar, TranTime, 111) " +
                 $"order by CONVERT(Nvarchar, TranTime, 111)";
 
@@ -41,7 +41,7 @@ namespace Xw.Zx.Core.Service
                 {
                     Time = item.Time,
                     AppMoney = item.Money,
-                    //XtsuoMoney =
+                    Count= item.Count
                 }; 
                 var xtsuoDay = xtsuoQuery.Where(x => x.Time == item.Time).FirstOrDefault();
                 if (xtsuoDay != null)

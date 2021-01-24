@@ -17,7 +17,7 @@ namespace Xw.Zx.Core.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class ReportController : BaseController
     {
         private readonly IReportService _ReportService;

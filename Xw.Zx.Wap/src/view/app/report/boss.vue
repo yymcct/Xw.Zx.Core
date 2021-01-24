@@ -1,6 +1,32 @@
 <template>
   <div class="wrapper">
-    <canvas id="reportMouth" class="content-canvas"></canvas>
+    <van-nav-bar
+      :title="$route.meta.title"
+      left-arrow
+      @click-left="$router.go(-1)"
+    />
+    <div class="canvas">
+      <p class="title">交易趋势</p>
+      <canvas id="reportMouth" class="content-canvas"></canvas>
+    </div>
+
+    <div class="detail" v-if="reportDataReverse">
+      <p class="title">交易明细</p>
+      <ul>
+        <li>
+          <p class="table-data th">日期</p>
+          <p class="table-app th">APP</p>
+          <p class="table-wechat th">公众号</p>
+          <p class="table-total th" style="color: #000">交易合计</p>
+        </li>
+        <li v-for="(item, index) in reportDataReverse" :key="index">
+          <p class="table-data">{{ new Date(item.time).Format("MM-dd") }}</p>
+          <p class="table-app">{{ item.appMoney }}</p>
+          <p class="table-wechat">{{ item.xtsuoMoney }}</p>
+          <p class="table-total">{{ item.totalMoney }}</p>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -13,6 +39,7 @@ export default {
   data() {
     return {
       reportData: null,
+      reportDataReverse: null,
     };
   },
 
@@ -23,7 +50,7 @@ export default {
   beforeMount() {
     F2.Global.setTheme({
       colors: [
-        "#06a65e",
+        "#FF5000",
         "#D66BCA",
         "#8543E0",
         "#8E77ED",
@@ -35,7 +62,7 @@ export default {
       pixelRatio: window.devicePixelRatio,
       guide: {
         line: {
-          stroke: "#06a65e",
+          stroke: "#FF5000",
           lineWidth: 2,
         },
       },
@@ -45,6 +72,8 @@ export default {
   mounted() {
     api.report.get().then((res) => {
       this.reportData = res.result;
+      this.reportDataReverse = res.result.dayInfos.concat();
+      this.reportDataReverse.reverse();
       this.reportDataCount();
     });
   },
@@ -55,17 +84,17 @@ export default {
         id: "reportMouth",
         pixelRatio: window.devicePixelRatio,
       });
-      chart.source(this.reportData.dayInfos, {
-        count: {
-          //    tickCount: 6,
 
-          min: 0,
-          //   max: 300,
-        },
-        showText: {
-          type: "timeCat",
-          mask: "MM-DD",
-        },
+      chart.source(this.reportData.dayInfos, {
+        // count: {
+        //   //    tickCount: 6,
+        //   min: 0,
+        //   //   max: 300,
+        // },
+        // showText: {
+        //   type: "timeCat",
+        //   mask: "MM-DD",
+        // },
       });
 
       chart.line().position("time*totalMoney");
@@ -73,14 +102,13 @@ export default {
         stroke: "#fff",
         lineWidth: 1,
       });
+      chart.area().position("time*totalMoney").style({});
       chart.scale("time", {
         // 各个属性配置
         type: "timeCat",
         sortable: false,
         formatter: function (val) {
-          console.log(val);
-         console.log((new Date(val)).toLocaleDateString()) 
-          return (new Date(val)).Format("MM-dd");
+          return new Date(val).Format("MM-dd");
         },
       });
 
@@ -92,6 +120,55 @@ export default {
 };
 </script>
 <style lang='scss' scoped>
+.wrapper {
+  background-color: #fff;
+  .canvas {
+    p {
+      padding: 10px 10px 0 10px;
+      font-size: 18px;
+      font-weight: bolder;
+    }
+  }
+  .detail {
+    .title {
+      padding: 20px 10px 10px 10px;
+      font-size: 18px;
+      font-weight: bolder;
+    }
+    ul {
+      padding: 10px;
+      li {
+        display: flex;
+        justify-content: space-around;
+        //  padding-bottom: 6px;
+        border-bottom: 1px #e8e8e8 solid;
+        p {
+          font-size: 15px;
+          font-weight: normal;
+          color: #333;
+          padding: 10px 0px;
+        }
+        .th {
+          font-weight: bold;
+        }
+        .table-data {
+          width: 20%;
+        }
+        .table-app {
+          width: 26%;
+        }
+        .table-wechat {
+          width: 26%;
+        }
+        .table-total {
+          width: 28%;
+          font-weight: bold;
+          color: #ff5000;
+        }
+      }
+    }
+  }
+}
 .content-canvas {
   width: 100%;
   box-sizing: border-box;

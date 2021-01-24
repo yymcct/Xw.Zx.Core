@@ -360,7 +360,7 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/report/boss'),
         meta: {
-            title: '公告',
+            title: '交易报表',
             keepAlive: false,
             private: false
         }

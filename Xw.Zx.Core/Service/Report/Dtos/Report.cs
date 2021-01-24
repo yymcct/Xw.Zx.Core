@@ -31,6 +31,8 @@ namespace Xw.Zx.Core.Service
                     return AppMoney + XtsuoMoney;
                 }
             }
+            public int Count { get; set; }
+
         }
 
         public class Query
@@ -38,6 +40,8 @@ namespace Xw.Zx.Core.Service
             public string Time { get; set; }
 
             public decimal Money { get; set; }
+
+            public int Count { get; set; }
         }
     }
 }
