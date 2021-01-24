@@ -72,6 +72,8 @@ namespace Xw.Zx.Core.Models.Dto
 
         public string Remark { get; set; }
 
+        public string ZxQRCode { get; set; }
+
     }
     public class MyTeamDto
     {

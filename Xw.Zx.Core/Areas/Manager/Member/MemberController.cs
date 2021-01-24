@@ -136,6 +136,7 @@ namespace Xw.Zx.Core.Areas.Manager
             member.Remark = membermdto.Remark;
             member.MemberVipType = membermdto.MemberVipType;
             member.Address = membermdto.Address;
+            member.ZxQRCode = membermdto.ZxQRCode;
 
             member.UpdateTime = DateTime.Now;
 

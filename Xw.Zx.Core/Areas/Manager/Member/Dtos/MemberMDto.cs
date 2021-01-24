@@ -52,9 +52,12 @@ namespace Xw.Zx.Core.Areas.Manager
 
         [Sieve(CanFilter = true)]
         public string Address { get; set; }
+
         /// <summary>
         /// 身份证号
         /// </summary>
         public string IdentityCardNum { get; set; }
+
+        public string ZxQRCode { get; set; }
     }
 }

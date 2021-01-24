@@ -246,6 +246,20 @@
             </summary>
             <param name="postUpdateVipMDto"></param>
         </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.FileUploadController.Files(Microsoft.AspNetCore.Http.IFormCollection)">
+            <summary>
+            上传文件,一次可以提交多个文件 支持格式:".png", ".jpg", ".jpeg", ".gif", ".bmp", ".mp4"
+            </summary>
+            <param name="formCollection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.FileUploadController.IdentityCard(Microsoft.AspNetCore.Http.IFormCollection)">
+            <summary>
+            上传身份证专用接口 支持格式:".png", ".jpg", ".jpeg"
+            </summary>
+            <param name="formCollection"></param>
+            <returns></returns>
+        </member>
         <member name="M:Xw.Zx.Core.Areas.Manager.WechatSubLedgerController.GetWechatSubLedgerReceivers">
             <summary>
             获取分账接收人
@@ -800,6 +814,46 @@
             </summary>
             <param name="htmlText">HTML代码</param>   
             <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.RSAHelper.#ctor(Xw.Zx.Core.Helper.RSAType,System.Text.Encoding,System.String,System.String)">
+            <summary>
+            实例化RSAHelper
+            </summary>
+            <param name="rsaType">加密算法类型 RSA SHA1;RSA2 SHA256 密钥长度至少为2048</param>
+            <param name="encoding">编码类型</param>
+            <param name="privateKey">私钥</param>
+            <param name="publicKey">公钥</param>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.RSAHelper.Sign(System.String)">
+            <summary>
+            使用私钥签名
+            </summary>
+            <param name="data">原始数据</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Helper.RSAHelper.Verify(System.String,System.String)">
+            <summary>
+            使用公钥验证签名
+            </summary>
+            <param name="data">原始数据</param>
+            <param name="sign">签名</param>
+            <returns></returns>
+        </member>
+        <member name="T:Xw.Zx.Core.Helper.RSAType">
+            <summary>
+            RSA算法类型
+            </summary>
+        </member>
+        <member name="F:Xw.Zx.Core.Helper.RSAType.RSA">
+            <summary>
+            SHA1
+            </summary>
+        </member>
+        <member name="F:Xw.Zx.Core.Helper.RSAType.RSA2">
+            <summary>
+            RSA2 密钥长度至少为2048
+            SHA256
+            </summary>
         </member>
         <member name="T:Xw.Zx.Core.Helper.StringHelper">
             <summary>
@@ -1489,6 +1543,11 @@
         <member name="P:Xw.Zx.Core.Models.Model.Member.IdentityCardImgReverse">
             <summary>
             身份证反面照
+            </summary>
+        </member>
+        <member name="P:Xw.Zx.Core.Models.Model.Member.ZxQRCode">
+            <summary>
+            中信收款二维码
             </summary>
         </member>
         <member name="P:Xw.Zx.Core.Models.Model.Member.MemberIdentityState">

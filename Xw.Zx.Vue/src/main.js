@@ -94,8 +94,22 @@ Vue.prototype.glhandleBeforeImgUpload = function (file) {
   return (isJPG || isPng) && isLt2M;
 }
 
-Vue.prototype.glAppBaseApi= process.env.VUE_APP_BASE_API;
-Vue.prototype.glfileUploadUrl=`${process.env.VUE_APP_BASE_API}/manager/FileUpload/PostFilesWithNoWater`;
+Vue.prototype.glAppBaseApi = process.env.VUE_APP_BASE_API;
+Vue.prototype.glfileUploadUrl = `/manager/FileUpload/Files`;
+
+Vue.prototype.glhandleBeforeImgUpload = function (file) {
+  const isJPG = file.type === "image/jpeg";
+  const isPng = file.type === "image/png";
+  const isLt2M = file.size / 1024 / 1024 < 2;
+
+  if (!isJPG && !isPng) {
+    this.$message.error("上传图片只能是 JPG, PNG 格式!");
+  }
+  if (!isLt2M) {
+    this.$message.error("上传图片大小不能超过 2MB!");
+  }
+  return (isJPG || isPng) && isLt2M;
+}
 
 new Vue({
   router,

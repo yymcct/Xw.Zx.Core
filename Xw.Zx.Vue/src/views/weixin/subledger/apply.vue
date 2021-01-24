@@ -73,7 +73,7 @@ export default {
       handler(val) {
         this.dialogVisible = val;
         if (this.out_order_no && val) {
-          console.log("initApply");
+
           this.initApply();
         }
       },
@@ -161,7 +161,6 @@ export default {
     cancelSubmit: function () {
       this.$emit("input", false);
       this.$emit("change");
-      console.log("234");
     },
   },
   mounted() {},

@@ -296,6 +296,16 @@ const routes = [
         }
     },
     {
+        path: '/sqb/user/zxqrcode',
+        component: () =>
+            import(/* webpackChunkName: "sqb" */ './view/app/user/zxQrcode'),
+        meta: {
+            title: '我的收款码',
+            keepAlive: false,
+            private: false
+        }
+    },
+    {
         path: '/sqb/login',
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/login/login'),

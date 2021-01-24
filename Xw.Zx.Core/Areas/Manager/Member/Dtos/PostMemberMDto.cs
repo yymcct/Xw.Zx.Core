@@ -19,6 +19,8 @@ namespace Xw.Zx.Core.Areas.Manager
         //备注
         public string Remark { get; set; }
 
+        public string ZxQRCode { get; set; }
+
         public MemberVipType MemberVipType { get; set; }
     }
 }

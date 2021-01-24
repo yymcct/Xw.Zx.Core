@@ -10,7 +10,7 @@
     >
       <el-form
         :model="editForm"
-        label-width="80px"
+        label-width="90px"
         ref="editForm"
         :rules="editFormRules"
       >
@@ -89,6 +89,29 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="中信收款码" prop="zxQRCode">
+              <el-upload
+                class="avatar-uploader"
+                :action="glfileUploadUrl"
+                :show-file-list="false"
+                :on-success="handleProductUploaderSuccess"
+                :before-upload="glhandleBeforeImgUpload"
+              >
+                <img
+                  class="avatar"
+                  v-if="editForm.zxQRCode"
+                  :src="editForm.zxQRCode"
+                />
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                <div v-if="editForm.zxQRCode" class="shadow" @click.stop="zxQRCodeDel">
+                  <i class="el-icon-delete"></i>
+                </div>
+              </el-upload>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancelSubmit">取消</el-button>
@@ -133,8 +156,9 @@ export default {
         businessCode: "",
         identityCardNum: "",
         memberVipType: 0,
+        zxQRCode: "",
         remark: "",
-        address:"",
+        address: "",
       },
       editFormRules: {
         realName: [{ required: true, message: "不可为空", trigger: "blur" }],
@@ -148,8 +172,9 @@ export default {
       this.editForm.businessCode = "";
       this.editForm.identityCardNum = "";
       this.editForm.remark = "";
-      this.editForm.address="";
+      this.editForm.address = "";
       this.editForm.memberVipType = 0;
+      this.editForm.zxQRCode = 0;
       api.member.getMember(this.memberId).then((res) => {
         this.member = res.result;
         this.editForm.phone = res.result.phone;
@@ -158,10 +183,18 @@ export default {
         this.editForm.identityCardNum = res.result.identityCardNum;
         this.editForm.remark = res.result.remark;
         this.editForm.memberVipType = res.result.memberVipType;
-        this.editForm.address= res.result.address;
+        this.editForm.address = res.result.address;
+        this.editForm.zxQRCode = res.result.zxQRCode;
       });
     },
-
+    handleProductUploaderSuccess(res) {
+      if (res.statusCode === 200) {
+        this.editForm.zxQRCode = res.result.files[0].curPathName;
+      }
+    },
+    zxQRCodeDel(){
+      this.editForm.zxQRCode ="";
+    },
     //提交
     editSubmit: function () {
       this.$refs.editForm.validate((valid) => {
@@ -203,5 +236,48 @@ export default {
   p {
     margin: 5px 0;
   }
+}
+</style>
+<style lang="scss">
+.avatar-uploader .el-upload {
+  border: 1px dashed #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #ff5000;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #ff5000;
+  width: 128px;
+  height: 128px;
+  line-height: 128px;
+  text-align: center;
+}
+.avatar {
+  width: 128px;
+  height: 128px;
+  display: block;
+}
+.avatar-uploader:hover {
+  .shadow {
+    opacity: 1;
+  }
+}
+.shadow {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 0.3s;
+  color: #fff;
+  font-size: 20px;
+  line-height: 20px;
+  padding: 2px;
+  cursor: pointer;
 }
 </style>

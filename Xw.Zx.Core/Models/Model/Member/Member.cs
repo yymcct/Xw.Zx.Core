@@ -17,7 +17,7 @@ namespace Xw.Zx.Core.Models.Model
         [Description("后台统计部管理员")]
         Admin_Tongjibu = 200,
         [Description("后台财务部")]
-        Admin_Caiwu =300,
+        Admin_Caiwu = 300,
         [Description("财务部经理")]
         Admin_CaiwuManager = 301,
         [Description("财务部通道")]
@@ -143,6 +143,12 @@ namespace Xw.Zx.Core.Models.Model
         /// </summary>
         [Column(TypeName = "varchar(200)")]
         public string IdentityCardImgReverse { get; set; } = "";
+
+        /// <summary>
+        /// 中信收款二维码
+        /// </summary>
+        [Column(TypeName = "varchar(200)")]
+        public string ZxQRCode { get; set; } = "";
 
         /// <summary>
         /// 认证状态
