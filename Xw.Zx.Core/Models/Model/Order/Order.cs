@@ -21,7 +21,8 @@ namespace Xw.Zx.Core.Models.Model
         线下 = 2,
         碧麒麟=3,
         全额优惠券=4,
-        积分=5
+        积分=5,
+        中信=6
     }
 
     /// <summary>

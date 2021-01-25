@@ -359,7 +359,11 @@ namespace Xw.Zx.Core.Controllers
             }
 
         }
-
+        /// <summary>
+        /// 0 碧麒麟 支付宝1 中信2
+        /// TODO 测试碧麒麟 中信
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Authorize]
         public HbzsResult<bool> FirstUseAlipay()

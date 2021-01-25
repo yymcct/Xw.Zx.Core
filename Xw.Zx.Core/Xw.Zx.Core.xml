@@ -391,6 +391,13 @@
             <param name="orderId"></param>
             <returns></returns>
         </member>
+        <member name="M:Xw.Zx.Core.Controllers.AlipayController.FirstUseAlipay">
+            <summary>
+            0 碧麒麟 支付宝1 中信2
+            TODO 测试碧麒麟 中信
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Xw.Zx.Core.Controllers.ApplyForZxController.PostApply(Xw.Zx.Core.Models.Dto.PostApplyDto)">
             <summary>
             提交追息申请, 提交前需补全用户基本信息
@@ -658,6 +665,22 @@
             获取安卓App升级版本
             </summary>
             <returns></returns>
+        </member>
+        <member name="T:Xw.Zx.Core.Controllers.SwiftPassController">
+            <summary>
+            碧麒麟支付
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.SwiftPassController.ScanCodeGen(System.Int32)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.SwiftPassController.Notifyurl">
+            <summary>
+            支付宝支付成功回调地址 
+            TODO: 校验是否是来自于支付宝的域名
+            </summary>
         </member>
         <member name="M:Xw.Zx.Core.Controllers.SyncController.Notthing">
             <summary>
@@ -1615,6 +1638,11 @@
             销量
             </summary>
         </member>
+        <member name="T:Xw.Zx.Core.Models.Model.SwiftPassLog">
+            <summary>
+            碧麒麟订单日志表
+            </summary>
+        </member>
         <member name="T:Xw.Zx.Core.Models.Model.Receivable">
             <summary>
             收款表
@@ -1997,6 +2025,11 @@
             反润7000
             </summary>
         </member>
+        <member name="T:Xw.Zx.Core.Service.SwiftPass">
+            <summary>
+            中信支付平台
+            </summary>
+        </member>
         <member name="M:Xw.Zx.Core.Service.IUpDateVip1Service.AliPayMentSucessHandle(System.Collections.Generic.Dictionary{System.String,System.String})">
             <summary>
             支付宝支付成功处理
@@ -2063,6 +2096,440 @@
             查找上级vip 依次: 一代 二代  运营中心
             </summary>
             <param name="member"></param>
+            <returns></returns>
+        </member>
+        <member name="M:swiftpass.utils.RSAHelper.Encrypt(System.String,System.String,System.Boolean)">
+            <summary>
+            RSA加密
+            </summary>
+            <param name="publickey">公钥</param>
+            <param name="content">加密前的原始数据</param>
+            <param name="fOAEP">如果为 true，则使用 OAEP 填充（仅在运行 Microsoft Windows XP 或更高版本的计算机上可用）执行直接的 System.Security.Cryptography.RSA加密；否则，如果为 false，则使用 PKCS#1 1.5 版填充。</param>
+            <returns>加密后的结果（base64格式）</returns>
+        </member>
+        <member name="M:swiftpass.utils.RSAHelper.Decrypt(System.String,System.String,System.Boolean)">
+            <summary>
+            RSA解密
+            </summary>
+            <param name="privatekey">私钥</param>
+            <param name="content">加密后的内容(base64格式)</param>
+            <param name="fOAEP">如果为 true，则使用 OAEP 填充（仅在运行 Microsoft Windows XP 或更高版本的计算机上可用）执行直接的 System.Security.Cryptography.RSA加密；否则，如果为 false，则使用 PKCS#1 1.5 版填充。</param>
+            <returns></returns>
+        </member>
+        <member name="M:swiftpass.utils.RSAHelper.SignData(System.String,System.String,System.Object)">
+            <summary>
+            RSA签名
+            </summary>
+            <param name="privatekey">私钥</param>
+            <param name="content">需签名的原始数据(utf-8)</param>
+            <param name="halg">签名采用的算法，如果传null，则采用MD5算法</param>
+            <returns>签名后的值(base64格式)</returns>
+        </member>
+        <member name="M:swiftpass.utils.RSAHelper.VerifyData(System.String,System.String,System.String,System.Object)">
+            <summary>
+            RSA验签
+            </summary>
+            <param name="publicKey">公钥</param>
+            <param name="content">需验证签名的数据(utf-8)</param>
+            <param name="signature">需验证的签名字符串(base64格式)</param>
+            <param name="halg">签名采用的算法，如果传null，则采用MD5算法</param>
+            <returns></returns>
+        </member>
+        <member name="M:swiftpass.utils.DSAHelper.SignData(System.String,System.String)">
+            <summary>
+            DSA签名
+            </summary>
+            <param name="privatekey">私钥</param>
+            <param name="content">需签名的原始数据(utf-8)</param>
+            <returns>签名后的值(base64格式)</returns>
+        </member>
+        <member name="M:swiftpass.utils.DSAHelper.VerifyData(System.String,System.String,System.String)">
+            <summary>
+            DSA验签
+            </summary>
+            <param name="publicKey">公钥</param>
+            <param name="content">需验证签名的数据(utf-8)</param>
+            <param name="signature">需验证的签名字符串(base64格式)</param>
+            <returns></returns>
+        </member>
+        <member name="T:swiftpass.utils.ClientResponseHandler">
+            <summary>
+            客户端消息返回头
+            </summary>
+        </member>
+        <member name="F:swiftpass.utils.ClientResponseHandler.key">
+            <summary>
+            密钥
+            </summary>
+        </member>
+        <member name="F:swiftpass.utils.ClientResponseHandler.parameters">
+            <summary>
+            应答的参数
+            </summary>
+        </member>
+        <member name="F:swiftpass.utils.ClientResponseHandler.debugInfo">
+            <summary>
+            debug信息
+            </summary>
+        </member>
+        <member name="F:swiftpass.utils.ClientResponseHandler.content">
+            <summary>
+            原始内容
+            </summary>
+        </member>
+        <member name="M:swiftpass.utils.ClientResponseHandler.#ctor">
+            <summary>
+            获取服务器通知数据方式，进行参数获取
+            </summary>
+        </member>
+        <member name="M:swiftpass.utils.ClientResponseHandler.getContent">
+            <summary>
+            获取返回内容
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:swiftpass.utils.ClientResponseHandler.setContent(System.String)">
+            <summary>
+            设置返回内容
+            </summary>
+            <param name="content">XML内容</param>
+        </member>
+        <member name="M:swiftpass.utils.ClientResponseHandler.getKey">
+            <summary>
+            获取密钥
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:swiftpass.utils.ClientResponseHandler.setKey(System.String)">
+            <summary>
+            设置密钥
+            </summary>
+            <param name="key">密钥</param>
+        </member>
+        <member name="M:swiftpass.utils.ClientResponseHandler.getParameter(System.String)">
+            <summary>
+            获取参数值
+            </summary>
+            <param name="parameter">参数名</param>
+            <returns></returns>
+        </member>
+        <member name="M:swiftpass.utils.ClientResponseHandler.setParameter(System.String,System.String)">
+            <summary>
+            设置参数值
+            </summary>
+            <param name="parameter">参数名</param>
+            <param name="parameterValue">参数值</param>
+        </member>
+        <member name="M:swiftpass.utils.ClientResponseHandler.isTenpaySign">
+            <summary>
+            是否平台签名,规则是:按参数名称a-z排序,遇到空值的参数不参加签名。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:swiftpass.utils.ClientResponseHandler.getDebugInfo">
+            <summary>
+            获取debug信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:swiftpass.utils.ClientResponseHandler.setDebugInfo(System.String)">
+            <summary>
+            设置debug信息
+            </summary>
+            <param name="debugInfo"></param>
+        </member>
+        <member name="M:swiftpass.utils.ClientResponseHandler.getCharset">
+            <summary>
+            获取编码
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:swiftpass.utils.ClientResponseHandler.setCharset(System.String)">
+            <summary>
+            设置编码
+            </summary>
+            <param name="charset">编码</param>
+        </member>
+        <member name="M:swiftpass.utils.ClientResponseHandler._isTenpaySign(System.Collections.ArrayList)">
+            <summary>
+            是否平台签名,规则是:按参数名称a-z排序,遇到空值的参数不参加签名。
+            </summary>
+            <param name="akeys"></param>
+            <returns></returns>
+        </member>
+        <member name="M:swiftpass.utils.ClientResponseHandler.getAllParameters">
+            <summary>
+            获取返回的所有参数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:swiftpass.utils.MD5Util">
+            <summary>
+            MD5Util 的摘要说明。
+            </summary>
+        </member>
+        <member name="M:swiftpass.utils.MD5Util.GetMD5(System.String,System.String)">
+            <summary>
+            获取大写的MD5签名结果
+            </summary>
+            <param name="encypStr">需要签名的串</param>
+            <param name="charset">编码</param>
+            <returns>返回大写的MD5签名结果</returns>
+        </member>
+        <member name="F:swiftpass.utils.PayHttpClient.reqContent">
+            <summary>
+            请求内容
+            </summary>
+        </member>
+        <member name="F:swiftpass.utils.PayHttpClient.resContent">
+            <summary>
+            应答内容
+            </summary>
+        </member>
+        <member name="F:swiftpass.utils.PayHttpClient.method">
+            <summary>
+            请求方法
+            </summary>
+        </member>
+        <member name="F:swiftpass.utils.PayHttpClient.errInfo">
+            <summary>
+            错误信息
+            </summary>
+        </member>
+        <member name="F:swiftpass.utils.PayHttpClient.timeOut">
+            <summary>
+            超时时间,以秒为单位 
+            </summary>
+        </member>
+        <member name="F:swiftpass.utils.PayHttpClient.responseCode">
+            <summary>
+            http应答编码 
+            </summary>
+        </member>
+        <member name="M:swiftpass.utils.PayHttpClient.setReqContent(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            设置请求内容
+            </summary>
+            <param name="reqContent">内容</param>
+        </member>
+        <member name="M:swiftpass.utils.PayHttpClient.getResContent">
+            <summary>
+            获取结果内容
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:swiftpass.utils.PayHttpClient.setMethod(System.String)">
+            <summary>
+            设置请求方法
+            </summary>
+            <param name="method">请求方法，可选:POST或GET</param>
+        </member>
+        <member name="M:swiftpass.utils.PayHttpClient.getErrInfo">
+            <summary>
+            获取错误信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:swiftpass.utils.PayHttpClient.setTimeOut(System.Int32)">
+            <summary>
+            设置超时时间
+            </summary>
+            <param name="timeOut">超时时间，单位：秒</param>
+        </member>
+        <member name="M:swiftpass.utils.PayHttpClient.getResponseCode">
+            <summary>
+            获取http状态码
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:swiftpass.utils.RequestHandler">
+            <summary>
+            请求头
+            </summary>
+        </member>
+        <member name="F:swiftpass.utils.RequestHandler.gateUrl">
+            <summary>
+            网关url地址
+            </summary>
+        </member>
+        <member name="F:swiftpass.utils.RequestHandler.key">
+            <summary>
+            密钥
+            </summary>
+        </member>
+        <member name="F:swiftpass.utils.RequestHandler.parameters">
+            <summary>
+            请求的参数
+            </summary>
+        </member>
+        <member name="F:swiftpass.utils.RequestHandler.debugInfo">
+            <summary>
+            debug信息
+            </summary>
+        </member>
+        <member name="M:swiftpass.utils.RequestHandler.init">
+            <summary>
+            初始化函数
+            </summary>
+        </member>
+        <member name="M:swiftpass.utils.RequestHandler.getGateUrl">
+            <summary>
+            获取入口地址,不包含参数值
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:swiftpass.utils.RequestHandler.setGateUrl(System.String)">
+            <summary>
+            设置入口地址,不包含参数值
+            </summary>
+            <param name="gateUrl">入口地址</param>
+        </member>
+        <member name="M:swiftpass.utils.RequestHandler.getKey">
+            <summary>
+            获取密钥
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:swiftpass.utils.RequestHandler.setKey(System.String)">
+            <summary>
+            设置密钥
+            </summary>
+            <param name="key">密钥字符串</param>
+        </member>
+        <member name="M:swiftpass.utils.RequestHandler.getRequestURL">
+            <summary>
+            获取带参数的请求URL
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:swiftpass.utils.RequestHandler.createSign">
+             <summary>
+            创建md5摘要,规则是:按参数名称a-z排序,遇到空值的参数不参加签名。
+             </summary>
+        </member>
+        <member name="M:swiftpass.utils.RequestHandler.getParameter(System.String)">
+            <summary>
+            获取参数值
+            </summary>
+            <param name="parameter">参数名</param>
+            <returns></returns>
+        </member>
+        <member name="M:swiftpass.utils.RequestHandler.setParameter(System.String,System.String)">
+            <summary>
+            设置参数值
+            </summary>
+            <param name="parameter">参数名</param>
+            <param name="parameterValue">参数值</param>
+        </member>
+        <member name="M:swiftpass.utils.RequestHandler.getDebugInfo">
+            <summary>
+            获取debug信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:swiftpass.utils.RequestHandler.setDebugInfo(System.String)">
+            <summary>
+            设置debug信息
+            </summary>
+            <param name="debugInfo"></param>
+        </member>
+        <member name="M:swiftpass.utils.RequestHandler.getAllParameters">
+            <summary>
+            获取所有参数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:swiftpass.utils.RequestHandler.getCharset">
+            <summary>
+            获取编码
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:swiftpass.utils.RSAConverter.RSAPrivateKeyJava2DotNet(System.String)">
+            <summary>    
+            RSA私钥格式转换，java->.net    
+            </summary>    
+            <param name="privateKey">java生成的RSA私钥</param>    
+            <returns></returns>   
+        </member>
+        <member name="M:swiftpass.utils.RSAConverter.RSAPrivateKeyDotNet2Java(System.String)">
+            <summary>    
+            RSA私钥格式转换，.net->java    
+            </summary>    
+            <param name="privateKey">.net生成的私钥</param>    
+            <returns></returns>   
+        </member>
+        <member name="M:swiftpass.utils.RSAConverter.RSAPublicKeyJava2DotNet(System.String)">
+            <summary>    
+            RSA公钥格式转换，java->.net    
+            </summary>    
+            <param name="publicKey">java生成的公钥</param>    
+            <returns></returns>    
+        </member>
+        <member name="M:swiftpass.utils.RSAConverter.RSAPublicKeyDotNet2Java(System.String)">
+            <summary>    
+            RSA公钥格式转换，.net->java    
+            </summary>    
+            <param name="publicKey">.net生成的公钥</param>    
+            <returns></returns>   
+        </member>
+        <member name="T:swiftpass.utils.Utils">
+            <summary>
+            工具类
+            </summary>
+        </member>
+        <member name="M:swiftpass.utils.Utils.UrlEncode(System.String,System.String)">
+            <summary>
+            对字符串进行URL编码
+            </summary>
+            <param name="instr">URL字符串</param>
+            <param name="charset">编码</param>
+            <returns></returns>
+        </member>
+        <member name="M:swiftpass.utils.Utils.UrlDecode(System.String,System.String)">
+            <summary>
+            对字符串进行URL解码
+            </summary>
+            <param name="instr">编码的URL字符串</param>
+            <param name="charset">编码</param>
+            <returns></returns>
+        </member>
+        <member name="M:swiftpass.utils.Utils.UnixStamp">
+            <summary>
+            取时间戳生成随即数,替换交易单号中的后10位流水号
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:swiftpass.utils.Utils.BuildRandomStr(System.Int32)">
+            <summary>
+            取随机数
+            </summary>
+            <param name="length">随机数的长度</param>
+            <returns></returns>
+        </member>
+        <member name="M:swiftpass.utils.Utils.loadCfg">
+            <summary>
+            加载配置文件
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:swiftpass.utils.Utils.random">
+            <summary>
+            生成32位随机数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:swiftpass.utils.Utils.Nmrandom">
+            <summary>
+            生成16位订单号 by  hyf 2016年2月16日17:48:43
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:swiftpass.utils.Utils.toXml(System.Collections.Hashtable)">
+            <summary>
+            将Hashtable参数传为XML
+            </summary>
+            <param name="_params"></param>
             <returns></returns>
         </member>
     </members>

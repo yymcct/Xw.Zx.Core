@@ -65,6 +65,8 @@ namespace Xw.Zx.Core.Models.Model
 
         public DbSet<BiqilinLog> BiqilinLogs { get; set; }
 
+        public DbSet<SwiftPassLog> SwiftPassLogs { get; set; }
+        
         public DbSet<Payment> Payments { get; set; }
 
         public DbSet<Receivable> Receivables { get; set; }
@@ -157,9 +159,9 @@ namespace Xw.Zx.Core.Models.Model
                .Property(c => c.Money)
                .HasDefaultValue(0m);
 
-            modelBuilder.Entity<Member>()
-               .Property(c => c.UpdateTime)
-               .HasDefaultValue(DateTime.Now);
+            //modelBuilder.Entity<Member>()
+            //   .Property(c => c.UpdateTime)
+            //   .HasDefaultValue("");
 
             modelBuilder.Entity<MemberBalanceLog>()
                 .HasQueryFilter(c => !c.IsDelete)
@@ -287,6 +289,12 @@ namespace Xw.Zx.Core.Models.Model
                .HasQueryFilter(c => !c.IsDelete)
                .Property(c => c.IsDelete)
                .HasDefaultValue(false);
+
+            modelBuilder.Entity<SwiftPassLog>()
+               .HasQueryFilter(c => !c.IsDelete)
+               .Property(c => c.IsDelete)
+               .HasDefaultValue(false);
+
             modelBuilder.Entity<WechatSubLedgerReceivers>()
                            .HasQueryFilter(c => !c.IsDelete)
                            .Property(c => c.IsDelete)

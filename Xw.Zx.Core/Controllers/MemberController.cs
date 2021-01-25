@@ -79,7 +79,8 @@ namespace Xw.Zx.Core.Controllers
                     InviteId = InviteUser.Id,
                     Email = "",
                     QueryTimes = 0,
-                    WxOpenId = user.OpenId
+                    WxOpenId = user.OpenId,
+                    UpdateTime = DateTime.Now
                 };
 
                 var member = _context.Members.Add(model);
