@@ -38,12 +38,12 @@
         <van-cell title="我的优惠券" is-link to="/sqb/user/coupon" />
         <van-cell title="联系客服" is-link to="/sqb/user/kefu" />
         <van-cell title="立刻分享" is-link to="/sqb/user/share" />
-        <van-cell
+        <!-- <van-cell
           title="我的收款码"
           is-link
           to="/sqb/user/zxqrcode"
           v-if="user.zxQRCode"
-        />
+        /> -->
         <van-cell
           title="交易报表"
           is-link

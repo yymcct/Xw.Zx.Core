@@ -46,6 +46,16 @@ const routes = [
         }
     },
     {
+        path: '/sqb/computer1_3',
+        component: () =>
+            import(/* webpackChunkName: "sqb" */ './view/index/computer1_3'),
+        meta: {
+            title: '计算器',
+            keepAlive: false,
+            private: false
+        }
+    },
+    {
         path: '/sqb/computer2',
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/computer/index'),
