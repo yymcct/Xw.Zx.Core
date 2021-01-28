@@ -28,14 +28,14 @@ namespace Xw.Zx.Core.Controllers
     public class SwiftPassController : BaseController
     {
         private readonly ILogger<SwiftPassController> _logger;
-        private readonly ISwiftPass _swiftPass;
+        private readonly ISwiftPassService _swiftPass;
         private readonly IOrderService _orderService;
 
         public SwiftPassController(ILogger<SwiftPassController> logger
             , XwZxContext xwZxContext
             , IMapper mapper
             , ISieveProcessor sieveProcessor
-            , ISwiftPass swiftPass
+            , ISwiftPassService swiftPass
             , IOrderService orderService) : base(xwZxContext, mapper, sieveProcessor)
         {
             _logger = logger;

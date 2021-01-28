@@ -2025,7 +2025,7 @@
             反润7000
             </summary>
         </member>
-        <member name="T:Xw.Zx.Core.Service.SwiftPass">
+        <member name="T:Xw.Zx.Core.Service.SwiftPassService">
             <summary>
             中信支付平台
             </summary>

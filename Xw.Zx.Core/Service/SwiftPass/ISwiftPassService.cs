@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Xw.Zx.Core.Service
 {
-    public interface ISwiftPass
+    public interface ISwiftPassService
     {
         SwiftPassDto.Qrcode CreateQrcodePayUrl(SwiftPassDto.Product product);
     }

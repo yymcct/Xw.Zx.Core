@@ -154,16 +154,25 @@
         立即付款
       </van-button> -->
     </div>
-    <template v-if="useAlipay">
-      <alipayQrcode
+    <!--碧麒麟 1 支付宝 2 中信 -->
+    <template v-if="useAlipay == 1">
+      <alipay-qrcode
         v-if="order.orderState == 0"
         v-model="showQrcodePay"
         :order="order"
         @paystateChange="paystateChange"
       />
     </template>
-    <template v-else>
+    <template v-else-if="useAlipay == 0">
       <qrcode-pay
+        v-if="order.orderState == 0"
+        v-model="showQrcodePay"
+        :order="order"
+        @paystateChange="paystateChange"
+      />
+    </template>
+    <template v-else-if="useAlipay == 2">
+      <zx-qrcode
         v-if="order.orderState == 0"
         v-model="showQrcodePay"
         :order="order"
@@ -178,13 +187,14 @@ import api from "@/api/sqbApi";
 import { mapGetters } from "vuex";
 import alipayQrcode from "./components/alipayQrcode";
 import qrcodePay from "./components/biqilinQrcodePay";
+import zxQrcode from "./components/zxQrcode";
 
 export default {
   name: "Order",
   props: [""],
   data() {
     return {
-      useAlipay: false,
+      useAlipay: null,
       product: null,
       order: null,
       coupon: null,
@@ -200,6 +210,7 @@ export default {
   components: {
     qrcodePay,
     alipayQrcode,
+    zxQrcode,
   },
 
   computed: {

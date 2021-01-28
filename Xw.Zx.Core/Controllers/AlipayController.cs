@@ -366,11 +366,11 @@ namespace Xw.Zx.Core.Controllers
         /// <returns></returns>
         [HttpGet]
         [Authorize]
-        public HbzsResult<bool> FirstUseAlipay()
+        public HbzsResult<string> FirstUseAlipay()
         {
-            var res = _context.SysParams.Any(s => s.Name == "FirstUseAlipay" && s.Value == "1");
+            var res = _context.SysParams.First(s => s.Name == "FirstUseAlipay" ).Value;
 
-            return new HbzsResult<bool>(res);
+            return new HbzsResult<string>(res);
         }
 
 

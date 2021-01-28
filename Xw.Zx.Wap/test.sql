@@ -129,3 +129,11 @@ select * from Members where phone='18624938007'
 
 -- 测试手机端切换通道
 select * from members where RoleName='Admin_CaiwuPayChange'
+
+select * from  Products
+
+-- update Products set Price=0.01 where id =9
+
+select * from SysParams
+
+update SysParams set Value=2

@@ -10,11 +10,11 @@ namespace Xw.Zx.Core.Service
     /// <summary>
     /// 中信支付平台
     /// </summary>
-    public class SwiftPass : ISwiftPass
+    public class SwiftPassService : ISwiftPassService
     {
 
 
-        public SwiftPass()
+        public SwiftPassService()
         {
 
         }
