@@ -135,14 +135,14 @@ export default {
   data() {
     return {
       name: "",
-      phone: "",
+      phone: "18624938008",
       borrowCompany: "",
-      borrowAmount: "",
+      borrowAmount: "200000",
       cycle: 36,
-      cycleAmount: "",
-      repaymentCycle: "",
+      cycleAmount: "9148.89",
+      repaymentCycle: "7",
       overdueCycle: "0",
-      lastRefundDate: new Date(),
+      lastRefundDate: new Date("2020-12-24"),
       showPicker: false,
 
       yflx: 0,
@@ -213,6 +213,7 @@ export default {
         befor: 0, //2020-08之前已还期数
         after: 0, //2020-08之后已还的期数
         overdueTotal: 0, //逾期期数
+        overrdueBefor: 0, //2020-08之前的逾期期数
       };
 
       let lastHuankuan = this._lastRefundDate; //最后一次还款
@@ -239,18 +240,33 @@ export default {
         //计算当月算不算逾期, 如果本月还没到还款日, 则本月不算
         if (
           Number(
-            new Date().Format("yyyy-MM-dd").split("-")[2] <
+            new Date().Format("yyyy-MM-dd").split("-")[2] >
               Number(this._lastRefundDate.split("-")[2])
           )
         ) {
-          overdueTotal -= 1;
+          overdueTotal += 1;
         }
       }
       if (overdueTotal < 0) overdueTotal = 0;
       r.overdueTotal = overdueTotal;
-      console.log("overdueTotal", overdueTotal);
 
-      console.log(r);
+      if (r.overdueTotal > 0) {
+        r.overrdueBefor =
+          r.overdueTotal -
+          monDiff(new Date().Format("yyyy-MM-dd"), "2020-08-20") -
+          1;
+        //已经过了还款日, 则修正下多算的下个月的
+        if (
+          Number(
+            new Date().Format("yyyy-MM-dd").split("-")[2] >
+              Number(this._lastRefundDate.split("-")[2])
+          )
+        ) {
+          r.overrdueBefor -= 1;
+        }
+        if (r.overrdueBefor < 0) r.overrdueBefor = 0;
+      }
+
       return r;
     },
 
@@ -281,60 +297,40 @@ export default {
         24
       );
 
-      let after_lixi = this.jsq_yflx(
-        befor_lixi.shengyubenjin,
-        r.after,
-        Number(this.cycleAmount),
-        17
-      );
-      console.log("after_lixi",after_lixi)
-      let overdue_lixi = this.jsq_yflx(
-        after_lixi.shengyubenjin,
-        r.overdueTotal,
-        Number(this.cycleAmount),
-        17
-      );
-      console.log("overdue_lixi",overdue_lixi)
-      return  overdue_lixi.lx;
-      // let monDiff = (endTime, startTime) => {
-      //   startTime = startTime.split("-");
-      //   // 得到月数
-      //   startTime = parseInt(startTime[0]) * 12 + parseInt(startTime[1]);
-      //   // 拆分年月日
-      //   endTime = endTime.split("-");
-      //   // 得到月数
-      //   endTime = parseInt(endTime[0]) * 12 + parseInt(endTime[1]);
-      //   var m = endTime - startTime;
-      //   return m;
-      // };
-      // let cur_202008 = monDiff(new Date().Format("yyyy-MM-dd"), "2020-08-19");
-      // let beforyuqi = Number(this.overdueCycle) - cur_202008;
-      // if (beforyuqi < 0) beforyuqi = 0;
-      // let afteryuqi = Number(this.overdueCycle) - beforyuqi;
+      if (r.overrdueBefor > 0) {
+        let beforOverdue_lixi = this.jsq_yflx(
+          befor_lixi.shengyubenjin,
+          r.overrdueBefor,
+          Number(this.cycleAmount),
+          24
+        );
 
-      // let lixi = this.jsq_yflx(
-      //   Number(this.borrowAmount),
-      //   Number(this.repaymentCycle),
-      //   Number(this.cycleAmount),
-      //   24
-      // );
+        let overdue_lixi = this.jsq_yflx(
+          beforOverdue_lixi.shengyubenjin,
+          r.overdueTotal - r.overrdueBefor,
+          Number(this.cycleAmount),
+          17
+        );
+        console.log(r);
+        console.log("逾期", overdue_lixi.lx, beforOverdue_lixi.lx);
+        return overdue_lixi.lx + beforOverdue_lixi.lx;
+      } else {
+          let after_lixi2 = this.jsq_yflx(
+          befor_lixi.shengyubenjin,
+          r.after,
+          Number(this.cycleAmount),
+          17
+        );
+        let overdue_lixi2 = this.jsq_yflx(
+          after_lixi2.shengyubenjin,
+          r.overdueTotal - r.overrdueBefor,
+          Number(this.cycleAmount),
+          17
+        );
 
-      // let beforyuqiAmount = ((lixi.shengyubenjin * 24) / 100 / 12) * beforyuqi;
-      // let afteryuqiAmount = ((lixi.shengyubenjin * 17) / 100 / 12) * beforyuqi;
-      // console.log(beforyuqiAmount, afteryuqiAmount);
-
-      // console.log(
-      //   "逾期",
-      //   beforyuqi,
-      //   afteryuqi,
-      //   lixi,
-      //   beforyuqiAmount,
-      //   afteryuqiAmount
-      // );
-      // this.maxlxLog += `8月20号前逾期利息${beforyuqiAmount}<br\>`;
-      // this.maxlxLog += `8月20号后逾期利息${afteryuqiAmount}<br\>`;
-      // this.maxlxLog += `合计逾期利息${beforyuqiAmount + afteryuqiAmount}<br\>`;
-      // return beforyuqiAmount + afteryuqiAmount;
+        return overdue_lixi2.lx ;
+      }
+    
     },
     jsq_minjmlx() {
       let hetongjine = Number(this.cycleAmount) * Number(this.cycle);
@@ -342,8 +338,6 @@ export default {
 
       let yingfulixi = this.yflx;
 
-      // var yuqi = this.jsq_yuqulx();
-      // console.log(yuqi);
       let jm = hetongjine - daozhangjine - yingfulixi;
 
       return Math.round(jm);
@@ -367,12 +361,11 @@ export default {
         17
       );
       let yhlx = befor_lixi.lx + after_lixi.lx;
-      console.log("1111合同金额", htje, bj);
-      console.log("1111已付利息", befor_lixi.lx, after_lixi.lx, yhlx);
 
       var yuqi = this.jsq_yuqulx();
-      console.log("1111逾期", yuqi);
+
       let jm = htje - bj - yhlx - yuqi;
+      console.log(htje, bj, yhlx, yuqi);
 
       return Math.round(jm);
     },
@@ -381,20 +374,20 @@ export default {
       let daozhangjine = Number(this.borrowAmount);
       let befor_lixi = this.jsq_yflx(
         daozhangjine,
-        r.befor,
+        r.befor + r.overrdueBefor,
         Number(this.cycleAmount),
         24
       );
 
       let after_lixi = this.jsq_yflx(
         befor_lixi.shengyubenjin,
-        Number(this.cycle) - r.befor,//除了8月20号前的, 剩余都是17%
+        Number(this.cycle) - (r.befor + r.overrdueBefor), //除了8月20号前的, 剩余都是17%
         Number(this.cycleAmount),
         17
       );
 
-      let yingfulixi = befor_lixi.lx + after_lixi.lx ;
-     
+      let yingfulixi = befor_lixi.lx + after_lixi.lx;
+
       return Math.round(yingfulixi);
     },
     btnClikc() {

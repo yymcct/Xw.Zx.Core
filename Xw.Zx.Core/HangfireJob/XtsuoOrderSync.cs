@@ -28,11 +28,11 @@ namespace Xw.Zx.Core.HangfireJob
 
         public void Run()
         {
-            var startTime = _context.WechatOrders.Max(w => w.TranTime);
+           // var startTime = _context.WechatOrders.Max(w => w.TranTime);
 
             _xtsuoService.SyncXtsuoOrders(new XtsuoOrdersRequestDto()
             {
-                StartTime = startTime,
+                StartTime = DateTime.Now.AddHours(-14),
                 EndTime = DateTime.Now
             });
         }
