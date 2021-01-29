@@ -4,7 +4,7 @@ import App from './App.vue'
 import { router } from './router';
 import {
   Field, Toast, Loading,
-  Button, NavBar, Image, Tab, Tabs, Picker, Popup, Dialog,NoticeBar ,
+  Button, NavBar, Image, Tab, Tabs, Picker, Popup, Dialog, NoticeBar,
   Icon, Cell, CellGroup, Checkbox, CheckboxGroup, DatetimePicker, Stepper, Switch
   , RadioGroup, Radio
 } from "vant";
@@ -56,6 +56,14 @@ Vue.prototype.$fieldFormatter = (value) => {
   return value.replace(/ /g, '');
 }
 
+var _hmt = _hmt || [];
+window._hmt = _hmt; // 必须把_hmt挂载到window下，否则找不到
+(function () {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?" + '08075c6efe7a54693805f2805ee5364d';
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
 
 router.beforeEach((to, from, next) => {
   //from页面有a参数, 但是to页面没有
@@ -73,6 +81,13 @@ router.beforeEach((to, from, next) => {
   const title = to.meta && to.meta.title;
   if (title) {
     document.title = title;
+  }
+
+  //加载统计代码
+  if (window._hmt) {
+    if (to.path) {
+      window._hmt.push(['_trackPageview', to.path]);
+    }
   }
   next();
 });

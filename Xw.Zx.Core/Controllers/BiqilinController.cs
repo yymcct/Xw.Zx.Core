@@ -139,6 +139,13 @@ namespace Xw.Zx.Core.Controllers
             }));
         }
 
+        //TODO 注释掉
+        [HttpGet]
+        public void Notifyurl2()
+        {
+            _orderService.OrderPay("20210120100012461521", OrderPaymentType.碧麒麟);
+        }
+
         private bool CheckBiqilinOrder(Order order, BiqilinRespone.Query query)
         {
             if (order != null && query != null
