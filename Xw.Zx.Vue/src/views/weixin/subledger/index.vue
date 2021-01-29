@@ -75,7 +75,9 @@
           <el-button
             type="text"
             @click="handleSub(scope.row)"
-            v-if="scope.row.subState == 0"
+            v-if="
+              scope.row.subState == 0 && user.roleName == 'Admin_CaiwuPayChange'
+            "
             >申请分账
           </el-button>
           <el-button
@@ -132,12 +134,18 @@ import api from "@/api/app";
 import searchBar from "./searchBar";
 import applyDialog from "./apply";
 import queryApplyDialog from "./queryApply";
+import { mapGetters } from "vuex";
 export default {
   name: "WechatOrders",
   components: {
     searchBar,
     applyDialog,
     queryApplyDialog,
+  },
+  computed: {
+    ...mapGetters({
+      user: "user/user",
+    }),
   },
   data() {
     return {

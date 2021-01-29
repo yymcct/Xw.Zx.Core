@@ -78,7 +78,7 @@ namespace Xw.Zx.Core.Service
                 {
                     try
                     {
-                        if (string.IsNullOrWhiteSpace(r.transid) || string.IsNullOrWhiteSpace(r.ordersn) || string.IsNullOrWhiteSpace(r.paytime))
+                        if (string.IsNullOrWhiteSpace(r.ordersn) || string.IsNullOrWhiteSpace(r.paytime))
                             continue;
                         WechatOrders wechatOrders = _context.WechatOrders.FirstOrDefault(c => c.Out_Order_No == r.ordersn && c.TransactionID == r.transid);
                         if (wechatOrders != null)
@@ -94,6 +94,7 @@ namespace Xw.Zx.Core.Service
                         neworder.PayState = "SUCCESS";
                         neworder.PayDescription = "支付成功";
                         _context.WechatOrders.Add(neworder);
+                        if(r.status =="1" || r.status == "2")
                         _context.SaveChanges();
                     }
                     catch (Exception ex)

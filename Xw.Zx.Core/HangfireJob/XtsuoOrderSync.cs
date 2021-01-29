@@ -32,7 +32,7 @@ namespace Xw.Zx.Core.HangfireJob
 
             _xtsuoService.SyncXtsuoOrders(new XtsuoOrdersRequestDto()
             {
-                StartTime = DateTime.Now.AddHours(-14),
+                StartTime = DateTime.Now.AddHours(-18),
                 EndTime = DateTime.Now
             });
         }
