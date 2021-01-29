@@ -11,6 +11,10 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using System.Text;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using Sieve.Services;
+using Xw.Zx.Core.Service.Xtsuo.Dtos;
+using Sieve.Models;
 
 namespace Xw.Zx.Core.Service
 {
@@ -19,12 +23,17 @@ namespace Xw.Zx.Core.Service
         private readonly XwZxContext _context;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly ILogger<XtsuoService> _logger;
+        public readonly ISieveProcessor _sieveProcessor;
 
-        public XtsuoService(XwZxContext context, IHttpClientFactory httpClientFactory, ILogger<XtsuoService> logger)
+        public XtsuoService(XwZxContext context
+            , IHttpClientFactory httpClientFactory
+            , ILogger<XtsuoService> logger
+            , ISieveProcessor sieveProcessor)
         {
             _context = context;
             _httpClientFactory = httpClientFactory;
             _logger = logger;
+            _sieveProcessor = sieveProcessor;
         }
 
         public bool SyncXtsuoOrders(XtsuoOrdersRequestDto getThirdQueryOrdersRequestPsDto)
@@ -94,8 +103,8 @@ namespace Xw.Zx.Core.Service
                         neworder.PayState = "SUCCESS";
                         neworder.PayDescription = "支付成功";
                         _context.WechatOrders.Add(neworder);
-                        if(r.status =="1" || r.status == "2")
-                        _context.SaveChanges();
+                        if (r.status == "1" || r.status == "2")
+                            _context.SaveChanges();
                     }
                     catch (Exception ex)
                     {
@@ -149,6 +158,81 @@ namespace Xw.Zx.Core.Service
                 var strResult = BitConverter.ToString(result).ToLower();
                 return strResult.Replace("-", "");
             }
+        }
+
+        public void QuerySubLedgerResult(string out_order_no)
+        {
+            if (string.IsNullOrWhiteSpace(out_order_no))
+                throw new Exception("请输入微信订单号和商户订单号");
+
+            WechatOrders od = _context.WechatOrders.FirstOrDefault(c => c.Out_Order_No == out_order_no && c.SubState == WechatOrders.WechatOrderState.申请中);
+            if (od != null)
+            {
+                return;
+            }
+
+            #region 查询分账结果
+            WxPayData dataquery = new WxPayData();
+            dataquery.SetValue("transaction_id", od.TransactionID);
+            dataquery.SetValue("out_order_no", od.Out_Order_No);
+            /*----------------调用接口-------------------------*/
+            WxPayData queryresult = WxPayApi.ProfitSharingQuery(dataquery);
+            if (queryresult == null)
+                throw new Exception("分账已申请通过，未查到分账结果");
+            if (queryresult.GetValue("return_code").ToString().ToUpper() != "SUCCESS")
+                throw new Exception(queryresult.GetValue("return_msg").ToString());
+            if (queryresult.GetValue("result_code").ToString().ToUpper() != "SUCCESS")
+                throw new Exception(queryresult.GetValue("err_code_des").ToString());
+            if (queryresult.GetValue("status").ToString().ToUpper() != "FINISHED")
+                throw new Exception("分账处理中");
+
+            //分账申请接收成功
+            string receiversStr = queryresult.GetValue("receivers").ToString();
+            List<WechatSubLedgerQueryResultReceiverPsDto> ps = JsonConvert.DeserializeObject<List<WechatSubLedgerQueryResultReceiverPsDto>>(receiversStr);
+            foreach (var r in ps)
+            {
+                WechatSubDetail rr = _context.WechatSubDetail.FirstOrDefault(c => c.Last_Out_Order_No == out_order_no && c.SubAccount == r.account);
+                if (rr != null)
+                {
+                    rr.SubState = r.result;
+                    rr.SubTime = DateTime.ParseExact(r.finish_time, "yyyyMMddHHmmss", System.Globalization.CultureInfo.CurrentCulture);
+                    _context.Entry(rr).State = EntityState.Modified;
+                    _context.SaveChanges();
+                }
+
+            }
+            //(只要有一个人 分账成功 我就标记 订单 分账完成)//申请中, 分账完成  分账失败
+            int successCount = _context.WechatSubDetail.Count(c => c.Last_Out_Order_No == out_order_no && c.SubState.ToUpper() == "SUCCESS");
+            if (successCount > 0)
+                od.SubState = WechatOrders.WechatOrderState.分账完成;
+            else
+                od.SubState = WechatOrders.WechatOrderState.分账失败;
+            _context.Entry(od).State = EntityState.Modified;
+            _context.SaveChanges();
+            #endregion
+        }
+
+        public void QuerySubLedgerResultAll()
+        {
+            var outordernos = _context.WechatOrders
+                .Where(c => c.SubState == WechatOrders.WechatOrderState.申请中)
+                .Select(c => c.Out_Order_No)
+                .ToArray();
+
+            foreach (var no in outordernos)
+            {
+                QuerySubLedgerResult(no);
+            }
+        }
+
+        public (WechatSubLedgerDetail, int) GetWechatOrderDetails(SieveModel sieveModel)
+        {
+            var res = new WechatSubLedgerDetail();
+
+            res.Details = _sieveProcessor.Apply(sieveModel, _context.WechatSubDetail).ToList();
+            res.TotalAmount = _sieveProcessor.Apply(sieveModel, _context.WechatSubDetail, null, true, true, false).Sum(w => w.SubAmount);
+            var total = _sieveProcessor.Apply(sieveModel, _context.WechatOrders, null, true, true, false).Count();
+            return (res, total);
         }
 
     }

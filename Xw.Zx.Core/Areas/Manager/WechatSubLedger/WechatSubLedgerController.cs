@@ -27,25 +27,27 @@ using Xw.Zx.Core.Models.Model;
 using Xw.Zx.Core.Service;
 using static Sieve.Extensions.MethodInfoExtended;
 using Microsoft.EntityFrameworkCore;
+using Xw.Zx.Core.Service.Xtsuo.Dtos;
 
 namespace Xw.Zx.Core.Areas.Manager
 {
     [ApiController]
     [Route("manager/[controller]/[action]")]
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class WechatSubLedgerController : ManagerBaseController
     {
         private readonly ILogger<WithdrawDepositController> _logger;
         private readonly IHostingEnvironment _hostingEnvironment;
-        private readonly IMapper _mapper;
+        private readonly IXtsuoService _xtsuoService;
         private string certpath = "";
         public WechatSubLedgerController(ILogger<WithdrawDepositController> logger
             , XwZxContext context
             , IMapper mapper
+            , IXtsuoService xtsuoService
             , ISieveProcessor sieveProcessor) : base(context, mapper, sieveProcessor)
         {
             _logger = logger;
-            _mapper = mapper;
+            _xtsuoService = xtsuoService;
         }
 
         /// <summary>
@@ -274,60 +276,20 @@ namespace Xw.Zx.Core.Areas.Manager
                 if (ordernums == null || (string.IsNullOrWhiteSpace(ordernums.out_order_no) && string.IsNullOrWhiteSpace(ordernums.transaction_id)))
                     throw new Exception("请输入微信订单号和商户订单号");
 
-                WechatOrders od = _context.WechatOrders.FirstOrDefault(c =>  c.Out_Order_No == ordernums.out_order_no);
+                WechatOrders od = _context.WechatOrders.FirstOrDefault(c => c.Out_Order_No == ordernums.out_order_no);
                 if (od == null)
                     throw new Exception("系统未记录该订单信息");
 
+                if (od.SubState == WechatOrders.WechatOrderState.申请中)
+                {
+                    _xtsuoService.QuerySubLedgerResult(ordernums.out_order_no);
+                    od = _context.WechatOrders.FirstOrDefault(c => c.Out_Order_No == ordernums.out_order_no);
+                }
+
                 WechatOrdersDetailsDto resultList = null;
-                if (od.SubState == WechatOrders.WechatOrderState.分账完成)
-                {
-                    resultList = _mapper.Map<WechatOrdersDetailsDto>(od);
-                    resultList.Receivers = _context.WechatSubDetail.Where(c =>  c.Last_Out_Order_No == ordernums.out_order_no).ToList();
-                    return new HbzsManagerResult<WechatOrdersDetailsDto>(resultList);
-                }
-
-                #region 查询分账结果
-                WxPayData dataquery = new WxPayData();
-                dataquery.SetValue("transaction_id", od.TransactionID);
-                dataquery.SetValue("out_order_no", od.Out_Order_No);
-                /*----------------调用接口-------------------------*/
-                WxPayData queryresult = WxPayApi.ProfitSharingQuery(dataquery);
-                if (queryresult == null)
-                    throw new Exception("分账已申请通过，未查到分账结果");
-                if (queryresult.GetValue("return_code").ToString().ToUpper() != "SUCCESS")
-                    throw new Exception(queryresult.GetValue("return_msg").ToString());
-                if (queryresult.GetValue("result_code").ToString().ToUpper() != "SUCCESS")
-                    throw new Exception(queryresult.GetValue("err_code_des").ToString());
-                if (queryresult.GetValue("status").ToString().ToUpper() != "FINISHED")
-                    throw new Exception("分账处理中");
-
-                //分账申请接收成功
-                string receiversStr = queryresult.GetValue("receivers").ToString();
-                List<WechatSubLedgerQueryResultReceiverPsDto> ps = JsonConvert.DeserializeObject<List<WechatSubLedgerQueryResultReceiverPsDto>>(receiversStr);
-                foreach (var r in ps)
-                {
-                    WechatSubDetail rr = _context.WechatSubDetail.FirstOrDefault(c => c.Last_Out_Order_No == ordernums.out_order_no && c.SubAccount == r.account);
-                    if (rr != null)
-                    {
-                        rr.SubState = r.result;
-                        rr.SubTime = DateTime.ParseExact(r.finish_time, "yyyyMMddHHmmss", System.Globalization.CultureInfo.CurrentCulture);
-                        _context.Entry(rr).State = EntityState.Modified;
-                        _context.SaveChanges();
-                    }
-                    
-                }
-                //(只要有一个人 分账成功 我就标记 订单 分账完成)//申请中, 分账完成  分账失败
-                int successCount = _context.WechatSubDetail.Count(c => c.Last_Out_Order_No == ordernums.out_order_no && c.SubState.ToUpper() == "SUCCESS");
-                if (successCount > 0)
-                    od.SubState = WechatOrders.WechatOrderState.分账完成;
-                else
-                    od.SubState = WechatOrders.WechatOrderState.分账失败;
-                _context.Entry(od).State = EntityState.Modified;
-                _context.SaveChanges();
-                #endregion
 
                 resultList = _mapper.Map<WechatOrdersDetailsDto>(od);
-                resultList.Receivers = _context.WechatSubDetail.Where(c =>  c.Last_Out_Order_No == ordernums.out_order_no).ToList();
+                resultList.Receivers = _context.WechatSubDetail.Where(c => c.Last_Out_Order_No == ordernums.out_order_no).ToList();
                 return new HbzsManagerResult<WechatOrdersDetailsDto>(resultList);
             }
             catch (Exception ex)
@@ -336,14 +298,20 @@ namespace Xw.Zx.Core.Areas.Manager
             }
         }
 
-      
+
         public ActionResult PayNotifyUrl()
         {
 
             return null;//不用
         }
 
+        [HttpGet]
+        public HbzsManagerResult<WechatSubLedgerDetail> GetWechatOrderDetails([FromQuery] SieveModel sieveModel)
+        {
+            (var detail, var total) = _xtsuoService.GetWechatOrderDetails(sieveModel);
 
+            return new HbzsManagerResult<WechatSubLedgerDetail>(detail, total);
+        }
 
         #region  完结分账 这里不用 先不删（这里用单次分账 分账后 就结账）
         ///// <summary>
