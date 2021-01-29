@@ -20,7 +20,9 @@ namespace Xw.Zx.Core.Models.Model
     {
         public enum LogType
         {
-            修改上级 = 0
+            修改上级 = 0,
+            发放优惠券=1,
+            优惠券兑换积分=2
         }
     }
 }

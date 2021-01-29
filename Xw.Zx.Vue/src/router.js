@@ -169,6 +169,12 @@ export default new Router({
             component: () =>
                 import('./views/weixin/subledger/index'),
             name: '微信分账'
+        },
+        {
+            path: '/weixin/detail',
+            component: () =>
+                import('./views/weixin/detail/index'),
+            name: '分账明细'
         }
         ]
     }

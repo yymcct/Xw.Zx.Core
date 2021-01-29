@@ -79,6 +79,15 @@ namespace Xw.Zx.Core.Areas.Manager.Coupon
             var coupon = _context.Coupons.First(c => c.Id == dto.Couponid);
             coupon.CurCount -= dto.Count;
 
+            var log = $"{dto.Memberid}收到{dto.Count}张ID为{dto.Couponid}的优惠券";
+            _context.SysLogs.Add(new SysLog()
+            {
+                logType = SysLog.LogType.发放优惠券,
+                Log = log,
+                AdminId = Member.Id,
+                AdminName = Member.RealName
+            });
+
             _context.SaveChanges();
 
             return new HbzsManagerResult(HbzsManagerResultCode.Sucess, "");
@@ -151,7 +160,19 @@ namespace Xw.Zx.Core.Areas.Manager.Coupon
         //[Authorize(Roles = nameof(MemberRole.Admin_Tongjibu))]
         public HbzsManagerResult<MemberIntegral> CouponToMemberIntegral(int couponReceiveId)
         {
-            return new HbzsManagerResult<MemberIntegral>(_CouponService.CouponToMemberIntegral(couponReceiveId));
+
+            var memberIntegral = _CouponService.CouponToMemberIntegral(couponReceiveId);
+
+            var log = $"用户{memberIntegral.MemberId}的{couponReceiveId}优惠券兑换为积分, 兑换后积分为{memberIntegral.AvailableIntegrals}";
+            _context.SysLogs.Add(new SysLog()
+            {
+                logType = SysLog.LogType.优惠券兑换积分,
+                Log = log,
+                AdminId = Member.Id,
+                AdminName = Member.RealName
+            });
+
+            return new HbzsManagerResult<MemberIntegral>(memberIntegral);
         }
     }
 }

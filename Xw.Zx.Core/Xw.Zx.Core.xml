@@ -2098,6 +2098,32 @@
             <param name="member"></param>
             <returns></returns>
         </member>
+        <member name="M:Xw.Zx.Core.Service.IXtsuoService.SyncXtsuoOrders(Xw.Zx.Core.Service.XtsuoOrdersRequestDto)">
+            <summary>
+            同步Xtsuo系统的订单
+            </summary>
+            <param name="getThirdQueryOrdersRequestPsDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Service.IXtsuoService.QuerySubLedgerResult(System.String)">
+            <summary>
+            查询分账状态
+            </summary>
+            <param name="out_order_no"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Service.IXtsuoService.QuerySubLedgerResultAll">
+            <summary>
+            查询所有分账的订单状态
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Service.IXtsuoService.GetWechatOrderDetails(Sieve.Models.SieveModel)">
+            <summary>
+            
+            </summary>
+            <param name="sieveModel"></param>
+            <returns></returns>
+        </member>
         <member name="M:swiftpass.utils.RSAHelper.Encrypt(System.String,System.String,System.Boolean)">
             <summary>
             RSA加密

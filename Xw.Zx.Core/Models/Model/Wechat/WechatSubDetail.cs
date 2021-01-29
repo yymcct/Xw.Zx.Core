@@ -16,6 +16,7 @@ namespace Xw.Zx.Core.Models.Model
         [Column(TypeName = "varchar(50)")]
         public string TransactionID { get; set; }
 
+        [Sieve(CanFilter = true, CanSort = true)]
         [Column(TypeName = "varchar(50)")]
         public string Last_Out_Order_No { get; set; }
 
@@ -40,27 +41,28 @@ namespace Xw.Zx.Core.Models.Model
         /// <summary>
         /// 分账 接收人名
         /// </summary>
-
+        [Sieve(CanFilter = true, CanSort = true)]
         [Column(TypeName = "varchar(50)")]
         public string SubName { get; set; }
 
         /// <summary>
         /// 分账 金额
         /// </summary>
-
+        [Sieve(CanFilter = true, CanSort = true)]
         [Column(TypeName = "decimal(18,2)")]
         public decimal SubAmount { get; set; }
 
         /// <summary>
         /// 分账时间
         /// </summary>
-
+        [Sieve(CanFilter = true, CanSort = true)]
         [Column(TypeName = "datetime")]
         public DateTime SubTime { get; set; }
 
         /// <summary>
         /// 分账 结果
         /// </summary>
+        [Sieve(CanFilter = true, CanSort = true)]
         [Column(TypeName = "varchar(50)")]
         public string SubState { get; set; }
 

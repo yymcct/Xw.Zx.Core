@@ -44,6 +44,9 @@ namespace Xw.Zx.Core.Service
             });
 
             couponReceive.CouponUseState = CouponUseState.兑换为积分;
+
+
+
             _context.SaveChanges();
 
             return _memberIntegralService.GetMemberIntegral(couponReceive.Memberid);

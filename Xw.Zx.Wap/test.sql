@@ -136,4 +136,18 @@ select * from  Products
 
 select * from SysParams
 
-update SysParams set Value=2
+-- update SysParams set Value=2-
+
+-- 微信订单
+select  * from WechatOrders
+select * from WechatSubDetail
+select * from WechatSubLedgerReceivers
+
+
+select * from Members where MemberVipType in(10, 20,30, 40)
+
+select Phone as 电话, RealName as 姓名 , (case MemberVipType when 10 then '业务经理' when 20 then '运营中心' when 30 then '大区经理' when 40 then '分公司'  end) as 级别,
+	(select phone from Members as B where B.id =  A.InviteId) as 上级电话
+	,(select RealName from Members as B where B.id =  A.InviteId) as 上级姓名
+	,(select case MemberVipType when 10 then '业务经理' when 20 then '运营中心' when 30 then '大区经理' when 40 then '分公司'  end from Members as B where B.id =  A.InviteId) as 上级级别
+from Members as A where MemberVipType in(10, 20,30, 40)

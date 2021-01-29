@@ -41,5 +41,6 @@ export default {
         getWechatPayOrder: (params) => request.get('/manager/WechatSubLedger/GetWechatPayOrder', { params: params }),
         dealWithSubLedger: (params) => request.post('/manager/WechatSubLedger/DealWithSubLedger', params),
         querySubLedgerResult: (params) => request.get('/manager/WechatSubLedger/QuerySubLedgerResult', { params: params }),
+        getWechatOrderDetails: (params) => request.get('/manager/WechatSubLedger/GetWechatOrderDetails', { params: params }),
     }
 }

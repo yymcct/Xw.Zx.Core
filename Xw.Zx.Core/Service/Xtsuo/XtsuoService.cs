@@ -231,7 +231,7 @@ namespace Xw.Zx.Core.Service
 
             res.Details = _sieveProcessor.Apply(sieveModel, _context.WechatSubDetail).ToList();
             res.TotalAmount = _sieveProcessor.Apply(sieveModel, _context.WechatSubDetail, null, true, true, false).Sum(w => w.SubAmount);
-            var total = _sieveProcessor.Apply(sieveModel, _context.WechatOrders, null, true, true, false).Count();
+            var total = _sieveProcessor.Apply(sieveModel, _context.WechatSubDetail, null, true, true, false).Count();
             return (res, total);
         }
 
