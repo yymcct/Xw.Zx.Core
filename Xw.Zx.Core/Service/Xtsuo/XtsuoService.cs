@@ -166,7 +166,7 @@ namespace Xw.Zx.Core.Service
                 throw new Exception("请输入微信订单号和商户订单号");
 
             WechatOrders od = _context.WechatOrders.FirstOrDefault(c => c.Out_Order_No == out_order_no && c.SubState == WechatOrders.WechatOrderState.申请中);
-            if (od != null)
+            if (od == null)
             {
                 return;
             }

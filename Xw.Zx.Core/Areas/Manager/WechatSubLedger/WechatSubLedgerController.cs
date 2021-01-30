@@ -33,7 +33,7 @@ namespace Xw.Zx.Core.Areas.Manager
 {
     [ApiController]
     [Route("manager/[controller]/[action]")]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")] TODO
     public class WechatSubLedgerController : ManagerBaseController
     {
         private readonly ILogger<WithdrawDepositController> _logger;
@@ -78,8 +78,9 @@ namespace Xw.Zx.Core.Areas.Manager
         {
             try
             {
-                var list = _sieveProcessor.Apply(sieveModel, _context.WechatOrders).ToList();
-                var total = _sieveProcessor.Apply(sieveModel, _context.WechatOrders, null, true, true, false).Count();
+                var db = _context.WechatOrders.Where(w=> !string.IsNullOrEmpty(w.TransactionID));
+                var list = _sieveProcessor.Apply(sieveModel, db).ToList();
+                var total = _sieveProcessor.Apply(sieveModel, db, null, true, true, false).Count();
                 return new HbzsManagerResult<List<WechatOrders>>(list, total);
             }
             catch (Exception ex)

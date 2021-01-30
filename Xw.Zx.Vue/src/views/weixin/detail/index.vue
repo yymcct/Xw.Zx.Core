@@ -171,24 +171,6 @@ export default {
       this.edit.showEdit = true;
     },
     //删除
-    handleDel(index, row) {
-      this.$confirm("确认删除?", "提示", { type: "warning" }).then(() => {
-        this.loading = true;
-        api.wechatSubDetail
-          .del(row.id)
-          .then((res) => {
-            this.loading = false;
-            this.$message({
-              message: "删除成功",
-              type: "success",
-            });
-            this.getWechatSubDetails();
-          })
-          .catch(() => {
-            this.loading = false;
-          });
-      });
-    },
     editChange(cancel) {
       if (cancel != "cancel") {
         this.getWechatSubDetails();

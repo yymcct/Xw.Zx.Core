@@ -35,6 +35,8 @@ namespace Xw.Zx.Core.HangfireJob
                 StartTime = DateTime.Now.AddHours(-18),
                 EndTime = DateTime.Now
             });
+
+            _xtsuoService.QuerySubLedgerResultAll();
         }
 
 

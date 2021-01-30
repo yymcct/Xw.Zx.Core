@@ -24,13 +24,13 @@
       <el-table-column
         prop="transactionID"
         label="微信交易号"
-        width="120px"
+     
         sortable
       ></el-table-column>
       <el-table-column
         prop="out_Order_No"
         label="商户交易号"
-        width="120px"
+   
         sortable
       ></el-table-column>
       <el-table-column
@@ -60,11 +60,13 @@
       <el-table-column
         prop="payDescription"
         label="分账描述"
+        width="100px"
         sortable
       ></el-table-column>
       <el-table-column prop="subState" label="分账状态" width="100px" sortable>
         <template scope="scope">
-          <p v-if="scope.row.subState == 0">待审请</p>
+          <p v-if="scope.row.subState == 0 && scope.row.transactionID !=''">待审请</p>
+          <p v-if="scope.row.subState == 0 && scope.row.transactionID ==''">不能分账</p>
           <p v-if="scope.row.subState == 10">申请中</p>
           <p v-if="scope.row.subState == 20">分账完成</p>
           <p v-if="scope.row.subState == 30">分账失败</p>
@@ -222,9 +224,7 @@ export default {
       this.queryApply.show = true;
       this.queryApply.id = row.out_Order_No;
     },
-    editChange(cancel) {
-      this.getWechatOrderss();
-    },
+
   },
 };
 </script>

@@ -11,10 +11,18 @@
           <el-input
             v-model.trim="filters.out_Order_No"
             placeholder="请输入商家交易号"
-            style="width:300px;"
+            style="width: 300px"
           ></el-input>
         </el-form-item>
-
+        <el-form-item>
+          <el-select v-model="filters.subState" placeholder="全部分账状态">
+            <el-option label="全部分账状态" value=""> </el-option>
+            <el-option label="待审请" value="0"> </el-option>
+            <el-option label="申请中" value="10"> </el-option>
+            <el-option label="分账完成" value="20"> </el-option>
+            <el-option label="分账失败" value="30"> </el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="handleSearch">查询</el-button>
         </el-form-item>
@@ -31,6 +39,7 @@ export default {
       //TODO:删减查询条件
       filters: {
         out_Order_No: "",
+        subState: "",
       },
     };
   },
@@ -45,6 +54,9 @@ export default {
 
       if (this.filters.out_Order_No)
         filtersStr += `Out_Order_No@=${this.filters.out_Order_No},`;
+
+      if (this.filters.subState)
+        filtersStr += `subState==${this.filters.subState},`;
 
       this.$emit("search", filtersStr);
     },

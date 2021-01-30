@@ -143,6 +143,8 @@ select  * from WechatOrders
 select * from WechatSubDetail
 select * from WechatSubLedgerReceivers
 
+select count(*) from WechatSubDetail where SubState = '申请中'
+--4200000781202101254581877145
 
 select * from Members where MemberVipType in(10, 20,30, 40)
 
