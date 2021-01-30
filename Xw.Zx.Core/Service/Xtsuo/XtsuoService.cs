@@ -87,7 +87,7 @@ namespace Xw.Zx.Core.Service
                 {
                     try
                     {
-                        if (string.IsNullOrWhiteSpace(r.ordersn) || string.IsNullOrWhiteSpace(r.paytime))
+                        if (string.IsNullOrWhiteSpace(r.ordersn))
                             continue;
                         WechatOrders wechatOrders = _context.WechatOrders.FirstOrDefault(c => c.Out_Order_No == r.ordersn && c.TransactionID == r.transid);
                         if (wechatOrders != null)
@@ -96,14 +96,14 @@ namespace Xw.Zx.Core.Service
                         neworder.Out_Order_No = r.ordersn;
                         neworder.TransactionID = r.transid;
                         neworder.SubState = WechatOrders.WechatOrderState.待申请;
-                        neworder.TranTime = ConvertStringToDateTime(r.paytime);
+                        neworder.TranTime = ConvertStringToDateTime(r.createtime);
                         neworder.Amount = r.price;
                         decimal je = Math.Floor(neworder.Amount * (1 - WxPayConfig.Config.Rate) * 100) / 100;
                         neworder.SubCharge = Math.Floor(je * WxPayConfig.Config.MaxRate * 100) / 100;
                         neworder.PayState = "SUCCESS";
                         neworder.PayDescription = "支付成功";
                         _context.WechatOrders.Add(neworder);
-                        if (r.status == "1" || r.status == "2")
+                        if ((r.status == "1" || r.status == "2") && r.paytime != "0")
                             _context.SaveChanges();
                     }
                     catch (Exception ex)

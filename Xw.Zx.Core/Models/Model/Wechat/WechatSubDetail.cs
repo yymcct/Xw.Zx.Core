@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace Xw.Zx.Core.Models.Model
 {
-    public class WechatSubDetail: ModelBase
+    public class WechatSubDetail : ModelBase_Id_CreateTime
     {
-
-        [Sieve(CanFilter = true, CanSort = true)]
-        public int Id { get; set; }
-
         [Column(TypeName = "varchar(50)")]
         public string TransactionID { get; set; }
 
@@ -30,7 +26,7 @@ namespace Xw.Zx.Core.Models.Model
         /// 分账接收人 类型
         /// </summary>
         [Column(TypeName = "varchar(50)")]
-        public string SubType { get; set; }   
+        public string SubType { get; set; }
 
         /// <summary>
         /// 分账接收人账户

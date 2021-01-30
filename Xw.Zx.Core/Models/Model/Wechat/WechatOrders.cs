@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace Xw.Zx.Core.Models.Model
 {
-    public partial class WechatOrders : ModelBase
+    public partial class WechatOrders : ModelBase_Id_CreateTime
     {
-
-        [Sieve(CanFilter = true, CanSort = true)]
-        public int Id { get; set; }
-
         [Sieve(CanFilter = true)]
         [Column(TypeName = "varchar(50)")]
         public string TransactionID { get; set; }
