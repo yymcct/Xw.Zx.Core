@@ -2,7 +2,7 @@ select top 10 * from Members where phone='18624938007'
 
 --update Members set WxOpenId='' WHERE Phone='18624938007'
 
-select * from Members where id ='750'
+select * from Members where RealName like '%朱小勤%'
 
 select top 10 * from Members where phone='14797716268'
 
@@ -139,12 +139,27 @@ select * from SysParams
 -- update SysParams set Value=2-
 
 -- 微信订单
-select  * from WechatOrders
+select  * from WechatOrders where SubState = 20
 select * from WechatSubDetail
 select * from WechatSubLedgerReceivers
 
-select count(*) from WechatSubDetail where SubState = '申请中'
+select * from SysLogs
+
+
+select * from WechatSubDetail where SubState = '申请中'
 --4200000781202101254581877145
+711
+-- delete WechatSubDetail where id = 265    
+
+select * from WechatOrders where SubState = 0
+select * from WechatSubDetail where SubState= 'SUCCESS'
+
+delete WechatOrders where Out_Order_No='SH20210130093208248446'
+
+select * from WechatOrders where TranTime = '1970-01-01 08:00:00.000'
+
+delete  WechatOrders where TranTime = '1970-01-01 08:00:00.000'
+
 
 select * from Members where MemberVipType in(10, 20,30, 40)
 
@@ -153,3 +168,36 @@ select Phone as 电话, RealName as 姓名 , (case MemberVipType when 10 then '�
 	,(select RealName from Members as B where B.id =  A.InviteId) as 上级姓名
 	,(select case MemberVipType when 10 then '业务经理' when 20 then '运营中心' when 30 then '大区经理' when 40 then '分公司'  end from Members as B where B.id =  A.InviteId) as 上级级别
 from Members as A where MemberVipType in(10, 20,30, 40)
+select * from WechatOrders where id = 528 
+
+
+select sum(amount) from Orders where MemberId = 80
+
+
+-------------------------------------------------
+DECLARE @memberId Int
+DECLARE @startTime DateTime
+DECLARE @endTime DateTime
+
+set @memberId = 771
+set @startTime = '2020-11-01'
+set @endTime = '2020-12-01';
+
+WITH T
+AS( 
+    SELECT Id,InviteId as 上级ID,RealName as 姓名, Phone as 电话,0  as 上下级层级 FROM Members WHERE Id=@memberId
+    UNION ALL 
+    SELECT U.Id,U.InviteId,U.RealName,U.Phone,上下级层级+1   
+    FROM Members U INNER JOIN T ON U.InviteId=T.Id  
+) 
+SELECT *,
+	(select sum(amount) 
+		from Orders where MemberId = T.Id and Orders.Amount!='9.9'  and OrderState=1 and Amount!=0 and AddTime between @startTime and  @endTime
+	) as 合计  
+FROM T 
+where (select sum(amount) from Orders where MemberId = T.Id and Orders.Amount!='9.9'  and OrderState=1 and Amount!=0 and AddTime between @startTime and  @endTime ) is not null
+
+---------------------------------------------------
+
+
+ 

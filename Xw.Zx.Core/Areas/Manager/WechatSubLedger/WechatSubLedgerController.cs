@@ -59,7 +59,7 @@ namespace Xw.Zx.Core.Areas.Manager
                 EndTime = endTime
             });
 
-            return new HbzsManagerResult( HbzsManagerResultCode.Sucess,"");
+            return new HbzsManagerResult(HbzsManagerResultCode.Sucess, "");
         }
 
 
@@ -91,7 +91,7 @@ namespace Xw.Zx.Core.Areas.Manager
         {
             try
             {
-                var db = _context.WechatOrders.Where(w=> !string.IsNullOrEmpty(w.TransactionID));
+                var db = _context.WechatOrders.Where(w => !string.IsNullOrEmpty(w.TransactionID));
                 var list = _sieveProcessor.Apply(sieveModel, db).ToList();
                 var total = _sieveProcessor.Apply(sieveModel, db, null, true, true, false).Count();
                 return new HbzsManagerResult<List<WechatOrders>>(list, total);
@@ -184,6 +184,7 @@ namespace Xw.Zx.Core.Areas.Manager
         {
             try
             {
+                //TODO 添加操作日志
                 if (dto == null)
                     throw new Exception("请求参数 无效");
                 if (string.IsNullOrWhiteSpace(dto.out_order_no))
