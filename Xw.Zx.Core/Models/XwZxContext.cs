@@ -116,6 +116,8 @@ namespace Xw.Zx.Core.Models.Model
         /// </summary>
         public DbSet<WechatSubDetail> WechatSubDetail { get; set; }
 
+        public DbSet<Xtsuo_Member> Xtsuo_Members { get; set; }
+
         #endregion
 
         #region 优惠券

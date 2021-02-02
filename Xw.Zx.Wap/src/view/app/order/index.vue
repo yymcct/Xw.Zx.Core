@@ -171,14 +171,14 @@
         @paystateChange="paystateChange"
       />
     </template>
-    <!-- <template v-else-if="useAlipay == '2'">
+    <template v-else-if="useAlipay == '2'">
       <zx-qrcode
         v-if="order.orderState == 0"
         v-model="showQrcodePay"
         :order="order"
         @paystateChange="paystateChange"
       />
-    </template> -->
+    </template>
   </div>
 </template>
 
@@ -187,7 +187,7 @@ import api from "@/api/sqbApi";
 import { mapGetters } from "vuex";
 import alipayQrcode from "./components/alipayQrcode";
 import qrcodePay from "./components/biqilinQrcodePay";
-// import zxQrcode from "./components/zxQrcode";
+import zxQrcode from "./components/zxQrcode";
 
 export default {
   name: "Order",
@@ -210,7 +210,7 @@ export default {
   components: {
     qrcodePay,
     alipayQrcode,
-   // zxQrcode,
+    zxQrcode,
   },
 
   computed: {

@@ -200,4 +200,4 @@ where (select sum(amount) from Orders where MemberId = T.Id and Orders.Amount!='
 ---------------------------------------------------
 
 
- 
+ exec GetAmount @memberId = 47,@startTime = '2020-11-01',@endTime = '2020-12-01'

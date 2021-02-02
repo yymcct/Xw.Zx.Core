@@ -284,7 +284,7 @@
             <summary>
             处理分账
             </summary>
-            <param name="postRequestDealWithSubLedgerApiPsDto"></param>
+            <param name="dto"></param>
             <returns></returns>
         </member>
         <member name="M:Xw.Zx.Core.Areas.Manager.WechatSubLedgerController.QuerySubLedgerResult(Xw.Zx.Core.Areas.Manager.WechatQueryOrderPsDto)">
