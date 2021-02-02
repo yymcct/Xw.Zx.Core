@@ -838,46 +838,6 @@
             <param name="htmlText">HTML代码</param>   
             <returns></returns>
         </member>
-        <member name="M:Xw.Zx.Core.Helper.RSAHelper.#ctor(Xw.Zx.Core.Helper.RSAType,System.Text.Encoding,System.String,System.String)">
-            <summary>
-            实例化RSAHelper
-            </summary>
-            <param name="rsaType">加密算法类型 RSA SHA1;RSA2 SHA256 密钥长度至少为2048</param>
-            <param name="encoding">编码类型</param>
-            <param name="privateKey">私钥</param>
-            <param name="publicKey">公钥</param>
-        </member>
-        <member name="M:Xw.Zx.Core.Helper.RSAHelper.Sign(System.String)">
-            <summary>
-            使用私钥签名
-            </summary>
-            <param name="data">原始数据</param>
-            <returns></returns>
-        </member>
-        <member name="M:Xw.Zx.Core.Helper.RSAHelper.Verify(System.String,System.String)">
-            <summary>
-            使用公钥验证签名
-            </summary>
-            <param name="data">原始数据</param>
-            <param name="sign">签名</param>
-            <returns></returns>
-        </member>
-        <member name="T:Xw.Zx.Core.Helper.RSAType">
-            <summary>
-            RSA算法类型
-            </summary>
-        </member>
-        <member name="F:Xw.Zx.Core.Helper.RSAType.RSA">
-            <summary>
-            SHA1
-            </summary>
-        </member>
-        <member name="F:Xw.Zx.Core.Helper.RSAType.RSA2">
-            <summary>
-            RSA2 密钥长度至少为2048
-            SHA256
-            </summary>
-        </member>
         <member name="T:Xw.Zx.Core.Helper.StringHelper">
             <summary>
             字符串帮助类
@@ -2124,7 +2084,7 @@
             <param name="sieveModel"></param>
             <returns></returns>
         </member>
-        <member name="M:swiftpass.utils.RSAHelper.Encrypt(System.String,System.String,System.Boolean)">
+        <member name="M:swiftpass.utils.SwiftRSAHelper.Encrypt(System.String,System.String,System.Boolean)">
             <summary>
             RSA加密
             </summary>
@@ -2133,7 +2093,7 @@
             <param name="fOAEP">如果为 true，则使用 OAEP 填充（仅在运行 Microsoft Windows XP 或更高版本的计算机上可用）执行直接的 System.Security.Cryptography.RSA加密；否则，如果为 false，则使用 PKCS#1 1.5 版填充。</param>
             <returns>加密后的结果（base64格式）</returns>
         </member>
-        <member name="M:swiftpass.utils.RSAHelper.Decrypt(System.String,System.String,System.Boolean)">
+        <member name="M:swiftpass.utils.SwiftRSAHelper.Decrypt(System.String,System.String,System.Boolean)">
             <summary>
             RSA解密
             </summary>
@@ -2142,16 +2102,7 @@
             <param name="fOAEP">如果为 true，则使用 OAEP 填充（仅在运行 Microsoft Windows XP 或更高版本的计算机上可用）执行直接的 System.Security.Cryptography.RSA加密；否则，如果为 false，则使用 PKCS#1 1.5 版填充。</param>
             <returns></returns>
         </member>
-        <member name="M:swiftpass.utils.RSAHelper.SignData(System.String,System.String,System.Object)">
-            <summary>
-            RSA签名
-            </summary>
-            <param name="privatekey">私钥</param>
-            <param name="content">需签名的原始数据(utf-8)</param>
-            <param name="halg">签名采用的算法，如果传null，则采用MD5算法</param>
-            <returns>签名后的值(base64格式)</returns>
-        </member>
-        <member name="M:swiftpass.utils.RSAHelper.VerifyData(System.String,System.String,System.String,System.Object)">
+        <member name="M:swiftpass.utils.SwiftRSAHelper.VerifyData(System.String,System.String,System.String,System.Object)">
             <summary>
             RSA验签
             </summary>
@@ -2159,23 +2110,6 @@
             <param name="content">需验证签名的数据(utf-8)</param>
             <param name="signature">需验证的签名字符串(base64格式)</param>
             <param name="halg">签名采用的算法，如果传null，则采用MD5算法</param>
-            <returns></returns>
-        </member>
-        <member name="M:swiftpass.utils.DSAHelper.SignData(System.String,System.String)">
-            <summary>
-            DSA签名
-            </summary>
-            <param name="privatekey">私钥</param>
-            <param name="content">需签名的原始数据(utf-8)</param>
-            <returns>签名后的值(base64格式)</returns>
-        </member>
-        <member name="M:swiftpass.utils.DSAHelper.VerifyData(System.String,System.String,System.String)">
-            <summary>
-            DSA验签
-            </summary>
-            <param name="publicKey">公钥</param>
-            <param name="content">需验证签名的数据(utf-8)</param>
-            <param name="signature">需验证的签名字符串(base64格式)</param>
             <returns></returns>
         </member>
         <member name="T:swiftpass.utils.ClientResponseHandler">
@@ -2498,6 +2432,65 @@
             </summary>    
             <param name="publicKey">.net生成的公钥</param>    
             <returns></returns>   
+        </member>
+        <member name="M:swiftpass.utils.RSAHelper.RSASign(System.String,System.String)">
+            <summary>
+            私钥签名
+            </summary>
+            <param name="signStr"></param>
+            <param name="privateKey"></param>
+            <returns></returns>
+        </member>
+        <member name="M:swiftpass.utils.RSAHelper.RSAEncrypt(System.String,System.String)">
+            <summary>
+            公钥签名
+            </summary>
+            <param name="encrypt_info"></param>
+            <param name="publicKey"></param>
+            <returns></returns>
+        </member>
+        <member name="M:swiftpass.utils.RSAHelper.RSAPrivateKeyJava2DotNet(System.String)">
+            <summary>
+            RSA私钥格式转换
+            </summary>
+            <param name="privateKey"></param>
+            <returns></returns>
+        </member>
+        <member name="M:swiftpass.utils.RSAHelper.RSAPublicKeyJava2DotNet(System.String)">
+            <summary>
+            RSA公钥格式转换
+            </summary>
+            <param name="publicKey"></param>
+            <returns>格式转换结果</returns>
+        </member>
+        <member name="M:swiftpass.utils.RSAHelper.ValidateRsaSign(System.String,System.String,System.String)">
+            <summary>
+            公钥验签
+            </summary>
+            <param name="plainText"></param>
+            <param name="publicKey"></param>
+            <param name="signedData"></param>
+            <returns></returns>
+        </member>
+        <member name="T:swiftpass.utils.RSAExtensions">
+            <summary>
+            System.Security.Cryptography.RSA 扩展方法
+            </summary>
+        </member>
+        <member name="M:swiftpass.utils.RSAExtensions.FromXmlStringExtensions(System.Security.Cryptography.RSA,System.String)">
+            <summary>
+            扩展FromXmlString
+            </summary>
+            <param name="rsa"></param>
+            <param name="xmlString"></param>
+        </member>
+        <member name="M:swiftpass.utils.RSAExtensions.ToXmlStringExtensions(System.Security.Cryptography.RSA,System.Boolean)">
+            <summary>
+            扩展ToXmlString
+            </summary>
+            <param name="rsa"></param>
+            <param name="includePrivateParameters"></param>
+            <returns></returns>
         </member>
         <member name="T:swiftpass.utils.Utils">
             <summary>

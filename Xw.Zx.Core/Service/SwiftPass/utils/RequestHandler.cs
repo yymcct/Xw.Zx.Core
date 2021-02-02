@@ -177,7 +177,7 @@ namespace swiftpass.utils
                 if (signtype == "RSA_1_256")
                     halg = "SHA256";
                 mchPrivateKey = RSAConverter.RSAPrivateKeyJava2DotNet(cfg["mchPrivateKey"].ToString());
-                sign = RSAHelper.SignData(mchPrivateKey, sb.ToString(),halg);
+                sign = SwiftRSAHelper.SignData(mchPrivateKey, sb.ToString(),halg);
             //}
 
             this.setParameter("sign", sign);

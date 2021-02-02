@@ -142,6 +142,7 @@ namespace swiftpass.utils
                 sr = new StreamReader(wr.GetResponseStream(), Encoding.UTF8);
 
                 this.resContent = sr.ReadToEnd();
+                this.responseCode = Convert.ToInt32(wr.StatusCode);
                 sr.Close();
                 wr.Close();
             }
@@ -154,9 +155,7 @@ namespace swiftpass.utils
                 }
 
                 return false;
-            }
-
-            this.responseCode = Convert.ToInt32(wr.StatusCode);
+            }            
 
             return true;
         }

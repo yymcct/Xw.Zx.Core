@@ -17,17 +17,9 @@ namespace swiftpass.utils
                 return func(algorithm);
             }
         }
-        ///// <summary>
-        ///// 按默认规则生成公钥、私钥
-        ///// </summary>
-        ///// <param name="publicKey">公钥（Xml格式）</param>
-        ///// <param name="privateKey">私钥（Xml格式）</param>
-        //public static void Create(out string publicKey, out string privateKey)
-        //{
-        //    KeyGenerator.CreateAsymmetricAlgorithmKey<T>(out publicKey, out privateKey);
-        //}
+
     }
-    public class RSAHelper : AsymmetricAlgorithmHelper<RSACryptoServiceProvider>
+    public class SwiftRSAHelper : AsymmetricAlgorithmHelper<RSACryptoServiceProvider>
     {
         /// <summary>
         /// RSA加密
@@ -53,18 +45,13 @@ namespace swiftpass.utils
             return Execute(privatekey,
                 algorithm => Encoding.UTF8.GetString(algorithm.Decrypt(Convert.FromBase64String(content), fOAEP)));
         }
-        /// <summary>
-        /// RSA签名
-        /// </summary>
-        /// <param name="privatekey">私钥</param>
-        /// <param name="content">需签名的原始数据(utf-8)</param>
-        /// <param name="halg">签名采用的算法，如果传null，则采用MD5算法</param>
-        /// <returns>签名后的值(base64格式)</returns>
+
         public static string SignData(string privatekey, string content, object halg = null)
         {
-            return Execute(privatekey,
-                algorithm => Convert.ToBase64String(algorithm.SignData(Encoding.UTF8.GetBytes(content), GetHalg(halg))));
+            var sign = RSAHelper.RSASign(content, privatekey);
+            return sign;
         }
+
         /// <summary>
         /// RSA验签
         /// </summary>
@@ -75,8 +62,13 @@ namespace swiftpass.utils
         /// <returns></returns>
         public static bool VerifyData(string publicKey, string content, string signature, object halg = null)
         {
-            return Execute(publicKey,
-                algorithm => algorithm.VerifyData(Encoding.UTF8.GetBytes(content), GetHalg(halg), Convert.FromBase64String(signature)));
+            content = "attach=补差价拍此处&charset=UTF-8&code_img_url=https://pay.swiftpass.cn/pay/qrcode?uuid=https%3A%2F%2Fqr.95516.com%2F03095810%2FunifiedNative%3FmchNo%3D101520021587%26token%3D2139c095ce2911f6371eadfddca75b90a&code_url=https://qr.95516.com/03095810/unifiedNative?mchNo=101520021587&token=2139c095ce2911f6371eadfddca75b90a&mch_id=101520021587&nonce_str=d4TqpCSzqU9DIBzyVCl1RUNGLgBB5uQx&result_code=0&sign_type=RSA_1_1&status=0&uuid=2139c095ce2911f6371eadfddca75b90a&version=1.0";
+            signature = "T3v/vYyxdYvk+wxcNy5tuAE2IZnReLp06milTT7kOmN6X2VQbEpU5/sEsp3shfamQFnG1A1MLJaviUl3iYGWQx76ha//cSrvWsln7d5ElkMrGwxMhn3M9lvimMFBLzn/FMuW8ZTOHArdDhHsGL0B8IPvMNRYyDzpXBruMgVuFzB1o0xksGyoveBiR6eUSODIbL/7qdPV6N4Z5V0GcPYwx651Z5gdOmJHHiH3guFvm+YAd2+NTxKlCtt4Mk3My/n5JGG3ivJHAvdo+M6PCTyZzHGBu9IJG01fqL6o3xEA5Dw3t5Ir826Stdpc8hycaTgD+Xx8yMUXHQxkDDJR+o5rMw==";
+           var ok =  RSAHelper.ValidateRsaSign(content, publicKey, signature);
+
+            return ok;
+            //return Execute(publicKey,
+            //    algorithm => algorithm.VerifyData(Encoding.UTF8.GetBytes(content), GetHalg(halg), Convert.FromBase64String(signature)));
         }
         private static object GetHalg(object halg)
         {
@@ -86,53 +78,9 @@ namespace swiftpass.utils
             }
             return halg;
         }
-        ///// <summary>
-        ///// 生成公钥、私钥
-        ///// </summary>
-        ///// <param name="publicKey">公钥（Xml格式）</param>
-        ///// <param name="privateKey">私钥（Xml格式）</param>
-        ///// <param name="keySize">要生成的KeySize，支持的MinSize:384 MaxSize:16384 SkipSize:8</param>
-        //public static void Create(out string publicKey, out string privateKey, int keySize = 1024)
-        //{
-        //    RSACryptoServiceProvider provider = new RSACryptoServiceProvider(keySize);
-        //    KeyGenerator.CreateAsymmetricAlgorithmKey(out publicKey, out privateKey, provider);
-        //}
+
     }
-    public class DSAHelper : AsymmetricAlgorithmHelper<DSACryptoServiceProvider>
-    {
-        /// <summary>
-        /// DSA签名
-        /// </summary>
-        /// <param name="privatekey">私钥</param>
-        /// <param name="content">需签名的原始数据(utf-8)</param>
-        /// <returns>签名后的值(base64格式)</returns>
-        public static string SignData(string privatekey, string content)
-        {
-            return Execute(privatekey,
-                algorithm => Convert.ToBase64String(algorithm.SignData(Encoding.UTF8.GetBytes(content))));
-        }
-        /// <summary>
-        /// DSA验签
-        /// </summary>
-        /// <param name="publicKey">公钥</param>
-        /// <param name="content">需验证签名的数据(utf-8)</param>
-        /// <param name="signature">需验证的签名字符串(base64格式)</param>
-        /// <returns></returns>
-        public static bool VerifyData(string publicKey, string content, string signature)
-        {
-            return Execute(publicKey,
-                algorithm => algorithm.VerifyData(Encoding.UTF8.GetBytes(content), Convert.FromBase64String(signature)));
-        }
-        ///// <summary>
-        ///// 生成公钥、私钥
-        ///// </summary>
-        ///// <param name="publicKey">公钥（Xml格式）</param>
-        ///// <param name="privateKey">私钥（Xml格式）</param>
-        ///// <param name="keySize">要生成的KeySize，支持的MinSize:512 MaxSize:1024 SkipSize:64</param>
-        //public static void Create(out string publicKey, out string privateKey, int keySize = 1024)
-        //{
-        //    DSACryptoServiceProvider provider = new DSACryptoServiceProvider(keySize);
-        //    KeyGenerator.CreateAsymmetricAlgorithmKey(out publicKey, out privateKey, provider);
-        //}
-    }
+
+
+
 }

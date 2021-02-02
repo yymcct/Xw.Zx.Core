@@ -188,7 +188,7 @@ namespace swiftpass.utils
                 Dictionary<string, string> cfg = new Dictionary<string, string>(1);
                 cfg = Utils.loadCfg();
                 string wftPublicKey = RSAConverter.RSAPublicKeyJava2DotNet(cfg["platPublicKey"].ToString());
-                right_sign = RSAHelper.VerifyData(wftPublicKey, sb.ToString(), getParameter("sign"), halg);
+                right_sign = SwiftRSAHelper.VerifyData(wftPublicKey, sb.ToString(), getParameter("sign"), halg);
             }
             //}
             return right_sign;

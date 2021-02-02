@@ -27,7 +27,7 @@ namespace Xw.Zx.Core.Service
 
             var xtsuoQuerySql = $" select CONVERT(Nvarchar, TranTime, 111)as [Time], sum(Amount)as [money] , count(*) as [count] " +
                 $"from WechatOrders " +
-                $"where DATEDIFF(day, GETDATE(), TranTime) > -15 " +
+                $"where TransactionID is not null and  DATEDIFF(day, GETDATE(), TranTime) > -15 " +
                 $"group by CONVERT(Nvarchar, TranTime, 111) " +
                 $"order by CONVERT(Nvarchar, TranTime, 111)";
 
