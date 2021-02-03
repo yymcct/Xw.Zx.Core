@@ -137,7 +137,6 @@ namespace swiftpass.utils
 
                 }
 
-
                 wr = (HttpWebResponse)hp.GetResponse();
                 sr = new StreamReader(wr.GetResponseStream(), Encoding.UTF8);
 

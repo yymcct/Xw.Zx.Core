@@ -164,7 +164,7 @@ namespace Xw.Zx.Core.Service
                     if (int.Parse(param["status"].ToString()) == 0 && int.Parse(param["result_code"].ToString()) == 0)
                     {
 
-                        return param["	trade_state"].ToString() == "SUCCESS";
+                        return param["trade_state"].ToString() == "SUCCESS";
 
                     }
                 }

@@ -122,6 +122,8 @@ namespace Xw.Zx.Core.HangfireJob
         {
             UpdateOverdue();
 
+            UpdateCiticbankPay();
+
             UpdateBiqilinPay();
         }
     }
