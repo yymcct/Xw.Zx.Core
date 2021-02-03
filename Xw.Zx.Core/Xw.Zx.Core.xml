@@ -668,7 +668,7 @@
         </member>
         <member name="T:Xw.Zx.Core.Controllers.SwiftPassController">
             <summary>
-            碧麒麟支付
+            中信支付
             </summary>
         </member>
         <member name="M:Xw.Zx.Core.Controllers.SwiftPassController.ScanCodeGen(System.Int32)">

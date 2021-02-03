@@ -39,7 +39,8 @@ namespace Xw.Zx.Core.Service
             reqHandler.setParameter("time_start", DateTime.Now.ToString("yyyyMMddHHmmss")); //订单生成时间
             reqHandler.setParameter("time_expire", DateTime.Now.AddHours(5).ToString("yyyyMMddHHmmss"));//订单超时时间
             reqHandler.setParameter("service", "unified.trade.native");//接口类型： 
-            reqHandler.setParameter("mch_id", cfg["mch_id"].ToString());//必填项，商户号，由平台分配
+            reqHandler.setParameter("mch_id", "102576520476"); //102576520476
+            reqHandler.setParameter("groupno", "102566518392");//必填项，商户号，由平台分配
             reqHandler.setParameter("version", "1.0");//接口版本号
             reqHandler.setParameter("notify_url", "http://www.baidu.cn/notify.aspx");//通知回调地址，商户需改为自己的，且保证外网能POST发送数据请求成功.
                                                                                      //通知地址，必填项，接收平台通知的URL，需给绝对路径，255字符内;此URL要保证外网能访问   

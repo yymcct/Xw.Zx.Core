@@ -3,7 +3,7 @@
 #@baseUrl = http://localhost:52878
 #@baseUrl = http://192.168.0.214:5000
 #@baseUrl = http://122.114.157.240:8822
-@token = eyJhbGciOiJSUzI1NiIsImtpZCI6ImJiYTlkZGEyNGJmY2QxNDE1ODYxMGIyMTE4YWJlMTQ5IiwidHlwIjoiSldUIn0.eyJuYmYiOjE2MDMxNjAwOTksImV4cCI6MTYxMTgwMDA5OSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo2MzgzNiIsImF1ZCI6WyJodHRwOi8vbG9jYWxob3N0OjYzODM2L3Jlc291cmNlcyIsIkFwcEFwaSJdLCJjbGllbnRfaWQiOiJBcHAuTWFuYWdlci5SbyIsInN1YiI6IjcyIiwiYXV0aF90aW1lIjoxNjAzMTYwMDk5LCJpZHAiOiIiLCJyb2xlIjoiQWRtaW4iLCJzY29wZSI6WyJBcHBBcGkiXSwiYW1yIjpbImN1c3RvbSJdfQ.ZYuEeHs3zpFsjCdU_UC08Tu_wwXF4wkHLd2YVNUcCqYleKc8Wvi2igXCIwubCpskRNRPqN2PEGZbuxu2XHH_-ThqAVFibWehY3weQL7rW5c0r80FMF1Eoizd-cD-281Qz4Nr1Stl-jypQGUYOaIPdGkaHyNv0vPr7VH1gKZXp8G1I5KcodqP62MoFs6fT8PTODc7B-S7wEQPyQ-XcaDaq7kX47f828fPsnIasiIbstfdaFh1HsapwgX-aDq8rfvzBICiTMslA2GSMx-RqKnhTn6xVAx7Hdex2KR6bHB_6isPHjE3__jyRqGtz8696FabpvcNYG0Sj2AM_zHSLuoD5Q
+@token = eyJhbGciOiJSUzI1NiIsImtpZCI6ImJiYTlkZGEyNGJmY2QxNDE1ODYxMGIyMTE4YWJlMTQ5IiwidHlwIjoiSldUIn0.eyJuYmYiOjE2MTIzMTYxNTgsImV4cCI6MTYyMDk1NjE1OCwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo2MzgzNiIsImF1ZCI6WyJodHRwOi8vbG9jYWxob3N0OjYzODM2L3Jlc291cmNlcyIsIkFwcEFwaSJdLCJjbGllbnRfaWQiOiJBcHAuTWFuYWdlci5SbyIsInN1YiI6IjcyIiwiYXV0aF90aW1lIjoxNjEyMzE2MTU4LCJpZHAiOiIiLCJyb2xlIjoiQWRtaW4iLCJzY29wZSI6WyJBcHBBcGkiXSwiYW1yIjpbImN1c3RvbSJdfQ.GzMGRv4zKIdNqfMR7Vp3VCDiloVT1CaidFxGaw6R6_dvZdIlu9Xwzc0-hsiYlS7BgNiIT0m3UjGkxtZqf5YvriOYN36XrnYvKzRpIVHlH8I_OlJVPQhB7XkDpGf9z4Rpgc8FXsQoheFtdqjnZBpHdr9zOU08bMmOn4LBiGKHIm9WDd_YR_vz2NcPeLey-bfUcq3aJploE5aKpY2NaNzEwaRF41wT_FlIsT5hCD0ZEDKZFSXhWa4Y2kSZaC_QSG55B8P30aH4P1UAI7Azs5NAfefov_Ca9bVThlgvJyctL477qPZ_xTEEnjjhtJpm0rJgC7zEWR7YqvSBFlXzeNunEg
 @contentType = application/json
 
 
@@ -11,7 +11,7 @@
 POST {{baseUrl}}/connect/token HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 
-grant_type=password&client_id=App.Manager.Ro&client_secret=DEsjpJFtokIOhMKuE6BVMczYUEEyPGTOLrur3PXw26VMLNwKOfAKFZZgR2vVJDKG&username=wengkui&password=wengkui3456
+grant_type=password&client_id=App.Manager.Ro&client_secret=DEsjpJFtokIOhMKuE6BVMczYUEEyPGTOLrur3PXw26VMLNwKOfAKFZZgR2vVJDKG&username=18624938007&password=123456
 
 ### 登录
 POST {{baseUrl}}/api/Member/H5
@@ -86,6 +86,11 @@ Post {{baseUrl}}/api/Biqilin/CreateQrcodePayUrl?orderId=1783
 Authorization: Bearer {{token}}
 Content-Type: {{contentType}}
 
+### 测试中信支付
+Post {{baseUrl}}/api/SwiftPass/ScanCodeGen?orderId=1783
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
 ### 测试服务接口
 GET {{baseUrl}}/fuwu/product?sorts=-id&page=1&pagesize=10
 ###
@@ -127,3 +132,7 @@ POST https://pay.biqilin.com/api/pay/partner/qrcode_pay2.do
 Content-Type: application/x-www-form-urlencoded
 
 amount=0.10&fee_type=CNY&local_time=1610788393919&merchant_account=1100000522&notify_url=http://www.baidu.com&out_cashier_name=APP&out_goods_name=测试商品&out_store_name=admin&out_trade_no=20200222&partner_code=taiyangniao&pay_type=WEIXIN_PAY&terminal_type=3&token=326b5d06397c08c379b447f1917d6ce38db006d43c31da324b4358eda54911f8&sign=3EF528627B1AF98ED09269448D1F5FB4
+
+
+
+### 

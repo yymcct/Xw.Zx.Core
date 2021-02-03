@@ -20,7 +20,7 @@ using Xw.Zx.Core.Service;
 namespace Xw.Zx.Core.Controllers
 {
     /// <summary>
-    /// 碧麒麟支付
+    /// 中信支付
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
@@ -47,7 +47,7 @@ namespace Xw.Zx.Core.Controllers
         /// 
         /// </summary>
         [HttpPost]
-        [Authorize]
+        [Authorize] 
         public HbzsResult<string> ScanCodeGen([FromQuery] int orderId)
         {
             try
