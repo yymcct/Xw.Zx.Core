@@ -65,7 +65,7 @@ namespace Xw.Zx.Core.Models.Model
 
         public DbSet<BiqilinLog> BiqilinLogs { get; set; }
 
-        public DbSet<SwiftPassLog> SwiftPassLogs { get; set; }
+        public DbSet<CiticbankLog> CiticbankLogs { get; set; }
         
         public DbSet<Payment> Payments { get; set; }
 
@@ -292,7 +292,7 @@ namespace Xw.Zx.Core.Models.Model
                .Property(c => c.IsDelete)
                .HasDefaultValue(false);
 
-            modelBuilder.Entity<SwiftPassLog>()
+            modelBuilder.Entity<CiticbankLog>()
                .HasQueryFilter(c => !c.IsDelete)
                .Property(c => c.IsDelete)
                .HasDefaultValue(false);

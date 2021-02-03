@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace Xw.Zx.Core.Service
 {
-    public interface ISwiftPassService
+    public interface ICiticbankService
     {
-        SwiftPassDto.Qrcode CreateQrcodePayUrl(SwiftPassDto.Product product);
+        CiticbankDto.Qrcode CreateQrcodePayUrl(CiticbankDto.Product product);
     }
 }

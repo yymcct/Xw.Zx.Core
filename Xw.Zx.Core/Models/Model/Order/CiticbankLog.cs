@@ -10,7 +10,7 @@ namespace Xw.Zx.Core.Models.Model
     /// <summary>
     /// 碧麒麟订单日志表
     /// </summary>
-    public class SwiftPassLog : ModelBase_Id_CreateTime
+    public class CiticbankLog : ModelBase_Id_CreateTime
     {
         public int OrderId { get; set; }
 

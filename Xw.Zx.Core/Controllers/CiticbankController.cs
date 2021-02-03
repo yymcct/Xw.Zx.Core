@@ -25,17 +25,17 @@ namespace Xw.Zx.Core.Controllers
     [Route("api/[controller]/[action]")]
     [ApiController]
     [Config.Swagger.HiddenApi]
-    public class SwiftPassController : BaseController
+    public class CiticbankController : BaseController
     {
-        private readonly ILogger<SwiftPassController> _logger;
-        private readonly ISwiftPassService _swiftPass;
+        private readonly ILogger<CiticbankController> _logger;
+        private readonly ICiticbankService _swiftPass;
         private readonly IOrderService _orderService;
 
-        public SwiftPassController(ILogger<SwiftPassController> logger
+        public CiticbankController(ILogger<CiticbankController> logger
             , XwZxContext xwZxContext
             , IMapper mapper
             , ISieveProcessor sieveProcessor
-            , ISwiftPassService swiftPass
+            , ICiticbankService swiftPass
             , IOrderService orderService) : base(xwZxContext, mapper, sieveProcessor)
         {
             _logger = logger;
@@ -56,14 +56,14 @@ namespace Xw.Zx.Core.Controllers
                                                 && o.OrderState == OrderState.待付款
                                                 && o.Id == orderId);
 
-                var res = _swiftPass.CreateQrcodePayUrl(new SwiftPassDto.Product()
+                var res = _swiftPass.CreateQrcodePayUrl(new CiticbankDto.Product()
                 {
                     Name = order.ProducName,
                     Timestamp = order.Timestamp,
                     Amount = order.Amount,
                 });
 
-                _context.SwiftPassLogs.Add(new SwiftPassLog
+                _context.CiticbankLogs.Add(new CiticbankLog
                 {
                     OrderId = order.Id,
                     SwiftPassUUID = res.uuid

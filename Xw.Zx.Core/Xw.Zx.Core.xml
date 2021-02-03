@@ -487,6 +487,22 @@
             TODO: 校验是否是来自于支付宝的域名
             </summary>
         </member>
+        <member name="T:Xw.Zx.Core.Controllers.CiticbankController">
+            <summary>
+            中信支付
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.CiticbankController.ScanCodeGen(System.Int32)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.CiticbankController.Notifyurl">
+            <summary>
+            支付宝支付成功回调地址 
+            TODO: 校验是否是来自于支付宝的域名
+            </summary>
+        </member>
         <member name="M:Xw.Zx.Core.Controllers.FileUploadController.Files(Microsoft.AspNetCore.Http.IFormCollection)">
             <summary>
             上传文件,一次可以提交多个文件 支持格式:".png", ".jpg", ".jpeg", ".gif", ".bmp", ".mp4"
@@ -665,22 +681,6 @@
             获取安卓App升级版本
             </summary>
             <returns></returns>
-        </member>
-        <member name="T:Xw.Zx.Core.Controllers.SwiftPassController">
-            <summary>
-            中信支付
-            </summary>
-        </member>
-        <member name="M:Xw.Zx.Core.Controllers.SwiftPassController.ScanCodeGen(System.Int32)">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:Xw.Zx.Core.Controllers.SwiftPassController.Notifyurl">
-            <summary>
-            支付宝支付成功回调地址 
-            TODO: 校验是否是来自于支付宝的域名
-            </summary>
         </member>
         <member name="M:Xw.Zx.Core.Controllers.SyncController.Notthing">
             <summary>
@@ -1573,6 +1573,11 @@
             碧麒麟订单日志表
             </summary>
         </member>
+        <member name="T:Xw.Zx.Core.Models.Model.CiticbankLog">
+            <summary>
+            碧麒麟订单日志表
+            </summary>
+        </member>
         <member name="T:Xw.Zx.Core.Models.Model.Order">
             <summary>
             订单表
@@ -1596,11 +1601,6 @@
         <member name="P:Xw.Zx.Core.Models.Model.Product.SalesVolume">
             <summary>
             销量
-            </summary>
-        </member>
-        <member name="T:Xw.Zx.Core.Models.Model.SwiftPassLog">
-            <summary>
-            碧麒麟订单日志表
             </summary>
         </member>
         <member name="T:Xw.Zx.Core.Models.Model.Receivable">
@@ -1985,7 +1985,7 @@
             反润7000
             </summary>
         </member>
-        <member name="T:Xw.Zx.Core.Service.SwiftPassService">
+        <member name="T:Xw.Zx.Core.Service.CiticbankService">
             <summary>
             中信支付平台
             </summary>

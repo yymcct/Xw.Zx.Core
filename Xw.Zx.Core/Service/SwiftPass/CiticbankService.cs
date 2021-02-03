@@ -10,18 +10,18 @@ namespace Xw.Zx.Core.Service
     /// <summary>
     /// 中信支付平台
     /// </summary>
-    public class SwiftPassService : ISwiftPassService
+    public class CiticbankService : ICiticbankService
     {
 
 
-        public SwiftPassService()
+        public CiticbankService()
         {
 
         }
 
 
 
-        public SwiftPassDto.Qrcode CreateQrcodePayUrl(SwiftPassDto.Product product)
+        public CiticbankDto.Qrcode CreateQrcodePayUrl(CiticbankDto.Product product)
         {
             var pay = new PayHttpClient();
             ClientResponseHandler resHandler = new ClientResponseHandler();
@@ -65,7 +65,7 @@ namespace Xw.Zx.Core.Service
                         //当返回状态与业务结果都为0时才返回支付二维码，其它结果请查看接口文档
                         if (int.Parse(param["status"].ToString()) == 0 && int.Parse(param["result_code"].ToString()) == 0)
                         {
-                            return new SwiftPassDto.Qrcode()
+                            return new CiticbankDto.Qrcode()
                             {
                                 CodeUrl = param["code_img_url"].ToString(),
                                 uuid = param["uuid"].ToString(),

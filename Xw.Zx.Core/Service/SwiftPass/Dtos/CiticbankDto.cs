@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 namespace Xw.Zx.Core.Service
 {
-    public class SwiftPassDto
+    public class CiticbankDto
     {
         public class Product
         {
