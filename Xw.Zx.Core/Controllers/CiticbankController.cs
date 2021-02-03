@@ -28,18 +28,18 @@ namespace Xw.Zx.Core.Controllers
     public class CiticbankController : BaseController
     {
         private readonly ILogger<CiticbankController> _logger;
-        private readonly ICiticbankService _swiftPass;
+        private readonly ICiticbankService _citicbankService;
         private readonly IOrderService _orderService;
 
         public CiticbankController(ILogger<CiticbankController> logger
             , XwZxContext xwZxContext
             , IMapper mapper
             , ISieveProcessor sieveProcessor
-            , ICiticbankService swiftPass
+            , ICiticbankService citicbankService
             , IOrderService orderService) : base(xwZxContext, mapper, sieveProcessor)
         {
             _logger = logger;
-            _swiftPass = swiftPass;
+            _citicbankService = citicbankService;
             _orderService = orderService;
         }
 
@@ -56,19 +56,13 @@ namespace Xw.Zx.Core.Controllers
                                                 && o.OrderState == OrderState.待付款
                                                 && o.Id == orderId);
 
-                var res = _swiftPass.CreateQrcodePayUrl(new CiticbankDto.Product()
+                var res = _citicbankService.CreateQrcodePayUrl(new CiticbankDto.Product()
                 {
                     Name = order.ProducName,
                     Timestamp = order.Timestamp,
                     Amount = order.Amount,
+                    MemberId = order.MemberId
                 });
-
-                _context.CiticbankLogs.Add(new CiticbankLog
-                {
-                    OrderId = order.Id,
-                    SwiftPassUUID = res.uuid
-                });
-                _context.SaveChanges();
 
                 return new HbzsResult<string>(res.CodeUrl);
             }

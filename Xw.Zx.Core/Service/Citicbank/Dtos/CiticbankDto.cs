@@ -11,6 +11,7 @@ namespace Xw.Zx.Core.Service
             public string Name { get; set; }
             public string Timestamp { get; set; }
             public decimal Amount { get; set; }
+            public int MemberId { get; set; }
         }
         public class Qrcode
         {

@@ -1575,7 +1575,12 @@
         </member>
         <member name="T:Xw.Zx.Core.Models.Model.CiticbankLog">
             <summary>
-            碧麒麟订单日志表
+            中信订单日志表
+            </summary>
+        </member>
+        <member name="T:Xw.Zx.Core.Models.Model.CiticbankMchId">
+            <summary>
+            中信商户号
             </summary>
         </member>
         <member name="T:Xw.Zx.Core.Models.Model.Order">
@@ -1941,6 +1946,17 @@
             <param name="tradeNo">商家自定义的订单号</param>
             <returns></returns>
         </member>
+        <member name="T:Xw.Zx.Core.Service.CiticbankService">
+            <summary>
+            中信支付平台
+            </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Service.ICiticbankService.GetAllCiticbankUnPayOrder">
+            <summary>
+            获取所有付款为中信,但未付款的订单
+            </summary>
+            <returns>订单timestamp</returns>
+        </member>
         <member name="M:Xw.Zx.Core.Service.IMemberIntegralService.AddMemberIntegral(Xw.Zx.Core.Models.Model.MemberIntegralRecord)">
             <summary>
             用户积分记录增加
@@ -1983,11 +1999,6 @@
         <member name="T:Xw.Zx.Core.Service.ShareProfit.ShareProfit3">
             <summary>
             反润7000
-            </summary>
-        </member>
-        <member name="T:Xw.Zx.Core.Service.CiticbankService">
-            <summary>
-            中信支付平台
             </summary>
         </member>
         <member name="M:Xw.Zx.Core.Service.IUpDateVip1Service.AliPayMentSucessHandle(System.Collections.Generic.Dictionary{System.String,System.String})">

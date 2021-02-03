@@ -8,13 +8,17 @@ using System.Threading.Tasks;
 namespace Xw.Zx.Core.Models.Model
 {
     /// <summary>
-    /// 碧麒麟订单日志表
+    /// 中信订单日志表
     /// </summary>
     public class CiticbankLog : ModelBase_Id_CreateTime
-    {
-        public int OrderId { get; set; }
+    {     
+        [Column(TypeName = "varchar(21)")]
+        public string Timestamp { get; set; }
 
-        public string SwiftPassUUID { get; set; }
+        [Column(TypeName = "varchar(30)")]
+        public string UUID { get; set; }
 
+        [Column(TypeName = "varchar(12)")]
+        public string MchId { get; set; }       
     }
 }

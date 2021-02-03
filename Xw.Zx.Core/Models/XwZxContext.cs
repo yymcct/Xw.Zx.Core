@@ -61,13 +61,19 @@ namespace Xw.Zx.Core.Models.Model
         /// </summary>
         public DbSet<UpdateVipAuthCode> UpdateVipAuthCodes { get; set; }
         public DbSet<Product> Products { get; set; }
+
+        #region 订单
         public DbSet<Order> Orders { get; set; }
 
         public DbSet<BiqilinLog> BiqilinLogs { get; set; }
 
         public DbSet<CiticbankLog> CiticbankLogs { get; set; }
-        
+
         public DbSet<Payment> Payments { get; set; }
+
+        public DbSet<CiticbankMchId> CiticbankMchIds { get; set; }
+        
+        #endregion
 
         public DbSet<Receivable> Receivables { get; set; }
 
@@ -156,7 +162,7 @@ namespace Xw.Zx.Core.Models.Model
                 .HasQueryFilter(c => !c.IsDelete)
                 .Property(c => c.IsDelete)
                 .HasDefaultValue(false);
-    
+
             modelBuilder.Entity<Member>()
                .Property(c => c.Money)
                .HasDefaultValue(0m);
@@ -174,9 +180,9 @@ namespace Xw.Zx.Core.Models.Model
                .HasQueryFilter(c => !c.IsDelete)
                .Property(c => c.IsDelete)
                .HasDefaultValue(false);
-        
+
             modelBuilder.Entity<MemberIntegral>()
-               .HasOne(m=> m.Member);
+               .HasOne(m => m.Member);
 
             modelBuilder.Entity<MemberIntegralRecord>()
                .HasQueryFilter(c => !c.IsDelete)
@@ -220,7 +226,7 @@ namespace Xw.Zx.Core.Models.Model
                            .Property(c => c.IsDelete)
                            .HasDefaultValue(false);
 
-            modelBuilder.Entity<Product>()              
+            modelBuilder.Entity<Product>()
                .Property(c => c.CanUseMemberIntegral)
                .HasDefaultValue(false);
 
@@ -300,7 +306,7 @@ namespace Xw.Zx.Core.Models.Model
             modelBuilder.Entity<WechatSubLedgerReceivers>()
                            .HasQueryFilter(c => !c.IsDelete)
                            .Property(c => c.IsDelete)
-                           .HasDefaultValue(false); 
+                           .HasDefaultValue(false);
             modelBuilder.Entity<WechatOrders>()
                            .HasQueryFilter(c => !c.IsDelete)
                            .Property(c => c.IsDelete)

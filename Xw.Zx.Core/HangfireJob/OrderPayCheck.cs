@@ -9,27 +9,30 @@ using Xw.Zx.Core.Service;
 
 namespace Xw.Zx.Core.HangfireJob
 {
-    public class BiqilinOrderSync
+    public class OrderPayCheck
     {
-        private readonly ILogger<BiqilinOrderSync> _logger;
+        private readonly ILogger<OrderPayCheck> _logger;
         private readonly IBiqilinService _biqilinService;
         private readonly IOrderService _orderService;
+        private readonly ICiticbankService _citicbankService;
         private readonly XwZxContext _context;
 
-        public BiqilinOrderSync(
-            ILogger<BiqilinOrderSync> logger
+        public OrderPayCheck(
+            ILogger<OrderPayCheck> logger
             , IBiqilinService biqilinService
             , IOrderService orderService
+            , ICiticbankService citicbankService
             , XwZxContext xwZxContext)
         {
             _logger = logger;
             _biqilinService = biqilinService;
             _orderService = orderService;
             _context = xwZxContext;
+            _citicbankService = citicbankService;
         }
 
 
-        public void Run()
+        private void UpdateOverdue()
         {
             var waitPayOrders = _context.Orders.Where(o => o.OrderState == OrderState.待付款).ToArray();
 
@@ -45,6 +48,16 @@ namespace Xw.Zx.Core.HangfireJob
                     _context.SaveChanges();
                     continue;
                 }
+            }
+        }
+
+        private void UpdateBiqilinPay()
+        {
+            var waitPayOrders = _context.Orders.Where(o => o.OrderState == OrderState.待付款).ToArray();
+
+            for (var i = 0; i < waitPayOrders.Length; i++)
+            {
+                var waitPayOrder = waitPayOrders[i];
 
                 var biqilinOrders = _context.BiqilinLogs.Where(o => o.OrderId == waitPayOrder.Id).ToArray();
 
@@ -55,7 +68,7 @@ namespace Xw.Zx.Core.HangfireJob
                         var biqilinOrder = biqilinOrders[j];
 
                         var query = _biqilinService.QueryOrder(biqilinOrder.BiqilinOrderNo);
-                        if (CheckBiqilinOrder(waitPayOrder, query))
+                        if (CheckBiqilinPay(waitPayOrder, query))
                         {
                             _orderService.OrderPay(waitPayOrder.Timestamp, OrderPaymentType.碧麒麟);
                             break;
@@ -69,11 +82,10 @@ namespace Xw.Zx.Core.HangfireJob
                 }
 
             }
-
-            _logger.LogWarning(DateTime.Now.ToString());
         }
 
-        private bool CheckBiqilinOrder(Order order, BiqilinRespone.Query query)
+
+        private bool CheckBiqilinPay(Order order, BiqilinRespone.Query query)
         {
 
             if (order != null && query != null
@@ -85,6 +97,32 @@ namespace Xw.Zx.Core.HangfireJob
             }
 
             return false;
+        }
+
+        private void UpdateCiticbankPay()
+        {
+            var timestamps =_citicbankService.GetAllCiticbankUnPayOrder();
+            foreach (var timestamp in timestamps)
+            {
+                try
+                {
+                    if (_citicbankService.Query(timestamp))
+                    {
+                        _orderService.OrderPay(timestamp, OrderPaymentType.中信);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex.Message);
+                }             
+            }
+        }
+
+        public void Run()
+        {
+            UpdateOverdue();
+
+            UpdateBiqilinPay();
         }
     }
 }
