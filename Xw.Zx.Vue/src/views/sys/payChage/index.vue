@@ -3,15 +3,21 @@
     <el-row>
       <el-radio
         v-model="radio"
+        label="0"
+        :disabled="user.roleName != 'Admin_CaiwuPayChange'"
+        >碧麒麟</el-radio
+      >
+      <el-radio
+        v-model="radio"
         label="1"
         :disabled="user.roleName != 'Admin_CaiwuPayChange'"
         >支付宝</el-radio
-      > 
+      >
       <el-radio
         v-model="radio"
         label="2"
         :disabled="user.roleName != 'Admin_CaiwuPayChange'"
-        >碧麒麟</el-radio
+        >中信银行</el-radio
       >
     </el-row>
     <el-row v-if="user.roleName == 'Admin_CaiwuPayChange'">

@@ -154,7 +154,7 @@
         立即付款
       </van-button> -->
     </div>
-    <!--碧麒麟 1 支付宝 2 中信 -->
+    <!--碧麒麟 0 支付宝 1 中信 2-->
     <template v-if="useAlipay == '1'">
       <alipay-qrcode
         v-if="order.orderState == 0"

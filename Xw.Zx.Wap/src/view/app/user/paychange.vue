@@ -9,11 +9,14 @@
     </div>
     <div class="container">
       <van-radio-group v-model="radio">
+        <van-radio name="0" class="radio-item" checked-color="#FF5000"
+          >碧麒麟</van-radio
+        >
         <van-radio name="1" class="radio-item" checked-color="#FF5000"
           >支付宝</van-radio
         >
         <van-radio name="2" class="radio-item" checked-color="#FF5000"
-          >碧麒麟</van-radio
+          >中信银行</van-radio
         >
       </van-radio-group>
     </div>
