@@ -87,9 +87,19 @@ Authorization: Bearer {{token}}
 Content-Type: {{contentType}}
 
 ### 测试中信支付
-Post {{baseUrl}}/api/SwiftPass/ScanCodeGen?orderId=1783
+Post {{baseUrl}}/api/SwiftPass/ScanCodeGen?orderId=4319
 Authorization: Bearer {{token}}
 Content-Type: {{contentType}}
+
+###
+POST {{baseUrl}}/api/Citicbank/Notifyurl HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "outOrderNo":"20210106095303476660",
+  "orderStatus":"TRADE_SUCCESS"
+}
+
 
 ### 测试服务接口
 GET {{baseUrl}}/fuwu/product?sorts=-id&page=1&pagesize=10

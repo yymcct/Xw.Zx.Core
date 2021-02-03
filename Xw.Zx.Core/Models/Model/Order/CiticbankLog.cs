@@ -15,7 +15,7 @@ namespace Xw.Zx.Core.Models.Model
         [Column(TypeName = "varchar(21)")]
         public string Timestamp { get; set; }
 
-        [Column(TypeName = "varchar(30)")]
+        [Column(TypeName = "varchar(64)")]
         public string UUID { get; set; }
 
         [Column(TypeName = "varchar(12)")]

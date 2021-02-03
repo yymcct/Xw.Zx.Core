@@ -11,6 +11,7 @@ namespace Xw.Zx.Core.Service
 {
     /// <summary>
     /// 中信支付平台
+    /// 开发文档 https://open.swiftpass.cn/openapi 
     /// </summary>
     public class CiticbankService : ICiticbankService
     {
@@ -57,7 +58,7 @@ namespace Xw.Zx.Core.Service
             reqHandler.setParameter("mch_id", mchid); //102576520476
             reqHandler.setParameter("groupno", cfg["groupno"]);//必填项，商户号，由平台分配
             reqHandler.setParameter("version", "1.0");//接口版本号
-            reqHandler.setParameter("notify_url", "http://www.baidu.cn/notify.aspx");//通知回调地址，商户需改为自己的，且保证外网能POST发送数据请求成功.
+            reqHandler.setParameter("notify_url", "http://jsq.lawss360.com/api/Citicbank/Notifyurl");//通知回调地址，商户需改为自己的，且保证外网能POST发送数据请求成功.
                                                                                      //通知地址，必填项，接收平台通知的URL，需给绝对路径，255字符内;此URL要保证外网能访问   
             reqHandler.setParameter("nonce_str", Utils.random());//随机字符串，必填项，不长于 32 位
             reqHandler.createSign();//创建签名

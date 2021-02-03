@@ -497,12 +497,6 @@
             
             </summary>
         </member>
-        <member name="M:Xw.Zx.Core.Controllers.CiticbankController.Notifyurl">
-            <summary>
-            支付宝支付成功回调地址 
-            TODO: 校验是否是来自于支付宝的域名
-            </summary>
-        </member>
         <member name="M:Xw.Zx.Core.Controllers.FileUploadController.Files(Microsoft.AspNetCore.Http.IFormCollection)">
             <summary>
             上传文件,一次可以提交多个文件 支持格式:".png", ".jpg", ".jpeg", ".gif", ".bmp", ".mp4"
@@ -1949,6 +1943,7 @@
         <member name="T:Xw.Zx.Core.Service.CiticbankService">
             <summary>
             中信支付平台
+            开发文档 https://open.swiftpass.cn/openapi 
             </summary>
         </member>
         <member name="M:Xw.Zx.Core.Service.ICiticbankService.GetAllCiticbankUnPayOrder">

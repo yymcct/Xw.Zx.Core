@@ -21,7 +21,7 @@
           金额<span>{{ order.amount }}</span
           >元
         </p>
-        <p class="content-desc">请用<span>支付宝或微信扫码</span>支付</p>
+        <p class="content-desc">请用<span>支付宝扫码</span>支付</p>
         <van-button
           class="content-btn"
           type="primary"
@@ -68,7 +68,7 @@ export default {
   mounted() {
     const _this = this;
 
-    api.swiftPass.scanCodeGen(_this.order.id).then((res) => {
+    api.citicbank.scanCodeGen(_this.order.id).then((res) => {
       _this.payUrl = res.result;
     });
   },
@@ -77,7 +77,7 @@ export default {
     refPayUrl() {
       const _this = this;
 
-      api.swiftPass.scanCodeGen(_this.order.id).then((res) => {
+      api.citicbank.scanCodeGen(_this.order.id).then((res) => {
         _this.payUrl = res.result;
       });
     },

@@ -43,8 +43,8 @@ export default {
         scanCodeGen: (params) => request.post(`/api/Biqilin/ScanCodeGen`, params),
         jsapiPay: (orderId, openid) => request.post(`/api/Biqilin/JsapiPay?orderId=${orderId}&openId=${openid}`),
     },
-    swiftPass: {
-        scanCodeGen: (params) => request.post(`/api/SwiftPass/ScanCodeGen?orderId=${params}`),
+    citicbank: {
+        scanCodeGen: (params) => request.post(`/api/Citicbank/ScanCodeGen?orderId=${params}`),
     },
     income: {
         getIncomeInfo: () => request.get('/api/Income/GetIncomeInfo'),

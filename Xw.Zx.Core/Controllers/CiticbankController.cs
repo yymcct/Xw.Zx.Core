@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -47,7 +48,7 @@ namespace Xw.Zx.Core.Controllers
         /// 
         /// </summary>
         [HttpPost]
-        [Authorize] 
+        [Authorize]
         public HbzsResult<string> ScanCodeGen([FromQuery] int orderId)
         {
             try
@@ -75,76 +76,39 @@ namespace Xw.Zx.Core.Controllers
 
 
 
-
-        /// <summary>
-        /// 支付宝支付成功回调地址 
-        /// TODO: 校验是否是来自于支付宝的域名
-        /// </summary>
         [HttpPost]
         public async void Notifyurl()
         {
-
-
-            var cfg = Utils.loadCfg();
-            //初始化数据
-            var buffer = new MemoryStream();
-            Request.Body.CopyTo(buffer);
-
-            using (StreamReader sr = new StreamReader(buffer))
+            using (var buffer = new MemoryStream())
             {
-                var body = sr.ReadToEnd();
-                ClientResponseHandler resHandler = new ClientResponseHandler();
-                resHandler.setContent(body);
+                Request.Body.CopyTo(buffer);
 
-                _logger.LogWarning("中信Body" + body);
-                Hashtable resParam = resHandler.getAllParameters();
-                if (resHandler.isTenpaySign())
+                buffer.Position = 0;
+                using (StreamReader sr = new StreamReader(buffer))
                 {
-                    _logger.LogWarning("中信验签正确");
-                    if (int.Parse(resParam["status"].ToString()) == 0 && int.Parse(resParam["result_code"].ToString()) == 0)
-                    {
+                    var body = sr.ReadToEnd();
+                    ClientResponseHandler resHandler = new ClientResponseHandler();
+                    resHandler.setContent(body);
 
-                        var waitPayOrder = _context.Orders.First(o => o.Timestamp == resParam["out_trade_no"].ToString());
-                        // if (CheckOrder(waitPayOrder, resParam))
+                    _logger.LogWarning("中信Body" + body);
+                    Hashtable resParam = resHandler.getAllParameters();
+                    if (resHandler.isTenpaySign())
+                    {
+                        _logger.LogWarning("中信验签正确");
+                        if (int.Parse(resParam["status"].ToString()) == 0 && int.Parse(resParam["result_code"].ToString()) == 0)
                         {
                             _orderService.OrderPay(resParam["out_trade_no"].ToString(), OrderPaymentType.中信);
+
+                            await Response.WriteAsync(JsonConvert.SerializeObject(new
+                            {
+                                flag = "1"
+                            }));
                         }
 
-                        await Response.WriteAsync(JsonConvert.SerializeObject(new
-                        {
-                            flag = "1"
-                        }));
                     }
-
+                    _logger.LogWarning("中信验签错误");
                 }
-                _logger.LogWarning("中信验签错误");
             }
-            //if (biqilinNotifyDto.orderStatus == "TRADE_SUCCESS")
-            //{
-            //    var query = _biqilinService.QueryOrder(biqilinNotifyDto.orderNo);
-            //    var waitPayOrder = _context.Orders.First(o => o.Timestamp == biqilinNotifyDto.outOrderNo);
-            //    if (CheckBiqilinOrder(waitPayOrder, query))
-            //    {
-            //        _orderService.OrderPay(biqilinNotifyDto.outOrderNo, OrderPaymentType.碧麒麟);
-            //    }
-            //}
-            //await Response.WriteAsync(JsonConvert.SerializeObject(new
-            //{
-            //    flag = "1"
-            //}));
         }
-        //private bool CheckOrder(Order order, Hashtable resParam)
-        //{
-        //    if (order != null && resParam != null
-        //        && query.orderStatus == "TRADE_SUCCESS"
-        //        && query.outOrderNo == order.Timestamp
-        //        && (decimal.Parse(query.amount)) == order.Amount)
-        //    {
-        //        return true;
-        //    }
-
-        //    return false;
-        //}
-
     }
 }
