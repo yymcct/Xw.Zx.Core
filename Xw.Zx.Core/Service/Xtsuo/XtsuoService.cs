@@ -36,17 +36,18 @@ namespace Xw.Zx.Core.Service
             _sieveProcessor = sieveProcessor;
         }
 
-        public bool SyncXtsuoOrders(XtsuoOrdersRequestDto getThirdQueryOrdersRequestPsDto)
+        public bool SyncXtsuoOrders(XtsuoOrdersRequestDto dto)
         {
             int page = 1;
             int pgcount = 0;
             try
             {
-                if (getThirdQueryOrdersRequestPsDto == null)
+                if (dto == null)
                     throw new Exception("请传入查询开始和截止时间参数");
-                if (getThirdQueryOrdersRequestPsDto.StartTime == null || getThirdQueryOrdersRequestPsDto.EndTime == null)
+                if (dto.StartTime == null || dto.EndTime == null)
                     throw new Exception("开始和截止时间不能为空");
-                GetThirdQueryOrdersResultDto result = GetThirdOrders((DateTime)getThirdQueryOrdersRequestPsDto.StartTime, (DateTime)getThirdQueryOrdersRequestPsDto.EndTime, page);
+
+                GetThirdQueryOrdersResultDto result = GetThirdOrders((DateTime)dto.StartTime, (DateTime)dto.EndTime, page);
                 if (result == null)
                     throw new Exception("未获取到结果");
                 if (result.page <= 0)
@@ -58,7 +59,7 @@ namespace Xw.Zx.Core.Service
                 {
                     page = page + 1;
                     //查询 并保存记录
-                    GetThirdQueryOrdersResultDto rlt = GetThirdOrders((DateTime)getThirdQueryOrdersRequestPsDto.StartTime, (DateTime)getThirdQueryOrdersRequestPsDto.EndTime, page);
+                    GetThirdQueryOrdersResultDto rlt = GetThirdOrders((DateTime)dto.StartTime, (DateTime)dto.EndTime, page);
                     if (rlt == null)
                         break;
                     if (rlt.content == null)
@@ -87,7 +88,7 @@ namespace Xw.Zx.Core.Service
                 {
                     try
                     {
-                        if (string.IsNullOrWhiteSpace(r.ordersn))
+                        if (string.IsNullOrWhiteSpace(r.ordersn) || string.IsNullOrWhiteSpace(r.transid))
                             continue;
                         WechatOrders wechatOrders = _context.WechatOrders.FirstOrDefault(c => c.Out_Order_No == r.ordersn && c.TransactionID == r.transid);
                         if (wechatOrders != null)

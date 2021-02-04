@@ -201,3 +201,8 @@ where (select sum(amount) from Orders where MemberId = T.Id and Orders.Amount!='
 
 
  exec GetAmount @memberId = 47,@startTime = '2020-11-01',@endTime = '2020-12-01'
+
+ 
+
+if (not exists (select 1 from CiticbankMchIds where exists (select 1 from Members where id = CiticbankMchIds.MemberId and phone = '18624948007'))) and exists(select 1 from Members where  phone = '18624948007')
+	INSERT INTO [CiticbankMchIds]([CreateTime],[MemberId],[MchId], IsDelete)VALUES('2021-01-14',(select id from Members where phone = '18624948007'),'1234',0)
