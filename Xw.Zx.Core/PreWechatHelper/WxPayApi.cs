@@ -19,7 +19,7 @@ namespace Xw.Zx.Core.PreWechatHelper
         public static WxPayData DealWithSubLedgerSigle(WxPayData inputObj, int timeOut = 6)
         {
             //https://pay.weixin.qq.com/wiki/doc/api/allocation.php?chapter=27_1&index=1
-         
+
 
             string url = "https://api.mch.weixin.qq.com/secapi/pay/profitsharing";
 
@@ -108,7 +108,7 @@ namespace Xw.Zx.Core.PreWechatHelper
             string url = "https://api.mch.weixin.qq.com/secapi/pay/profitsharingfinish";
 
             //检测必填参数
-            if (!inputObj.IsSet("out_trade_no") || !inputObj.IsSet("transaction_id") || !inputObj.IsSet("description"))
+            if (!(inputObj.IsSet("out_order_no") && inputObj.IsSet("transaction_id") && inputObj.IsSet("description")))
             {
                 throw new WxPayException("分账完结接口中，交易订单号，商户分账单号,完结描述不能为空！");
             }
@@ -124,7 +124,7 @@ namespace Xw.Zx.Core.PreWechatHelper
             var start = DateTime.Now;
 
             //Log.Debug("WxPayApi", "OrderQuery request : " + xml);
-            string response = HttpService.Post(xml, url,true, timeOut);//调用HTTP通信接口提交数据
+            string response = HttpService.Post(xml, url, true, timeOut);//调用HTTP通信接口提交数据
             //Log.Debug("WxPayApi", "OrderQuery response : " + response);
 
             var end = DateTime.Now;
@@ -137,7 +137,7 @@ namespace Xw.Zx.Core.PreWechatHelper
             //ReportCostTime(url, timeCost, result);//测速上报
 
             return result;
-        }        
+        }
 
         /**
         *    

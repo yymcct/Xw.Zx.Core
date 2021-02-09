@@ -87,7 +87,31 @@ Authorization: Bearer {{token}}
 Content-Type: {{contentType}}
 
 ### 测试中信支付
-Post {{baseUrl}}/api/SwiftPass/ScanCodeGen?orderId=4319
+Post {{baseUrl}}/api/Citicbank/ScanCodeGen?orderId=4320
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+### 测试中信支付
+Post {{baseUrl}}/manager/WechatSubLedger/ProfitsharingFinish
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+{
+  "transaction_id":"4200000930202102067722259418",
+  "last_out_order_no":"SH20210206171133444101",
+  "description":"分账结束"
+}
+
+
+
+
+
+
+
+
+
+### 测试中信支付JsApi
+Post {{baseUrl}}/api/Citicbank/JsApi?orderId=4320
 Authorization: Bearer {{token}}
 Content-Type: {{contentType}}
 

@@ -74,6 +74,37 @@ namespace Xw.Zx.Core.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Authorize]
+        public HbzsResult<string> JsApi([FromQuery] int orderId)
+        {
+            try
+            {
+                var order = _context.Orders.First(o => o.MemberId == Member.Id
+                                                && o.OrderState == OrderState.待付款
+                                                && o.Id == orderId);
+
+                var res = _citicbankService.CreateJSApiPayInfo(new CiticbankDto.Product()
+                {
+                    Name = order.ProducName,
+                    Timestamp = order.Timestamp,
+                    Amount = order.Amount,
+                    MemberId = order.MemberId
+                });
+
+                return new HbzsResult<string>(res);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex.Message);
+                return new HbzsResult<string>(HbzsResultCode.Invalid_Error, ex.Message);
+            }
+        }
 
 
         [HttpPost]

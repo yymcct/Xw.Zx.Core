@@ -8,7 +8,19 @@ namespace Xw.Zx.Core.Service
 {
     public interface ICiticbankService
     {
+        /// <summary>
+        /// 生成当面付二维码
+        /// </summary>
+        /// <param name="product"></param>
+        /// <returns></returns>
         CiticbankDto.Qrcode CreateQrcodePayUrl(CiticbankDto.Product product);
+
+        /// <summary>
+        /// 生成jsapi支付的原生js字符串
+        /// </summary>
+        /// <param name="product"></param>
+        /// <returns></returns>
+        string CreateJSApiPayInfo(CiticbankDto.Product product);
 
         string GetMemberMchid(int memberid);
 

@@ -335,39 +335,43 @@ namespace Xw.Zx.Core.Areas.Manager
         }
 
         #region  完结分账 这里不用 先不删（这里用单次分账 分账后 就结账）
-        ///// <summary>
-        ///// 完结分账 Over 把还没分完的 有剩余的 钱解冻
-        ///// 
-        ///// </summary>
-        ///// <param name="postProfitsharingFinishDto"></param>
-        ///// <returns></returns>
-        //[HttpPost]
-        //public HbzsManagerResult<string> ProfitsharingFinish([FromBody] PostProfitsharingFinishDto postProfitsharingFinishDto) {
-        //    try
-        //    {
-        //        if (postProfitsharingFinishDto == null) {
-        //            throw new Exception("请输入完结分账 请求参数！");
-        //        }
-        //        if(!string.IsNullOrWhiteSpace(postProfitsharingFinishDto.transaction_id))
-        //            throw new Exception("交易订单号不能为空！");
-        //        if (!string.IsNullOrWhiteSpace(postProfitsharingFinishDto.last_out_order_no))
-        //            throw new Exception("商户分账单号不能为空！");
-        //        if (!string.IsNullOrWhiteSpace(postProfitsharingFinishDto.description))
-        //            throw new Exception("分账完结描述不能不空！");
-        //        //获取最后的 out_order_no
-        //        WxPayData data = new WxPayData();
-        //        data.SetValue("transaction_id", postProfitsharingFinishDto.transaction_id);
-        //        data.SetValue("out_order_no", postProfitsharingFinishDto.last_out_order_no);
-        //        data.SetValue("description", postProfitsharingFinishDto.description);
+        /// <summary>
+        /// 完结分账 Over 把还没分完的 有剩余的 钱解冻
+        /// 
+        /// </summary>
+        /// <param name="postProfitsharingFinishDto"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public HbzsManagerResult<string> ProfitsharingFinish([FromBody] PostProfitsharingFinishDto postProfitsharingFinishDto)
+        {
+            try
+            {
+                if (postProfitsharingFinishDto == null)
+                {
+                    throw new Exception("请输入完结分账 请求参数！");
+                }
+                if (string.IsNullOrWhiteSpace(postProfitsharingFinishDto.transaction_id))
+                    throw new Exception("交易订单号不能为空！");
+                if (string.IsNullOrWhiteSpace(postProfitsharingFinishDto.last_out_order_no))
+                    throw new Exception("商户分账单号不能为空！");
+                if (string.IsNullOrWhiteSpace(postProfitsharingFinishDto.description))
+                    throw new Exception("分账完结描述不能不空！");
+                //获取最后的 out_order_no
+                WxPayData data = new WxPayData();
+                data.SetValue("transaction_id", postProfitsharingFinishDto.transaction_id);
+                data.SetValue("out_order_no", postProfitsharingFinishDto.last_out_order_no);
+                data.SetValue("description", postProfitsharingFinishDto.description);
 
-        //        WxPayApi.ProfitsharingFinish(data);
+                WxPayApi.ProfitsharingFinish(data);
 
-        //        return new HbzsManagerResult<string>("处理完成！");
+                return new HbzsManagerResult<string>("处理完成！");
 
-        //    } catch (Exception ex) {
-        //        return new HbzsManagerResult<string>(HbzsManagerResultCode.Invalid_Error,ex.Message);
-        //    }
-        //}
+            }
+            catch (Exception ex)
+            {
+                return new HbzsManagerResult<string>(HbzsManagerResultCode.Invalid_Error, ex.Message);
+            }
+        }
         #endregion
     }
 }
