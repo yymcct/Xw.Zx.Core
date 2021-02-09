@@ -141,8 +141,10 @@
       >
         提交
       </van-button>
-      <!-- <van-button
-        v-if="couponChecked == false && memberIntegralChecked == false"
+      <van-button
+        v-if="
+          couponChecked == false && memberIntegralChecked == false && isWeixin()
+        "
         class="foot-btn"
         type="primary"
         round
@@ -152,7 +154,7 @@
         :disabled="order.orderState == 1"
       >
         立即付款
-      </van-button> -->
+      </van-button>
     </div>
     <!--碧麒麟 0 支付宝 1 中信 2-->
     <template v-if="useAlipay == '1'">
@@ -237,6 +239,8 @@ export default {
 
       _this.useAlipay = (await api.alipay.firstUseAlipay()).result;
 
+      _this.useAlipay = 2;
+
       _this.coupon = (
         await api.coupon.getCouponByProductId(_this.order.productId)
       ).result;
@@ -290,6 +294,10 @@ export default {
         this.$router.push({ path: `/sqb/user/order` });
       });
     },
+    isWeixin() {
+      return /micromessenger/.test(navigator.userAgent.toLowerCase());
+    },
+
     payOrder() {
       const isWeixin = () =>
         /micromessenger/.test(navigator.userAgent.toLowerCase());

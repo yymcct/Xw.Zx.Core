@@ -39,13 +39,29 @@
         label="密码"
         placeholder="请再次输入密码"
       />
-      <van-field
+      <!-- <van-field
         v-model="user.invitePhone"
         label="邀请人"
         :formatter="$fieldFormatter"
         placeholder="请输入邀请人手机号"
         required
-      />
+      /> -->
+      <van-field
+        v-model="user.invitePhone"
+        label="邀请人"
+        placeholder="请输入邀请人手机号"
+        required
+      >
+        <template #button>
+          <van-button
+            size="mini"
+            type="primary"
+            color="linear-gradient(to right, #ff7a00, #ff5000)"
+            @click="defaultInvitephone"
+            >默认邀请人</van-button
+          >
+        </template>
+      </van-field>
       <van-button
         class="login-btn"
         type="primary"
@@ -126,6 +142,10 @@ export default {
           }, 2000);
         }
       });
+    },
+
+    defaultInvitephone() {
+      this.user.invitePhone = "13000000000";
     },
   },
 

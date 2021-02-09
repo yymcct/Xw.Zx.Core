@@ -8,7 +8,7 @@ module.exports = {
     devServer: {
         port: 80,
         disableHostCheck: true,
-        proxy: 'http://jsq.lawss360.com/'// 'http://localhost:63836'//
+        proxy: 'http://localhost:63836'//'http://jsq.lawss360.com/'// 
     },
     css: {
         loaderOptions: {
