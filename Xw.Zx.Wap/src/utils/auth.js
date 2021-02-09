@@ -24,9 +24,14 @@ export const userInfoAPI = {
         }
         return userInfo;
     },
+
     clear() {
         localStorage.removeItem(USERINfO_KEY);
     },    
+    setLoginFrom(url){
+        this.clearLoginFrom();
+        localStorage.setItem(LOGINFROM_KEY, url);
+    },
     getLoginFrom() {
         const from = localStorage.getItem(LOGINFROM_KEY);
         this.clearLoginFrom();

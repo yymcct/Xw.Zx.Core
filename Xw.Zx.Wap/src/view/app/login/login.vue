@@ -5,7 +5,12 @@
     </div>
 
     <div class="login">
-      <van-field v-model="account" :formatter="$fieldFormatter" label="手机" placeholder="请输入手机号" />
+      <van-field
+        v-model="account"
+        :formatter="$fieldFormatter"
+        label="手机"
+        placeholder="请输入手机号"
+      />
       <van-field
         v-model="password"
         :formatter="$fieldFormatter"
@@ -16,7 +21,7 @@
 
       <van-button
         class="login-btn"
-        type="primary"        
+        type="primary"
         round
         color="linear-gradient(to right, #ff7a00, #ff5000)"
         @click="bindLogin"
@@ -78,7 +83,11 @@ export default {
         .then((res) => {
           userInfoAPI.set(res.result);
           this.$store.commit("user/setUser", res.result.member);
-          this.$router.push(`/sqb/home`);
+          let url = this.$globalFun.userInfoAPI.getLoginFrom() ;
+          if(!url){
+            url = "/sqb/home";
+          }
+          this.$router.push(url);
         });
     },
   },

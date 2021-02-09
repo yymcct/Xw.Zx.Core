@@ -70,6 +70,7 @@ export default {
     async buy() {
       const _this = this;
       if (!this.user) {
+        this.$globalFun.userInfoAPI.setLoginFrom(window.location.pathname);
         this.$router.push(`/sqb/login`);
         return;
       }
@@ -83,28 +84,28 @@ export default {
       // });
       //if (
 
-        // unbalanceOrder.statusCode == 200 &&
-        // unbalanceOrder.result.length > 0
-     // ) {
-        // this.$toast("您有未完成的订单, 请处理后再操作");
-        // setTimeout(() => {
-        //   _this.loading = false;
-        //   this.$router.push(`/sqb/order/${unbalanceOrder.result[0].id}`);
-        // }, 2000);
-        
+      // unbalanceOrder.statusCode == 200 &&
+      // unbalanceOrder.result.length > 0
+      // ) {
+      // this.$toast("您有未完成的订单, 请处理后再操作");
+      // setTimeout(() => {
+      //   _this.loading = false;
+      //   this.$router.push(`/sqb/order/${unbalanceOrder.result[0].id}`);
+      // }, 2000);
+
       //} else {
-        // this.showCustomer = true;
-        //添加订单
-        // api.order
-        //   .post(_this.product.id)
-        //   .then((res) => {
-        //     _this.loading = false;
-        //     _this.$router.push(`/sqb/order/${res.result.id}`);
-        //   })
-        //   .catch(() => {
-        //     _this.loading = false;
-        //     this.$toast("添加订单失败!");
-        //   });
+      // this.showCustomer = true;
+      //添加订单
+      // api.order
+      //   .post(_this.product.id)
+      //   .then((res) => {
+      //     _this.loading = false;
+      //     _this.$router.push(`/sqb/order/${res.result.id}`);
+      //   })
+      //   .catch(() => {
+      //     _this.loading = false;
+      //     this.$toast("添加订单失败!");
+      //   });
       //}
     },
   },

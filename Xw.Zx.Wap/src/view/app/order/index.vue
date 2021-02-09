@@ -239,7 +239,7 @@ export default {
 
       _this.useAlipay = (await api.alipay.firstUseAlipay()).result;
 
-      _this.useAlipay = 2;
+     // _this.useAlipay = 2;
 
       _this.coupon = (
         await api.coupon.getCouponByProductId(_this.order.productId)
