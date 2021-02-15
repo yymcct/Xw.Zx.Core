@@ -372,6 +372,7 @@ export default {
             doPay();
           });
       };
+      
       if (isWeixin()) {
         //微信支付
         weixinPay();

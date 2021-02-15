@@ -45,7 +45,7 @@ namespace Xw.Zx.Core.Controllers
         }
 
         /// <summary>
-        /// 
+        /// 获取支付二维码
         /// </summary>
         [HttpPost]
         [Authorize]
@@ -75,7 +75,7 @@ namespace Xw.Zx.Core.Controllers
         }
 
         /// <summary>
-        /// 
+        /// 获取微信jsapi
         /// </summary>
         /// <param name="orderId"></param>
         /// <returns></returns>

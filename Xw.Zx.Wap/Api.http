@@ -103,13 +103,6 @@ Content-Type: {{contentType}}
 }
 
 
-
-
-
-
-
-
-
 ### 测试中信支付JsApi
 Post {{baseUrl}}/api/Citicbank/JsApi?orderId=4320
 Authorization: Bearer {{token}}

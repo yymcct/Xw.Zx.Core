@@ -122,10 +122,10 @@ select * from Members where phone='18624938007'
  -- 测试积分支付
 
  -- update Products set CanUseMemberIntegral = 1 where id =
- select * from Orders where id =2847
+ select * from Orders where id =4320
  select * from Orders where id = 2839
  select * from IncomeAccounts where SourceOrderId=2839
-
+ update Orders set OrderState=0, IsDelete=0,Timestamp='20210204224144489994' where id = 4320
 
 -- 测试手机端切换通道
 select * from members where RoleName='Admin_CaiwuPayChange'
@@ -206,3 +206,6 @@ where (select sum(amount) from Orders where MemberId = T.Id and Orders.Amount!='
 
 if (not exists (select 1 from CiticbankMchIds where exists (select 1 from Members where id = CiticbankMchIds.MemberId and phone = '18624948007'))) and exists(select 1 from Members where  phone = '18624948007')
 	INSERT INTO [CiticbankMchIds]([CreateTime],[MemberId],[MchId], IsDelete)VALUES('2021-01-14',(select id from Members where phone = '18624948007'),'1234',0)
+
+select top 100 * FROM orders order by id desc
+select * from BiqilinLogs order by id desc
