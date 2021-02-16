@@ -209,3 +209,17 @@ if (not exists (select 1 from CiticbankMchIds where exists (select 1 from Member
 
 select top 100 * FROM orders order by id desc
 select * from BiqilinLogs order by id desc
+
+
+select CONVERT(varchar(100), AddTime, 23), sum(amount)
+from Orders 
+where orders.AddTime > '2020-01-20' and IsDelete =0 and OrderState=1
+group by CONVERT(varchar(100), AddTime, 23) 
+order by sum(amount) desc
+
+
+select CONVERT(Nvarchar, AddTime, 111) as [Time], sum(Amount) as [money] , count(*) as [count]
+               from Orders 
+               where IsDelete=0 and OrderState =1 and DATEDIFF(day, GETDATE(), addtime) > -15 
+               group by CONVERT(Nvarchar, AddTime, 111) 
+               order by CONVERT(Nvarchar, AddTime, 111)

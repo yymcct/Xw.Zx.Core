@@ -16,7 +16,7 @@ namespace Xw.Zx.Core.Service
 
     public partial class ReportDto
     {
-        public class DayInfo
+        public class DayInfo : IEquatable<DayInfo>
         {
             public string Time { get; set; }
 
@@ -33,6 +33,17 @@ namespace Xw.Zx.Core.Service
             }
             public int Count { get; set; }
 
+            public bool Equals(DayInfo other)
+            {
+                if (other is null)
+                    return false;
+
+                return this.Time == other.Time && this.TotalMoney == other.TotalMoney;
+            }
+
+            public override bool Equals(object obj) => Equals(obj as Query);
+            public override int GetHashCode() => (Time, TotalMoney).GetHashCode();
+
         }
 
         public class Query
@@ -42,6 +53,7 @@ namespace Xw.Zx.Core.Service
             public decimal Money { get; set; }
 
             public int Count { get; set; }
+          
         }
     }
 }

@@ -163,3 +163,10 @@ amount=0.10&fee_type=CNY&local_time=1610788393919&merchant_account=1100000522&no
 
 
 ### 
+
+GET {{baseUrl}}/api/Report
+Authorization: Bearer {{token}}
+
+###
+GET {{baseUrl}}/manager/WechatSubLedger/SyncXtsuoOrders?startTime='2021-02-14'&endTime='2021-02-15'
+Authorization: Bearer {{token}}

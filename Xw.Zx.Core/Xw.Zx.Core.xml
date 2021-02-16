@@ -294,6 +294,14 @@
             <param name="ordernums"></param>
             <returns></returns>
         </member>
+        <member name="M:Xw.Zx.Core.Areas.Manager.WechatSubLedgerController.ProfitsharingFinish(Xw.Zx.Core.Areas.PostProfitsharingFinishDto)">
+            <summary>
+            完结分账 Over 把还没分完的 有剩余的 钱解冻
+            
+            </summary>
+            <param name="postProfitsharingFinishDto"></param>
+            <returns></returns>
+        </member>
         <member name="T:Xw.Zx.Core.Areas.Manager.WithdrawDepositController">
             <summary>
             TODO
@@ -494,8 +502,15 @@
         </member>
         <member name="M:Xw.Zx.Core.Controllers.CiticbankController.ScanCodeGen(System.Int32)">
             <summary>
-            
+            获取支付二维码
             </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Controllers.CiticbankController.JsApi(System.Int32)">
+            <summary>
+            获取微信jsapi
+            </summary>
+            <param name="orderId"></param>
+            <returns></returns>
         </member>
         <member name="M:Xw.Zx.Core.Controllers.FileUploadController.Files(Microsoft.AspNetCore.Http.IFormCollection)">
             <summary>
@@ -1945,6 +1960,20 @@
             中信支付平台
             开发文档 https://open.swiftpass.cn/openapi 
             </summary>
+        </member>
+        <member name="M:Xw.Zx.Core.Service.ICiticbankService.CreateQrcodePayUrl(Xw.Zx.Core.Service.CiticbankDto.Product)">
+            <summary>
+            生成当面付二维码
+            </summary>
+            <param name="product"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xw.Zx.Core.Service.ICiticbankService.CreateJSApiPayInfo(Xw.Zx.Core.Service.CiticbankDto.Product)">
+            <summary>
+            生成jsapi支付的原生js字符串
+            </summary>
+            <param name="product"></param>
+            <returns></returns>
         </member>
         <member name="M:Xw.Zx.Core.Service.ICiticbankService.GetAllCiticbankUnPayOrder">
             <summary>

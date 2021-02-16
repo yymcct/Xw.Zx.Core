@@ -104,7 +104,7 @@ namespace Xw.Zx.Core.Service
                         neworder.PayState = "SUCCESS";
                         neworder.PayDescription = "支付成功";
                         _context.WechatOrders.Add(neworder);
-                        if ((r.status == "1" || r.status == "2") && r.paytime != "0")
+                        if ((r.status == "1" || r.status == "2" || r.status == "3") && r.paytime != "0")
                             _context.SaveChanges();
                     }
                     catch (Exception ex)
