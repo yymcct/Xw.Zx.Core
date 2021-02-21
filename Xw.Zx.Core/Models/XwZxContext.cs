@@ -124,6 +124,8 @@ namespace Xw.Zx.Core.Models.Model
 
         public DbSet<Xtsuo_Member> Xtsuo_Members { get; set; }
 
+        public DbSet<Xtsuo_MemberOrder> Xtsuo_MemberOrders { get; set; }
+
         #endregion
 
         #region 优惠券

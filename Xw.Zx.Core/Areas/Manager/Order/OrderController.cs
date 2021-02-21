@@ -82,6 +82,16 @@ namespace Xw.Zx.Core.Areas.Manager
             }
         }
 
+
+        
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="startTime"></param>
+        /// <param name="endTime"></param>
+        /// <returns></returns>
+
         [HttpGet]
         public HbzsManagerResult<OrderMRespone.Info> GetInfo(DateTime startTime, DateTime endTime)
         {
@@ -181,6 +191,14 @@ namespace Xw.Zx.Core.Areas.Manager
                 .Sum(o => o.Amount);
 
             return new HbzsManagerResult<OrderMRespone.Info>(info);
+        }
+
+        [HttpGet]
+        IActionResult ExportToExcel()
+        {
+            throw new Exception();
+            //string fileName = $"{Guid.NewGuid().ToString()}.xlsx";
+            //return File(null, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
         }
     }
 }

@@ -124,8 +124,12 @@ select * from Members where phone='18624938007'
  -- update Products set CanUseMemberIntegral = 1 where id =
  select * from Orders where id =4320
  select * from Orders where id = 2839
- select * from IncomeAccounts where SourceOrderId=2839
- update Orders set OrderState=0, IsDelete=0,Timestamp='20210204224144489994' where id = 4320
+ select * from IncomeAccounts where SourceOrderId=2839 
+ update Orders set OrderState=0,
+		IsDelete=0,AddTime='2021-02-19 08:19:34'
+		, Timestamp='20210204224144489995'
+		, MemberId = 72
+		where id = 4320
 
 -- 测试手机端切换通道
 select * from members where RoleName='Admin_CaiwuPayChange'
@@ -180,8 +184,8 @@ DECLARE @startTime DateTime
 DECLARE @endTime DateTime
 
 set @memberId = 771
-set @startTime = '2020-11-01'
-set @endTime = '2020-12-01';
+set @startTime = '2021-01-01'
+set @endTime = '2021-02-01';
 
 WITH T
 AS( 
@@ -198,7 +202,29 @@ FROM T
 where (select sum(amount) from Orders where MemberId = T.Id and Orders.Amount!='9.9'  and OrderState=1 and Amount!=0 and AddTime between @startTime and  @endTime ) is not null
 
 ---------------------------------------------------
+DECLARE @memberId Int
+DECLARE @startTime DateTime
+DECLARE @endTime DateTime
 
+set @memberId = 771
+set @startTime = '2021-01-01'
+set @endTime = '2021-02-01';
+
+WITH T
+AS( 
+    SELECT Id,InviteId as 上级ID,RealName as 姓名, Phone as 电话,0  as 上下级层级 FROM Members WHERE Id=@memberId
+    UNION ALL 
+    SELECT U.Id,U.InviteId,U.RealName,U.Phone,上下级层级+1   
+    FROM Members U INNER JOIN T ON U.InviteId=T.Id  
+) 
+SELECT *,
+	(select sum(amount) 
+		from Orders where MemberId = T.Id and Orders.Amount!='9.9'  and OrderState=1 and Amount!=0 and AddTime between @startTime and  @endTime
+	) as 合计  
+FROM T 
+where (select sum(amount) from Orders where MemberId = T.Id and Orders.Amount!='9.9'  and OrderState=1 and Amount!=0 and AddTime between @startTime and  @endTime ) is not null
+
+-------------------------------------------------------
 
  exec GetAmount @memberId = 47,@startTime = '2020-11-01',@endTime = '2020-12-01'
 
@@ -218,8 +244,19 @@ group by CONVERT(varchar(100), AddTime, 23)
 order by sum(amount) desc
 
 
-select CONVERT(Nvarchar, AddTime, 111) as [Time], sum(Amount) as [money] , count(*) as [count]
-               from Orders 
-               where IsDelete=0 and OrderState =1 and DATEDIFF(day, GETDATE(), addtime) > -15 
-               group by CONVERT(Nvarchar, AddTime, 111) 
-               order by CONVERT(Nvarchar, AddTime, 111)
+
+--
+select orders.Timestamp as 单号,
+	Orders.ProducName as 产品名称,
+	Orders.AddTime as 下单时间,
+	Orders.Amount as 金额合计, 
+	Orders.ProductAmount as 单价,
+	ProductCount as 数量, 
+	A.RealName 购买人, 
+	A.Phone 购买人电话, 
+	B.RealName 购买人上级, 
+	B.Phone 购买人上级电话
+from orders left join Members as A on Orders.MemberId = A.Id
+join Members as B on A.InviteId = B.Id
+where OrderState = 1 and orders.IsDelete=0 
+	and AddTime between '2020-10-01 00:00:00' and '2021-02-19 00:00:00'

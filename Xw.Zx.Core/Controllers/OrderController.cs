@@ -50,7 +50,12 @@ namespace Xw.Zx.Core.Controllers
 
                 for (var i = 0; i < res.Count; i++)
                 {
-                    res[i].ProductDto = _mapper.Map<ProductDto>(_context.Products.FirstOrDefault(p => p.Id == res[i].ProductId));
+                    var product = _mapper.Map<ProductDto>(_context.Products.FirstOrDefault(p => p.Id == res[i].ProductId));
+                    if (product != null)
+                    {
+                        res[i].ProductDto = product;
+                    }
+
                 }
 
                 var total = _sieveProcessor

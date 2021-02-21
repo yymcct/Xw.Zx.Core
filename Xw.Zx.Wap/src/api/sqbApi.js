@@ -45,6 +45,7 @@ export default {
     },
     citicbank: {
         scanCodeGen: (params) => request.post(`/api/Citicbank/ScanCodeGen?orderId=${params}`),
+        jsapiPay: (params) => request.post(`/api/Citicbank/JsApi?orderId=${params}`),
     },
     income: {
         getIncomeInfo: () => request.get('/api/Income/GetIncomeInfo'),

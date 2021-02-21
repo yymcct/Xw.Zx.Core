@@ -239,7 +239,9 @@ export default {
 
       _this.useAlipay = (await api.alipay.firstUseAlipay()).result;
 
-     // _this.useAlipay = 2;
+    //TODO
+     // if(_this.user.)
+      //_this.useAlipay = 2;
 
       _this.coupon = (
         await api.coupon.getCouponByProductId(_this.order.productId)
@@ -299,6 +301,7 @@ export default {
     },
 
     payOrder() {
+      let useAlipay = this.useAlipay;
       const isWeixin = () =>
         /micromessenger/.test(navigator.userAgent.toLowerCase());
 
@@ -318,7 +321,7 @@ export default {
             document.forms[0].submit();
           });
       };
-      const weixinPay = () => {
+      const biqilinWeixinPay = () => {
         const _this = this;
         if (!_this.user.wxOpenId) {
           this.$toast("没有OpenId,无法使用微信支付");
@@ -372,10 +375,71 @@ export default {
             doPay();
           });
       };
-      
+      const citicbankWeixinPay = () => {
+        const _this = this;
+        if (!_this.user.wxOpenId) {
+          this.$toast("没有OpenId,无法使用微信支付");
+          return;
+        }
+        const onBridgeReady = function () {
+          window.WeixinJSBridge.invoke(
+            "getBrandWCPayRequest",
+            {
+              // appId: _this.weixinjsApi.jsAppId, //公众号名称，由商户传入
+              // timeStamp: _this.weixinjsApi.jsTimeStamp, //时间戳，自1970年以来的秒数
+              // nonceStr: _this.weixinjsApi.jsNonceStr, //随机串
+              // package: _this.weixinjsApi.jsPackages,
+              // signType: _this.weixinjsApi.jsSignType, //微信签名方式：
+              // paySign: _this.weixinjsApi.jsPaySign, //微信签名
+              appId: _this.weixinjsApi.appId, //公众号名称，由商户传入
+              timeStamp: _this.weixinjsApi.timeStamp, //时间戳，自1970年以来的秒数
+              nonceStr: _this.weixinjsApi.nonceStr, //随机串
+              package: _this.weixinjsApi.package,
+              signType: _this.weixinjsApi.signType, //微信签名方式：
+              paySign: _this.weixinjsApi.paySign, //微信签名
+            },
+            function (res) {
+              //使用以下方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
+              if (res.err_msg == "get_brand_wcpay_request:ok") {
+                window.location.href =
+                  "http://jsq.lawss360.com/sqb/order/" + _this.order.id;
+                //onSuccessMsg();
+              } else {
+                //弹出之后，苹果手机会卡死
+                //alert(res.err_desc);
+              }
+            }
+          );
+        };
+        const doPay = () => {
+          if (typeof window.WeixinJSBridge == "undefined") {
+            if (document.addEventListener) {
+              document.addEventListener(
+                "WeixinJSBridgeReady",
+                onBridgeReady,
+                false
+              );
+            } else if (document.attachEvent) {
+              document.attachEvent("WeixinJSBridgeReady", onBridgeReady);
+              document.attachEvent("onWeixinJSBridgeReady", onBridgeReady);
+            }
+          } else {
+            onBridgeReady();
+          }
+        };
+        api.citicbank.jsapiPay(_this.order.id).then((res) => {
+          _this.weixinjsApi = JSON.parse(res.result);
+          console.log("jsapi", _this.weixinjsApi);
+          doPay();
+        });
+      };
       if (isWeixin()) {
-        //微信支付
-        weixinPay();
+        //微信支付//中信的
+        if (useAlipay == 0 || useAlipay == 1) {
+          biqilinWeixinPay();
+        } else if (useAlipay == 2) {
+          citicbankWeixinPay();
+        }
       } else {
         aliPay();
       }

@@ -6,8 +6,13 @@ using Xw.Zx.Core.Models.Model;
 
 namespace Xw.Zx.Core.Models.Dto
 {
-    public class OrderListDto { 
-     public int Id { get; set; }
+    public class OrderListDto
+    {
+        public OrderListDto()
+        {
+            ProductDto = new ProductDto();
+        }
+        public int Id { get; set; }
 
         public string Timestamp { get; set; }
 

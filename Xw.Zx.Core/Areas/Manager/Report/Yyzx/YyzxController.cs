@@ -23,6 +23,10 @@ namespace Xw.Zx.Core.Areas.Manager.Coupon
     [ApiController]
     [Route("manager/[controller]/[action]")]
     //  [Authorize(Policy = "Admins")] TODO
+
+    /// <summary>
+    /// 导出运营中心
+    /// </summary>
     public class YyzxController
     {
         private readonly ILogger<YyzxController> _logger;

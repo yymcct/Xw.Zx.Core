@@ -175,10 +175,10 @@ namespace Xw.Zx.Core.Service
                             AddCiticbankLog(new CiticbankLog()
                             {
                                 Timestamp = product.Timestamp,
-                                UUID = param["uuid"].ToString(),
+                              //  UUID = param["uuid"].ToString(),
                                 MchId = mchid,
                             });
-                            return "dddd";
+                            return param["pay_info"].ToString();
                             //return new CiticbankDto.Qrcode()
                             //{
                             //    CodeUrl = param["code_url"].ToString(),

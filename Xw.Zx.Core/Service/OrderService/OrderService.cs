@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Sieve.Models;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Xw.Zx.Core.Helper;
@@ -165,6 +167,12 @@ namespace Xw.Zx.Core.Service
 
                 _LogReceive.HandleOrderPayRequest(order);
             }
+        }
+
+        public MemoryStream ExportToExcel(SieveModel sieveModel)
+        {
+
+            throw new Exception();
         }
     }
 }
