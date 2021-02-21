@@ -12,6 +12,10 @@ namespace Xw.Zx.Core.Service
     /// <summary>
     /// 中信支付平台
     /// 开发文档 https://open.swiftpass.cn/openapi 
+    /// 开发对接遇到问题-接口类查询地址 https://open.swiftpass.cn/openapi/wiki?index=191&chapter=1
+    /// 支付网关请求地址：https://payapi.citicbank.com/pay/gateway
+    /// 下载对账单请求地址：https://paydownload.citicbank.com/gateway
+    /// 接口文档地址：https://open.swiftpass.cn/openapi
     /// </summary>
     public class CiticbankService : ICiticbankService
     {

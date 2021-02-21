@@ -239,10 +239,10 @@ export default {
 
       _this.useAlipay = (await api.alipay.firstUseAlipay()).result;
 
-    //TODO
-     // if(_this.user.)
-      //_this.useAlipay = 2;
-
+      //TODO
+      if (_this.user.id == 72) {
+        _this.useAlipay = 2;
+      }
       _this.coupon = (
         await api.coupon.getCouponByProductId(_this.order.productId)
       ).result;
@@ -331,12 +331,12 @@ export default {
           window.WeixinJSBridge.invoke(
             "getBrandWCPayRequest",
             {
-              appId: _this.weixinjsApi.jsAppId, //公众号名称，由商户传入
-              timeStamp: _this.weixinjsApi.jsTimeStamp, //时间戳，自1970年以来的秒数
-              nonceStr: _this.weixinjsApi.jsNonceStr, //随机串
-              package: _this.weixinjsApi.jsPackages,
-              signType: _this.weixinjsApi.jsSignType, //微信签名方式：
-              paySign: _this.weixinjsApi.jsPaySign, //微信签名
+              appId: _this.weixinjsApi.appId, //公众号名称，由商户传入
+              timeStamp: _this.weixinjsApi.timeStamp, //时间戳，自1970年以来的秒数
+              nonceStr: _this.weixinjsApi.nonceStr, //随机串
+              package: _this.weixinjsApi.package,
+              signType: _this.weixinjsApi.signType, //微信签名方式：
+              paySign: _this.weixinjsApi.paySign, //微信签名
             },
             function (res) {
               //使用以下方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。

@@ -386,6 +386,16 @@ const routes = [
         }
     },
     {
+        path: '/sqb/zmn/computer',
+        component: () =>
+            import(/* webpackChunkName: "sqb" */ './view/zmn/computer'),
+        meta: {
+            title: '啄木鸟',
+            keepAlive: false,
+            private: false
+        }
+    },
+    {
         path: '*',
         redirect: '/sqb/home'
     },

@@ -8,13 +8,13 @@
       :close-on-click-modal="false"
       @close="cancelSubmit"
     >
-      <p>可分账金额: {{ amount }} * 30%={{ amount * 0.3 }}</p>
+      <p>可分账金额: {{ amount }} * 30%={{ subCharge }}</p>
       <p>
         实际分账金额:
         <span
           :class="{
-            green: realyAmount <= amount * 0.3,
-            red: realyAmount > amount * 0.3,
+            green: realyAmount <= subCharge,
+            red: realyAmount > subCharge,
           }"
           >{{ realyAmount }}</span
         >
@@ -67,13 +67,16 @@ export default {
       type: Number,
       default: 9.9,
     },
+    subCharge: {
+      type: Number,
+      default: 0,
+    },
   },
   watch: {
     value: {
       handler(val) {
         this.dialogVisible = val;
         if (this.out_order_no && val) {
-
           this.initApply();
         }
       },
@@ -112,6 +115,7 @@ export default {
           i.radio = 0;
           this.subLedgerReceivers.push(i);
         });
+        this.subLedgerReceivers[0].amount = this.subCharge;
       });
     },
 
