@@ -35,7 +35,11 @@ export default {
           } else {
             userInfoAPI.set(res.result);
             this.$store.commit("user/setUser", res.result.member);
-            this.$router.push(`/sqb/home`);
+            let url = this.$globalFun.userInfoAPI.getLoginFrom();
+            if (!url) {
+              url = "/sqb/home";
+            }
+            this.$router.push(url);
           }
         });
       }
