@@ -32,11 +32,17 @@ namespace Xw.Zx.Core.Models.Model
     {
         public enum IntegralType
         {
+            //增加积分
             [Description("优惠券换积分")]
             FromCoupon = 1,
 
+            //扣除积分
             [Description("积分买商品")]
-            Trader = 1,
+            Trader = 2,
+
+            //增加积分
+            [Description("充值积分")]
+            FromAdd = 3,
         }
     }
 }

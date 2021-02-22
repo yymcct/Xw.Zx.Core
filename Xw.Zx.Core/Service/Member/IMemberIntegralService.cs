@@ -29,6 +29,7 @@ namespace Xw.Zx.Core.Service
         List<MemberIntegral> GetMemberIntegrals(IEnumerable<int> memberIds);
 
         int AmountToIntegral(decimal amount);
+
         decimal IntegralToAmount(int amount);
 
 
