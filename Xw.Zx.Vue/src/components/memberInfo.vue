@@ -114,7 +114,7 @@
 import api from "@/api/app";
 import radioViptype from "@/components/radioVipType";
 export default {
-  name: "changIndex",
+  name: "memberInfo",
   components: { radioViptype },
   props: {
     value: Boolean,

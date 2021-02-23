@@ -83,7 +83,12 @@
             <el-link type="primary" @click="showParentTree(scope.row)"
               >查看团队树</el-link
             >
-            <el-link type="success" style="margin-left:5px;" @click="showMemberInfo(scope.row)">查看详情</el-link>
+            <el-link
+              type="success"
+              style="margin-left: 5px"
+              @click="showMemberInfo(scope.row)"
+              >查看详情</el-link
+            >
           </p>
         </template>
       </el-table-column>
@@ -133,6 +138,11 @@
               <el-dropdown-item :command="composeValue('giveCoupon', scope.row)"
                 >发放优惠券</el-dropdown-item
               >
+
+              <el-dropdown-item
+                :command="composeValue('addMemberIntegral', scope.row)"
+                >充值积分</el-dropdown-item
+              >
             </el-dropdown-menu>
           </el-dropdown>
           <!-- <i
@@ -169,11 +179,13 @@
       @change="getMemberMDtos()"
     />
     <member-info v-model="memberInfo.show" :memberId="memberInfo.memberId" />
+
     <update-vip
       :action="updateVipAction"
       :member="updateMember"
       @change="updateVipChange"
     ></update-vip>
+
     <chage-invite
       v-model="changInvite.show"
       :memberId="changInvite.memberId"
@@ -183,6 +195,11 @@
     <parent-tree v-model="parentTree.show" :memberId="parentTree.memberId" />
 
     <give-coupon v-model="giveCoupon.show" :memberId="giveCoupon.memberId" />
+
+    <add-member-integral
+      v-model="addMemberIntegral.show"
+      :memberId="addMemberIntegral.memberId"
+    />
   </section>
 </template>
 
@@ -193,7 +210,9 @@ import chageInvite from "./chageInvite";
 import UpdateVip from "./updateVip";
 import parentTree from "@/components/parentTree";
 import giveCoupon from "./giveCoupon";
-import memberInfo from "@/components/memberInfo"
+import memberInfo from "@/components/memberInfo";
+import addMemberIntegral from "./addMemberIntegral";
+
 export default {
   components: {
     editMember,
@@ -201,7 +220,8 @@ export default {
     chageInvite,
     parentTree,
     giveCoupon,
-    memberInfo
+    memberInfo,
+    addMemberIntegral,
   },
   data() {
     return {
@@ -243,6 +263,10 @@ export default {
         memberId: 0,
       },
       giveCoupon: {
+        show: false,
+        memberId: 0,
+      },
+      addMemberIntegral: {
         show: false,
         memberId: 0,
       },
@@ -326,11 +350,19 @@ export default {
         _this.giveCoupon.memberId = row.id;
         _this.giveCoupon.show = true;
       };
+      const showAddMemberIntegral = (row) => {
+        _this.addMemberIntegral.memberId = row.id;
+        _this.addMemberIntegral.show = true;
+      };
+      
       if (command.button == "edit") {
         showEdit(command.data);
       }
       if (command.button == "giveCoupon") {
         showGiveCoupon(command.data);
+      }
+      if (command.button == "addMemberIntegral") {
+        showAddMemberIntegral(command.data);
       }
     },
   },

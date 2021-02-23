@@ -20,6 +20,9 @@ export default {
         getCoupon: (params) => request.get(`/manager/Coupon/GetCoupon`, { params: params }),
         couponToMemberIntegral: (params) => request.post(`/manager/Coupon/CouponToMemberIntegral?couponReceiveId=${params}`),
     },
+    memberIntegral: {
+        add: (memberid, params) => request.post(`/manager/MemberIntegral/Add?memberId=${memberid}`, params),
+    },
     income: {
         getCoupon: (params) => request.get(`/manager/IncomeAccount/GetIncomes`, { params: params }),
         auditSucess: (id, params) => request.post(`/manager/IncomeAccount/AuditSucess?id=${id}`, params),
@@ -34,7 +37,7 @@ export default {
     },
     order: {
         getInfo: (params) => request.get('/manager/order/getInfo', { params: params }),
-    }, 
+    },
     weixinSubLedger: {
         getWechatSubLedgerReceivers: () => request.get(`/manager/WechatSubLedger/GetWechatSubLedgerReceivers`),
         getWechatOrderList: (params) => request.get('/manager/WechatSubLedger/GetWechatOrderList', { params: params }),

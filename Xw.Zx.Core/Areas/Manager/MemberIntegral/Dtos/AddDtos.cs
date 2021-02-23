@@ -9,6 +9,6 @@ namespace Xw.Zx.Core.Areas.Manager
     {
         public int Integral { get; set; }
 
-        public string remark { get; set; }
+        public string Remark { get; set; }
     }
 }
