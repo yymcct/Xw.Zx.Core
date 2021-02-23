@@ -70,9 +70,9 @@ router.beforeEach((to, from, next) => {
   if (to.meta && to.meta.private) {
     const user = globalFun.userInfoAPI.get();
     if (!user) {
-      globalFun.userInfoAPI.setLoginFrom(to.path);
+      //globalFun.userInfoAPI.setLoginFrom(to.path);
       next({
-        path: '/sqb/login'
+        path: `/sqb/login?redirect_uri=${encodeURIComponent(to.path)}`
       });
     }
   }

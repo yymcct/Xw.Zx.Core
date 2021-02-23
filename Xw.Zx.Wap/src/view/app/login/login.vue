@@ -59,7 +59,11 @@ export default {
       /micromessenger/.test(navigator.userAgent.toLowerCase());
 
     if (isWeixin()) {
-      this.$router.push("/sqb/login/weixin");
+      let url = "/sqb/login/weixin";
+      if (this.$route.query.redirect_uri) {
+        url += `?redirect_uri=${this.$route.query.redirect_uri}`;
+      }
+      this.$router.push(url);
     }
   },
 
@@ -83,8 +87,8 @@ export default {
         .then((res) => {
           userInfoAPI.set(res.result);
           this.$store.commit("user/setUser", res.result.member);
-          let url = this.$globalFun.userInfoAPI.getLoginFrom() ;
-          if(!url){
+          let url = this.$globalFun.userInfoAPI.getLoginFrom();
+          if (!url) {
             url = "/sqb/home";
           }
           this.$router.push(url);

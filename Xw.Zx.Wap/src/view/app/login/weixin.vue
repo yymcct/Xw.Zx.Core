@@ -35,7 +35,15 @@ export default {
           } else {
             userInfoAPI.set(res.result);
             this.$store.commit("user/setUser", res.result.member);
+
             let url = this.$globalFun.userInfoAPI.getLoginFrom();
+
+            if (!url) {
+              const { redirect_uri } = this.getUrlCode();
+              if (redirect_uri) {
+                url = decodeURIComponent(redirect_uri);
+              }
+            }
             if (!url) {
               url = "/sqb/home";
             }

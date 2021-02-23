@@ -4,7 +4,7 @@
       <van-nav-bar
         :title="$route.meta.title"
         left-arrow
-        @click-left="$router.go(-1)"
+        @click-left="$router.push('/sqb/user')"
       />
     </div>
 
