@@ -223,7 +223,7 @@ namespace Xw.Zx.Core.Service
             return cl.MchId;
         }
 
-        public bool Query(string timestamp)
+        public Hashtable QueryFull(string timestamp)
         {
             var pay = new PayHttpClient();
             var reqHandler = new RequestHandler();
@@ -259,9 +259,7 @@ namespace Xw.Zx.Core.Service
                     //当返回状态与业务结果都为0时才返回结果，其它结果请查看接口文档
                     if (int.Parse(param["status"].ToString()) == 0 && int.Parse(param["result_code"].ToString()) == 0)
                     {
-
-                        return param["trade_state"].ToString() == "SUCCESS";
-
+                        return param;
                     }
                 }
                 throw new Exception("错误代码：" + param["err_code"] + ",错误信息：" + param["err_msg"]);
@@ -269,6 +267,14 @@ namespace Xw.Zx.Core.Service
 
             throw new Exception("错误代码：" + pay.getResponseCode() + ",错误信息：" + pay.getErrInfo());
         }
+
+        public bool Query(string timestamp)
+        {
+            var param = QueryFull(timestamp);
+
+            return param["trade_state"].ToString() == "SUCCESS";
+        }
+
 
         public void AddCiticbankLog(CiticbankLog citicbankLog)
         {

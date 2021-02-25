@@ -170,3 +170,6 @@ Authorization: Bearer {{token}}
 ###
 GET {{baseUrl}}/manager/WechatSubLedger/SyncXtsuoOrders?startTime='2021-02-14'&endTime='2021-02-15'
 Authorization: Bearer {{token}}
+
+###
+GET {{baseUrl}}/api/Citicbank/Qyery?timestamp=20210225095225416698

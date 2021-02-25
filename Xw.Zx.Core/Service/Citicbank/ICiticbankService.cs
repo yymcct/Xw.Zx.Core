@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,6 +27,8 @@ namespace Xw.Zx.Core.Service
 
         bool Query(string Timestamp);
 
+        Hashtable QueryFull(string Timestamp);
+
         /// <summary>
         /// 获取所有付款为中信,但未付款的订单
         /// </summary>
@@ -33,5 +36,7 @@ namespace Xw.Zx.Core.Service
         string[] GetAllCiticbankUnPayOrder();
 
         void AddCiticbankLog(CiticbankLog citicbankLog);
+
+
     }
 }

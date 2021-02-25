@@ -106,6 +106,13 @@ namespace Xw.Zx.Core.Controllers
             }
         }
 
+        [HttpGet]
+        public HbzsResult Qyery([FromQuery] string timestamp)
+        {
+            _citicbankService.QueryFull(timestamp);
+
+            return new HbzsResult("");
+        }
 
         [HttpPost]
         public async void Notifyurl()

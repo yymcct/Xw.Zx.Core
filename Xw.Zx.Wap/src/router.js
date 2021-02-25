@@ -376,6 +376,16 @@ const routes = [
         }
     },
     {
+        path: '/sqb/weixin/paper',
+        component: () =>
+            import(/* webpackChunkName: "sqb" */ './view/app/weixin/paper'),
+        meta: {
+            title: '微信小票',
+            keepAlive: false,
+            private: false
+        }
+    },
+    {
         path: '/sqb/report/boss',
         component: () =>
             import(/* webpackChunkName: "sqb" */ './view/app/report/boss'),
