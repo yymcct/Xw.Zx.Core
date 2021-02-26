@@ -29,7 +29,7 @@ export default {
   computed: {},
 
   beforeMount() {
-    document.querySelector("html").style.fontSize = "16px";
+    document.querySelector("html").style.fontSize = "32px";
     if (this.$route.query.out_trade_no) {
       // SHOW_CUSTOM_PAGE  SHOW_OFFICIAL_PAGE
       // 初始化小票
@@ -75,8 +75,8 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  //   height: 640px;
-  padding-top: 10px;
+  height: 360px;
+  //padding-top: 10px;
   .sucess {
     display: flex;
     justify-content: center;

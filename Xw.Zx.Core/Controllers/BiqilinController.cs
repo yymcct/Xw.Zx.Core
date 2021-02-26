@@ -130,7 +130,7 @@ namespace Xw.Zx.Core.Controllers
                 var waitPayOrder = _context.Orders.First(o => o.Timestamp == biqilinNotifyDto.outOrderNo);
                 if (CheckBiqilinOrder(waitPayOrder, query))
                 {
-                    _orderService.OrderPay(biqilinNotifyDto.outOrderNo, OrderPaymentType.碧麒麟);
+                    _orderService.OrderPay(biqilinNotifyDto.outOrderNo, OrderPaymentType.碧麒麟, biqilinNotifyDto.orderNo);
                 }
             }
             await Response.WriteAsync(JsonConvert.SerializeObject(new
@@ -143,7 +143,7 @@ namespace Xw.Zx.Core.Controllers
         [HttpGet]
         public void Notifyurl2()
         {
-            _orderService.OrderPay("20210120100012461521", OrderPaymentType.碧麒麟);
+         //   _orderService.OrderPay("20210120100012461521", OrderPaymentType.碧麒麟);
         }
 
         private bool CheckBiqilinOrder(Order order, BiqilinRespone.Query query)

@@ -74,6 +74,9 @@ namespace Xw.Zx.Core.Models.Model
 
         public OrderPaymentType OrderPaymentType { get; set; } = OrderPaymentType.支付宝;
 
+        [Column(TypeName = "varchar(100)")]
+        public string OutOrderNo { get; set; }
+
     }
 
 }

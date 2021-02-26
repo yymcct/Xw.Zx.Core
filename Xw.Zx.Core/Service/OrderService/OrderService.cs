@@ -128,7 +128,7 @@ namespace Xw.Zx.Core.Service
             }
             var memberIntegral = _memberIntegralService.GetMemberIntegral(order.MemberId);
 
-            if (memberIntegral.AvailableIntegrals <  _memberIntegralService.AmountToIntegral(order.Amount))
+            if (memberIntegral.AvailableIntegrals < _memberIntegralService.AmountToIntegral(order.Amount))
             {
                 throw new ZzzException("积分不足, 无法完成请求");
             }
@@ -137,7 +137,7 @@ namespace Xw.Zx.Core.Service
             _memberIntegralService.AddMemberIntegral(new MemberIntegralRecord
             {
                 MemberId = order.MemberId,
-                Integral = 0- _memberIntegralService.AmountToIntegral(order.Amount),
+                Integral = 0 - _memberIntegralService.AmountToIntegral(order.Amount),
                 TypeId = MemberIntegral.IntegralType.Trader,
                 Remark = $"用于单号{order.Id}的支付"
             });
@@ -151,6 +151,10 @@ namespace Xw.Zx.Core.Service
 
         public void OrderPay(string timestamp, OrderPaymentType paymentType)
         {
+            OrderPay(timestamp, paymentType, "");
+        }
+        public void OrderPay(string timestamp, OrderPaymentType paymentType, string outOrderNo)
+        {
             var order = _context.Orders.Where(o => o.Timestamp == timestamp && o.OrderState == OrderState.待付款).FirstOrDefault();
             if (order != null)
             {
@@ -158,6 +162,7 @@ namespace Xw.Zx.Core.Service
 
                 order.OrderState = OrderState.已付款;
                 order.OrderPaymentType = paymentType;
+                order.OutOrderNo = outOrderNo;
                 _context.SaveChanges();
 
                 _LogReceive.SetOrderPay(_ShareProfitHandle)
@@ -168,11 +173,12 @@ namespace Xw.Zx.Core.Service
                 _LogReceive.HandleOrderPayRequest(order);
             }
         }
-
         public MemoryStream ExportToExcel(SieveModel sieveModel)
         {
 
             throw new Exception();
         }
+
+
     }
 }

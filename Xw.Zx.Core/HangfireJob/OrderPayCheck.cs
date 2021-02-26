@@ -70,7 +70,7 @@ namespace Xw.Zx.Core.HangfireJob
                         var query = _biqilinService.QueryOrder(biqilinOrder.BiqilinOrderNo);
                         if (CheckBiqilinPay(waitPayOrder, query))
                         {
-                            _orderService.OrderPay(waitPayOrder.Timestamp, OrderPaymentType.碧麒麟);
+                            _orderService.OrderPay(waitPayOrder.Timestamp, OrderPaymentType.碧麒麟, query.orderNo);
                             break;
                         }
                     }

@@ -88,7 +88,7 @@ namespace Xw.Zx.Core.Service
                 {
                     try
                     {
-                        if (string.IsNullOrWhiteSpace(r.ordersn) || string.IsNullOrWhiteSpace(r.transid))
+                        if (string.IsNullOrWhiteSpace(r.ordersn) || r.status=="0")//|| string.IsNullOrWhiteSpace(r.transid)
                             continue;
                         WechatOrders wechatOrders = _context.WechatOrders.FirstOrDefault(c => c.Out_Order_No == r.ordersn && c.TransactionID == r.transid);
                         if (wechatOrders != null)

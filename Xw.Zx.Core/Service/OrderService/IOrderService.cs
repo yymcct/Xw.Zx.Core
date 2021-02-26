@@ -26,6 +26,8 @@ namespace Xw.Zx.Core.Service
 
         void OrderPay(string timestamp, OrderPaymentType paymentType);
 
+        void OrderPay(string timestamp, OrderPaymentType paymentType, string outOrderNo);
+
         void CouponOrderPay(int memberId, int orderId, int couponreceiveId);
 
         void MemberIntegralPay(int memberId, int orderId);
