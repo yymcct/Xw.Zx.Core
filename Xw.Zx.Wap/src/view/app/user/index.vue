@@ -32,9 +32,14 @@
         <van-cell title="积分" :value="user.memberIntegral" />
       </div>
       <van-cell-group>
+        <van-cell is-link to="/sqb/user/order">
+          <template #title>
+            <span class="custom-title">我的订单</span>
+            <van-tag type="danger">hot</van-tag>
+          </template>
+        </van-cell>
         <van-cell title="我的团队" is-link to="/sqb/user/myteam" />
         <van-cell title="我的收益" is-link to="/sqb/user/income" />
-        <van-cell title="我的订单" is-link to="/sqb/user/order" />
         <van-cell title="我的优惠券" is-link to="/sqb/user/coupon" />
         <van-cell title="联系客服" is-link to="/sqb/user/kefu" />
         <van-cell title="立刻分享" is-link to="/sqb/user/share" />

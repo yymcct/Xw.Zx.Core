@@ -6,7 +6,7 @@ import {
   Field, Toast, Loading,
   Button, NavBar, Image, Tab, Tabs, Picker, Popup, Dialog, NoticeBar,
   Icon, Cell, CellGroup, Checkbox, CheckboxGroup, DatetimePicker, Stepper, Switch
-  , RadioGroup, Radio
+  , RadioGroup, Radio,Tag 
 } from "vant";
 import globalFun from '@/utils/globalFun'
 import store from './store'
@@ -46,7 +46,7 @@ Vue.use(Switch);
 Vue.use(RadioGroup);
 Vue.use(Radio);
 Vue.use(NoticeBar);
-
+Vue.use(Tag);
 
 
 

@@ -166,13 +166,12 @@ namespace Xw.Zx.Core.Controllers
                 }
 
                 var member = memberDb.FirstOrDefault(s => s.Phone == weixinBindDto.Phone || s.WxOpenId == weixinBindDto.OpenId);
-                if (member != null)
-                {
-                    CheckBind(member);
-                    //绑定
-                    member.WxOpenId = weixinBindDto.OpenId;
-                    _context.SaveChanges();
-                }
+        
+
+                CheckBind(member);
+                //绑定
+                member.WxOpenId = weixinBindDto.OpenId;
+                _context.SaveChanges();
 
                 var result = SimulationLogin(new LoginDto()
                 {
@@ -197,6 +196,11 @@ namespace Xw.Zx.Core.Controllers
 
             void CheckBind(Member member)
             {
+                if (member == null)
+                {
+                    throw new Exception("账户不存在, 请点击新建账户");
+                }
+
                 if (member.WxOpenId == weixinBindDto.OpenId)
                 {
                     throw new Exception($"该微信{weixinBindDto.OpenId}已绑定有用户，请先解绑. ");
