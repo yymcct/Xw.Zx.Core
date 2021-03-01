@@ -18,7 +18,7 @@
           <el-input
             class="keyword"
             v-model="filters.keywords"
-            placeholder="角色,姓名,手机号,备注,会员类型"
+            placeholder="角色,姓名,手机号,备注,会员类型,opendId"
           ></el-input>
         </el-form-item>
         <el-form-item>
@@ -119,6 +119,13 @@
         sortable
       ></el-table-column>
       <el-table-column prop="remark" label="备注" sortable></el-table-column>
+      <el-table-column
+        prop="wxOpenId"
+        label="openID"
+        width="100px"
+        sortable
+      ></el-table-column>
+
       <el-table-column
         prop="createDate"
         label="添加时间"
@@ -290,7 +297,7 @@ export default {
         this.requestParams.filters += `MemberVipType==${this.filters.vipType},`;
 
       if (this.filters.keywords)
-        this.requestParams.filters += `(RoleName|Phone|Remark|RealName)@=${this.filters.keywords},`;
+        this.requestParams.filters += `(RoleName|Phone|Remark|RealName|WxOpenId)@=${this.filters.keywords},`;
 
       if (this.filters.addTimeStart)
         this.requestParams.filters += `CreateDate>=${this.filters.addTimeStart},`;
@@ -354,7 +361,7 @@ export default {
         _this.addMemberIntegral.memberId = row.id;
         _this.addMemberIntegral.show = true;
       };
-      
+
       if (command.button == "edit") {
         showEdit(command.data);
       }

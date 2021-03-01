@@ -44,6 +44,7 @@ namespace Xw.Zx.Core.Areas.Manager
 
 
         //微信OpendID
+        [Sieve(CanFilter = true)]
         public string WxOpenId { get; set; }
 
         //创建日期
