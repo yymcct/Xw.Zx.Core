@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.Extensions.Logging;
+using Sieve.Models;
+using Sieve.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,19 +14,22 @@ namespace Xw.Zx.Core.Service
 {
     public class MemberService : IMemberService
     {
-        private readonly ILogger<MemberService> _logger;
-        public readonly XwZxContext _context;
         public readonly IMapper _mapper;
+        public readonly XwZxContext _context;
+        private readonly ILogger<MemberService> _logger;
         private readonly IMemberIntegralService _memberIntegralService;
+        private readonly ISieveProcessor _sieveProcessor;
 
         public MemberService(ILogger<MemberService> logger
             , XwZxContext xwZxContext
             , IMapper mapper
+            , ISieveProcessor sieveProcessor
             , IMemberIntegralService memberIntegralService)
         {
             _logger = logger;
-            _context = xwZxContext;
             _mapper = mapper;
+            _context = xwZxContext;
+            _sieveProcessor = sieveProcessor;
             _memberIntegralService = memberIntegralService;
         }
 

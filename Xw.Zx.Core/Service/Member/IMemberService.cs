@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sieve.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +11,8 @@ namespace Xw.Zx.Core.Service
     public interface IMemberService
     {
         MemberDto GetMember(int memberId);
+
+        //List<MemberDto> GetMembers(SieveModel sieveModel);
 
         MemberDto GetMemberByUserName(string username);
 
