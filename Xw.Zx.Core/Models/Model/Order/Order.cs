@@ -1,6 +1,7 @@
 ﻿using Sieve.Attributes;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,11 +25,21 @@ namespace Xw.Zx.Core.Models.Model
         积分=5,
         中信=6
     }
+    public partial class Order
+    {
+        public enum OriginType 
+        { 
+            [Description("微信")]
+            weixin = 0,
 
+            [Description("App")]
+            app = 1
+        }
+    }
     /// <summary>
     /// 订单表
     /// </summary>
-    public class Order : ModelBase
+    public partial class Order : ModelBase
     {
         [Sieve(CanFilter = true, CanSort = true)]
         public int Id { get; set; }
@@ -74,8 +85,13 @@ namespace Xw.Zx.Core.Models.Model
 
         public OrderPaymentType OrderPaymentType { get; set; } = OrderPaymentType.支付宝;
 
+        /// <summary>
+        /// 外部订单号
+        /// </summary>
         [Column(TypeName = "varchar(100)")]
         public string OutOrderNo { get; set; }
+
+        public OriginType Origin { get; set; } = OriginType.app;
 
     }
 

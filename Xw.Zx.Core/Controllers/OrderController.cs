@@ -123,6 +123,14 @@ namespace Xw.Zx.Core.Controllers
                     OrderState = OrderState.待付款,
                     OrderPaymentType = postOrderDto.OrderPaymentType
                 };
+
+                var userAgent = Request.Headers["User-Agent"].ToString().ToLower();
+
+                if (userAgent.Contains("micromessenger"))
+                {
+                    order.Origin = Order.OriginType.weixin;
+                }
+
                 _context.Add(order);
                 _context.SaveChanges();
 

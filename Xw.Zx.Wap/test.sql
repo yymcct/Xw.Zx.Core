@@ -260,3 +260,4 @@ from orders left join Members as A on Orders.MemberId = A.Id
 join Members as B on A.InviteId = B.Id
 where OrderState = 1 and orders.IsDelete=0 
 	and AddTime between '2020-10-01 00:00:00' and '2021-02-19 00:00:00'
+
