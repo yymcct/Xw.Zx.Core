@@ -94,7 +94,8 @@ namespace Xw.Zx.Core.Controllers
                     Name = order.ProducName,
                     Timestamp = order.Timestamp,
                     Amount = order.Amount,
-                    MemberId = order.MemberId
+                    MemberId = order.MemberId,
+                    OpendId = Member.WxOpenId
                 });
 
                 return new HbzsResult<string>(res);

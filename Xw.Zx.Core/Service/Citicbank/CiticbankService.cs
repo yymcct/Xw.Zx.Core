@@ -147,14 +147,14 @@ namespace Xw.Zx.Core.Service
             reqHandler.setParameter("mch_id", mchid); //102576520476
             reqHandler.setParameter("groupno", cfg["groupno"]);//必填项，商户号，由平台分配
             reqHandler.setParameter("version", "1.0");//接口版本号
-            //TODO
+   
             reqHandler.setParameter("notify_url", _notify_url);//通知回调地址，商户需改为自己的，且保证外网能POST发送数据请求成功.
                                                                //通知地址，必填项，接收平台通知的URL，需给绝对路径，255字符内;此URL要保证外网能访问   
             reqHandler.setParameter("nonce_str", Utils.random());//随机字符串，必填项，不长于 32 位
             reqHandler.setParameter("is_raw", "1");//原生JS值
             reqHandler.setParameter("device_info", "苹果iPhone 6");//终端设备号
             //TODO
-            reqHandler.setParameter("sub_openid", "o9N8qxPb2akHpob2N5qXOUvtXCkw");//测试账号不传值,此处默认给空值
+            reqHandler.setParameter("sub_openid", product.OpendId);//测试账号不传值,此处默认给空值
             //TODO
             reqHandler.setParameter("sub_appid", "wx87734a5a656fc8cb");
             reqHandler.createSign();//创建签名
