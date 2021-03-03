@@ -135,7 +135,7 @@ namespace Xw.Zx.Core.Controllers
                         _logger.LogWarning("中信验签正确");
                         if (int.Parse(resParam["status"].ToString()) == 0 && int.Parse(resParam["result_code"].ToString()) == 0)
                         {
-                            _orderService.OrderPay(resParam["out_trade_no"].ToString(), OrderPaymentType.中信);
+                            _orderService.OrderPay(resParam["out_trade_no"].ToString(), OrderPaymentType.中信, resParam["transaction_id"].ToString());
 
                             await Response.WriteAsync(JsonConvert.SerializeObject(new
                             {

@@ -161,8 +161,8 @@ namespace Xw.Zx.Core
             services.AddOrderService();
 
             #region Hangfire
-            services.AddScoped<OrderPayCheck>();
-            services.AddScoped<XtsuoOrderSync>();
+            services.AddScoped<OrderPayCheckJob>();
+            services.AddScoped<XtsuoOrderSyncJob>();
             services.AddHangfire(x => x.UseSqlServerStorage(Configuration.GetSection("DbConnections:XwZx").Value));
             #endregion
         }
@@ -231,8 +231,8 @@ namespace Xw.Zx.Core
             app.UseHangfireServer();//启动Hangfire服务
             app.UseHangfireDashboard();//启动hangfire面板
 
-            RecurringJob.AddOrUpdate<OrderPayCheck>(i => i.Run(), "0 */30 * * * ?");
-            RecurringJob.AddOrUpdate<XtsuoOrderSync>(i => i.Run(), "0 */25 * * * ?");
+            RecurringJob.AddOrUpdate<OrderPayCheckJob>(i => i.Run(), "0 */30 * * * ?");
+            RecurringJob.AddOrUpdate<XtsuoOrderSyncJob>(i => i.Run(), "0 */25 * * * ?");
         }
 
 

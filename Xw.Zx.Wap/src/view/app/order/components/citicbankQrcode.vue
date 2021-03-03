@@ -21,7 +21,7 @@
           金额<span>{{ order.amount }}</span
           >元
         </p>
-        <p class="content-desc">请用<span>支付宝扫码</span>支付</p>
+        <p class="content-desc">请用<span>微信支付宝扫码</span>支付</p>
         <van-button
           class="content-btn"
           type="primary"

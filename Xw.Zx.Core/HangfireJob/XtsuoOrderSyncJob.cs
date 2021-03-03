@@ -9,14 +9,14 @@ using Xw.Zx.Core.Service;
 
 namespace Xw.Zx.Core.HangfireJob
 {
-    public class XtsuoOrderSync
+    public class XtsuoOrderSyncJob
     {
-        private readonly ILogger<XtsuoOrderSync> _logger;
+        private readonly ILogger<XtsuoOrderSyncJob> _logger;
         private readonly IXtsuoService _xtsuoService;
         private readonly XwZxContext _context;
 
-        public XtsuoOrderSync(
-            ILogger<XtsuoOrderSync> logger
+        public XtsuoOrderSyncJob(
+            ILogger<XtsuoOrderSyncJob> logger
             , IXtsuoService xtsuoService
             , XwZxContext xwZxContext)
         {

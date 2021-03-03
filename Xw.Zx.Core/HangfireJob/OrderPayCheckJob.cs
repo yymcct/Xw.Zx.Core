@@ -9,16 +9,16 @@ using Xw.Zx.Core.Service;
 
 namespace Xw.Zx.Core.HangfireJob
 {
-    public class OrderPayCheck
+    public class OrderPayCheckJob
     {
-        private readonly ILogger<OrderPayCheck> _logger;
+        private readonly ILogger<OrderPayCheckJob> _logger;
         private readonly IBiqilinService _biqilinService;
         private readonly IOrderService _orderService;
         private readonly ICiticbankService _citicbankService;
         private readonly XwZxContext _context;
 
-        public OrderPayCheck(
-            ILogger<OrderPayCheck> logger
+        public OrderPayCheckJob(
+            ILogger<OrderPayCheckJob> logger
             , IBiqilinService biqilinService
             , IOrderService orderService
             , ICiticbankService citicbankService
@@ -31,7 +31,9 @@ namespace Xw.Zx.Core.HangfireJob
             _citicbankService = citicbankService;
         }
 
-
+        /// <summary>
+        /// 检查已过期订单
+        /// </summary>
         private void UpdateOverdue()
         {
             var waitPayOrders = _context.Orders.Where(o => o.OrderState == OrderState.待付款).ToArray();
@@ -84,7 +86,12 @@ namespace Xw.Zx.Core.HangfireJob
             }
         }
 
-
+        /// <summary>
+        /// 检查碧麒麟订单支付状态
+        /// </summary>
+        /// <param name="order"></param>
+        /// <param name="query"></param>
+        /// <returns></returns>
         private bool CheckBiqilinPay(Order order, BiqilinRespone.Query query)
         {
 
@@ -98,7 +105,10 @@ namespace Xw.Zx.Core.HangfireJob
 
             return false;
         }
-
+        
+        /// <summary>
+        /// 检查中信订单支付状态
+        /// </summary>
         private void UpdateCiticbankPay()
         {
             var timestamps =_citicbankService.GetAllCiticbankUnPayOrder();
@@ -106,9 +116,10 @@ namespace Xw.Zx.Core.HangfireJob
             {
                 try
                 {
-                    if (_citicbankService.Query(timestamp))
+                    var resHashTable = _citicbankService.QueryFull(timestamp);
+                    if (resHashTable["trade_state"].ToString() == "SUCCESS")
                     {
-                        _orderService.OrderPay(timestamp, OrderPaymentType.中信);
+                        _orderService.OrderPay(timestamp, OrderPaymentType.中信, resHashTable["transaction_id"].ToString());
                     }
                 }
                 catch (Exception ex)
@@ -122,7 +133,7 @@ namespace Xw.Zx.Core.HangfireJob
         {
             UpdateOverdue();
 
-         //   UpdateCiticbankPay();
+            UpdateCiticbankPay();
 
             UpdateBiqilinPay();
         }

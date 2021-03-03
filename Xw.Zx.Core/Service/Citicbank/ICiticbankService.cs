@@ -27,6 +27,11 @@ namespace Xw.Zx.Core.Service
 
         bool Query(string Timestamp);
 
+        /// <summary>
+        /// 订单成功时返回订单信息, 否则返回null,需要自行判断 trade_state
+        /// </summary>
+        /// <param name="Timestamp"></param>
+        /// <returns></returns>
         Hashtable QueryFull(string Timestamp);
 
         /// <summary>
